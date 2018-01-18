@@ -11,6 +11,9 @@ fi
 # Update list of available packages
 apt-get update
 
+# Remove unnecessary packages
+apt-get autoremove -y
+
 # Update packages
 apt-get dist-upgrade -y
 apt-get upgrade -y
