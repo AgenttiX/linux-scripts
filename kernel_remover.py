@@ -1,4 +1,8 @@
-# Created by Mika Mäki, 2017-2018
+#!/usr/bin/env python3
+
+"""
+Created by Mika Mäki, 2017-2019
+"""
 
 import os
 import subprocess
@@ -66,4 +70,6 @@ def main():
         subprocess.run(["apt-get", "autoremove"])
         print("Update complete")
 
-main()
+
+if __name__ == "__main__":
+    main()
