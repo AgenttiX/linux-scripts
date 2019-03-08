@@ -10,9 +10,10 @@ TODO: work in progress!
 
 import os
 import subprocess as sp
+import typing as tp
 
 
-BLEACHBIT_FEATURES = [
+BLEACHBIT_FEATURES: tp.List[str] = [
     "adobe_reader.*",
     "amsn.*",
     "amule.*",
@@ -21,7 +22,17 @@ BLEACHBIT_FEATURES = [
     "bash.*",
     "beagle.*",
     "chromium.*",
+    # "chromium.cache",
+    # "chromium.cookies",
+    # "chromium.current_session",
+    # "chromium.dom",
+    # "chromium.form_history",
+    # "chromium.history",
+    # "chromium.passwords",
+    # "chromium.search_engines",
+    # "chromium.vacuum"
     "d4x.*",
+    # "deepscan.backup",
     "deepscan.ds_store",
     "deepscan.thumbs_db",
     "deepscan.tmp",
@@ -32,7 +43,10 @@ BLEACHBIT_FEATURES = [
     "evolution.*",
     "exaile.*",
     "filezilla.*",
+    # "firefox.*",
+    # "firefox.backup",
     "firefox.cache",
+    # "firefox.cookies",
     "firefox.crash_reports",
     "firefox.dom",
     "firefox.download_history",
@@ -49,6 +63,7 @@ BLEACHBIT_FEATURES = [
     "gnome.*",
     "google_chrome.*",
     "google_earth.*",
+    "google_toolbar.*",
     "gpodder.*",
     "gwenview.*",
     "hippo_opensim_viewer.*",
@@ -100,6 +115,7 @@ BLEACHBIT_FEATURES = [
 
 
 def apt() -> None:
+    print("Running apt")
     sp.run(["apt-get", "update"], check=True)
     # sp.run(["apt-get", "autoremove", "-y"], check=True)
     sp.run(["apt-get", "dist-upgrade", "-y"], check=True)
@@ -110,29 +126,34 @@ def apt() -> None:
 
 def bleachbit() -> None:
     if os.path.exists("/usr/bin/bleachbit"):
+        print("Running Bleachbit")
         sp.run(["bleachbit", "--clean"] + BLEACHBIT_FEATURES, check=True)
     else:
-        print("bleachbit not found")
+        print("Bleachbit not found")
 
 
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
+        print("Running freshclam")
         sp.run(["freshclam", "-d"], check=True)
     else:
         print("freshclam not found")
 
     if os.path.exists("/usr/sbin/chkrootkit"):
+        print("Running chkrootkit")
         sp.run(["chkrootkit", "-q"], check=True)
     else:
         print("chkrootkit not found")
 
     if os.path.exists("/usr/bin/rkhunter"):
+        print("Running rkhunter")
         sp.run(["rkhunter", "--update", "-q"])
         sp.run(["rkhunter", "-c", "-q"])
 
 
 def trim() -> None:
     if os.path.exists("/sbin/fstrim"):
+        print("Running fstrim")
         sp.run(["fstrim", "-a", "-v"], check=True)
         # sp.run(["fstrim", "/", "-v"], check=True)
     else:
@@ -140,7 +161,11 @@ def trim() -> None:
 
 
 if __name__ == "__main__":
+    print("Running maintenance script")
     apt()
+    print()
     security()
+    print()
     # bleachbit()
+    # print()
     trim()
