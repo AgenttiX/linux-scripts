@@ -31,7 +31,7 @@ ALPM_LEVELS: tp.Dict[str, str] = {
     "0B4Ch": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
 }
 
-CUSTOM_COMMANDS = {
+CUSTOM_COMMANDS: tp.Dict[str, list] = {
     "0B4Ch": [
         ["ethtool", "-s", "enp1s0", "wol", "d"]
     ]
@@ -46,7 +46,7 @@ CUSTOM_WRITES: tp.Dict[str, tp.List[tp.Tuple[str, str]]] = {
     ]
 }
 
-HDPARM_PARAMS = {
+HDPARM_PARAMS: tp.Dict[str, tp.Dict[str, list]] = {
     "0B4Ch": {
         "ata-TOSHIBA_THNSNF128GCSS_Z2IS10NMT8KY": [
             ("-B", 127),
