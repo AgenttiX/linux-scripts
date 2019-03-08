@@ -25,7 +25,7 @@ class ALPM_LevelOptions(enum.Enum):
 
 # Configuration
 
-ALPM_LEVELS: tp.Dict[str, str] = {
+ALPM_LEVELS: tp.Dict[str, ALPM_LevelOptions] = {
     "334729G": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
     # "X58A-UD7": "max_performance",
     "0B4Ch": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
@@ -317,7 +317,7 @@ def alpm() -> None:
     for device in devices:
         alpm_path = os.path.join(device, "link_power_management_policy")
         if os.path.exists(alpm_path):
-            write_to_virtual_file(alpm_path, alpm_level)
+            write_to_virtual_file(alpm_path, str(alpm_level.value))
 
 
 def custom_writes() -> None:
