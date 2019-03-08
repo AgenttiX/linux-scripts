@@ -110,122 +110,122 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         # Audio
         "/sys/bus/pci/devices/0000:00:1b.0/",
     ],
-    "X58A-UD7": [
-        # Nvidia GPU
-        "/sys/bus/i2c/devices/i2c-1/device/",
-        # NVIDIA Corporation GK104 HDMI Audio Controller
-        "/sys/bus/pci/devices/0000:03:00.1/",
-
-        # Texas Instruments TSB43AB23 IEEE-1394a-2000 Controller (PHY/Link)
-        "/sys/bus/pci/devices/0000:0a:06.0/",
-
-        # JMicron Technology Corp. JMB363 SATA/IDE Controller
-        "/sys/bus/pci/devices/0000:06:00.0/",
-        "/sys/bus/pci/devices/0000:06:00.1/",
-        "/sys/bus/pci/devices/0000:07:00.0/",
-        "/sys/bus/pci/devices/0000:07:00.1/",
-
-        # Marvell Technology Group Ltd. 88SE9128 PCIe SATA 6 Gb/s RAID controller
-        "/sys/bus/pci/devices/0000:01:00.0/",
-
-
-        # Intel
-
-        # Intel Corporation 7500/5520/5500 Routing & Protocol Layer Register Port 1
-        "/sys/bus/pci/devices/0000:00:11.1/",
-
-        # Intel Corporation 5520/5500/X58 I/O Hub to ESI Port
-        "/sys/bus/pci/devices/0000:00:00.0/",
-        # Intel Corporation 7500/5520/5500/X58 I/O Hub I/OxAPIC Interrupt Controller
-        "/sys/bus/pci/devices/0000:00:13.0/",
-        # Intel Corporation 7500/5520/5500/X58 I/O Hub System Management Registers
-        "/sys/bus/pci/devices/0000:00:14.0/",
-        # Intel Corporation 7500/5520/5500/X58 I/O Hub GPIO and Scratch Pad Registers
-        "/sys/bus/pci/devices/0000:00:14.1/",
-
-        # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 1
-        "/sys/bus/pci/devices/0000:00:01.0/",
-        # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 2
-        "/sys/bus/pci/devices/0000:00:02.0/",
-        # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 3
-        "/sys/bus/pci/devices/0000:00:03.0/",
-        # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 7
-        "/sys/bus/pci/devices/0000:00:07.0/",
-
-        # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 1
-        "/sys/bus/pci/devices/0000:00:1c.0/",
-        # Intel Corporation 82801JI (ICH10 Family) PCI Express Port 2
-        "/sys/bus/pci/devices/0000:00:1c.1/",
-        # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 4
-        "/sys/bus/pci/devices/0000:00:1c.3/",
-        # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 5
-        "/sys/bus/pci/devices/0000:00:1c.4/",
-        # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 6
-        "/sys/bus/pci/devices/0000:00:1c.5/",
-        # Intel Corporation 82801JI (ICH10 Family) SMBus Controller
-        "/sys/bus/pci/devices/0000:00:1f.3/",
-
-        # Intel Corporation 82801 PCI Bridge
-        "/sys/bus/pci/devices/0000:00:1e.0/",
-
-        # Intel Corporation SATA Controller [RAID mode]
-        "/sys/bus/pci/devices/0000:00:1f.2/",
-
-        # Intel Corporation 82801JIR (ICH10R) LPC Interface Controller
-        "/sys/bus/pci/devices/0000:00:1f.0/",
-
-        # Intel Corporation 7500/5520/5500 Physical and Link Layer Registers Port 1
-        "/sys/bus/pci/devices/0000:00:11.0/",
-        # Intel Corporation 7500/5520/5500/X58 Physical and Link Layer Registers Port 0
-        "/sys/bus/pci/devices/0000:00:10.0/",
-
-        # Intel Corporation 7500/5520/5500/X58 Routing and Protocol Layer Registers Port 0
-        "/sys/bus/pci/devices/0000:00:10.1/",
-        # Intel Corporation 7500/5520/5500/X58 I/O Hub Control Status and RAS Registers
-        "/sys/bus/pci/devices/0000:00:14.2/",
-        # Intel Corporation 7500/5520/5500/X58 Trusted Execution Technology Registers
-        "/sys/bus/pci/devices/0000:00:15.0/",
-
-        # Intel Corporation Xeon 5500/Core i7 QPI Physical 0
-        "/sys/bus/pci/devices/0000:3f:02.1/",
-        # Intel Corporation Xeon 5500/Core i7 QPI Link 0
-        "/sys/bus/pci/devices/0000:3f:02.0/",
-        # Intel Corporation Xeon 5500/Core i7 QuickPath Architecture Generic Non-Core Registers
-        "/sys/bus/pci/devices/0000:3f:00.0/",
-        # Intel Corporation Xeon 5500/Core i7 QuickPath Architecture System Address Decoder
-        "/sys/bus/pci/devices/0000:3f:00.1/",
-
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller
-        "/sys/bus/pci/devices/0000:3f:03.0/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Target Address Decoder
-        "/sys/bus/pci/devices/0000:3f:03.1/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Control Registers
-        "/sys/bus/pci/devices/0000:3f:04.0/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Control Registers
-        "/sys/bus/pci/devices/0000:3f:05.0/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Control Registers
-        "/sys/bus/pci/devices/0000:3f:06.0/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Thermal Control Registers
-        "/sys/bus/pci/devices/0000:3f:04.3/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Thermal Control Registers
-        "/sys/bus/pci/devices/0000:3f:05.3/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Thermal Control Registers
-        "/sys/bus/pci/devices/0000:3f:06.3/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Address Registers
-        "/sys/bus/pci/devices/0000:3f:04.1/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Address Registers
-        "/sys/bus/pci/devices/0000:3f:05.1/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Address Registers
-        "/sys/bus/pci/devices/0000:3f:06.1/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Rank Registers
-        "/sys/bus/pci/devices/0000:3f:04.2/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Rank Registers
-        "/sys/bus/pci/devices/0000:3f:05.2/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Rank Registers
-        "/sys/bus/pci/devices/0000:3f:06.2/",
-        # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Test Registers
-        "/sys/bus/pci/devices/0000:3f:03.4/",
-    ],
+    # "X58A-UD7": [
+    #     # Nvidia GPU
+    #     "/sys/bus/i2c/devices/i2c-1/device/",
+    #     # NVIDIA Corporation GK104 HDMI Audio Controller
+    #     "/sys/bus/pci/devices/0000:03:00.1/",
+    #
+    #     # Texas Instruments TSB43AB23 IEEE-1394a-2000 Controller (PHY/Link)
+    #     "/sys/bus/pci/devices/0000:0a:06.0/",
+    #
+    #     # JMicron Technology Corp. JMB363 SATA/IDE Controller
+    #     "/sys/bus/pci/devices/0000:06:00.0/",
+    #     "/sys/bus/pci/devices/0000:06:00.1/",
+    #     "/sys/bus/pci/devices/0000:07:00.0/",
+    #     "/sys/bus/pci/devices/0000:07:00.1/",
+    #
+    #     # Marvell Technology Group Ltd. 88SE9128 PCIe SATA 6 Gb/s RAID controller
+    #     "/sys/bus/pci/devices/0000:01:00.0/",
+    #
+    #
+    #     # Intel
+    #
+    #     # Intel Corporation 7500/5520/5500 Routing & Protocol Layer Register Port 1
+    #     "/sys/bus/pci/devices/0000:00:11.1/",
+    #
+    #     # Intel Corporation 5520/5500/X58 I/O Hub to ESI Port
+    #     "/sys/bus/pci/devices/0000:00:00.0/",
+    #     # Intel Corporation 7500/5520/5500/X58 I/O Hub I/OxAPIC Interrupt Controller
+    #     "/sys/bus/pci/devices/0000:00:13.0/",
+    #     # Intel Corporation 7500/5520/5500/X58 I/O Hub System Management Registers
+    #     "/sys/bus/pci/devices/0000:00:14.0/",
+    #     # Intel Corporation 7500/5520/5500/X58 I/O Hub GPIO and Scratch Pad Registers
+    #     "/sys/bus/pci/devices/0000:00:14.1/",
+    #
+    #     # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 1
+    #     "/sys/bus/pci/devices/0000:00:01.0/",
+    #     # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 2
+    #     "/sys/bus/pci/devices/0000:00:02.0/",
+    #     # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 3
+    #     "/sys/bus/pci/devices/0000:00:03.0/",
+    #     # Intel Corporation 5520/5500/X58 I/O Hub PCI Express Root Port 7
+    #     "/sys/bus/pci/devices/0000:00:07.0/",
+    #
+    #     # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 1
+    #     "/sys/bus/pci/devices/0000:00:1c.0/",
+    #     # Intel Corporation 82801JI (ICH10 Family) PCI Express Port 2
+    #     "/sys/bus/pci/devices/0000:00:1c.1/",
+    #     # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 4
+    #     "/sys/bus/pci/devices/0000:00:1c.3/",
+    #     # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 5
+    #     "/sys/bus/pci/devices/0000:00:1c.4/",
+    #     # Intel Corporation 82801JI (ICH10 Family) PCI Express Root Port 6
+    #     "/sys/bus/pci/devices/0000:00:1c.5/",
+    #     # Intel Corporation 82801JI (ICH10 Family) SMBus Controller
+    #     "/sys/bus/pci/devices/0000:00:1f.3/",
+    #
+    #     # Intel Corporation 82801 PCI Bridge
+    #     "/sys/bus/pci/devices/0000:00:1e.0/",
+    #
+    #     # Intel Corporation SATA Controller [RAID mode]
+    #     "/sys/bus/pci/devices/0000:00:1f.2/",
+    #
+    #     # Intel Corporation 82801JIR (ICH10R) LPC Interface Controller
+    #     "/sys/bus/pci/devices/0000:00:1f.0/",
+    #
+    #     # Intel Corporation 7500/5520/5500 Physical and Link Layer Registers Port 1
+    #     "/sys/bus/pci/devices/0000:00:11.0/",
+    #     # Intel Corporation 7500/5520/5500/X58 Physical and Link Layer Registers Port 0
+    #     "/sys/bus/pci/devices/0000:00:10.0/",
+    #
+    #     # Intel Corporation 7500/5520/5500/X58 Routing and Protocol Layer Registers Port 0
+    #     "/sys/bus/pci/devices/0000:00:10.1/",
+    #     # Intel Corporation 7500/5520/5500/X58 I/O Hub Control Status and RAS Registers
+    #     "/sys/bus/pci/devices/0000:00:14.2/",
+    #     # Intel Corporation 7500/5520/5500/X58 Trusted Execution Technology Registers
+    #     "/sys/bus/pci/devices/0000:00:15.0/",
+    #
+    #     # Intel Corporation Xeon 5500/Core i7 QPI Physical 0
+    #     "/sys/bus/pci/devices/0000:3f:02.1/",
+    #     # Intel Corporation Xeon 5500/Core i7 QPI Link 0
+    #     "/sys/bus/pci/devices/0000:3f:02.0/",
+    #     # Intel Corporation Xeon 5500/Core i7 QuickPath Architecture Generic Non-Core Registers
+    #     "/sys/bus/pci/devices/0000:3f:00.0/",
+    #     # Intel Corporation Xeon 5500/Core i7 QuickPath Architecture System Address Decoder
+    #     "/sys/bus/pci/devices/0000:3f:00.1/",
+    #
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller
+    #     "/sys/bus/pci/devices/0000:3f:03.0/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Target Address Decoder
+    #     "/sys/bus/pci/devices/0000:3f:03.1/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Control Registers
+    #     "/sys/bus/pci/devices/0000:3f:04.0/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Control Registers
+    #     "/sys/bus/pci/devices/0000:3f:05.0/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Control Registers
+    #     "/sys/bus/pci/devices/0000:3f:06.0/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Thermal Control Registers
+    #     "/sys/bus/pci/devices/0000:3f:04.3/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Thermal Control Registers
+    #     "/sys/bus/pci/devices/0000:3f:05.3/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Thermal Control Registers
+    #     "/sys/bus/pci/devices/0000:3f:06.3/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Address Registers
+    #     "/sys/bus/pci/devices/0000:3f:04.1/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Address Registers
+    #     "/sys/bus/pci/devices/0000:3f:05.1/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Address Registers
+    #     "/sys/bus/pci/devices/0000:3f:06.1/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 0 Rank Registers
+    #     "/sys/bus/pci/devices/0000:3f:04.2/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 1 Rank Registers
+    #     "/sys/bus/pci/devices/0000:3f:05.2/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Channel 2 Rank Registers
+    #     "/sys/bus/pci/devices/0000:3f:06.2/",
+    #     # Intel Corporation Xeon 5500/Core i7 Integrated Memory Controller Test Registers
+    #     "/sys/bus/pci/devices/0000:3f:03.4/",
+    # ],
     "0B4Ch": [
         # GPU
         "/sys/bus/i2c/devices/i2c-0/device/",
