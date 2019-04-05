@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 ThinkPad Twist S230u modem control based on mmcli
 
@@ -6,6 +8,7 @@ https://manpages.debian.org/jessie/modemmanager/mmcli.8
 """
 
 import subprocess
+import time
 import typing as tp
 
 PIN_PATH = "modem-pin.txt"
@@ -103,6 +106,7 @@ def main():
 
     disable_modem(modem)
     send_pin(modem, pin)
+    time.sleep(1)
 
     # old_bearer_int, old_bearer_str = get_bearer(modem)
     # delete_bearer(modem, old_bearer_str)
