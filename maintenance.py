@@ -132,6 +132,14 @@ def bleachbit() -> None:
         print("Bleachbit not found")
 
 
+def docker() -> None:
+    if os.path.exists("/usr/bin/docker"):
+        print("Pruning Docker")
+        sp.run(["docker", "system", "prune", "-f"], check=True)
+    else:
+        print("Docker not found")
+
+
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
         print("Running freshclam")
@@ -166,6 +174,7 @@ if __name__ == "__main__":
     print()
     security()
     print()
+    docker()
     # bleachbit()
     # print()
     trim()
