@@ -35,9 +35,9 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     # "chromium.vacuum"
     "d4x.*",
     # "deepscan.backup",
-    "deepscan.ds_store",
-    "deepscan.thumbs_db",
-    "deepscan.tmp",
+    # "deepscan.ds_store",
+    # "deepscan.thumbs_db",
+    # "deepscan.tmp",
     "easytag.*",
     "elinks.*",
     "emesene.*",
@@ -53,6 +53,7 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "firefox.dom",
     "firefox.download_history",
     "firefox.forms",
+    # "firefox.passwords",
     "firefox.session_restore",
     "firefox.site_preferences",
     "firefox.url_history",
@@ -68,6 +69,7 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "google_toolbar.*",
     "gpodder.*",
     "gwenview.*",
+    "hexchat.*",
     "hippo_opensim_viewer.*",
     "java.*",
     "kde.*",
@@ -93,7 +95,12 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "sqlite3.*",
     "system.cache",
     "system.clipboard",
+    # "system.custom",
     "system.desktop_entry",
+    # "system.free_disk_space",
+    # "system.localizations",
+    # "system.memory",
+    "system.recent_documents",
     "system.rotated_logs",
     "system.tmp",
     "system.trash",
@@ -101,8 +108,12 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "thunderbird.cache",
     "thunderbird.cookies",
     "thunderbird.index",
+    # "thunderbird.passwords",
     "thunderbird.vacuum",
-    "tremulous.cache",
+    # "transmission.blocklists",
+    "transmission.history",
+    # "transmission.torrents",
+    "tremulous.*",
     "vim.*",
     "vlc.*",
     "vuze.*",
@@ -110,7 +121,6 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "wine.*",
     "winetricks.*",
     "x11.*",
-    "xchat.*",
     "xine.*",
     "yum.*"
 ]
@@ -188,6 +198,7 @@ if __name__ == "__main__":
     security()
     print()
     docker()
-    # bleachbit()
-    # print()
+    print()
+    bleachbit()
+    print()
     trim()
