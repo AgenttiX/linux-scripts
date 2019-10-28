@@ -10,8 +10,10 @@ TODO: work in progress!
 
 import os
 import subprocess as sp
+import time
 import typing as tp
 
+APT_WAIT: int = 1
 
 BLEACHBIT_FEATURES: tp.List[str] = [
     "adobe_reader.*",
@@ -118,7 +120,18 @@ def apt() -> None:
     print("Running apt")
     sp.run(["apt-get", "update"], check=True)
     # sp.run(["apt-get", "autoremove", "-y"], check=True)
-    sp.run(["apt-get", "dist-upgrade", "-y"], check=True)
+    apt_waiting = True
+    while apt_waiting:
+        apt_ret = sp.run(["apt-get", "dist-upgrade", "-y"])
+        if apt_ret.returncode == 0:
+            break
+        elif apt_ret.returncode == 100:
+            pass
+        else:
+            raise ValueError(f"Got unknown APT return code: {apt_ret.returncode}")
+        print("Waiting for APT lock to be freed")
+        time.sleep(APT_WAIT)
+
     # sp.run(["apt-get", "upgrade", "-y"], check=True)
     sp.run(["apt-get", "autoremove", "-y"], check=True)
     sp.run(["apt-get", "autoclean", "-y"], check=True)
