@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 """
-ThinkPad Twist S230u modem control based on mmcli
+Modem control based on mmcli. For
+- Lenovo ThinkPad T480
+- Lenovo ThinkPad Twist S230u
 
 https://manpages.ubuntu.com/manpages/trusty/man8/mmcli.8.html
 https://manpages.debian.org/jessie/modemmanager/mmcli.8
