@@ -26,9 +26,13 @@ def modem_number() -> int:
     # Note: capture_output=True can be used instead of Pipe in Python 3.7 ->
     modem_search = subprocess.run(["mmcli", "-L"], check=True, stdout=subprocess.PIPE)
     rows = str(modem_search.stdout, encoding="ascii").strip("\n").split("\n")
-    if rows[0] != "Found 1 modems:":
+    if len(rows) > 1 and rows[0] != "Found 1 modems:":
         raise RuntimeError("Got invalid response from mmcli:", modem_search.stdout)
-    modem_path = rows[1].strip("\t").split()[0]
+    if len(rows) > 1:
+        row_ind = 1
+    else:
+        row_ind = 0
+    modem_path = rows[row_ind].strip("\t").split()[0]
     try:
         number = int(modem_path.split("/")[-1])
     except ValueError:
@@ -113,7 +117,10 @@ def main():
     # new_bearer_int, new_bearer_str = create_bearer(modem)
     # connect(new_bearer_int)
 
-    enable(modem)
+    try:
+        enable(modem)
+    except subprocess.CalledProcessError:
+        print(f"Could not enable modem: {e}")
     enable_location(modem)
 
 
