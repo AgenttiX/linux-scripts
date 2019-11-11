@@ -166,7 +166,11 @@ def docker() -> None:
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
         print("Running freshclam")
-        sp.run(["freshclam", "-d"], check=True)
+        freshclam_ret = sp.run(["freshclam", "-d"])
+        if freshclam_ret.returncode == 62:
+            print("Freshclam is already running")
+        elif freshclam_ret.returncode != 0:
+            raise ValueError(f"Got unknown freshclam return code: {freshclam_ret.returncode}")
     else:
         print("freshclam not found")
 
