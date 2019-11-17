@@ -107,7 +107,7 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "thumbnails.*",
     # "thunderbird.cache",
     "thunderbird.cookies",
-    "thunderbird.index",
+    # "thunderbird.index",
     # "thunderbird.passwords",
     "thunderbird.vacuum",
     # "transmission.blocklists",
