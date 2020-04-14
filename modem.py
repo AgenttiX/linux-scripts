@@ -121,7 +121,7 @@ def main():
 
     try:
         enable(modem)
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
         print(f"Could not enable modem: {e}")
     enable_location(modem)
 
