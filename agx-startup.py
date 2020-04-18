@@ -68,6 +68,13 @@ HDPARM_PARAMS: tp.Dict[str, tp.Dict[str, list]] = {
 }
 
 POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
+    "20L5CTO1WW": [
+        # PCIe
+        "/sys/bus/pci/devices/0000:00:1d.0/",
+        
+        # Nvidia MX 150
+        "/sys/bus/pci/devices/0000:01:00.0",
+    ],
     "334729G": [
         # I2C
         "/sys/bus/i2c/devices/i2c-0/device/",
