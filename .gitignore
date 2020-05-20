@@ -2,4 +2,5 @@
 .idea
 venv
 
+logs
 modem-pin.txt
