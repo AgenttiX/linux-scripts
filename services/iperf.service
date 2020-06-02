@@ -1,5 +1,6 @@
 [Unit]
 Description=iperf server
+After=syslog.target network.target auditd.service
 
 [Service]
 Type=simple
