@@ -1,0 +1,10 @@
+[Unit]
+Description=iperf3 server
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=iperf3 -s
+
+[Install]
+WantedBy=multi-user.target
