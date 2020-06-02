@@ -5,6 +5,7 @@ After=syslog.target network.target auditd.service
 [Service]
 Type=simple
 Restart=always
+DynamicUser=yes
 ExecStart=/usr/bin/iperf3 -s
 
 [Install]
