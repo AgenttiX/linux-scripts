@@ -4,7 +4,7 @@ Description=iperf server
 [Service]
 Type=simple
 Restart=always
-ExecStart=iperf -s
+ExecStart=/usr/bin/iperf -s
 
 [Install]
 WantedBy=multi-user.target
