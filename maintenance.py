@@ -247,8 +247,8 @@ def security() -> None:
 
     if os.path.exists("/usr/bin/rkhunter"):
         print("Running rkhunter")
-        run(["rkhunter", "--update", "-q"])
-        run(["rkhunter", "-c", "-q"])
+        run(["rkhunter", "--update", "-q"], check=False)
+        run(["rkhunter", "-c", "-q"], check=False)
 
 
 def trim() -> None:
