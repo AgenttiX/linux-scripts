@@ -2,9 +2,9 @@
 
 """
 Startup configuration
-Created by Mika Mäki, 2019
+Created by Mika Mäki, 2019-2020
 
-To enable this script, copy it to /etc/init.d/ and run "sudo update-rc.d agx-startup.py defaults"
+To enable this script, run agx-startup-enabler.sh
 """
 
 import enum
