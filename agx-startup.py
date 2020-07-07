@@ -497,7 +497,7 @@ def hdparm() -> None:
         drive_path = os.path.join("/dev/disk/by-id", drive)
 
         for param, value in params.items():
-            subprocess.run(["hdparm", param, value, drive_path])
+            subprocess.run(["hdparm", param, str(value), drive_path])
 
 
 def power_control() -> None:
