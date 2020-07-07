@@ -493,10 +493,10 @@ def hdparm() -> None:
     if board not in HDPARM_PARAMS:
         return
 
-    for drive in HDPARM_PARAMS[board]:
+    for drive, params in HDPARM_PARAMS[board].items():
         drive_path = os.path.join("/dev/disk/by-id", drive)
 
-        for param, value in drive:
+        for param, value in params.items():
             subprocess.run(["hdparm", param, value, drive_path])
 
 
