@@ -2,5 +2,7 @@
 .idea
 venv
 
+Geekbench-*
+*.tar.gz
 logs
 modem-pin.txt
