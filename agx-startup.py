@@ -284,9 +284,10 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/pci/devices/0000:48:00.0",
 
         # Audio
-        "/sys/bus/pci/devices/0000:24:00.4",
-        "/sys/bus/usb/devices/9-5",
-        "/sys/bus/usb/devices/9-6",
+        # Enabling these resulted in loud pops from the speakers when the sound card is turned on
+        # "/sys/bus/pci/devices/0000:24:00.4",
+        # "/sys/bus/usb/devices/9-5",
+        # "/sys/bus/usb/devices/9-6",
 
         # Aura LED
         "/sys/bus/usb/devices/7-5.3",
