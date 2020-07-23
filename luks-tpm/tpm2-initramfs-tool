@@ -1,0 +1,8 @@
+# This file should be copied to
+# /etc/initramfs-tools/hooks/
+
+. /usr/share/initramfs-tools/hook-functions
+
+copy_exec /usr/lib/x86_64-linux-gnu/libtss2-tcti-device.so.0.0.0
+copy_exec /usr/bin/tpm2-initramfs-tool
+copy_exec /usr/bin/tpm2-initramfs-script

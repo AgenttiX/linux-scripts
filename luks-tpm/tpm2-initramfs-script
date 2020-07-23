@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This file should be copied to /usr/bin
+# Based on
+# https://threat.tevora.com/secure-boot-tpm-2/
+# https://github.com/timchen119/tpm2-initramfs-tool
+
+echo "Unlocking with TPM" >&2
+/usr/bin/tpm2-initramfs-tool unseal
+if [ $? -eq 0 ]; then
+  exit
+fi
+/lib/cryptsetup/askpass "TPM unlock did not work. Has something changed?\nDisk unlock fallback $CRYPTTAB_SOURCE ($CRYPTTAB_NAME)\nEnter passphrase: "
