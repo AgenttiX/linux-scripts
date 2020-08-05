@@ -25,8 +25,7 @@ systemctl start check_mk.socket
 # SNMP extend
 
 # Nvidia
-if ! command -v nvidia-smi &> /dev/null
-then
+if ! command -v nvidia-smi &> /dev/null; then
     wget https://github.com/librenms/librenms-agent/raw/master/snmp/nvidia -O /etc/snmp/nvidia
     chown root:root /etc/snmp/nvidia
     chmod 755 /etc/snmp/nvidia
@@ -40,7 +39,7 @@ chmod 755 /etc/snmp/osupdate
 echo "extend osupdate /etc/snmp/osupdate" >> /etc/snmp/snmpd.conf
 
 # Raspberry Pi
-if [[ $(/usr/local/bin/monit --version) != Raspberry* ]] then
+if [[ $(/usr/local/bin/monit --version) != Raspberry* ]]; then
     echo Raspberry pi detected
     wget https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/raspberry.sh -O /etc/snmp/raspberry.sh
     chown root:root /etc/snmp/raspberry.sh
