@@ -41,7 +41,7 @@ chmod 755 /etc/snmp/osupdate
 echo "extend osupdate /etc/snmp/osupdate" >> /etc/snmp/snmpd.conf
 
 # Raspberry Pi
-if [[ $(/usr/local/bin/monit --version) != Raspberry* ]]; then
+if [[ $(tr -d '\0' </proc/device-tree/model) == Raspberry* ]]; then
     echo "Raspberry pi detected. Installing support."
     wget https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/raspberry.sh -O /etc/snmp/raspberry.sh
     chown root:root /etc/snmp/raspberry.sh
