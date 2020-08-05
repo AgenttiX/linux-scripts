@@ -26,6 +26,7 @@ systemctl start check_mk.socket
 
 # Nvidia
 if ! command -v nvidia-smi &> /dev/null; then
+    echo "Nvidia driver found. Installing Nvidia GPU support."
     wget https://github.com/librenms/librenms-agent/raw/master/snmp/nvidia -O /etc/snmp/nvidia
     chown root:root /etc/snmp/nvidia
     chmod 755 /etc/snmp/nvidia
@@ -33,6 +34,7 @@ if ! command -v nvidia-smi &> /dev/null; then
 fi
 
 # OS Updates
+echo "Installing OS update support"
 wget https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/osupdate -O /etc/snmp/osupdate
 chown root:root /etc/snmp/osupdate
 chmod 755 /etc/snmp/osupdate
@@ -40,7 +42,7 @@ echo "extend osupdate /etc/snmp/osupdate" >> /etc/snmp/snmpd.conf
 
 # Raspberry Pi
 if [[ $(/usr/local/bin/monit --version) != Raspberry* ]]; then
-    echo Raspberry pi detected
+    echo "Raspberry pi detected. Installing support."
     wget https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/raspberry.sh -O /etc/snmp/raspberry.sh
     chown root:root /etc/snmp/raspberry.sh
     chmod 755 /etc/snmp/raspberry.sh
@@ -50,6 +52,7 @@ if [[ $(/usr/local/bin/monit --version) != Raspberry* ]]; then
 fi
 
 # SMART
+# echo "Installing SMART support"
 # apt-get install -y smartmontools
 # wget https://github.com/librenms/librenms-agent/raw/master/snmp/smart -O /etc/snmp/smart
 # chown root:root /etc/snmp/smart
