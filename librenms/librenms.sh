@@ -8,10 +8,13 @@ fi
 
 # check_mk agent
 # https://docs.librenms.org/Extensions/Agent-Setup/
+echo "Creating firewall rule for check_mk"
 ufw allow 6556 comment "LibreNMS check_mk"
+echo "Downloading check_mk agent"
 cd /opt/
 git clone https://github.com/librenms/librenms-agent.git
 cd /opt/librenms-agent
+echo "Installing check_mk agent"
 cp check_mk_agent /usr/bin/check_mk_agent
 chown root:root /usr/bin/check_mk_agent
 chmod 755 /usr/bin/check_mk_agent
@@ -19,20 +22,24 @@ cp check_mk@.service check_mk.socket /etc/systemd/system/
 mkdir -p /usr/lib/check_mk_agent/plugins /usr/lib/check_mk_agent/local
 
 # dmi
+echo "Installing check_mk dmi"
 cp /opt/librenms-agent/agent-local/dmi /usr/lib/check_mk_agent/local/
 chown root:root /usr/lib/check_mk_agent/local/dmi
 chmod 755 /usr/lib/check_mk_agent/local/dmi
 
 # dpkg
+echo "Installing check_mk dpkg"
 cp /opt/librenms-agent/agent-local/dpkg /usr/lib/check_mk_agent/local/
 chown root:root /usr/lib/check_mk_agent/local/dpkg
 chmod 755 /usr/lib/check_mk_agent/local/dpkg
 
+echo "Enabling check_mk service"
 systemctl enable check_mk.socket
 systemctl start check_mk.socket
 
 
 # SNMP extend
+echo "Installing SNMP extensions"
 
 # Nvidia
 if command -v nvidia-smi &> /dev/null; then
