@@ -13,6 +13,11 @@ chmod 755 /usr/bin/check_mk_agent
 cp check_mk@.service check_mk.socket /etc/systemd/system/
 mkdir -p /usr/lib/check_mk_agent/plugins /usr/lib/check_mk_agent/local
 
+# dmi
+cp /opt/librenms-agent/agent-local/dmi /usr/lib/check_mk_agent/local/
+chown root:root /usr/lib/check_mk_agent/local/dmi
+chmod 755 /usr/lib/check_mk_agent/local/dmi
+
 # dpkg
 cp /opt/librenms-agent/agent-local/dpkg /usr/lib/check_mk_agent/local/
 chown root:root /usr/lib/check_mk_agent/local/dpkg
