@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 # LibreNMS installation
 
 # check_mk agent
