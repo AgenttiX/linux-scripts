@@ -25,7 +25,7 @@ systemctl start check_mk.socket
 # SNMP extend
 
 # Nvidia
-if ! command -v nvidia-smi &> /dev/null; then
+if command -v nvidia-smi &> /dev/null; then
     echo "Nvidia driver found. Installing Nvidia GPU support."
     wget https://github.com/librenms/librenms-agent/raw/master/snmp/nvidia -O /etc/snmp/nvidia
     chown root:root /etc/snmp/nvidia
