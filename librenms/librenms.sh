@@ -1,6 +1,11 @@
 #!/bin/bash -e
 # LibreNMS installation
 
+if ! [ -f /etc/snmp ]; then
+    echo "Install snmpd first"
+    exit 1
+fi
+
 # check_mk agent
 # https://docs.librenms.org/Extensions/Agent-Setup/
 ufw allow 6556 comment "LibreNMS check_mk"
