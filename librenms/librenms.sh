@@ -1,7 +1,7 @@
 #!/bin/bash -e
 # LibreNMS installation
 
-if ! [ -f /etc/snmp ]; then
+if ! [ -d /etc/snmp ]; then
     echo "Install snmpd first"
     exit 1
 fi
