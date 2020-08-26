@@ -6,6 +6,9 @@ if ! [ -f /etc/snmp/snmpd.conf ]; then
     exit 1
 fi
 
+echo "Creating firewall rule for SNMP"
+ufw allow snmp comment "LibreNMS SNMP"
+
 # check_mk agent
 # https://docs.librenms.org/Extensions/Agent-Setup/
 echo "Creating firewall rule for check_mk"
