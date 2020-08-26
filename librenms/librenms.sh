@@ -2,8 +2,8 @@
 # LibreNMS installation
 
 if ! [ -f /etc/snmp/snmpd.conf ]; then
-    echo "Install snmpd first"
-    exit 1
+    echo "SNMP installation was not found. Installing it now."
+    apt-get install snmpd -y
 fi
 
 echo "Creating firewall rule for SNMP"
