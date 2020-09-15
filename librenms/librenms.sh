@@ -64,6 +64,7 @@ fi
 # wget https://github.com/librenms/librenms-agent/raw/master/snmp/smart -O /etc/snmp/smart
 # chown root:root /etc/snmp/smart
 # chmod 755 /etc/snmp/smart
+# cp ./smart.config /etc/snmp/smart.config
 # echo "extend smart /etc/snmp/smart" >> /etc/snmp/snmpd.conf
 # echo "NOTE! Run visudo and add the following:"
 # echo "snmp ALL=(ALL) NOPASSWD: /etc/snmp/smart, /usr/bin/env smartctl"
