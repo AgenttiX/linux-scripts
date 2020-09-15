@@ -69,4 +69,5 @@ fi
 # echo "NOTE! Run visudo and add the following:"
 # echo "snmp ALL=(ALL) NOPASSWD: /etc/snmp/smart, /usr/bin/env smartctl"
 
-
+systemctl restart snmpd
+systemctl status snmpd
