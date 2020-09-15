@@ -24,6 +24,13 @@ systemctl start check_mk.socket
 
 # SNMP extend
 
+# Entropy
+echo "Installing entropy support"
+wget https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/entropy.sh -O /etc/snmp/entropy.sh
+chown root:root /etc/snmp/entropy.sh
+chmod 755 /etc/snmp/entropy.sh
+echo "extend entropy /etc/snmp/entropy.sh" >> /etc/snmp/snmpd.conf
+
 # Nvidia
 if ! command -v nvidia-smi &> /dev/null; then
     echo "Nvidia driver found. Installing Nvidia GPU support."
