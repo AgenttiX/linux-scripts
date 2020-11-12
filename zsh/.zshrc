@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/mika/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -62,13 +62,14 @@ ZSH_THEME="robbyrussell"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
+# You can also do this with a symbolic link
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(adb celery cp django docker git npm nvm pip pylint rsync sudo ubuntu ufw virtualenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -85,9 +86,15 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR="nano"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# Print stderr with red. For more see
+# https://github.com/sickill/stderred
+red_colored_text=$(tput setaf 9)
+export STDERRED_ESC_CODE=`echo -e "$red_colored_text"`
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
