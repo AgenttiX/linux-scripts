@@ -1,4 +1,5 @@
 # linux-scripts
+![CI](https://github.com/AgenttiX/linux-scripts/workflows/CI/badge.svg)
 ![CodeQL](https://github.com/AgenttiX/linux-scripts/workflows/CodeQL/badge.svg)
 
 A collection of GNU/Linux scripts I've found userful
