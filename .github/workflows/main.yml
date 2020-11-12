@@ -1,0 +1,16 @@
+name: CI
+on: push
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - uses: AppThreat/sast-scan-action@master
+      with:
+        type: bash,python
+    - uses: actions/upload-artifact@v1
+      with:
+        name: reports
+        path: reports
+        if-no-files-found: error
