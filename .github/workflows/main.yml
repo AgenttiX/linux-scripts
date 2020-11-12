@@ -9,7 +9,7 @@ jobs:
     - uses: AppThreat/sast-scan-action@master
       with:
         type: bash,python
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
         name: reports
         path: reports
