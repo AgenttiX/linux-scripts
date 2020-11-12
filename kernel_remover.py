@@ -41,7 +41,8 @@ def main():
         raise RuntimeError("The running kernel appears not to be installed")
 
     print("Which kernels would you like to remove?")
-    remove_input = input()
+    # Input is safe in Python 3
+    remove_input = input()  # nosec
 
     remove_indexes = []
     for index in remove_input.split():
@@ -60,7 +61,8 @@ def main():
     print(purge_these)
 
     print("Is this ok?")
-    continue_str = input()
+    # Input is safe in Python 3
+    continue_str = input()  # nosec
     if continue_str == "y":
         print("Removing old kernels")
         subprocess.run(["apt-get", "purge"] + purge_these)
