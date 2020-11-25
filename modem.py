@@ -94,10 +94,17 @@ def enable_location(modem: int) -> None:
 
 
 def send_pin(modem: int, pin: str) -> None:
-    subprocess.run(
-        ["mmcli", "-i", str(modem), "--pin={}".format(pin)],
-        check=True, stdout=subprocess.PIPE
-    )
+    try:
+        subprocess.run(
+            ["mmcli", "-i", str(modem), "--pin={}".format(pin)],
+            check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+    except subprocess.CalledProcessError as e:
+        # If the device is already open we don't need to do anything
+        if b"Cannot send PIN: device is not SIM-PIN locked" in e.stderr:
+            print("SIM was already unlocked")
+        else:
+            raise e
 
 
 def connect(bearer: int):
