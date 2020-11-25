@@ -130,6 +130,9 @@ def main():
         enable(modem)
     except subprocess.CalledProcessError as e:
         print(f"Could not enable modem: {e}")
+
+    # The modem will take a while to initialize
+    time.sleep(0.5)
     enable_location(modem)
 
 
