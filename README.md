@@ -21,8 +21,8 @@ You can install and configure it by cd'ing to the root of this repository and ex
 ```
 sudo apt-get update && sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-mv ~/.zshrc ~/.zshrc-original
-ln -s ./zsh/.zshrc ~/.zshrc
-mv ~/.oh-my-zsh/custom ~/.oh-my-zsh/custom-original
-ln -s ./zsh/custom ~/.oh-my-zsh/custom
+mv $HOME/.zshrc $HOME/.zshrc-original
+ln -s $PWD/zsh/.zshrc $HOME/.zshrc
+mv $HOME/.oh-my-zsh/custom $HOME/.oh-my-zsh/custom-original
+ln -s $PWD/zsh/custom $HOME/.oh-my-zsh/custom
 ```
