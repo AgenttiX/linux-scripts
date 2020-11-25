@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# LibreNMS installation
+# LibreNMS client installation
 
 if ! [ -f /etc/snmp/snmpd.conf ]; then
     echo "SNMP installation was not found. Installing it now."
