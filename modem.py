@@ -61,7 +61,7 @@ def get_bearer(modem: int) -> tp.Tuple[int, str]:
 
 def delete_bearer(modem: int, bearer: str):
     subprocess.run(
-        ["mmcli", "-m", str(modem), "--delete-bearer={}".format(bearer)],
+        ["mmcli", "-m", str(modem), f"--delete-bearer={bearer}"],
         check=True, stdout=subprocess.PIPE
     )
 
@@ -69,7 +69,7 @@ def delete_bearer(modem: int, bearer: str):
 def create_bearer(modem: int, apn="internet", ip_type="ipv4", number="*99#") -> tp.Tuple[int, str]:
     output = subprocess.run([
         "mmcli", "-m", str(modem),
-        "--create-bearer=apn={},ip-type={},number={}".format(apn, ip_type, number)
+        f"--create-bearer=apn={apn},ip-type={ip_type},number={number}"
     ], check=True, stdout=subprocess.PIPE)
     rows = str(output.stdout, encoding="ascii").split("\n")
     if rows[0] != "Successfully created new bearer in modem:":
@@ -96,7 +96,7 @@ def enable_location(modem: int) -> None:
 def send_pin(modem: int, pin: str) -> None:
     try:
         subprocess.run(
-            ["mmcli", "-i", str(modem), "--pin={}".format(pin)],
+            ["mmcli", "-i", str(modem), f"--pin={pin}"],
             check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
     except subprocess.CalledProcessError as e:
