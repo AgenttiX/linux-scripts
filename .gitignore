@@ -8,4 +8,5 @@ logs
 modem-pin.txt
 
 # Zsh plugins
+zsh-autocomplete
 zsh-autosuggestions

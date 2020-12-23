@@ -73,6 +73,7 @@ plugins=(
     # Oh my Zsh plugins
     adb celery cp django docker git npm nvm pip pylint rsync sudo ubuntu ufw virtualenv
     # Custom plugins
+    zsh-autocomplete
     zsh-autosuggestions
 )
 
