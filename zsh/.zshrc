@@ -64,6 +64,9 @@ ZSH_THEME="robbyrussell"
 ZSH_CUSTOM="$HOME/.oh-my-zsh/custom2"
 # You can also do this with a symbolic link
 
+# Custom plugin configuration
+ZSH_AUTOSUGGEST_USE_ASYNC="true"
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
