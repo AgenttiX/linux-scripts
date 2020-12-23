@@ -25,3 +25,7 @@ mv $HOME/.zshrc $HOME/.zshrc-original
 ln -s $PWD/zsh/.zshrc $HOME/.zshrc
 ln -s $PWD/zsh/custom2 $HOME/.oh-my-zsh/custom
 ```
+
+To install zsh-autosuggestions, please follow the
+[instructions](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
+from the project repository.

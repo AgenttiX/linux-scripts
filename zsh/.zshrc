@@ -69,7 +69,12 @@ ZSH_CUSTOM="$HOME/.oh-my-zsh/custom2"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(adb celery cp django docker git npm nvm pip pylint rsync sudo ubuntu ufw virtualenv)
+plugins=(
+    # Oh my Zsh plugins
+    adb celery cp django docker git npm nvm pip pylint rsync sudo ubuntu ufw virtualenv
+    # Custom plugins
+    zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 

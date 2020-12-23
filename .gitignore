@@ -6,3 +6,6 @@ Geekbench-*
 *.tar.gz
 logs
 modem-pin.txt
+
+# Zsh plugins
+zsh-autosuggestions
