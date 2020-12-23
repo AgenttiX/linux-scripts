@@ -23,6 +23,5 @@ sudo apt-get update && sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 mv $HOME/.zshrc $HOME/.zshrc-original
 ln -s $PWD/zsh/.zshrc $HOME/.zshrc
-mv $HOME/.oh-my-zsh/custom $HOME/.oh-my-zsh/custom-original
-ln -s $PWD/zsh/custom $HOME/.oh-my-zsh/custom
+ln -s $PWD/zsh/custom2 $HOME/.oh-my-zsh/custom
 ```
