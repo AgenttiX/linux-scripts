@@ -4,8 +4,6 @@
 Routine GNU/Linux maintenance
 
 Created by Mika Mäki 2019-2020
-
-TODO: work in progress!
 """
 
 import argparse
