@@ -9,11 +9,12 @@ https://manpages.ubuntu.com/manpages/trusty/man8/mmcli.8.html
 https://manpages.debian.org/jessie/modemmanager/mmcli.8
 """
 
+import os.path
 import subprocess
 import time
 import typing as tp
 
-PIN_PATH = "modem-pin.txt"
+PIN_PATH: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modem-pin.txt")
 
 
 def read_pin(path: str) -> str:
