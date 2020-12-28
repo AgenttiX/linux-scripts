@@ -88,10 +88,16 @@ def enable(modem: int):
 
 
 def enable_location(modem: int) -> None:
-    subprocess.run(
-        ["mmcli", "-m", str(modem), "--location-enable-3gpp"],
-        check=True, stdout=subprocess.PIPE
-    )
+    try:
+        subprocess.run(
+            ["mmcli", "-m", str(modem), "--location-enable-3gpp"],
+            check=True, stdout=subprocess.PIPE
+        )
+    except subprocess.CalledProcessError as e:
+        if b"modem in initializing state" in e.stderr:
+            print("Cannot enable location: the modem is still initializing. Try increasing the delay.")
+        else:
+            raise e
 
 
 def send_pin(modem: int, pin: str) -> None:
@@ -133,7 +139,7 @@ def main():
         print(f"Could not enable modem: {e}")
 
     # The modem will take a while to initialize
-    time.sleep(0.5)
+    time.sleep(1)
     enable_location(modem)
 
 
