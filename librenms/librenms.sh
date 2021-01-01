@@ -1,6 +1,13 @@
 #!/bin/bash -e
 # LibreNMS client installation
 
+apt-get update
+if ! command -v wget &> /dev/null
+then
+    echo "Wget was not found. Installing it now."
+    apt-get install wget -y
+fi
+
 if ! [ -f /etc/snmp/snmpd.conf ]; then
     echo "SNMP installation was not found. Installing it now."
     apt-get install snmpd -y
