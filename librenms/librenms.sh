@@ -21,9 +21,15 @@ ufw allow snmp comment "LibreNMS SNMP"
 echo "Creating firewall rule for check_mk"
 ufw allow 6556 comment "LibreNMS check_mk"
 echo "Downloading check_mk agent"
-cd /opt/
-git clone https://github.com/librenms/librenms-agent.git
-cd /opt/librenms-agent
+if [ -d /opt/librenms-agent ]; then
+    echo "LibreNMS agent appears to be already downloaded. If you have run this script previously, check afterwards that there are no duplicate lines in /etc/snmp/snmpd.conf."
+    cd /opt/librenms-agent
+    git pull
+else
+    cd /opt/
+    git clone https://github.com/librenms/librenms-agent.git
+    cd /opt/librenms-agent
+fi
 echo "Installing check_mk agent"
 cp check_mk_agent /usr/bin/check_mk_agent
 chown root:root /usr/bin/check_mk_agent
