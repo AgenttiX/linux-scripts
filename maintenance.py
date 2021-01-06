@@ -226,6 +226,18 @@ def docker(all_unused_images: bool = False) -> None:
         print("Docker not found")
 
 
+def fwupdmgr() -> None:
+    print("Checking for firmware updates")
+    ret = run(["fwupdmgr", "refresh"], check=False)
+    # Return code 2 = no updates available
+    if ret > 0 and ret != 2:
+        print(f"Got return code {ret}. Is this an error?")
+
+    ret = run(["fwupdmgr", "get-updates"], check=False)
+    if ret > 0 and ret != 2:
+        print(f"Got return code {ret}. Is this an error?")
+
+
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
         print("Running freshclam")
@@ -281,6 +293,8 @@ def main():
     bleachbit(deep=args.deep, firefox=(args.deep or args.firefox), thunderbird=(args.deep or args.thunderbird))
     print()
     trim()
+    print()
+    fwupdmgr()
 
 
 if __name__ == "__main__":
