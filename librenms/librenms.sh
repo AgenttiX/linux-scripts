@@ -92,15 +92,27 @@ if [ -f /proc/device-tree/model ] && [[ $(cat /proc/device-tree/model) != Raspbe
 fi
 
 # SMART
-# echo "Installing SMART support"
-# apt-get install -y smartmontools
-# wget https://github.com/librenms/librenms-agent/raw/master/snmp/smart -O /etc/snmp/smart
-# chown root:root /etc/snmp/smart
-# chmod 755 /etc/snmp/smart
-# cp ./smart.config /etc/snmp/smart.config
-# echo "extend smart /etc/snmp/smart" >> /etc/snmp/snmpd.conf
-# echo "NOTE! Run visudo and add the following:"
-# echo "snmp ALL=(ALL) NOPASSWD: /etc/snmp/smart, /usr/bin/env smartctl"
+echo "Do you want to install SMART support?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) INSTALL_SMART=1;;
+        No ) INSTALL_SMART=0 ;;
+    esac
+done
+if [ $INSTALL_SMART -eq 1 ] then
+    apt-get install -y smartmontools
+    wget https://github.com/librenms/librenms-agent/raw/master/snmp/smart -O /etc/snmp/smart
+    chown root:root /etc/snmp/smart
+    chmod 755 /etc/snmp/smart
+    # The default config is not useful
+    # cp ./smart.config /etc/snmp/smart.config
+    /etc/snmp/smart -g > /etc/snmp/smart.config
+    echo "extend smart /etc/snmp/smart" >> /etc/snmp/snmpd.conf
+    echo "NOTE! Run visudo and add the following:"
+    echo "Debian-snmp ALL=(ALL) NOPASSWD: /etc/snmp/smart, /usr/bin/env smartctl"
+    echo "Also run \"sudo crontab -e\" and add the following:"
+    echo "*/3 * * * * /etc/snmp/smart -u"
+fi
 
 systemctl restart snmpd
 systemctl status snmpd
