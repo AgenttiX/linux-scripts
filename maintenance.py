@@ -13,6 +13,8 @@ import subprocess as sp
 import time
 import typing as tp
 
+from utils import run
+
 logger = logging.getLogger(__name__)
 log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
 if not os.path.exists(log_path):
@@ -153,28 +155,6 @@ BLEACHBIT_THUNDERBIRD: tp.List[str] = [
     "thunderbird.cache",
     "thunderbird.index",
 ]
-
-
-def run(command: tp.List[str], check: bool = True) -> int:
-    logger.info(f"Running {command}")
-    process = sp.Popen(command, stdout=sp.PIPE, stderr=sp.PIPE)
-    while True:
-        stdout = process.stdout.readline().decode("utf-8").rstrip("\r|\n")
-        stderr = process.stderr.readline().decode("utf-8").rstrip("\r|\n")
-        if not stdout and not stderr and process.poll() is not None:
-            break
-        if stdout:
-            print(stdout)
-            logger.info(stdout)
-        if stderr:
-            print(stderr)
-            logger.error(stderr)
-    process.stdout.close()
-    process.stderr.close()
-    return_code = process.wait()
-    if check and return_code:
-        raise sp.CalledProcessError(return_code, command)
-    return return_code
 
 
 def apt() -> None:
