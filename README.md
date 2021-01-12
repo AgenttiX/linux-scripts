@@ -1,6 +1,7 @@
 # linux-scripts
 ![CI](https://github.com/AgenttiX/linux-scripts/workflows/CI/badge.svg)
 ![CodeQL](https://github.com/AgenttiX/linux-scripts/workflows/CodeQL/badge.svg)
+[![codecov](https://codecov.io/gh/AgenttiX/linux-scripts/branch/master/graph/badge.svg?token=SUMWHTQJW8)](https://codecov.io/gh/AgenttiX/linux-scripts)
 
 A collection of GNU/Linux scripts I've found userful
 
