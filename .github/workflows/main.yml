@@ -73,7 +73,6 @@ jobs:
       working-directory: ${{ github.workspace }}
     - name: Create coverage reports
       run: |
-        coverage combine
         coverage report | tee coverage.txt
         coverage html
         coverage xml
