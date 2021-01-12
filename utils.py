@@ -4,6 +4,7 @@ Utility methods for scripts
 
 import typing as tp
 import logging
+import os
 import subprocess as sp
 
 logger = logging.getLogger(__name__)
@@ -64,7 +65,8 @@ def run(
         check: bool = True,
         get_output: bool = False,
         print_output: bool = True,
-        stderr: bool = True) -> tp.Union[int, tp.Tuple[int, tp.List[str]]]:
+        stderr: bool = True,
+        sudo: bool = False) -> tp.Union[int, tp.Tuple[int, tp.List[str]]]:
     """
     Run an external command as a subprocess
     :param command: command and its arguments
@@ -72,12 +74,15 @@ def run(
     :param get_output: whether to extract output to Python
     :param print_output: print command output to console
     :param stderr: whether to capture stderr output as well
+    :param sudo: run the command as sudo if not already root
     :return: return code of the command
     """
     logger.info("Running %s", command)
     kwargs = {}
     if stderr:
         kwargs["stderr"] = sp.PIPE
+    if sudo and os.geteuid() != 0:
+        command = ["sudo"] + command
     process = sp.Popen(command, stdout=sp.PIPE, bufsize=1, **kwargs)
     output = []
     stderr_line = ""

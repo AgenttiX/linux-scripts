@@ -64,11 +64,8 @@ jobs:
           pip-${{ runner.os }}-
           pip-
     - name: Install requirements
-      # BleachBit fails due to an internal error:
-      # AttributeError: 'str' object has no attribute 'decode'
-      # Chkrootkit returns exit code 1
       run: |
-        sudo apt-get install -y fwupd rkhunter modemmanager
+        sudo apt-get install -y bleachbit chkrootkit fwupd rkhunter modemmanager
         pip --cache-dir=.pip install --upgrade pip
         pip --cache-dir=.pip install coverage
         pip --cache-dir=.pip install -r requirements.txt

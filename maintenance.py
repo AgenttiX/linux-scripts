@@ -159,10 +159,10 @@ BLEACHBIT_THUNDERBIRD: tp.List[str] = [
 
 def apt() -> None:
     print_info("Running apt")
-    run(["apt-get", "update"])
+    run(["apt-get", "update"], sudo=True)
     # run(["apt-get", "autoremove", "-y"])
     while True:
-        apt_ret = run(["apt-get", "dist-upgrade", "-y"], check=False)
+        apt_ret = run(["apt-get", "dist-upgrade", "-y"], check=False, sudo=True)
         if apt_ret == 0:
             break
         if apt_ret != 100:
@@ -173,8 +173,8 @@ def apt() -> None:
         time.sleep(APT_WAIT_TIME)
 
     # run(["apt-get", "upgrade", "-y"])
-    run(["apt-get", "autoremove", "-y"])
-    run(["apt-get", "autoclean", "-y"])
+    run(["apt-get", "autoremove", "-y"], sudo=True)
+    run(["apt-get", "autoclean", "-y"], sudo=True)
 
 
 def bleachbit(deep: bool = False, firefox: bool = False, thunderbird: bool = False) -> None:
@@ -191,6 +191,8 @@ def bleachbit(deep: bool = False, firefox: bool = False, thunderbird: bool = Fal
     if thunderbird:
         args += BLEACHBIT_THUNDERBIRD
     # Bleachbit does not run with the run() function for some reason
+    if os.geteuid() != 0:
+        args.insert(0, "sudo")
     sp.run(args, check=True)
 
 
@@ -223,7 +225,7 @@ def fwupdmgr() -> None:
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
         print_info("Running freshclam")
-        freshclam_ret = run(["freshclam", "-d"], check=False)
+        freshclam_ret = run(["freshclam", "-d"], check=False, sudo=True)
         if freshclam_ret in [2, 62]:
             print_info("Freshclam is already running")
         elif freshclam_ret != 0:
@@ -233,20 +235,20 @@ def security() -> None:
 
     if os.path.exists("/usr/sbin/chkrootkit"):
         print_info("Running chkrootkit")
-        run(["chkrootkit", "-q"])
+        run(["chkrootkit", "-q"], sudo=True)
     else:
         print_info("chkrootkit not found")
 
     if os.path.exists("/usr/bin/rkhunter"):
         print_info("Running rkhunter")
-        run(["rkhunter", "--update", "-q"], check=False)
-        run(["rkhunter", "-c", "-q"], check=False)
+        run(["rkhunter", "--update", "-q"], check=False, sudo=True)
+        run(["rkhunter", "-c", "-q"], check=False, sudo=True)
 
 
 def trim() -> None:
     if os.path.exists("/sbin/fstrim"):
         print_info("Running fstrim")
-        run(["fstrim", "-a", "-v"])
+        run(["fstrim", "-a", "-v"], sudo=True)
         # run(["fstrim", "/", "-v"])
     else:
         print_info("fstrim not found")
