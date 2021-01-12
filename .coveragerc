@@ -1,0 +1,10 @@
+[run]
+branch = True
+command_line = -m unittest tests
+omit =
+    */venv/*
+    (builtin)
+source = .
+
+[report]
+show_missing = True
