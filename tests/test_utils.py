@@ -5,8 +5,12 @@ import utils
 
 class UtilsTestCase(unittest.TestCase):
     @staticmethod
+    def test_print_info():
+        utils.print_info("test")
+
+    @staticmethod
     def test_run():
-        utils.run(["echo", "foo"])
+        utils.run(["echo", "test"])
 
     # @staticmethod
     # def test_disk():
