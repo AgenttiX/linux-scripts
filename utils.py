@@ -51,8 +51,7 @@ class DiskInfo:
 
     def print(self):
         text = f"Vendor: {self.vendor}, model: {self.model}"
-        logger.info(text)
-        print(text)
+        print_info(text)
 
 
 def print_info(text: str):
