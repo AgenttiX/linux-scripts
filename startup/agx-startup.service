@@ -2,7 +2,7 @@
 Description=Mika's startup script
 
 [Service]
-ExecStart=/usr/local/bin/agx-startup.py
+ExecStart=/usr/local/bin/agx_startup.py
 
 [Install]
 WantedBy=multi-user.target
