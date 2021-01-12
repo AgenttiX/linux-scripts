@@ -65,6 +65,7 @@ jobs:
           pip-
     - name: Install requirements
       run: |
+        sudo apt-get install -y bleachbit chkrootkit fwupd rkhunter modemmanager
         pip --cache-dir=.pip install --upgrade pip
         pip --cache-dir=.pip install coverage
         pip --cache-dir=.pip install -r requirements.txt
