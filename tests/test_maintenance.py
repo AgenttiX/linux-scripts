@@ -4,9 +4,11 @@ import maintenance as mnt
 
 
 class MaintenanceTestCase(unittest.TestCase):
-    @staticmethod
-    def test_apt():
-        mnt.apt()
+    # Running Apt from Python does not work on the GitHub runner, but results in several errors of the form:
+    # 13: Permission denied
+    # @staticmethod
+    # def test_apt():
+    #     mnt.apt()
 
     @staticmethod
     def test_bleachbit():
