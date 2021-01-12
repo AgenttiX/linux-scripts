@@ -4,7 +4,7 @@
 Startup configuration
 Created by Mika Mäki, 2019-2020
 
-To enable this script, run agx-startup-enabler.sh
+To enable this script, run startup-enabler.sh
 """
 
 import enum
