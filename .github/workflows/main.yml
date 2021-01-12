@@ -1,6 +1,38 @@
 name: CI
 on: push
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v2
+      - name: Print Python version
+        run: python -V
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Load pip cache
+        uses: actions/cache@v2
+        with:
+          path: .pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
+            pip-
+      - name: Install requirements
+        run: |
+          pip --cache-dir=.pip install --upgrade pip
+          pip --cache-dir=.pip install pylint
+          pip --cache-dir=.pip install -r requirements.txt
+      - name: Run Pylint
+        run: pylint tests 2>&1 | tee pylint.txt
+        working-directory: ${{ github.workspace }}
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Lint
+          path: |
+            ${{ github.workspace }}/pylint.txt
+          if-no-files-found: error
   sast:
     runs-on: ubuntu-latest
     steps:
@@ -14,3 +46,51 @@ jobs:
         name: reports
         path: reports
         if-no-files-found: error
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v2
+    - name: Print Python version
+      run: python -V
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Load pip cache
+      uses: actions/cache@v2
+      with:
+        path: .pip
+        key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          pip-${{ runner.os }}-
+          pip-
+    - name: Install requirements
+      run: |
+        pip --cache-dir=.pip install --upgrade pip
+        pip --cache-dir=.pip install coverage
+        pip --cache-dir=.pip install -r requirements.txt
+    - name: Run tests with coverage
+      run: coverage run
+      working-directory: ${{ github.workspace }}
+    - name: Create coverage reports
+      run: |
+        coverage combine
+        coverage report | tee coverage.txt
+        coverage html
+        coverage xml
+        coverage json
+      working-directory: ${{ github.workspace }}
+    - name: Upload results
+      uses: actions/upload-artifact@v2
+      with:
+        name: Coverage
+        path: |
+          ${{ github.workspace }}/coverage.txt
+          ${{ github.workspace }}/coverage.xml
+          ${{ github.workspace }}/coverage.json
+          ${{ github.workspace }}/htmlcov
+        if-no-files-found: error
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ${{ github.workspace }}/coverage.xml
