@@ -12,6 +12,10 @@ class UtilsTestCase(unittest.TestCase):
     def test_run():
         utils.run(["echo", "test"])
 
+    @staticmethod
+    def test_run_output():
+        utils.run(["echo", "test"], get_output=True)
+
     # @staticmethod
     # def test_disk():
     #     mount_info = utils.MountInfo("/")
