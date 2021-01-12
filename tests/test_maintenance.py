@@ -16,6 +16,8 @@ class MaintenanceTestCase(unittest.TestCase):
     def test_security():
         mnt.security()
 
-    @staticmethod
-    def test_trim():
-        mnt.trim()
+    # Trimming on the GitHub runner results in
+    # FITRIM ioctl failed: Operation not permitted
+    # @staticmethod
+    # def test_trim():
+    #     mnt.trim()
