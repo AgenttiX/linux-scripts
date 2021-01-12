@@ -11,7 +11,7 @@ import subprocess
 def main():
     running = os.uname().release
 
-    process = subprocess.run(["dpkg", "--list", "linux-image-*"], stdout=subprocess.PIPE)
+    process = subprocess.run(["dpkg", "--list", "linux-image-*"], stdout=subprocess.PIPE, check=True)
     dpkg_output = process.stdout.decode("utf-8")
 
     kernels = []
@@ -65,11 +65,11 @@ def main():
     continue_str = input()  # nosec
     if continue_str == "y":
         print("Removing old kernels")
-        subprocess.run(["apt-get", "purge"] + purge_these)
+        subprocess.run(["apt-get", "purge"] + purge_these, check=True)
         print("Old kernels removed. Updating.")
-        subprocess.run(["apt-get", "update"])
-        subprocess.run(["apt-get", "dist-upgrade"])
-        subprocess.run(["apt-get", "autoremove"])
+        subprocess.run(["apt-get", "update"], check=True)
+        subprocess.run(["apt-get", "dist-upgrade"], check=True)
+        subprocess.run(["apt-get", "autoremove"], check=True)
         print("Update complete")
 
 

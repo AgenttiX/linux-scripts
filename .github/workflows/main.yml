@@ -24,7 +24,7 @@ jobs:
           pip --cache-dir=.pip install pylint
           pip --cache-dir=.pip install -r requirements.txt
       - name: Run Pylint
-        run: pylint tests 2>&1 | tee pylint.txt
+        run: pylint startup tests f3.py kernel_remover.py maintenance.py modem.py utils.py 2>&1 | tee pylint.txt
         working-directory: ${{ github.workspace }}
       - name: Upload results
         uses: actions/upload-artifact@v2

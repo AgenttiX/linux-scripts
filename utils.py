@@ -67,9 +67,10 @@ def run(
     :param check: whether to check the return code and raise an error accordingly
     :param get_output: whether to extract output to Python
     :param print_output: print command output to console
+    :param stderr: whether to capture stderr output as well
     :return: return code of the command
     """
-    logger.info(f"Running {command}")
+    logger.info("Running %s", command)
     kwargs = {}
     if stderr:
         kwargs["stderr"] = sp.PIPE

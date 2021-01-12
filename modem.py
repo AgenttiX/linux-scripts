@@ -18,8 +18,8 @@ PIN_PATH: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modem-
 
 
 def read_pin(path: str) -> str:
-    with open(path) as f:
-        pin = f.read().rstrip()
+    with open(path) as file:
+        pin = file.read().rstrip()
     if not pin.isnumeric():
         raise ValueError("PIN should be numeric")
     return pin
@@ -38,8 +38,8 @@ def modem_number() -> int:
     modem_path = rows[row_ind].strip("\t").split()[0]
     try:
         number = int(modem_path.split("/")[-1])
-    except ValueError:
-        raise ValueError("Invalid modem path")
+    except ValueError as e:
+        raise ValueError("Invalid modem path") from e
     return number
 
 
@@ -116,7 +116,8 @@ def send_pin(modem: int, pin: str) -> None:
 
 def connect(bearer: int):
     subprocess.run(
-        ["mmcli", "-b", str(bearer), "--connect"]
+        ["mmcli", "-b", str(bearer), "--connect"],
+        check=True
     )
 
 

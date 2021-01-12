@@ -165,9 +165,7 @@ def apt() -> None:
         apt_ret = run(["apt-get", "dist-upgrade", "-y"], check=False)
         if apt_ret == 0:
             break
-        elif apt_ret == 100:
-            pass
-        else:
+        if apt_ret != 100:
             raise ValueError(f"Got unknown APT return code: {apt_ret}")
         print("Waiting for APT lock to be freed")
         time.sleep(APT_WAIT_TIME)
@@ -257,7 +255,7 @@ def main():
     parser.add_argument("--firefox", help="Deep-clean Firefox", action="store_true")
     parser.add_argument("--thunderbird", help="Deep-clean Thunderbird", action="store_true")
     args = parser.parse_args()
-    logger.info(f"Args: {args}")
+    logger.info("Args: %s", args)
 
     if args.deep:
         print("Deep scan has been selected. Some processes may take a long time.")

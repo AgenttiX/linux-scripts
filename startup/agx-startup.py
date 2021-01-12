@@ -6,6 +6,7 @@ Created by Mika Mäki, 2019-2020
 
 To enable this script, run startup-enabler.sh
 """
+# pylint: disable=invalid-name
 
 import enum
 import glob
@@ -232,7 +233,7 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/pci/devices/0000:20:00.2",
         "/sys/bus/pci/devices/0000:00:08.0",
         "/sys/bus/pci/devices/0000:60:00.2",
-        
+
         # PCIe
         "/sys/bus/pci/devices/0000:40:07.0",
         "/sys/bus/pci/devices/0000:61:00.0",
@@ -469,7 +470,7 @@ def custom_commands() -> None:
         return
 
     for command in CUSTOM_COMMANDS[board]:
-        subprocess.run(command)
+        subprocess.run(command, check=True)
 
 
 def disable_wakeups() -> None:
@@ -498,7 +499,7 @@ def hdparm() -> None:
         drive_path = os.path.join("/dev/disk/by-id", drive)
 
         for param, value in params.items():
-            subprocess.run(["hdparm", param, str(value), drive_path])
+            subprocess.run(["hdparm", param, str(value), drive_path], check=True)
 
 
 def power_control() -> None:

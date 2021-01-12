@@ -6,7 +6,7 @@
 extension-pkg-whitelist=
 
 # Specify a score threshold to be exceeded before program exits with error.
-fail-under=10.0
+fail-under=9
 
 # Add files or directories to the blacklist. They should be base names, not
 # paths.
@@ -138,7 +138,12 @@ disable=print-statement,
         xreadlines-attribute,
         deprecated-sys-function,
         exception-escape,
-        comprehension-escape
+        comprehension-escape,
+        # Custom additions
+        missing-class-docstring,
+        missing-function-docstring,
+        missing-module-docstring,
+        too-few-public-methods
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -211,7 +216,7 @@ indent-after-paren=4
 indent-string='    '
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=120
 
 # Maximum number of lines in a module.
 max-module-lines=1000
@@ -407,7 +412,9 @@ good-names=i,
            k,
            ex,
            Run,
-           _
+           _,
+           # Custom additions
+           e
 
 # Good variable names regexes, separated by a comma. If names match any regex,
 # they will always be accepted
