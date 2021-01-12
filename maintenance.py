@@ -13,7 +13,7 @@ import subprocess as sp
 import time
 import typing as tp
 
-from utils import run
+from utils import print_info, run
 
 logger = logging.getLogger(__name__)
 log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
@@ -158,7 +158,7 @@ BLEACHBIT_THUNDERBIRD: tp.List[str] = [
 
 
 def apt() -> None:
-    print("Running apt")
+    print_info("Running apt")
     run(["apt-get", "update"])
     # run(["apt-get", "autoremove", "-y"])
     while True:
@@ -166,8 +166,10 @@ def apt() -> None:
         if apt_ret == 0:
             break
         if apt_ret != 100:
-            raise ValueError(f"Got unknown APT return code: {apt_ret}")
-        print("Waiting for APT lock to be freed")
+            error_text = f"Got unknown APT return code: {apt_ret}"
+            logger.error(error_text)
+            raise ValueError(error_text)
+        print_info("Waiting for APT lock to be freed")
         time.sleep(APT_WAIT_TIME)
 
     # run(["apt-get", "upgrade", "-y"])
@@ -176,76 +178,78 @@ def apt() -> None:
 
 
 def bleachbit(deep: bool = False, firefox: bool = False, thunderbird: bool = False) -> None:
-    if os.path.exists("/usr/bin/bleachbit"):
-        print("Running Bleachbit")
-        args = ["bleachbit", "--clean"] + BLEACHBIT_FEATURES
-        if deep:
-            print("Using deep scan. This will take a while.")
-            logger.info("Using deep scan. This will take a while.")
-            args += BLEACHBIT_DEEP
-        if firefox:
-            args += BLEACHBIT_FIREFOX
-        if thunderbird:
-            args += BLEACHBIT_THUNDERBIRD
-        # Bleachbit does not run with the run() function for some reason
-        sp.run(args, check=True)
-    else:
-        print("Bleachbit not found")
+    if not os.path.exists("/usr/bin/bleachbit"):
+        print_info("Bleachbit not found")
+        return
+    print_info("Running Bleachbit")
+    args = ["bleachbit", "--clean"] + BLEACHBIT_FEATURES
+    if deep:
+        print_info("Using deep scan. This will take a while.")
+        args += BLEACHBIT_DEEP
+    if firefox:
+        args += BLEACHBIT_FIREFOX
+    if thunderbird:
+        args += BLEACHBIT_THUNDERBIRD
+    # Bleachbit does not run with the run() function for some reason
+    sp.run(args, check=True)
 
 
 def docker(all_unused_images: bool = False) -> None:
-    if os.path.exists("/usr/bin/docker"):
-        print("Pruning Docker")
-        args = ["docker", "system", "prune", "-f"]
-        if all_unused_images:
-            args.append("-a")
-        run(args)
-    else:
-        print("Docker not found")
+    if not os.path.exists("/usr/bin/docker"):
+        print_info("Docker not found")
+        return
+    print_info("Pruning Docker")
+    args = ["docker", "system", "prune", "-f"]
+    if all_unused_images:
+        args.append("-a")
+    run(args)
 
 
 def fwupdmgr() -> None:
-    print("Checking for firmware updates")
+    if not os.path.exists("/usr/bin/fwupdmgr"):
+        print_info("fwupdmgr is not installed")
+        return
+    print_info("Checking for firmware updates")
     ret = run(["fwupdmgr", "refresh"], check=False)
     # Return code 2 = no updates available
     if ret > 0 and ret != 2:
-        print(f"Got return code {ret}. Is this an error?")
+        print_info(f"Got return code {ret}. Is this an error?")
 
     ret = run(["fwupdmgr", "get-updates"], check=False)
     if ret > 0 and ret != 2:
-        print(f"Got return code {ret}. Is this an error?")
+        print_info(f"Got return code {ret}. Is this an error?")
 
 
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
-        print("Running freshclam")
+        print_info("Running freshclam")
         freshclam_ret = run(["freshclam", "-d"], check=False)
         if freshclam_ret in [2, 62]:
-            print("Freshclam is already running")
+            print_info("Freshclam is already running")
         elif freshclam_ret != 0:
             raise ValueError(f"Got unknown freshclam return code: {freshclam_ret}")
     else:
-        print("freshclam not found")
+        print_info("freshclam not found")
 
     if os.path.exists("/usr/sbin/chkrootkit"):
-        print("Running chkrootkit")
+        print_info("Running chkrootkit")
         run(["chkrootkit", "-q"])
     else:
-        print("chkrootkit not found")
+        print_info("chkrootkit not found")
 
     if os.path.exists("/usr/bin/rkhunter"):
-        print("Running rkhunter")
+        print_info("Running rkhunter")
         run(["rkhunter", "--update", "-q"], check=False)
         run(["rkhunter", "-c", "-q"], check=False)
 
 
 def trim() -> None:
     if os.path.exists("/sbin/fstrim"):
-        print("Running fstrim")
+        print_info("Running fstrim")
         run(["fstrim", "-a", "-v"])
         # run(["fstrim", "/", "-v"])
     else:
-        print("fstrim not found")
+        print_info("fstrim not found")
 
 
 def main():
@@ -258,10 +262,9 @@ def main():
     logger.info("Args: %s", args)
 
     if args.deep:
-        print("Deep scan has been selected. Some processes may take a long time.")
-        logger.info("Deep scan has been selected. Some processes may take a long time.")
+        print_info("Deep scan has been selected. Some processes may take a long time.")
 
-    print("Running maintenance script")
+    print_info("Running maintenance script")
     apt()
     print()
     security()

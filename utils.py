@@ -55,6 +55,11 @@ class DiskInfo:
         print(text)
 
 
+def print_info(text: str):
+    print(text)
+    logger.info(text)
+
+
 def run(
         command: tp.List[str],
         check: bool = True,
