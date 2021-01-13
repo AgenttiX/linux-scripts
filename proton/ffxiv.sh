@@ -4,7 +4,18 @@ FFXIV_CFG_ORIGINAL="FFXIV-original.cfg"
 FFXIV_BOOT_CFG="FFXIV_BOOT.cfg"
 FFXIV_BOOT_CFG_ORIGINAL="FFXIV_BOOT-original.cfg"
 
-cd "${HOME}/.steam/debian-installation/steamapps/compatdata/312060/pfx/drive_c/users/steamuser/My Documents/My Games/FINAL FANTASY XIV - A Realm Reborn/"
+DEMO_ID=312060
+FULL_ID=39210
+
+echo "Do you have the demo or the full version? Answer d for demo or f for full."
+read GAME_TYPE
+case $GAME_TYPE in
+    d) ID=$DEMO_ID;;
+    f) ID=$FULL_ID;;
+    *) echo "Invalid option" && exit;;
+esac
+
+cd "${HOME}/.steam/debian-installation/steamapps/compatdata/${ID}/pfx/drive_c/users/steamuser/My Documents/My Games/FINAL FANTASY XIV - A Realm Reborn/"
 
 # Backup the original configuration
 if [ ! -f $FFXIV_BOOT_CFG_ORIGINAL ]; then
@@ -14,6 +25,7 @@ fi
 # Set Browser and StartupCompleted to 1
 sed -i "s/Browser	2/Browser	1/g" $FFXIV_BOOT_CFG
 sed -i "s/StartupCompleted	0/StartupCompleted	1/g" $FFXIV_BOOT_CFG
+echo "Launcher settings have been configured successfully."
 
 if [ -f $FFXIV_CFG ]; then
     if [ ! -f $FFXIV_CFG_ORIGINAL ]; then
