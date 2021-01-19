@@ -36,3 +36,11 @@ The following settings are recommended.
 
 - Common options &#8594; Placement method: Open new tiles at the end
 - Half layout &#8594; Default master width: 50 %
+
+
+### Fixing Discord snap log spam
+This is discussed in a [GitHub issue](https://github.com/snapcrafters/discord/issues/23).
+
+```
+sudo snap connect discord:system-observe :system-observe
+```
