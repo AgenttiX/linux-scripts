@@ -93,7 +93,9 @@ def run(
         kwargs["stderr"] = sp.PIPE
     if sudo and os.geteuid() != 0:
         command = ["sudo"] + command
-    process = sp.Popen(command, stdout=sp.PIPE, bufsize=1, **kwargs)
+    # Setting bufsize=1 would result in
+    # RuntimeWarning: line buffering (buffering=1) isn't supported in binary mode, the default buffer size will be used
+    process = sp.Popen(command, stdout=sp.PIPE, **kwargs)
     output = []
     stderr_line = ""
     while True:
