@@ -1,5 +1,8 @@
 # Using GPU functionality requires a GPU-enabled Docker platform and container image
 # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
+# To run this image with GPU support enabled, use
+# nvidia-docker run -it <image_name>
+
 FROM nvidia/cuda:11.2.0-base
 
 RUN apt-get update \
