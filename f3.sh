@@ -1,4 +1,6 @@
 #!/bin/sh -e
+# Flash memory testing script, based on f3
+
 if [ ! $# -eq 1 ]; then
     echo "Give the path of the mounted partition as an argument"
     exit 1

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 """
-Startup configuration
-Created by Mika Mäki, 2019-2020
+Startup configuration for my devices.
+To adapt this script for your needs, replace the device ids with ones extracted from your systems.
 
 To enable this script, run startup-enabler.sh
 """

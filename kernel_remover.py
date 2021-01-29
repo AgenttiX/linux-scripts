@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 """
-Created by Mika Mäki, 2017-2019
+Script for removing old kernel versions
+to free up space on the boot partition.
+
+This is necessary on some old encrypted Ubuntu installations,
+which have a too small boot partition by default.
 """
 
 import os

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Routine GNU/Linux maintenance
-
-Created by Mika Mäki 2019-2020
+Routine maintenance script for GNU/Linux-based systems
 """
 
 import argparse

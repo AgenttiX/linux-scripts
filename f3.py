@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Flash memory testing script, based on f3
+"""
+
 import argparse
 import logging
 import os.path

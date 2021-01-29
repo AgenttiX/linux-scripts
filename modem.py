@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
 """
-Modem control based on mmcli. For
+Control script for the integrated WWAN (3G, LTE etc.) modem of the following laptops:
 - Lenovo ThinkPad T480
 - Lenovo ThinkPad Twist S230u
+This script is based on the use of mmcli.
+
+This script was developed, since the integrated modem utilities of Kubuntu have
+a lot of room for improvement in their usability.
 
 https://manpages.ubuntu.com/manpages/trusty/man8/mmcli.8.html
 https://manpages.debian.org/jessie/modemmanager/mmcli.8
