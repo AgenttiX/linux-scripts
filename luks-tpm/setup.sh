@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -e
 # This script enables automatic TPM-based unlocking of the LUKS encrypted
 # root partition with a fallback to password query.
 
