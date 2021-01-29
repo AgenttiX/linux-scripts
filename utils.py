@@ -55,6 +55,16 @@ class DiskInfo:
         print_info(text)
 
 
+def alert_if_root(fail: bool = False):
+    if os.geteuid() == 0:
+        text = "Warning! This script should not be run as root for security reasons!"
+        if fail:
+            logger.error(text)
+            raise RuntimeError(text)
+        print(text)
+        logger.warning(text)
+
+
 def print_info(text: str):
     print(text)
     logger.info(text)

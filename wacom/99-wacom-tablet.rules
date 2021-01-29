@@ -1,0 +1,6 @@
+SUBSYSTEMS=="usb"
+ATTRS{idVendor}=="056a"
+ATTRS{idProduct}=="0378"
+ENV{DISPLAY}=":0"
+ENV{XAUTHORITY}="/home/mika/.Xauthority"
+RUN+="/home/mika/Git/linux-scripts/wacom_intuos/wacom_intuos.py"
