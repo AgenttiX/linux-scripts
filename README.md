@@ -38,9 +38,12 @@ The following settings are recommended.
 - Half layout &#8594; Default master width: 50 %
 
 
-### Fixing Discord snap log spam
+## Fixing Discord snap log spam
 This is discussed in a [GitHub issue](https://github.com/snapcrafters/discord/issues/23).
 
 ```
 sudo snap connect discord:system-observe :system-observe
 ```
+
+## Licensing
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B5825%2Fgit%40github.com%3AAgenttiX%2Flinux-scripts.git.svg?type=large)](https://app.fossa.com/projects/custom%2B5825%2Fgit%40github.com%3AAgenttiX%2Flinux-scripts.git?ref=badge_large)
