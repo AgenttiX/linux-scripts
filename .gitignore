@@ -13,3 +13,4 @@ id_rsa*
 # Zsh plugins
 zsh-autocomplete
 zsh-autosuggestions
+zsh-syntax-highlighting

@@ -15,12 +15,14 @@ ln -s ${PWD}/zsh/custom ${ZSH_CUSTOM}
 ```
 
 Installation of additional plugins,
-[zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete)
+[zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete),
+[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 and
-[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions):
+[zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting):
 ```
 mkdir -p ${ZSH_CUSTOM}/plugins
 cd ${ZSH_CUSTOM}/plugins
 git clone git@github.com:marlonrichert/zsh-autocomplete.git
 git clone git@github.com:zsh-users/zsh-autosuggestions.git
+git clone git@github.com:zsh-users/zsh-syntax-highlighting.git
 ```
