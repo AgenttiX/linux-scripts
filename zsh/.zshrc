@@ -103,6 +103,7 @@ export EDITOR="nano"
 
 # Print stderr with red. For more see
 # https://github.com/sickill/stderred
+export LD_PRELOAD="$HOME/Git/stderred/lib64/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
 red_colored_text=$(tput setaf 9)
 export STDERRED_ESC_CODE=`echo -e "$red_colored_text"`
 
