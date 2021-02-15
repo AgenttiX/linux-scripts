@@ -103,9 +103,14 @@ export EDITOR="nano"
 
 # Print stderr with red. For more see
 # https://github.com/sickill/stderred
-export LD_PRELOAD="$HOME/Git/stderred/lib64/libstderred.so${LD_PRELOAD:+:$LD_PRELOAD}"
-red_colored_text=$(tput setaf 9)
-export STDERRED_ESC_CODE=`echo -e "$red_colored_text"`
+STDERRED_PATH="$HOME/Git/stderred/lib64/libstderred.so"
+if [ -f $STDERRED_PATH ]; then
+    export LD_PRELOAD="${STDERRED_PATH}${LD_PRELOAD:+:$LD_PRELOAD}"
+    red_colored_text=$(tput setaf 9)
+    export STDERRED_ESC_CODE=`echo -e "$red_colored_text"`
+else
+    echo "stderred was not found. Please install it or remove it from .zshrc."
+fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
