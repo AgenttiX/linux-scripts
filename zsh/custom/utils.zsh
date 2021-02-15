@@ -1,6 +1,3 @@
-# Big thanks to Alpi Tolvanen for many of these and for introducing me to zsh!
-# https://github.com/tolvanea
-
 findit() {
     # https://unix.stackexchange.com/questions/42841/how-to-skip-permission-denied-errors-when-running-find-in-linux
     if [[ $# -ne 2 ]]; then

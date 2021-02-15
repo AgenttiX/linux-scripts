@@ -26,3 +26,8 @@ git clone git@github.com:marlonrichert/zsh-autocomplete.git
 git clone git@github.com:zsh-users/zsh-autosuggestions.git
 git clone git@github.com:zsh-users/zsh-syntax-highlighting.git
 ```
+
+Much of these configuration files is based on
+[the ones](https://gitlab.com/tolvanea/linux_utility_scripts/-/blob/master/zshrc) by
+[Alpi Tolvanen](https://github.com/tolvanea).
+Big thanks to him for introducing me to zsh!
