@@ -196,7 +196,9 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
     "ROG ZENITH II EXTREME": [
         # Chipset
         "/sys/bus/i2c/devices/i2c-1/device",
+        "/sys/bus/pci/devices/0000:20:00.0",
         "/sys/bus/pci/devices/0000:20:08.0",
+        "/sys/bus/pci/devices/0000:60:00.0",
         "/sys/bus/pci/devices/0000:60:08.0",
         "/sys/bus/pci/devices/0000:00:18.2",
         "/sys/bus/pci/devices/0000:60:05.0",
@@ -241,6 +243,7 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/pci/devices/0000:4d:00.0",
         "/sys/bus/pci/devices/0000:00:05.0",
         "/sys/bus/pci/devices/0000:60:04.0",
+        "/sys/bus/pci/devices/0000:20:04.0",
         "/sys/bus/pci/devices/0000:20:07.0",
         "/sys/bus/pci/devices/0000:00:02.0",
         "/sys/bus/pci/devices/0000:04:00.0",
@@ -261,6 +264,7 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
 
         # SATA
         "/sys/bus/pci/devices/0000:00:18.0",
+        "/sys/bus/pci/devices/0000:4a:00.0",
         "/sys/bus/pci/devices/0000:45:00.0",
         "/sys/bus/pci/devices/0000:45:00.0/ata1",
         "/sys/bus/pci/devices/0000:45:00.0/ata2",
@@ -273,9 +277,11 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
 
         # Radeon VII
         "/sys/bus/i2c/devices/i2c-3/device",
+        "/sys/bus/i2c/devices/i2c-6/device",
 
         # GTX Titan
         "/sys/bus/i2c/devices/i2c-12/device",
+        "/sys/bus/i2c/devices/i2c-17/device/",
 
         # LAN
         "/sys/bus/pci/devices/0000:44:00.0",
@@ -299,6 +305,13 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/pci/devices/0000:49:00.3",
         "/sys/bus/pci/devices/0000:05:00.3",
         "/sys/bus/pci/devices/0000:24:00.3",
+
+        # Logitech G19
+        "/sys/bus/usb/devices/9-3.2.1",
+        "/sys/bus/usb/devices/9-3.2.2",
+
+        # Logitech PowerPlay
+        # "/sys/bus/usb/devices/9-3.4/",
     ],
     # "X58A-UD7": [
     #     # Nvidia GPU
