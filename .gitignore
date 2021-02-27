@@ -10,6 +10,9 @@ logs
 modem-pin.txt
 id_rsa*
 
+# Zsh themes
+powerlevel10k
+
 # Zsh plugins
 zsh-autocomplete
 zsh-autosuggestions
