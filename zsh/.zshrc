@@ -112,6 +112,10 @@ else
     echo "stderred was not found. Please install it or remove it from .zshrc."
 fi
 
+# PowerShell telemetry has to be disabled with an environment variable before starting it.
+# https://github.com/PowerShell/PowerShell#telemetry
+export POWERSHELL_TELEMETRY_OPTOUT="1"
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
