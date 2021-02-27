@@ -35,7 +35,7 @@ and set it as your default terminal font.
 Then run the following commands.
 ```
 mkdir -p ${ZSH_CUSTOM}/themes
-${ZSH_CUSTOM}/themes
+cd ${ZSH_CUSTOM}/themes
 git clone git@github.com:romkatv/powerlevel10k.git
 ln -s <LOCAL_REPOSITORY_FOLDER>/linux-scripts/zsh/.p10k.zsh ${HOME}/.p10k.zsh
 ```
