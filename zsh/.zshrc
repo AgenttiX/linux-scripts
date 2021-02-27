@@ -120,6 +120,20 @@ else
     echo "stderred was not found. Please install it or remove it from .zshrc."
 fi
 
+# Colorls configuration
+# https://github.com/athityakumar/colorls
+if command -v gem &> /dev/null; then
+    COLORLS_PATH="$(dirname $(gem which colorls))"
+    if [ -d $COLORLS_PATH ]; then
+        source "${COLORLS_PATH}/tab_complete.sh"
+    else
+        echo "Colorls was not found. Please install it with \"gem install colorls\" or remove it form .zshrc."
+    fi
+else
+    echo "Gem was not found. Please install Ruby."
+fi
+alias lc='colorls -lA --sd'
+
 # PowerShell telemetry has to be disabled with an environment variable before starting it.
 # https://github.com/PowerShell/PowerShell#telemetry
 export POWERSHELL_TELEMETRY_OPTOUT="1"
