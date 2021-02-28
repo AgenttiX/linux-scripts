@@ -167,3 +167,10 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# CERN ROOT
+# https://root.cern/
+ROOT_SCRIPT="${HOME}/Downloads/root/bin/thisroot.sh"
+if [ -f $ROOT_SCRIPT ]; then
+    source $ROOT_SCRIPT
+fi
