@@ -12,6 +12,8 @@ https://wiki.archlinux.org/index.php/Wacom_tablet
 """
 
 import enum
+import logging
+from logging.handlers import RotatingFileHandler
 import os.path
 import shlex
 import sys
@@ -22,11 +24,22 @@ from Xlib.ext import randr
 from Xlib.protocol.rq import DictWrapper
 
 # Add linux-scripts folder to PATH
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(REPO_DIR)
 
 import utils
 
 XSETWACOM: str = "/usr/bin/xsetwacom"
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)-8s %(module)-16s %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        RotatingFileHandler(filename=os.path.join(REPO_DIR, "logs", "wacom.txt"))
+    ]
+)
 
 
 @enum.unique
@@ -61,7 +74,7 @@ class Device:
             print(f"{setting[0]}: {values}")
 
     def rotate(self, rotation: Rotation):
-        self.set_value("Rotate", rotation)
+        self.set_value("Rotate", rotation.value)
 
     def set_button(self, button: int, command: str):
         self.set_value("Button", str(button), command)
@@ -116,7 +129,7 @@ def get_display_info(name: str = ":0") -> tp.Dict[str, tp.Tuple[int, int]]:
     # print(res)
     for output in res.outputs:
         params = d.xrandr_get_output_info(output, res.config_timestamp)
-        print(params)
+        # print(params)
         if not params.crtc:
             continue
         crtc = d.xrandr_get_crtc_info(params.crtc, res.config_timestamp)
@@ -128,6 +141,7 @@ def get_display_info(name: str = ":0") -> tp.Dict[str, tp.Tuple[int, int]]:
 
 
 def main():
+    logger.info("Running Wacom script")
     utils.alert_if_root(fail=True)
     stylus = Device("Wacom Intuos BT M Pen stylus")
     pad = Device("Wacom Intuos BT M Pad pad")
@@ -147,9 +161,21 @@ def main():
     except ValueError:
         big_monitor = None
 
+    tablet_resolution = (21600, 13500)
+    tablet_aspect_ratio = tablet_resolution[0] / tablet_resolution[1]
+    print("Tablet aspect ratio:", tablet_aspect_ratio)
+    # if big_monitor is not None:
+    #     print(big_monitor)
+    #     stylus.rotate(Rotation.CW)
+    #     area_x = int(1440/tablet_aspect_ratio)
+    #     area_y = 1440
+    #     print(area_x, area_y)
+    #     stylus.set_output(area_x, area_y, 1920+180, 0)
     if big_monitor is not None:
-        # stylus.rotate(Rotation.CW)
-        print(big_monitor)
+        area_y = 1440
+        area_x = int(tablet_aspect_ratio * 1440)
+        print(area_x, area_y)
+        stylus.set_output(area_x, area_y, 1920, 0)
 
 
 if __name__ == "__main__":
