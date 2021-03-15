@@ -10,6 +10,9 @@ set clipboard=unnamedplus
 " For vim-devicons
 set encoding=UTF-8
 
+" Show Powerline all the time
+" set laststatus=2
+
 " Enable mouse support in terminal
 set mouse=a
 

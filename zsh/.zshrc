@@ -134,6 +134,16 @@ else
 fi
 alias lc='colorls -lA --sd'
 
+# Powerline
+# https://github.com/powerline/powerline
+# If using Powerline, the zsh theme should be disabled
+# https://wiki.archlinux.org/index.php/Powerline
+# POWERLINE_SCRIPT="/usr/share/powerline/bindings/zsh/powerline.zsh"
+# if [ -f $POWERLINE_SCRIPT ]; then
+#     powerline-daemon -q
+#     source "/usr/share/powerline/bindings/zsh/powerline.zsh"
+# fi
+
 # PowerShell telemetry has to be disabled with an environment variable before starting it.
 # https://github.com/PowerShell/PowerShell#telemetry
 export POWERSHELL_TELEMETRY_OPTOUT="1"
