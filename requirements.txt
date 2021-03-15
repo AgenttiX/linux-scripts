@@ -1,2 +1,5 @@
 # For Wacom script
 python-xlib >= 0.29
+
+# For LibreNMS log spam cleaner
+slack-cleaner2 >= 3.0.4

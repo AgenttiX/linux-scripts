@@ -9,6 +9,7 @@ Geekbench-*
 logs
 modem-pin.txt
 id_rsa*
+keys
 
 # Zsh themes
 powerlevel10k
