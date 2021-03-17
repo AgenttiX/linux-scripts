@@ -14,6 +14,9 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 
 # Misc
+ethminer
+ethminer.txt
+ethminer_config.sh
 Geekbench-*
 *.tar.gz
 logs
