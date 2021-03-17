@@ -1,15 +1,9 @@
+# Python & PyCharm files
 .coverage
 .directory
 .idea
 __pycache__
 venv
-
-Geekbench-*
-*.tar.gz
-logs
-modem-pin.txt
-id_rsa*
-keys
 
 # Zsh themes
 powerlevel10k
@@ -18,3 +12,11 @@ powerlevel10k
 zsh-autocomplete
 zsh-autosuggestions
 zsh-syntax-highlighting
+
+# Misc
+Geekbench-*
+*.tar.gz
+logs
+modem-pin.txt
+id_rsa*
+keys
