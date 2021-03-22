@@ -104,7 +104,7 @@ def enable_location(modem: int) -> None:
             raise e
 
 
-def send_pin(modem: int, pin: str, retry=True) -> None:
+def send_pin(modem: int, pin: str, retry: bool = True) -> None:
     try:
         subprocess.run(
             ["mmcli", "-i", str(modem), f"--pin={pin}"],
