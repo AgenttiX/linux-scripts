@@ -23,3 +23,5 @@ logs
 modem-pin.txt
 id_rsa*
 keys
+xournalpp/errorlogs
+xournalpp/metadata
