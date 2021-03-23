@@ -161,6 +161,11 @@ export POWERSHELL_TELEMETRY_OPTOUT="1"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Add Snap icons to the launcher
+if [ -f "/etc/profile.d/apps-bin-path.sh" ]; then
+    emulate sh -c "source /etc/profile.d/apps-bin-path.sh"
+fi
+
 # Anaconda can be configured for zsh by running
 # "conda init zsh" in a shell that has conda enabled (such as bash)
 # >>> conda initialize >>>
