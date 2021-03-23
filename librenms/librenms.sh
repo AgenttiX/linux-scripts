@@ -95,8 +95,17 @@ fi
 echo "Do you want to install SMART support?"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) INSTALL_SMART=1;;
-        No ) INSTALL_SMART=0 ;;
+        Yes)
+            INSTALL_SMART=1
+            break
+            ;;
+        No)
+            INSTALL_SMART=0
+            break
+            ;;
+        *)
+            echo "Please use a number for the selection"
+            ;;
     esac
 done
 if [ $INSTALL_SMART -eq 1 ]; then

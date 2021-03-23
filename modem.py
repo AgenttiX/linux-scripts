@@ -98,13 +98,13 @@ def enable_location(modem: int) -> None:
             check=True, stdout=subprocess.PIPE
         )
     except subprocess.CalledProcessError as e:
-        if b"modem in initializing state" in e.stderr:
+        if e.stderr is not None and b"modem in initializing state" in e.stderr:
             print("Cannot enable location: the modem is still initializing. Try increasing the delay.")
         else:
             raise e
 
 
-def send_pin(modem: int, pin: str) -> None:
+def send_pin(modem: int, pin: str, retry: bool = True) -> None:
     try:
         subprocess.run(
             ["mmcli", "-i", str(modem), f"--pin={pin}"],
@@ -112,8 +112,11 @@ def send_pin(modem: int, pin: str) -> None:
         )
     except subprocess.CalledProcessError as e:
         # If the device is already open we don't need to do anything
-        if b"Cannot send PIN: device is not SIM-PIN locked" in e.stderr:
+        if e.stderr is not None and b"Cannot send PIN: device is not SIM-PIN locked" in e.stderr:
             print("SIM was already unlocked")
+        elif e.stderr is not None and retry and b"error: couldn't find sim at" in e.stderr and modem != 0:
+            print("SIM was not found at the modem address. Retrying with address 0.")
+            send_pin(0, pin, retry=False)
         else:
             raise e
 
