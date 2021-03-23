@@ -52,9 +52,9 @@
   <property name="snapGrid" value="true"/>
   <property name="snapGridTolerance" value="0.25000000"/>
   <property name="touchWorkaround" value="false"/>
-  <property name="selectionBorderColor" value="16711680"/>
-  <property name="backgroundColor" value="14473941"/>
-  <property name="selectionMarkerColor" value="7512015"/>
+  <property name="selectionBorderColor" value="-65536"/>
+  <property name="backgroundColor" value="-2303275"/>
+  <property name="selectionMarkerColor" value="-9265201"/>
   <!--The count of rendered PDF pages which will be cached.-->
   <!--Config for new pages-->
   <property name="pdfPageCacheSize" value="10"/>
@@ -79,7 +79,7 @@
   <property name="font" font="Sans" size="12.00000000"/>
   <data name="buttonConfig">
     <data name="default">
-      <attribute name="color" type="hex" value="000000"/>
+      <attribute name="color" type="hex" value="ff000000"/>
       <attribute name="drawingType" type="string" value="default"/>
       <attribute name="size" type="string" value="thin"/>
       <attribute name="tool" type="string" value="pen"/>
