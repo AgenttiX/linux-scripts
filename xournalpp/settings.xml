@@ -31,7 +31,7 @@
   <property name="fullscreenHideElements" value="mainMenubar"/>
   <!--Which gui elements are hidden if you are in Presentation mode, separated by a colon (,)-->
   <property name="presentationHideElements" value="mainMenubar,sidebarContents"/>
-  <property name="showBigCursor" value="false"/>
+  <property name="showBigCursor" value="true"/>
   <property name="highlightPosition" value="false"/>
   <property name="darkTheme" value="false"/>
   <property name="disableScrollbarFadeout" value="false"/>
@@ -47,7 +47,7 @@
   <property name="addVerticalSpaceAmount" value="150"/>
   <property name="drawDirModsEnabled" value="false"/>
   <property name="drawDirModsRadius" value="50"/>
-  <property name="snapRotation" value="true"/>
+  <property name="snapRotation" value="false"/>
   <property name="snapRotationTolerance" value="0.20000000"/>
   <property name="snapGrid" value="true"/>
   <property name="snapGridTolerance" value="0.25000000"/>
@@ -73,7 +73,7 @@
   <property name="strokeFilterEnabled" value="false"/>
   <property name="doActionOnStrokeFiltered" value="false"/>
   <property name="trySelectOnStrokeFiltered" value="false"/>
-  <property name="experimentalInputSystemEnabled" value="false"/>
+  <property name="experimentalInputSystemEnabled" value="true"/>
   <property name="inputSystemTPCButton" value="false"/>
   <property name="inputSystemDrawOutsideWindow" value="true"/>
   <property name="font" font="Sans" size="12.00000000"/>
@@ -96,10 +96,12 @@
       <attribute name="tool" type="string" value="none"/>
     </data>
     <data name="stylus">
-      <attribute name="tool" type="string" value="none"/>
+      <attribute name="eraserMode" type="string" value="none"/>
+      <attribute name="size" type="string" value="thin"/>
+      <attribute name="tool" type="string" value="eraser"/>
     </data>
     <data name="stylus2">
-      <attribute name="tool" type="string" value="none"/>
+      <attribute name="tool" type="string" value="hand"/>
     </data>
     <data name="touch">
       <attribute name="device" type="string" value=""/>
@@ -107,7 +109,40 @@
       <attribute name="tool" type="string" value="none"/>
     </data>
   </data>
-  <data name="deviceClasses"/>
+  <data name="deviceClasses">
+    <data name="Generic USB Audio Consumer Control">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
+    <data name="Logitech G502">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
+    <data name="Virtual core XTEST pointer">
+      <attribute name="deviceClass" type="int" value="0"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
+    <data name="Wacom Co.,Ltd. Intuos BT M stylus">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="1"/>
+    </data>
+    <data name="Wacom Intuos BT M Pad pad">
+      <attribute name="deviceClass" type="int" value="0"/>
+      <attribute name="deviceSource" type="int" value="8"/>
+    </data>
+    <data name="Wacom Intuos BT M Pen cursor">
+      <attribute name="deviceClass" type="int" value="0"/>
+      <attribute name="deviceSource" type="int" value="3"/>
+    </data>
+    <data name="Wacom Intuos BT M Pen eraser">
+      <attribute name="deviceClass" type="int" value="3"/>
+      <attribute name="deviceSource" type="int" value="2"/>
+    </data>
+    <data name="Wacom Intuos BT M Pen stylus">
+      <attribute name="deviceClass" type="int" value="2"/>
+      <attribute name="deviceSource" type="int" value="1"/>
+    </data>
+  </data>
   <data name="tools">
     <attribute name="current" type="string" value="pen"/>
     <data name="drawArrow">
@@ -124,8 +159,8 @@
     </data>
     <data name="eraser">
       <attribute name="drawingType" type="string" value="default"/>
-      <attribute name="size" type="string" value="MEDIUM"/>
-      <attribute name="type" type="string" value="default"/>
+      <attribute name="size" type="string" value="THIN"/>
+      <attribute name="type" type="string" value="deleteStroke"/>
     </data>
     <data name="hand">
       <attribute name="drawingType" type="string" value="default"/>
@@ -142,7 +177,7 @@
     </data>
     <data name="pen">
       <attribute name="color" type="hex" value="3333cc"/>
-      <attribute name="drawingType" type="string" value="default"/>
+      <attribute name="drawingType" type="string" value="strokeRecognizer"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="MEDIUM"/>
@@ -171,5 +206,11 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
   </data>
-  <data name="touch"/>
+  <data name="touch">
+    <attribute name="cmdDisable" type="string" value=""/>
+    <attribute name="cmdEnable" type="string" value=""/>
+    <attribute name="disableTouch" type="boolean" value="false"/>
+    <attribute name="method" type="string" value="auto"/>
+    <attribute name="timeout" type="int" value="1000"/>
+  </data>
 </settings>
