@@ -189,3 +189,8 @@ ROOT_SCRIPT="${HOME}/Downloads/root/bin/thisroot.sh"
 if [ -f $ROOT_SCRIPT ]; then
     source $ROOT_SCRIPT
 fi
+
+# Manual fix for ROCm OpenCL
+if [ -d "/opt/rocm" ]; then
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/rocm/lib:/opt/rocm/opencl/lib"
+fi
