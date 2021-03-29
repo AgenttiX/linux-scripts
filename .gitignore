@@ -14,15 +14,15 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 
 # Misc
+*.tar.gz
 ethminer
 ethminer.txt
 ethminer_config.sh
 Geekbench-*
-*.tar.gz
-logs
-modem-pin.txt
 id_rsa*
 keys
+logs
+modem-pin.txt
 xournalpp/autosave
 xournalpp/errorlogs
 xournalpp/metadata
