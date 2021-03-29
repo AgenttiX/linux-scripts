@@ -15,6 +15,7 @@ zsh-syntax-highlighting
 
 # Misc
 *.tar.gz
+crypto/nanominer-linux-*
 ethminer
 ethminer.txt
 ethminer_config.sh
