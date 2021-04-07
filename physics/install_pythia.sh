@@ -28,6 +28,6 @@ cd $PYTHIA_FOLDER
 # At the moment they are not generated for some reason.
 # alias python="/usr/bin/python3"
 # --with-python-bin=/usr/bin
-./configure --prefix=/usr/local --with-gzip --with-openmp --with-python --with-python-config=python3-config --with-lhapdf6
+./configure --prefix=/usr/local --with-gzip --with-lhapdf6 --with-openmp --with-python --with-python-config=python3-config
 make -j"$(nproc)"
 sudo make install
