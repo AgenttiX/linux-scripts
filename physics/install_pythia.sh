@@ -38,5 +38,11 @@ cd $PYTHIA_FOLDER
   --with-python-include="$(python3 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")" \
   --with-python-lib="$(python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
   # --with-python-bin=/usr/bin
+read -p "Is this configuration ok? " -n 1 -r
+echo
+if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+  exit
+fi
+
 make -j"$(nproc)"
 sudo make install
