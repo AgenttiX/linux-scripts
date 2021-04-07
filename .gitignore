@@ -22,6 +22,7 @@ ethminer_config.sh
 Geekbench-*
 id_rsa*
 keys
+LHAPDF*
 logs
 modem-pin.txt
 xournalpp/autosave
