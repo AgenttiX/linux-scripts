@@ -1,4 +1,7 @@
 # For Wacom script
+# Despite the warning from FOSSA, python-xlib is licensed with LGPLv2+
+# https://github.com/python-xlib/python-xlib
+# https://pypi.org/project/python-xlib/
 python-xlib >= 0.29
 
 # For LibreNMS log spam cleaner
