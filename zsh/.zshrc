@@ -190,7 +190,12 @@ if [ -f $ROOT_SCRIPT ]; then
     source $ROOT_SCRIPT
 fi
 
-# Manual fix for ROCm OpenCL
+# Fix ROCm OpenCL
 if [ -d "/opt/rocm" ]; then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/rocm/lib:/opt/rocm/opencl/lib"
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
+fi
+
+# Fix Pythia 8 Python bindings
+if [ -d "/usr/local/share/Pythia8/" ]; then
+    export PYTHONPATH="${PYTHONPATH}:/usr/local/lib"
 fi
