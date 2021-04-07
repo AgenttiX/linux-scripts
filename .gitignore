@@ -15,6 +15,7 @@ zsh-syntax-highlighting
 
 # Misc
 *.tar.gz
+*.tgz
 crypto/nanominer-linux-*
 ethminer
 ethminer.txt
@@ -25,6 +26,7 @@ keys
 LHAPDF*
 logs
 modem-pin.txt
+pythia8*
 xournalpp/autosave
 xournalpp/errorlogs
 xournalpp/metadata
