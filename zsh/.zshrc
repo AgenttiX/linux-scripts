@@ -199,3 +199,12 @@ fi
 if [ -d "/usr/local/share/Pythia8/" ]; then
     export PYTHONPATH="${PYTHONPATH}:/usr/local/lib"
 fi
+
+# Enable Geant4
+GEANT_SCRIPT="/usr/local/bin/geant4.sh"
+if [ -f $GEANT_SCRIPT ]; then
+    PWD_BEFORE_GEANT4="$(pwd)"
+    cd /usr/local/bin
+    source $GEANT_SCRIPT
+    cd $PWD_BEFORE_GEANT4
+fi
