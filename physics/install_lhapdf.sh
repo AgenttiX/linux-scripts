@@ -15,7 +15,11 @@ LHAPDF_VERSION="6.3.0"
 LHAPDF_FOLDER="LHAPDF-${LHAPDF_VERSION}"
 LHAPDF_FILE="${LHAPDF_FOLDER}.tar.gz"
 
-wget "https://lhapdf.hepforge.org/downloads/?f=${LHAPDF_FILE}" -O "${LHAPDF_FILE}"
+if ! [ -f "$GEANT_FILE" ]; then
+  wget "https://lhapdf.hepforge.org/downloads/?f=${LHAPDF_FILE}" -O $LHAPDF_FILE
+else
+  echo "Using already downloaded sources."
+fi
 tar xf $LHAPDF_FILE
 cd $LHAPDF_FOLDER
 

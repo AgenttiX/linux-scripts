@@ -22,9 +22,12 @@ sudo apt-get install python3-dev
 PYTHIA_VERSION="8303"
 PYTHIA_FOLDER="pythia${PYTHIA_VERSION}"
 PYTHIA_FILE="${PYTHIA_FOLDER}.tgz"
-PYTHIA_URL="http://home.thep.lu.se/~torbjorn/pythia8/${PYTHIA_FILE}"
 
-wget $PYTHIA_URL -O $PYTHIA_FILE
+if ! [ -f "$GEANT_FILE" ]; then
+  wget "http://home.thep.lu.se/~torbjorn/pythia8/${PYTHIA_FILE}" -O $PYTHIA_FILE
+else
+  echo "Using already downloaded sources."
+fi
 tar xvfz $PYTHIA_FILE
 cd $PYTHIA_FOLDER
 
