@@ -207,4 +207,6 @@ if [ -f $GEANT_SCRIPT ]; then
     cd /usr/local/bin
     source $GEANT_SCRIPT
     cd $PWD_BEFORE_GEANT4
+    # PYTHON_VERSION_STR=$(python3 -c "import sys; print('.'.join(map(str, sys.version_info[:2])))")
+    # export PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python${PYTHON_VERSION_STR}/site-packages"
 fi
