@@ -20,6 +20,7 @@ sudo apt-get install \
   libxmu-dev \
   python3-dev \
   python3-pip \
+  qt5-default \
   wget
 sudo pip3 install scikit-build
 # Timemory requires that scikit-build is already installed
