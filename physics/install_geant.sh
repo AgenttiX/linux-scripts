@@ -18,8 +18,9 @@ sudo apt-get install \
   libxerces-c-dev \
   libxmu-dev \
   python3-dev \
+  python3-pip \
   wget
-
+sudo pip3 install scikit-build timemory
 
 GEANT_VERSION="4.10.07.p01"
 GEANT_FOLDER="geant${GEANT_VERSION}"
@@ -52,6 +53,8 @@ cmake .. \
   # -DGEANT4_USE_INVENTOR=ON \
   # -DGEANT4_USE_INVENTOR_QT=ON \
   # -DGEANT4_USE_TBB=ON \
+  # This requires Timemory 3.2, but the latest version on PyPi is 3.1 as of 2021-04-15
+  # -DGEANT4_USE_TIMEMORY=ON \
 make -j"$(nproc)"
 sudo make install
 
