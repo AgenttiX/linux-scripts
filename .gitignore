@@ -20,6 +20,7 @@ crypto/nanominer-linux-*
 ethminer
 ethminer.txt
 ethminer_config.sh
+geant4.*
 Geekbench-*
 id_rsa*
 keys
