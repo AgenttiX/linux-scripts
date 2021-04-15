@@ -59,6 +59,8 @@ make -j"$(nproc)"
 sudo make install
 
 PYTHON3_VERSION_STR=$(python3 -c "import sys; print('.'.join(map(str, sys.version_info[:2])))")
-sudo ln -s "/usr/local/lib/python${PYTHON3_VERSION_STR}/site-packages/Geant4" "/usr/local/lib/python${PYTHON3_VERSION_STR}/dist-packages/Geant4"
+if ! [ -d "/usr/local/lib/python${PYTHON3_VERSION_STR}/dist-packages/Geant4" ]; then
+  sudo ln -s "/usr/local/lib/python${PYTHON3_VERSION_STR}/site-packages/Geant4" "/usr/local/lib/python${PYTHON3_VERSION_STR}/dist-packages/Geant4"
+fi
 
 echo "Geant has been installed. You can now safely remove the build folder."
