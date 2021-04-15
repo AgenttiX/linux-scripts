@@ -119,6 +119,7 @@ if [ -f $STDERRED_PATH ]; then
 else
     echo "stderred was not found. Please install it or remove it from .zshrc."
 fi
+unset STDERRED_PATH
 
 # Colorls configuration
 # https://github.com/athityakumar/colorls
@@ -129,6 +130,7 @@ if command -v gem &> /dev/null; then
     else
         echo "Colorls was not found. Please install it with \"gem install colorls\" or remove it form .zshrc."
     fi
+    unset COLORLS_PATH
 else
     echo "Gem was not found. Please install Ruby."
 fi
@@ -189,6 +191,7 @@ ROOT_SCRIPT="${HOME}/Downloads/root/bin/thisroot.sh"
 if [ -f $ROOT_SCRIPT ]; then
     source $ROOT_SCRIPT
 fi
+unset ROOT_SCRIPT
 
 # Fix ROCm OpenCL
 if [ -d "/opt/rocm" ]; then
@@ -209,4 +212,6 @@ if [ -f $GEANT_SCRIPT ]; then
     cd $PWD_BEFORE_GEANT4
     # PYTHON_VERSION_STR=$(python3 -c "import sys; print('.'.join(map(str, sys.version_info[:2])))")
     # export PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python${PYTHON_VERSION_STR}/site-packages"
+    # unset PYTHON_VERSION_STR
 fi
+unset GEANT_SCRIPT
