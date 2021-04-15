@@ -11,6 +11,7 @@ fi
 sudo apt-get install \
   build-essential \
   cmake \
+  cython3 \
   libboost-dev \
   libboost-python-dev \
   libhdf5-dev \
@@ -20,7 +21,9 @@ sudo apt-get install \
   python3-dev \
   python3-pip \
   wget
-sudo pip3 install scikit-build timemory
+sudo pip3 install scikit-build
+# Timemory requires that scikit-build is already installed
+sudo pip3 install timemory
 
 GEANT_VERSION="4.10.07.p01"
 GEANT_FOLDER="geant${GEANT_VERSION}"
