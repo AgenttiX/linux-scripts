@@ -20,7 +20,7 @@ RUN apt-get update \
 
 RUN mkdir /geekbench \
     && cd /geekbench \
-    && wget https://cdn.geekbench.com/Geekbench-5.2.0-Linux.tar.gz -O geekbench5.tar.gz \
+    && wget https://cdn.geekbench.com/Geekbench-5.4.0-Linux.tar.gz -O geekbench5.tar.gz \
     && wget https://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz -O geekbench4.tar.gz \
     && wget https://cdn.primatelabs.com/Geekbench-3.4.2-Linux.tar.gz -O geekbench3.tar.gz \
     && wget https://cdn.primatelabs.com/Geekbench-2.4.3-Linux.tar.gz -O geekbench2.tar.gz \
