@@ -194,6 +194,7 @@ fi
 unset ROOT_SCRIPT
 
 # Fix ROCm OpenCL
+# By default clinfo and other OpenCL applications might not see the ROCm driver.
 if [ -d "/opt/rocm" ]; then
     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
 fi
