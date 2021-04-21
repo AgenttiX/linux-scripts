@@ -16,7 +16,10 @@ zsh-syntax-highlighting
 # Misc
 *.tar.gz
 *.tgz
+*.zip
 crypto/nanominer-linux-*
+crypto/PhoenixMiner_*
+crypto/teamredminer-v*
 ethminer
 ethminer.txt
 ethminer_config.sh
