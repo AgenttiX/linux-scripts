@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 # Based on the instructions at
 # https://www.mv.helsinki.fi/home/slehti/ComputingMethodsInHEP/ComputingMethodsInHEP.html
