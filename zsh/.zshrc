@@ -216,3 +216,6 @@ if [ -f $GEANT_SCRIPT ]; then
     # unset PYTHON_VERSION_STR
 fi
 unset GEANT_SCRIPT
+
+# Configure NorduGrid ARC
+export X509_CERT_DIR="${HOME}/.globus"
