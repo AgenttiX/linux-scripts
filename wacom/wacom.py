@@ -171,11 +171,21 @@ def main():
     #     area_y = 1440
     #     print(area_x, area_y)
     #     stylus.set_output(area_x, area_y, 1920+180, 0)
+
+    # For the ultrawide monitor
     if big_monitor is not None:
         area_y = 1440
         area_x = int(tablet_aspect_ratio * 1440)
         print(area_x, area_y)
         stylus.set_output(area_x, area_y, 1920, 0)
+    # For laptop
+    elif "eDP-1" in monitors.keys():
+        area_x, area_y = monitors["eDP-1"]
+        # If there is a secondary monitor
+        if "HDMI-2" in monitors.keys():
+            stylus.set_output(area_x, area_y, monitors["HDMI-2"][0], 0)
+        else:
+            stylus.set_output(area_x, area_y, 0, 0)
 
 
 if __name__ == "__main__":
