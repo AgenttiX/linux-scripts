@@ -6,4 +6,10 @@
 
 ETHMINER="./ethminer/ethminer"
 "$ETHMINER" --list-devices
-"$ETHMINER" -P "${SCHEME}://${ADDRESS}@${SERVER}:${PORT}"
+# Restart ethminer if it dies
+# https://stackoverflow.com/a/697064/
+while true; do
+  "$ETHMINER" -P "${SCHEME}://${ADDRESS}@${SERVER}:${PORT}"
+  echo "Ethminer shut down. Restarting."
+  sleep 30
+done
