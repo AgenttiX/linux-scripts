@@ -140,7 +140,7 @@ def get_display_info(name: str = ":0") -> tp.Dict[str, tp.Tuple[int, int]]:
     return monitors
 
 
-def main():
+def main(use_big: bool = True):
     logger.info("Running Wacom script")
     utils.alert_if_root(fail=True)
     stylus = Device("Wacom Intuos BT M Pen stylus")
@@ -174,10 +174,13 @@ def main():
 
     # For the ultrawide monitor
     if big_monitor is not None:
-        area_y = 1440
-        area_x = int(tablet_aspect_ratio * 1440)
-        print(area_x, area_y)
-        stylus.set_output(area_x, area_y, 1920, 0)
+        if use_big:
+            area_y = 1440
+            area_x = int(tablet_aspect_ratio * 1440)
+            print(area_x, area_y)
+            stylus.set_output(area_x, area_y, 1920, 0)
+        else:
+            stylus.set_output(1920, 1080, 0, 0)
     # For laptop
     elif "eDP-1" in monitors.keys():
         area_x, area_y = monitors["eDP-1"]
@@ -189,4 +192,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(use_big=True)
