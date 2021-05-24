@@ -17,6 +17,8 @@ zsh-syntax-highlighting
 *.tar.gz
 *.tgz
 *.zip
+android/platform-tools
+android/platform-tools-latest-linux.zip
 crypto/nanominer-linux-*
 crypto/PhoenixMiner_*
 crypto/teamredminer-v*
