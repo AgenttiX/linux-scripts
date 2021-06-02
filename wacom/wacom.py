@@ -199,7 +199,7 @@ def main(use_big: bool = True):
 
     tablet_resolution = (21600, 13500)
     tablet_aspect_ratio = tablet_resolution[0] / tablet_resolution[1]
-    print("Tablet aspect ratio:", tablet_aspect_ratio)
+    logger.info(f"Tablet aspect ratio: {tablet_aspect_ratio}")
     # if big_monitor is not None:
     #     print(big_monitor)
     #     stylus.rotate(Rotation.CW)
@@ -213,7 +213,7 @@ def main(use_big: bool = True):
         if use_big:
             area_y = 1440
             area_x = int(tablet_aspect_ratio * 1440)
-            print(area_x, area_y)
+            logger.info(f"Tablet area: ({area_x}, {area_y})")
             stylus.set_output(area_x, area_y, 1920, 0)
         else:
             stylus.set_output(1920, 1080, 0, 0)
