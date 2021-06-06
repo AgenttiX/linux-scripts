@@ -14,6 +14,9 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 
 # Misc
+*.ab
+*.jar
+*.tar
 *.tar.gz
 *.tgz
 *.zip
