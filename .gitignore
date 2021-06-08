@@ -35,6 +35,7 @@ keys
 LHAPDF*
 logs
 modem-pin.txt
+physics/kale/config.sh
 pythia8*
 xournalpp/autosave
 xournalpp/errorlogs
