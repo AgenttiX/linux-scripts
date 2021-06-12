@@ -68,6 +68,12 @@ class Device:
         self.name = name
         self.dev_id = dev_id
         self.dev_type = dev_type
+        if name.startswith("Wacom Co.,Ltd. Intuos BT M"):
+            logger.warning(
+                f"Found device \"{name}\" in Android mode. Only a part of the tablet surface will be usable. "
+                "Holding the left- and rightmost keys at the same time may switch the tablet to PC mode. "
+                f"ID = {dev_id}, type = {dev_type}."
+            )
 
     @classmethod
     def create_by_names(cls, names: tp.List[str]) -> "Device":
