@@ -17,12 +17,17 @@ if $UMOUNT; then
   fusermount -u "${MOUNTPOINT}/wrkdir"
 else
   if [ ! -d "${MOUNTPOINT}" ]; then
+    echo "Mountpoint \"${MOUNTPOINT}\" did not exist. Creating."
     sudo mkdir -p "${MOUNTPOINT}/home" "${MOUNTPOINT}/proj" "${MOUNTPOINT}/wrkdir"
     sudo chown "${USER}" "${MOUNTPOINT}/home" "${MOUNTPOINT}/proj" "${MOUNTPOINT}/wrkdir"
   fi
+  # Load KALE_USERNAME from config.sh
   . "./config.sh"
   HOST_STR="${KALE_USERNAME}@kale.grid.helsinki.fi"
+  echo "Mounting home"
   sshfs "${HOST_STR}:/home/${KALE_USERNAME}" "${MOUNTPOINT}/home"
+  echo "Mounting proj"
   sshfs "${HOST_STR}:/proj/${KALE_USERNAME}" "${MOUNTPOINT}/proj"
+  echo "Mounting wrkdir"
   sshfs "${HOST_STR}:/wrk/users/${KALE_USERNAME}" "${MOUNTPOINT}/wrkdir"
 fi
