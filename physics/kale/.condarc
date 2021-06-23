@@ -1,0 +1,7 @@
+# The home directory does not have enough space for the conda packages
+
+envs_dirs:
+  - $WRKDIR/conda/envs
+
+pkgs_dirs:
+  - $WRKDIR/conda/pkgs
