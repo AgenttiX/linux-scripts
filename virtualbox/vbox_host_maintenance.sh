@@ -1,4 +1,4 @@
-#!/usr/bin/bash -e
+#!/bin/bash -e
 # This script optimizes all VirtualBox disk images on the host.
 # This requires that the free space in the guests has already been zeroed.
 
