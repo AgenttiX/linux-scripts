@@ -9,10 +9,25 @@ if [ "$EUID" -eq 0 ]; then
   exit 1
 fi
 
+echo "Which version of ROCm would you like to install? (Empty for latest.)"
+echo "Please have a look at https://repo.radeon.com/rocm/apt/ for the available versions."
+read -r ROCM_VERSION
+if [ -z "${ROCM_VERSION}" ]; then
+  echo "Using default version."
+  ROCM_VERSION="debian"
+else
+  echo "Using version: ${ROCM_VERSION}"
+fi
+
+echo "Which release channel would you like to use? (\"ubuntu\" for >= 4.20, \"xenial\" for older.)"
+read -r RELEASE_CHANNEL
+echo "Using release channel: ${RELEASE_CHANNEL}"
+
 echo "Removing old ROCm installation."
 # Removing "*amgdpu*" would cause the dependency tree of some higher-level packages to break,
-# and "*rocm*" seems to be sufficient to fix the bugs such as CPU-only desktop rendering.
-sudo apt purge "*rocm*"
+# and the command below seems to be sufficient to fix the bugs such as CPU-only desktop rendering.
+sudo apt purge --ignore-missing  "rocm-*" "rock-*" rocminfo
+sudo apt autoremove
 
 sudo apt-get update
 sudo apt-get dist-upgrade
@@ -20,11 +35,11 @@ sudo apt-get dist-upgrade
 sudo apt install clinfo gnupg2 libnuma-dev wget
 
 wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
-echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ ubuntu main' | sudo tee /etc/apt/sources.list.d/rocm.list
+echo "deb [arch=amd64] https://repo.radeon.com/rocm/apt/${ROCM_VERSION}/ ${RELEASE_CHANNEL} main" | sudo tee /etc/apt/sources.list.d/rocm.list
 sudo apt-get update
 
-# The OpenCL packages should be included in rocm-dkms but are included here just in case.
-sudo apt-get install rocm-dkms rocm-opencl
+# The OpenCL packages should be included in the base rocm installation but are included here just in case.
+sudo apt-get install rocm-dev rocm-opencl-dev rocminfo
 
 echo "Printing debug info. It may take a reboot for it to update."
 clinfo
