@@ -25,6 +25,7 @@ android/platform-tools-latest-linux.zip
 crypto/nanominer-linux-*
 crypto/PhoenixMiner_*
 crypto/teamredminer-v*
+drivers/backup
 ethminer
 ethminer.txt
 ethminer_config.sh
