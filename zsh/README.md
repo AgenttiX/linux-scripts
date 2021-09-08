@@ -4,7 +4,7 @@ Zsh is an awesome shell with the extensive plugin collection
 You can install and configure it by cd'ing to the root
 of this repository and executing the following commands.
 
-```
+``` bash
 sudo apt-get update
 sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -19,7 +19,7 @@ Installation of additional plugins,
 [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 and
 [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting):
-```
+``` bash
 mkdir -p ${ZSH_CUSTOM}/plugins
 cd ${ZSH_CUSTOM}/plugins
 git clone git@github.com:marlonrichert/zsh-autocomplete.git
@@ -33,7 +33,7 @@ first download all the
 [MesloLGS theme files](https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k)
 and set it as your default terminal font.
 Then run the following commands.
-```
+``` bash
 mkdir -p ${ZSH_CUSTOM}/themes
 cd ${ZSH_CUSTOM}/themes
 git clone git@github.com:romkatv/powerlevel10k.git

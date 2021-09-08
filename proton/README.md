@@ -2,7 +2,7 @@
 
 ### Among Us
 Launch options:
-```
+``` bash
 PROTON_NO_ESYNC=1 PROTON_USE_WINED3D=1 %command%
 ```
 

@@ -5,6 +5,6 @@
 
 To use these configurations, run the command below.
 You may have to adjust the path corresponding to this repository.
-```
-ln -s $HOME/Git/linux-scripts/neovim $HOME/.config/nvim
+``` bash
+ln -s "${HOME}/Git/linux-scripts/neovim" "${HOME}/.config/nvim"
 ```
