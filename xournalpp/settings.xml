@@ -35,7 +35,7 @@
   <!--Which gui elements are hidden if you are in Presentation mode, separated by a colon (,)-->
   <property name="presentationHideElements" value="mainMenubar,sidebarContents"/>
   <!--The cursor icon used with a stylus, allowed values are "none", "dot", "big"-->
-  <property name="stylusCursorType" value="dot"/>
+  <property name="stylusCursorType" value="big"/>
   <property name="highlightPosition" value="false"/>
   <property name="cursorHighlightColor" value="2164260608"/>
   <property name="cursorHighlightBorderColor" value="2147483903"/>
