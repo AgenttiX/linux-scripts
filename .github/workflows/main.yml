@@ -24,7 +24,7 @@ jobs:
         pip --cache-dir=.pip install -r requirements.txt
     - name: Install FOSSA
       run: |
-        curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+        curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash
     - name: Run FOSSA
       run: fossa analyze
       env:
