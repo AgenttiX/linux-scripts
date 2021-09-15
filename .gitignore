@@ -15,6 +15,7 @@ zsh-syntax-highlighting
 
 # Misc
 *.ab
+*.bak
 *.jar
 *.tar
 *.tar.gz
@@ -36,6 +37,9 @@ keys
 LHAPDF*
 logs
 modem-pin.txt
+obs-studio/basic/profiles/**/service.json
+obs-studio/plugin_config/rtmp-services
+obs-studio/profiler_data
 physics/csc/config.sh
 physics/kale/config.sh
 pythia8*
