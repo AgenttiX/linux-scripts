@@ -229,7 +229,8 @@ def main(use_big: bool = True):
         area_x, area_y = monitors["eDP-1"]
         # If there is a secondary monitor
         if "HDMI-2" in monitors.keys():
-            stylus.set_output(area_x, area_y, monitors["HDMI-2"][0], 0)
+            # stylus.set_output(area_x, area_y, monitors["HDMI-2"][0], 0)
+            stylus.set_output(area_x, area_y, 0, 0)
         else:
             stylus.set_output(area_x, area_y, 0, 0)
 
