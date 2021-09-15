@@ -197,6 +197,7 @@ def main(use_big: bool = True):
 
     monitors = get_display_info()
     monitor_names = list(monitors.keys())
+    logger.info("Found monitors: %s", monitor_names)
     resolutions = list(monitors.values())
     try:
         big_monitor = monitor_names[resolutions.index((3440, 1440))]
