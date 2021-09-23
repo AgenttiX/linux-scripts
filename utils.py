@@ -65,6 +65,16 @@ def alert_if_root(fail: bool = False):
         logger.warning(text)
 
 
+def alert_if_not_root(fail: bool = True):
+    if os.geteuid() != 0:
+        text = "This script should be run as root."
+        if fail:
+            logger.error(text)
+            raise PermissionError(text)
+        print(text)
+        logger.warning(text)
+
+
 def print_info(text: str):
     print(text)
     logger.info(text)

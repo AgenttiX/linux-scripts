@@ -18,6 +18,8 @@ import subprocess
 import time
 import typing as tp
 
+# import utils
+
 PIN_PATH: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modem-pin.txt")
 
 
@@ -129,6 +131,7 @@ def connect(bearer: int):
 
 
 def main():
+    # utils.alert_if_not_root()
     pin = read_pin(PIN_PATH)
     modem = modem_number()
 
