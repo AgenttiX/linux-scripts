@@ -82,7 +82,10 @@ ZSH_AUTOSUGGEST_USE_ASYNC="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     # Oh my Zsh plugins
-    adb celery cp docker git npm nvm pip pylint rsync sudo ubuntu ufw virtualenv
+    adb celery cp docker git npm nvm pip pylint rsync ubuntu ufw virtualenv
+    # These have been removed
+    # - django: deprecated
+    # - sudo: was annoying when combined with the autocomplete plugins
     # Custom plugins
     zsh-autocomplete
     zsh-autosuggestions
