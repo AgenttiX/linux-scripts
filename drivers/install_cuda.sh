@@ -6,7 +6,7 @@
 # You can find cuDNN at
 # https://developer.nvidia.com/rdp/cudnn-download
 
-if ! [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -ne 0 ]; then
   echo "This script should be run as root."
   exit 1
 fi

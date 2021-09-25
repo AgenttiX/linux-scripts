@@ -16,9 +16,9 @@
 # You can find some MSM images here:
 # https://www.thecustomdroid.com/oneplus-6-6t-unbrick-guide/
 
-if [ "$EUID" -ne 0 ]; then
+if [ "${EUID}" -ne 0 ]; then
   echo "This script should be run as root to ensure that fastboot works correctly."
-  exit
+  exit 1
 fi
 
 # https://stackoverflow.com/a/246128/

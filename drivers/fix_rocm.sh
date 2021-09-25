@@ -4,7 +4,7 @@
 # Based on the official installation instructions.
 # https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html
 
-if [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
   exit 1
 fi

@@ -4,9 +4,9 @@
 # This should not be done, unless you want to completely wipe
 # the device from any possible malware, or have recently re-flashed the device with MSM.
 
-if [ "$EUID" -ne 0 ]; then
+if [ "${EUID}" -ne 0 ]; then
   echo "This script should be run as root to ensure that adb works correctly."
-  exit
+  exit 1
 fi
 
 # https://stackoverflow.com/a/246128/

@@ -1,6 +1,11 @@
 #!/bin/bash -e
 # LibreNMS client installation
 
+if [ "${EUID}" -ne 0 ]; then
+   echo "This script should be run as root."
+   exit 1
+fi
+
 apt-get update
 if ! command -v wget &> /dev/null
 then

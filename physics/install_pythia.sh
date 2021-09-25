@@ -7,9 +7,9 @@
 # a) Add Pythia library folder /usr/local/lib to $PYTHONPATH in .zshrc or a similar global config file
 # b) Add Pythia library folder to $PATH or $PYTHONPATH dynamically as in /usr/local/share/Pythia8/examples/main01.py
 
-if [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
-  exit
+  exit 1
 fi
 
 if ! [ -f "/usr/local/bin/lhapdf" ]; then

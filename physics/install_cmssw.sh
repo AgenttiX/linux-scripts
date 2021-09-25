@@ -14,9 +14,9 @@
 # Attempting to install CMSSW as root will result in
 # "*** CMS SOFTWARE INSTALLATION ABORTED ***"
 # "CMS software cannot be installed as the super-user."
-if [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
-  exit
+  exit 1
 fi
 
 export VO_CMS_SW_DIR="/usr/local/cmssw"

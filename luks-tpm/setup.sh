@@ -2,6 +2,11 @@
 # This script enables automatic TPM-based unlocking of the LUKS encrypted
 # root partition with a fallback to password query.
 
+if [ "${EUID}" -ne 0 ]; then
+   echo "This script should be run as root."
+   exit 1
+fi
+
 apt-get update
 apt-get install -y tpm2-initramfs-tool
 read -s -p "Please input the current LUKS passphrase:" luks_passphrase

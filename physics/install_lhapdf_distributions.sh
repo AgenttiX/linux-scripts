@@ -1,8 +1,8 @@
 #!/usr/bin/bash -e
 
-if [ "$EUID" -ne 0 ]; then
+if [ "${EUID}" -ne 0 ]; then
   echo "This script should be run as root."
-  exit
+  exit 1
 fi
 
 PDF_FOLDER="/usr/local/share/LHAPDF"

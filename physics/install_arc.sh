@@ -2,7 +2,7 @@
 
 # Todo: this script is not yet complete
 
-if [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
   exit 1
 fi

@@ -3,9 +3,9 @@
 # Installation script for LHAPDF
 # https://lhapdf.hepforge.org/
 
-if [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
-  exit
+  exit 1
 fi
 
 sudo apt-get install build-essential python3-dev wget

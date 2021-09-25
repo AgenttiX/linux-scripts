@@ -3,9 +3,9 @@
 # Installation script for Geant4
 # https://geant4.web.cern.ch/
 
-if [ "$EUID" -eq 0 ]; then
+if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
-  exit
+  exit 1
 fi
 
 sudo apt-get install \
