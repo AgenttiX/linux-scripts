@@ -5,6 +5,8 @@
 
 FROM nvidia/cuda:11.4.2-base-ubuntu20.04
 
+WORKDIR /geekbench
+
 RUN apt-get update \
     && apt-get install -y \
         wget \
@@ -18,9 +20,7 @@ RUN apt-get update \
         # This should enable Vulkan support (but does not work yet)
         mesa-vulkan-drivers
 
-RUN mkdir /geekbench \
-    && cd /geekbench \
-    && wget https://cdn.geekbench.com/Geekbench-5.4.0-Linux.tar.gz -O geekbench5.tar.gz \
+RUN wget https://cdn.geekbench.com/Geekbench-5.4.0-Linux.tar.gz -O geekbench5.tar.gz \
     && wget https://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz -O geekbench4.tar.gz \
     && wget https://cdn.primatelabs.com/Geekbench-3.4.2-Linux.tar.gz -O geekbench3.tar.gz \
     && wget https://cdn.primatelabs.com/Geekbench-2.4.3-Linux.tar.gz -O geekbench2.tar.gz \
