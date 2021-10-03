@@ -3,17 +3,17 @@
 # To run this image with GPU support enabled, use
 # nvidia-docker run -it <image_name>
 
-FROM nvidia/cuda:11.2.0-base
+FROM nvidia/cuda:11.4.2-base-ubuntu20.04
 
 RUN apt-get update \
     && apt-get install -y \
         wget \
         # This resolves the error
         # [1111/070916:FATAL:src/halogen/cuda/cuda_library.cpp(1713)] Failed to load nvmlInit_v2: /geekbench/Geekbench-5.2.0-Linux/geekbench_x86_64: undefined symbol: nvmlInit_v2
-        libnvidia-compute-450 \
+        libnvidia-compute-470 \
         # These resolve the error
         # [1111/073032:WARNING:src/halogen/cl/opencl_library.cpp(691)] Cannot find or load OpenCL library.
-        libnvidia-gl-450 \
+        libnvidia-gl-470 \
         ocl-icd-libopencl1 \
         # This should enable Vulkan support (but does not work yet)
         mesa-vulkan-drivers
