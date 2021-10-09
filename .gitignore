@@ -16,8 +16,10 @@ zsh-syntax-highlighting
 # Misc
 *.ab
 *.bak
+*.bin
 *.bk
 *.jar
+*.ps2
 *.tar
 *.tar.gz
 *.tgz
