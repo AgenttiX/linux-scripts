@@ -96,6 +96,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Add user scripts to PATH
+export PATH="${HOME}/.local/bin:${PATH}"
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
