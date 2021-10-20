@@ -228,9 +228,13 @@ def main(use_big: bool = True):
     elif "eDP-1" in monitors.keys():
         area_x, area_y = monitors["eDP-1"]
         # If there is a secondary monitor
-        if "HDMI-2" in monitors.keys():
-            # stylus.set_output(area_x, area_y, monitors["HDMI-2"][0], 0)
-            stylus.set_output(area_x, area_y, 0, 0)
+        for port in monitors.keys():
+            if port != "eDP-1":
+                logger.info("External monitor detected at %s. Using internal display.", port)
+                # TODO: configure this so that it recognizes the arrangement of the displays
+                # stylus.set_output(area_x, area_y, monitors[port][0], 0)
+                stylus.set_output(area_x, area_y, 0, 0)
+                break
         else:
             stylus.set_output(area_x, area_y, 0, 0)
 
