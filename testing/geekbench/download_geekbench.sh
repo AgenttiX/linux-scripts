@@ -1,4 +1,5 @@
 #!/bin/sh -e
+# TODO: Work in progress
 
 wget https://cdn.geekbench.com/Geekbench-5.4.0-Linux.tar.gz -O geekbench5.tar.gz
 wget https://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz -O geekbench4.tar.gz
