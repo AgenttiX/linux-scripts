@@ -6,7 +6,7 @@ if [ "${EUID}" -eq 0 ]; then
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-DIR="${SCRIPT_DIR}/logs/report"
+export DIR="${SCRIPT_DIR}/report"
 
 if [ -z "${DIR}" ]; then
   echo "Could not configure directory variable: ${DIR}"
@@ -85,6 +85,8 @@ else
   echo "rocm-smi was not yet found."
 fi
 
-# Packaging
-7zr a -mx=9 "${DIR}_$(date '+%Y-%m-%d_%H-%M-%S').7z" "${DIR}"
-echo "The report is ready."
+if [ "$1" != "--no-report" ]; then
+  # Packaging
+  7zr a -mx=9 "${DIR}_$(date '+%Y-%m-%d_%H-%M-%S').7z" "${DIR}"
+  echo "The report is ready."
+fi
