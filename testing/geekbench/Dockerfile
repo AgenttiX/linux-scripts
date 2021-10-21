@@ -20,8 +20,8 @@ RUN apt-get update \
         # This should enable Vulkan support (but does not work yet)
         mesa-vulkan-drivers
 
-COPY ./geekbench.sh /geekbench
-RUN /geekbench/geekbench.sh
+COPY ./download_geekbench.sh /geekbench/
+RUN /geekbench/download_geekbench.sh
 
 # For debugging
 # CMD ["/geekbench/Geekbench-5.2.0-Linux/geekbench5", "--compute-list"]
