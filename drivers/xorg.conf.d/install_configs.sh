@@ -8,4 +8,5 @@ fi
 XORG_CONF_DIR="/etc/X11/xorg.conf.d/"
 cp "./10-amd-primary-gpu.conf" "${XORG_CONF_DIR}"
 cp "./20-hdr.conf" "${XORG_CONF_DIR}"
-chmod 644 "${XORG_CONF_DIR}"/10-amd-primary-gpu.conf "${XORG_CONF_DIR}/20-hdr.conf"
+cp "./20-vrr.conf" "${XORG_CONF_DIR}"
+chmod 644 "${XORG_CONF_DIR}"/10-amd-primary-gpu.conf "${XORG_CONF_DIR}/20-hdr.conf" "${XORG_CONF_DIR}/20-vrr.conf"
