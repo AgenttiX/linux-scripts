@@ -1,5 +1,5 @@
-# For the PC mode of the tablet
+# For the Android mode of the tablet
 SUBSYSTEM=="usb", \
-ATTRS{idVendor}=="056a", \
+ATTRS{idVendor}=="2d1f", \
 ATTRS{idProduct}=="0378", \
 RUN+="/usr/local/bin/wacom.sh"

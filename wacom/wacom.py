@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 """
-Configuration script for drawing tablets
+Configuration script for drawing tablets.
+This script is based on X11 utilities and will unfortunately not yet work on Wayland.
+To run this script automatically when plugging in the tablet, please run "install_wacom.sh".
 
 Based on a similar script by Alpi Tolvanen
 https://gitlab.com/tolvanea/linux_utility_scripts/-/blob/master/wacom_intuos
@@ -14,9 +16,11 @@ https://wiki.archlinux.org/index.php/Wacom_tablet
 import enum
 import logging
 from logging.handlers import RotatingFileHandler
+import os
 import os.path
 import shlex
 import sys
+import time
 import typing as tp
 
 from Xlib import display
@@ -33,11 +37,15 @@ XSETWACOM: str = "/usr/bin/xsetwacom"
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s %(levelname)-8s %(module)-16s %(message)s",
     handlers=[
         logging.StreamHandler(),
-        RotatingFileHandler(filename=os.path.join(REPO_DIR, "logs", "wacom.txt"))
+        RotatingFileHandler(
+            filename=os.path.join(REPO_DIR, "logs", "wacom.txt"),
+            maxBytes=10**5,
+            backupCount=5
+        )
     ]
 )
 
@@ -179,14 +187,30 @@ def get_display_info(name: str = ":0") -> tp.Dict[str, tp.Tuple[int, int]]:
     return monitors
 
 
-def main(use_big: bool = True):
+def set_x11_environment_variables() -> None:
+    """Configure the X11 session for a script started by an udev rule or Cron."""
+    if "DISPLAY" not in os.environ:
+        os.environ["DISPLAY"] = ":0"
+    if "XAUTHORITY" not in os.environ:
+        os.environ["XAUTHORITY"] = f"{os.environ['HOME']}/.Xauthority"
+    logger.debug("DISPLAY=%s", os.environ["DISPLAY"])
+    logger.debug("XAUTHORITY=%s", os.environ["XAUTHORITY"])
+
+
+def script(use_big: bool = True):
     logger.info("Running Wacom script")
     utils.alert_if_root(fail=True)
+    set_x11_environment_variables()
+
+    # Add the name of your tablet here.
     stylus = Device.create_by_names([
         "Wacom Intuos BT M Pen stylus",
         "Wacom Co.,Ltd. Intuos BT M stylus"
     ])
     # pad = Device("Wacom Intuos BT M Pad pad")
+
+    # This sleep is necessary to ensure that the settings don't get overwritten by other applications
+    time.sleep(0.5)
 
     # stylus.print_all_settings()
     stylus.set_suppress(False)
@@ -238,6 +262,16 @@ def main(use_big: bool = True):
         else:
             stylus.set_output(area_x, area_y, 0, 0)
 
+    logger.info("Wacom script ready.")
+
+
+def main():
+    try:
+        script(use_big=True)
+    except Exception as e:
+        logger.exception(e)
+        raise e
+
 
 if __name__ == "__main__":
-    main(use_big=True)
+    main()
