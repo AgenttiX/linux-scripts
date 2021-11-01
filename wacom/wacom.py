@@ -256,6 +256,7 @@ def script(use_big: bool = True):
             if port != "eDP-1":
                 logger.info("External monitor detected at %s. Using internal display.", port)
                 # TODO: configure this so that it recognizes the arrangement of the displays
+                # TODO: ensure, that relative position would not get enabled from the system settings
                 # stylus.set_output(area_x, area_y, monitors[port][0], 0)
                 stylus.set_output(area_x, area_y, 0, 0)
                 break
