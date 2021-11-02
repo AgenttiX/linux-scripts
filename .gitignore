@@ -35,6 +35,7 @@ ethminer.txt
 ethminer_config.sh
 geant4.*
 Geekbench-*
+honeygain/honeygain.env
 id_rsa*
 keys
 LHAPDF*

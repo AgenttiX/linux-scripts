@@ -1,0 +1,5 @@
+version: "3"
+services:
+  honeygain:
+    build: .
+    env_file: honeygain.env
