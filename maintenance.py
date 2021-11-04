@@ -243,6 +243,14 @@ def security() -> None:
         run(["rkhunter", "-c", "-q"], check=False, sudo=True)
 
 
+def snap() -> None:
+    if os.path.exists("/usr/bin/snap"):
+        print_info("Updating snaps")
+        run(["snap", "refresh"], sudo=True)
+    else:
+        print_info("snap not found")
+
+
 def trim() -> None:
     if os.path.exists("/sbin/fstrim"):
         print_info("Running fstrim")
@@ -266,6 +274,8 @@ def main():
 
     print_info("Running maintenance script")
     apt()
+    print()
+    snap()
     print()
     security()
     print()
