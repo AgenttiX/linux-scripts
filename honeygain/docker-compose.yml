@@ -3,3 +3,4 @@ services:
   honeygain:
     build: .
     env_file: honeygain.env
+    restart: always
