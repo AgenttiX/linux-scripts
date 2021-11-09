@@ -249,6 +249,11 @@ def script(use_big: bool = True):
         else:
             stylus.set_output(1920, 1080, 0, 0)
     # For laptop
+    # The ports in ThinkPad T480 are
+    # eDP-1 = internal monitor
+    # HDMI-2 = HDMI
+    # DP-1 = Thunderbolt (USB-c with the Thunderbolt logo)
+    # DP-2 = USB-c with the charging logo
     elif "eDP-1" in monitors.keys():
         area_x, area_y = monitors["eDP-1"]
         # If there is a secondary monitor
