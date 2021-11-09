@@ -1,0 +1,12 @@
+# https://snowflake.torproject.org/
+# https://gitlab.torproject.org/tpo/anti-censorship/docker-snowflake-proxy
+# https://hub.docker.com/r/thetorproject/snowflake-proxy
+
+version: "3.8"
+
+services:
+    snowflake-proxy:
+        network_mode: host
+        image: thetorproject/snowflake-proxy:latest
+        container_name: snowflake-proxy
+        restart: unless-stopped
