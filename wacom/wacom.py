@@ -35,6 +35,8 @@ import utils
 
 XSETWACOM: str = "/usr/bin/xsetwacom"
 
+LOG_DIR = os.path.join(REPO_DIR, "logs")
+os.makedirs(LOG_DIR, exist_ok=True)
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.DEBUG,
@@ -42,7 +44,7 @@ logging.basicConfig(
     handlers=[
         logging.StreamHandler(),
         RotatingFileHandler(
-            filename=os.path.join(REPO_DIR, "logs", "wacom.txt"),
+            filename=os.path.join(LOG_DIR, "wacom.txt"),
             maxBytes=10**5,
             backupCount=5
         )
