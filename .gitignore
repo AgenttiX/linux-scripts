@@ -26,13 +26,14 @@ zsh-syntax-highlighting
 *.zip
 android/platform-tools
 android/platform-tools-latest-linux.zip
+crypto/ethminer
+crypto/ethminer.txt
+crypto/ethminer_config.sh
 crypto/nanominer-linux-*
 crypto/PhoenixMiner_*
+crypto/teamredminer
 crypto/teamredminer-v*
 drivers/backup
-ethminer
-ethminer.txt
-ethminer_config.sh
 geant4.*
 Geekbench-*
 honeygain/honeygain.env
