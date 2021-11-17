@@ -75,6 +75,11 @@ def alert_if_not_root(fail: bool = True):
         logger.warning(text)
 
 
+def is_virtual():
+    with open("/proc/cpuinfo", "r") as file:
+        return "hypervisor" in file.read()
+
+
 def print_info(text: str):
     print(text)
     logger.info(text)
@@ -134,3 +139,15 @@ def run(
     if get_output:
         return return_code, output
     return return_code
+
+
+def yes_or_no() -> bool:
+    return "y" == choice(["y", "n"])
+
+
+def choice(choices: tp.List[str]) -> str:
+    while True:
+        reply = str(input(f"({'/'.join(choices)})")).lower().strip()
+        if reply in choices:
+            return reply
+        print("Invalid answer. Did you make a typo?")

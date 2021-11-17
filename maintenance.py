@@ -11,6 +11,7 @@ import subprocess as sp
 import time
 import typing as tp
 
+import utils
 from utils import print_info, run
 
 logger = logging.getLogger(__name__)
@@ -220,6 +221,21 @@ def fwupdmgr() -> None:
         print_info(f"Got return code {ret}. Is this an error?")
 
 
+def get_zerofree_status(args: argparse.Namespace) -> bool:
+    if utils.is_virtual():
+        if args.zerofree:
+            print("Virtual machine detected. Enabling zeroing of free space as requested.")
+            return True
+        print("This seems to be a virtual machine. Do you want to zero free space?")
+        print("THIS IS FOR VIRTUALBOX GUESTS ONLY")
+        return utils.yes_or_no()
+    if args.zerofree:
+        print("This does not seem to be a virtual machine. Are you sure you want to zero free space regardless?")
+        print("THIS IS FOR VIRTUALBOX GUESTS ONLY")
+        return utils.yes_or_no()
+    return False
+
+
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
         print_info("Running freshclam")
@@ -260,17 +276,29 @@ def trim() -> None:
         print_info("fstrim not found")
 
 
+def zerofree() -> None:
+    print("Zeroing free disk space on /")
+    # The directory /var/tmp is used instead of /tmp, as the latter may be on a ramdisk or a separate partition.
+    run(["dd", "if=/dev/zero", "of=/var/tmp/bigemptyfile", "bs=4096k", "status=progress"], sudo=True)
+    print("Removing temporary file.")
+    run(["rm", "/var/tmp/bigemptyfile"], sudo=True)
+    print("Zeroing ready.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Maintenance script")
     parser.add_argument("--deep", help="Deep-clean all", action="store_true")
     parser.add_argument("--docker", help="Deep-clean Docker", action="store_true")
     parser.add_argument("--firefox", help="Deep-clean Firefox", action="store_true")
     parser.add_argument("--thunderbird", help="Deep-clean Thunderbird", action="store_true")
+    parser.add_argument("--zerofree", help="Zero free disk space", action="store_true")
     args = parser.parse_args()
     logger.info("Args: %s", args)
 
     if args.deep:
         print_info("Deep scan has been selected. Some processes may take a long time.")
+
+    zero = get_zerofree_status(args)
 
     print_info("Running maintenance script")
     apt()
@@ -286,6 +314,8 @@ def main():
     trim()
     print()
     fwupdmgr()
+    if zero:
+        zerofree()
 
 
 if __name__ == "__main__":
