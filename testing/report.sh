@@ -33,9 +33,10 @@ echo "HDDs" |& tee -a "${DIR}/basic.txt"
 smartctl --scan |& tee -a "${DIR}/basic.txt"
 
 # Non-root info
+cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
+
 lsblk -a &> "${DIR}/lsblk.txt"
 lscpu &> "${DIR}/lscpu.txt"
-
 lspci &> "${DIR}/lspci.txt"
 lsscsi &> "${DIR}/lsscsi.txt"
 lsusb &> "${DIR}/lsusb.txt"
