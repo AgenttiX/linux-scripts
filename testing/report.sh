@@ -15,7 +15,14 @@ fi
 
 # Install dependencies
 sudo apt-get update
-sudo apt-get install clinfo dmidecode lshw lsscsi p7zip vainfo vdpauinfo
+sudo apt-get install clinfo dmidecode i2c-tools lshw lsscsi p7zip vainfo vdpauinfo
+# Load kernel modules for decode-dimms
+# https://superuser.com/a/1499521/
+sudo modprobe at24
+sudo modprobe ee1004
+sudo modprobe eeprom
+sudo modprobe i2c-i801
+sudo modprobe i2c-amd-mp2-pci
 
 mkdir -p "${DIR}"
 # Remove old results
@@ -35,6 +42,7 @@ smartctl --scan |& tee -a "${DIR}/basic.txt"
 # Non-root info
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 
+decode-dimms &> "${DIR}/dimms.txt"
 lsblk -a &> "${DIR}/lsblk.txt"
 lscpu &> "${DIR}/lscpu.txt"
 lspci &> "${DIR}/lspci.txt"
