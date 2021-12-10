@@ -19,6 +19,10 @@ This folder contains some tools for working with Android devices.
 - [TWRP](https://twrp.me/samsung/samsunggalaxynote2n7105.html)
 - [Stock ROM](https://sfirmware.com/samsung-gt-n7105/)
 
+### Samsung Galaxy Tab 3 10.1 (GT-P5220)
+- [LineageOS](https://forum.xda-developers.com/t/rom-gt-p52xx-unofficial-7-1-2-lineageos-14-1.3587761/)
+- [TWRP](https://forum.xda-developers.com/t/recovery-gt-p52xx-unofficial-twrp-3-x-for-samsung-galaxy-tab-3-10-1.3340938/)
+
 ### Google Apps
 - [LineageOS](https://wiki.lineageos.org/gapps.html)
 - [OpenGApps](https://opengapps.org/)
