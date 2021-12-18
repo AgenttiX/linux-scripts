@@ -8,8 +8,7 @@ import os.path
 import requests
 import typing as tp
 
-# python-adb may require the following to work:
-# sudo apt-get install gcc libssl-dev python3-dev swig
+# Python-ADB may require additional packages described in requirements.txt.
 from adb import adb_commands
 from adb.sign_m2crypto import M2CryptoSigner as Signer
 from gplaycli import gplaycli
