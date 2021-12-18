@@ -14,7 +14,7 @@ ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom2"
 ln -s ${PWD}/zsh/custom ${ZSH_CUSTOM}
 ```
 
-Installation of additional plugins,
+### Additional plugins
 [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete),
 [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 and
@@ -27,8 +27,8 @@ git clone git@github.com:zsh-users/zsh-autosuggestions.git
 git clone git@github.com:zsh-users/zsh-syntax-highlighting.git
 ```
 
-Installation of the
-[Powerlevel10k](https://github.com/romkatv/powerlevel10k) theme:
+### Powerlevel10k theme
+Installation of the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) theme:
 first download all the
 [MesloLGS theme files](https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k)
 and set it as your default terminal font.
@@ -38,6 +38,18 @@ mkdir -p ${ZSH_CUSTOM}/themes
 cd ${ZSH_CUSTOM}/themes
 git clone git@github.com:romkatv/powerlevel10k.git
 ln -s <LOCAL_REPOSITORY_FOLDER>/linux-scripts/zsh/.p10k.zsh ${HOME}/.p10k.zsh
+```
+
+### Stderred
+With [stderred](https://github.com/sickill/stderred) you can get stderr displayed in red.
+```
+# On a multiarch system you may need gcc-multilib as well.
+sudo apt install build-essential cmake
+# This can be run in a directory of your choice, but my .zshrc presumes that this is located in $HOME/Git.
+git clone git://github.com/sickill/stderred.git
+cd stderred
+make 32
+make 64
 ```
 
 Much of these configuration files is based on
