@@ -57,7 +57,7 @@ alias pingu="ping -c 4 google.com"
 alias pingu6="ping6 -c 4 google.com"
 
 # Easy upgrading
-alias sagdu="sudo apt-get update && sudo apt-get dist-upgrade && sudo snap refresh"
+alias sagdu="sudo apt-get update && sudo apt-get dist-upgrade && sudo snap refresh && flatpak update"
 
 # Print most recently modified files in current directory. It takes no arguments
 alias vikat="find ${1} -type f | xargs stat --format '%Y :%y: %n' 2>/dev/null | sort -nr | cut -d: -f2,3,5 | head"

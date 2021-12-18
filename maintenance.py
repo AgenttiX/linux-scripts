@@ -206,6 +206,15 @@ def docker(all_unused_images: bool = False) -> None:
     run(args)
 
 
+def flatpak() -> None:
+    if os.path.exists("/usr/bin/flatpak"):
+        print_info("Updating Flatpak apps")
+        # Flatpak may return a non-zero exit code even when it's capable of installing the updates.
+        run(["flatpak", "update"], check=False)
+    else:
+        print_info("flatpak not found")
+
+
 def fwupdmgr() -> None:
     if not os.path.exists("/usr/bin/fwupdmgr"):
         print_info("fwupdmgr is not installed")
@@ -304,6 +313,8 @@ def main():
     apt()
     print()
     snap()
+    print()
+    flatpak()
     print()
     security()
     print()
