@@ -1,8 +1,13 @@
+adb >= 1.3.0
+gplaycli >= 3.29
+
 # For Wacom script
 # Despite the warning from FOSSA, python-xlib is licensed with LGPLv2+
 # https://github.com/python-xlib/python-xlib
 # https://pypi.org/project/python-xlib/
 python-xlib >= 0.29
+
+requests >= 2.26.0
 
 # For LibreNMS log spam cleaner
 slack-cleaner2 >= 3.0.4
