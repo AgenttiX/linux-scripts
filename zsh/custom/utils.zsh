@@ -23,7 +23,7 @@ compress_zip() {
 findit() {
     # https://unix.stackexchange.com/questions/42841/how-to-skip-permission-denied-errors-when-running-find-in-linux
     if [ $# -ne 2 ]; then
-        echo "findit: Search files and directories recursicely. Unlike 'find', it does not pollute output with errors."
+        echo "findit: Search files and directories recursively. Unlike 'find', it does not pollute output with errors."
         echo "Usage:    findit <path> <some part of filename>"
         echo "Example:  findit / 'some_library'"
     else
