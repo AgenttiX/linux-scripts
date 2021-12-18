@@ -1,3 +1,25 @@
+compress() {
+  if [ $# -lt 1 ]; then
+    echo "Please give the file path."
+  fi
+  # https://stackoverflow.com/a/965072/
+  FILENAME=$(basename -- "$1")
+  NAME="${FILENAME%.*}"
+  # https://superuser.com/a/742034/
+  7zr a -t7z -mx=9 "${NAME}.7z" "${FILENAME}"
+}
+
+compress_zip() {
+  if [ $# -lt 1 ]; then
+    echo "Please give the file path."
+  fi
+  # https://stackoverflow.com/a/965072/
+  FILENAME=$(basename -- "$1")
+  NAME="${FILENAME%.*}"
+  # # https://superuser.com/a/742034/
+  7z a -mm=Deflate -mfb=258 -mpass=15 "${NAME}.zip" "${FILENAME}"
+}
+
 findit() {
     # https://unix.stackexchange.com/questions/42841/how-to-skip-permission-denied-errors-when-running-find-in-linux
     if [ $# -ne 2 ]; then
