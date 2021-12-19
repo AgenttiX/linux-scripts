@@ -18,6 +18,8 @@ jobs:
         restore-keys: |
           pip-${{ runner.os }}-
           pip-
+    - name: Install apt requirements
+      run: sudo apt-get install gcc libssl-dev python3-dev swig
     - name: Install requirements
       run: |
         pip --cache-dir=.pip install --upgrade pip
@@ -46,6 +48,8 @@ jobs:
           restore-keys: |
             pip-${{ runner.os }}-
             pip-
+      - name: Install apt requirements
+        run: sudo apt-get install gcc libssl-dev python3-dev swig
       - name: Install requirements
         run: |
           pip --cache-dir=.pip install --upgrade pip
@@ -91,6 +95,8 @@ jobs:
         restore-keys: |
           pip-${{ runner.os }}-
           pip-
+    - name: Install apt requirements
+      run: sudo apt-get install gcc libssl-dev python3-dev swig
     - name: Install requirements
       run: |
         sudo apt-get update
