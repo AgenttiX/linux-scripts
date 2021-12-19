@@ -1,7 +1,9 @@
 # Python-ADB may require the following to work:
 # sudo apt-get install gcc libssl-dev python3-dev swig
 adb >= 1.3.0
-gplaycli >= 3.29
+
+# gplaycli >= 3.29
+gplaydl >= 1.3.5
 
 # For Wacom script
 # Despite the warning from FOSSA, python-xlib is licensed with LGPLv2+
@@ -9,7 +11,9 @@ gplaycli >= 3.29
 # https://pypi.org/project/python-xlib/
 python-xlib >= 0.29
 
-requests >= 2.26.0
+# This version is kept back by gplaydl
+requests >= 2.23.0
 
 # For LibreNMS log spam cleaner
-slack-cleaner2 >= 3.0.4
+# This version is kept back by requests
+slack-cleaner2 >= 3.0.0
