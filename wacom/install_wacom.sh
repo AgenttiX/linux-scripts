@@ -11,10 +11,10 @@ TABLET_USER="${USER}"
 
 sudo apt-get install python3-xlib
 echo "Installing the launcher."
-sudo cp "./99-wacom-tablet.rules" "./99-wacom-tablet-android.rules" "/etc/udev/rules.d/"
+sudo cp ./99-wacom-tablet*.rules "/etc/udev/rules.d/"
 sudo cp "./wacom.sh" "/usr/local/bin/"
-sudo chown root:root "/etc/udev/rules.d/99-wacom-tablet.rules" "/etc/udev/rules.d/99-wacom-tablet-android.rules" "/usr/local/bin/wacom.sh"
-sudo chmod 0644 "/etc/udev/rules.d/99-wacom-tablet.rules"
+sudo chown root:root /etc/udev/rules.d/99-wacom-tablet*.rules "/usr/local/bin/wacom.sh"
+sudo chmod 0644 /etc/udev/rules.d/99-wacom-tablet*.rules
 sudo chmod 0755 "/usr/local/bin/wacom.sh"
 
 # Replace the placeholder variables in the script

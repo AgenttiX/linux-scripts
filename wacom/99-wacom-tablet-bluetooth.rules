@@ -1,0 +1,6 @@
+# For the Bluetooth connection.
+# Change the Bluetooth MAC address to correspond to your device.
+KERNEL=="hidraw*", \
+SUBSYSTEM=="hidraw", \
+ATTRS{address}=="a4:c3:f0:93:cb:27" \
+RUN+="/usr/local/bin/wacom.sh"

@@ -1,11 +1,15 @@
 name: CI
 on: push
+env:
+  PYTHON_VERSION: 3.9
 jobs:
   fossa:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Python
       uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
     - name: Print Python version
       run: python -V
     - name: Checkout
@@ -18,6 +22,8 @@ jobs:
         restore-keys: |
           pip-${{ runner.os }}-
           pip-
+    - name: Install apt requirements
+      run: sudo apt-get install gcc libssl-dev python3-dev swig
     - name: Install requirements
       run: |
         pip --cache-dir=.pip install --upgrade pip
@@ -34,6 +40,8 @@ jobs:
     steps:
       - name: Setup Python
         uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Print Python version
         run: python -V
       - name: Checkout
@@ -46,6 +54,8 @@ jobs:
           restore-keys: |
             pip-${{ runner.os }}-
             pip-
+      - name: Install apt requirements
+        run: sudo apt-get install gcc libssl-dev python3-dev swig
       - name: Install requirements
         run: |
           pip --cache-dir=.pip install --upgrade pip
@@ -79,6 +89,8 @@ jobs:
     steps:
     - name: Setup Python
       uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
     - name: Print Python version
       run: python -V
     - name: Checkout
@@ -91,6 +103,8 @@ jobs:
         restore-keys: |
           pip-${{ runner.os }}-
           pip-
+    - name: Install apt requirements
+      run: sudo apt-get install gcc libssl-dev python3-dev swig
     - name: Install requirements
       run: |
         sudo apt-get update
