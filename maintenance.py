@@ -14,11 +14,8 @@ import typing as tp
 import utils
 from utils import print_info, run
 
-logger = logging.getLogger(__name__)
 log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
-if not os.path.exists(log_path):
-    os.mkdir(log_path)
-
+os.makedirs(log_path, exist_ok=True)
 logging.basicConfig(
     handlers=[
         logging.FileHandler(os.path.join(log_path, "maintenance_{}.txt".format(time.strftime("%Y-%m-%d_%H-%M-%S"))))
@@ -26,6 +23,7 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s %(levelname)-8s %(message)s"
 )
+logger = logging.getLogger(__name__)
 
 APT_WAIT_TIME: int = 1
 
