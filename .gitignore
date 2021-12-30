@@ -51,6 +51,7 @@ obs-studio/profiler_data
 physics/csc/config.sh
 physics/kale/config.sh
 pythia8*
+testing/report
 xournalpp/autosave
 xournalpp/errorlogs
 xournalpp/metadata
