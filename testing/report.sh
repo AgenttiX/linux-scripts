@@ -66,7 +66,9 @@ for LINE in "${SMARTCTL_SCAN[@]}"; do
   DISK="${ARR[0]}"
   DISK_NAME="$(basename "${DISK}")"
   sudo hdparm -I "${DISK}" &> "${DIR}/hdparm/${DISK_NAME}"
-  sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}"
+  if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}"; then
+    echo "Checking smartctl data for ${DISK} failed. Either the drive does not support smartctl or it's failing."
+  fi
 done
 
 # GPU info
