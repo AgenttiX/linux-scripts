@@ -72,6 +72,21 @@ for LINE in "${SMARTCTL_SCAN[@]}"; do
   fi
 done
 
+# Python
+if command -v pip &> /dev/null; then
+  pip -V &> "${DIR}/pip.txt"
+  pip list |& tee -a "${DIR}/pip.txt"
+else
+  echo "pip was not found."
+fi
+
+if command -v pip3 &> /dev/null; then
+  pip3 -V &> "${DIR}/pip3.txt"
+  pip3 list |& tee -a "${DIR}/pip3.txt"
+else
+  echo "pip3 was not found."
+fi
+
 # GPU info
 if command -v clinfo &> /dev/null; then
   clinfo &> "${DIR}/clinfo.txt"
