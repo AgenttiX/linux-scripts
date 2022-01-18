@@ -41,6 +41,7 @@ smartctl --scan |& tee -a "${DIR}/basic.txt"
 
 # Non-root info
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
+cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
 
 decode-dimms &> "${DIR}/dimms.txt"
 lsblk -a &> "${DIR}/lsblk.txt"
