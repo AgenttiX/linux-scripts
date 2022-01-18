@@ -75,7 +75,7 @@ done
 if command -v clinfo &> /dev/null; then
   clinfo &> "${DIR}/clinfo.txt"
 else
-  echo "nvidia-smi was not found. This system probably doesn't have Nvidia GPUs installed."
+  echo "clinfo was not found."
 fi
 
 if command -v nvidia-smi &> /dev/null; then
@@ -87,13 +87,13 @@ fi
 if command -v rocminfo &> /dev/null; then
   rocminfo &> "${DIR}/rocminfo.txt"
 else
-  echo "rocminfo was not yet found."
+  echo "rocminfo was not found."
 fi
 
 if command -v rocm-smi &> /dev/null; then
   rocm-smi &> "${DIR}/rocm-smi.txt"
 else
-  echo "rocm-smi was not yet found."
+  echo "rocm-smi was not found."
 fi
 
 if [ "$1" != "--no-report" ]; then
