@@ -4,28 +4,55 @@ TODO: Work in progress
 """
 
 from adb import adb_commands
+# from gplaydl import gplaydl
 
 import android_tools as tools
 
-
+ADVANCED_APPS = [
+    "com.termux",
+    "com.teslacoilsw.launcher",  # Nova launcher
+]
+BACKUP_APPS = [
+    "com.keramidas.TitaniumBackup",
+    "com.keramidas.TitaniumBackupPro",
+    "org.swiftapps.swiftbackup",
+]
 COMMUNICATION_APPS = [
     "com.whatsapp",
     "org.thoughtcrime.securesms",
     "org.telegram.messenger",
 ]
-UTILITY_APPS = [
-    "com.authy.authy",
-    "com.lonelycatgames.Xplore",
-    # SD Maid
-    "eu.thedarken.sdm",
-    "net.sourceforge.opencamera",
-    "org.zwanoo.android.speedtest",
+MEDIA_APPS = [
+    "com.mxtech.videoplayer.ad",
+    "com.netflix.mediaclient",
+    "com.plexapp.android",
+    "org.videolan.vlc",
 ]
+TV_APPS = [
+    "com.google.android.apps.tv.launcherx",
+    "com.google.android.leanbacklauncher",
+    "com.google.android.youtube.tv",
+]
+UTILITY_APPS = [
+    "com.androidfung.drminfo",
+    "com.authy.authy",
+    "com.jami.tool.hiddensetting",
+    "com.lonelycatgames.Xplore",
+    "com.rescuetime.android",
+    "eu.thedarken.sdm",  # SD Maid
+    "io.homeassistant.companion.android",
+    "keepass2android.keepass2android",
+    "net.sourceforge.opencamera",
+    "org.mozilla.firefox",
+]
+MAGISK_VERSION = "23.0"
 DIRECT_APPS = {
+    f"https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v{MAGISK_VERSION}.apk": f"Magisk-v{MAGISK_VERSION}.apk",
     "https://f-droid.org/F-Droid.apk": "F-Droid.apk",
-    "https://github.com/YTVanced/VancedManager/releases/latest/download/manager.apk": "Vanced_manager.apk"
+    "https://github.com/YTVanced/VancedManager/releases/latest/download/manager.apk": "Vanced_manager.apk",
 }
 TESTING_APPS = [
+    "com.cpuid.cpu_z",
     "com.futuremark.dmandroid.application",
     "com.futuremark.pcmark.android.benchmark",
     "com.glbenchmark.glbenchmark27",
@@ -48,9 +75,21 @@ def install_default_apps(device: adb_commands.AdbCommands):
 
 
 def main():
-    # tools.download_multi(DIRECT_APPS)
-    tools.download_play_multi(UTILITY_APPS)
-    tools.download_play_multi(TESTING_APPS)
+    tools.download_multi(DIRECT_APPS)
+    app_types = [
+        BACKUP_APPS,
+        ADVANCED_APPS,
+        MEDIA_APPS,
+        UTILITY_APPS,
+        TESTING_APPS
+    ]
+    for apps in app_types:
+        tools.download_play_multi(apps)
+    # device = gplaydl.devicecode
+    # gplaydl.devicecode = "BRAVIA_ATV2"
+    # tools.download_play_multi(TV_APPS)
+    # gplaydl.devicecode = device
+
     # device = adb_commands.AdbCommands()
     # device.ConnectDevice(rsa_keys=[tools.SIGNER])
     # install_default_apps(device)
