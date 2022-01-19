@@ -15,7 +15,7 @@ fi
 
 # Install dependencies
 sudo apt-get update
-sudo apt-get install clinfo dmidecode i2c-tools lshw lsscsi p7zip vainfo vdpauinfo
+sudo apt-get install acpi clinfo dmidecode i2c-tools lshw lsscsi p7zip vainfo vdpauinfo
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 sudo modprobe at24
@@ -43,6 +43,7 @@ smartctl --scan |& tee -a "${DIR}/basic.txt"
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
 
+acpi --everything --details &> "${DIR}/acpi.txt"
 decode-dimms &> "${DIR}/dimms.txt"
 lsblk -a &> "${DIR}/lsblk.txt"
 lscpu &> "${DIR}/lscpu.txt"
@@ -71,6 +72,15 @@ for LINE in "${SMARTCTL_SCAN[@]}"; do
     echo "Checking smartctl data for ${DISK} failed. Either the drive does not support smartctl or it's failing."
   fi
 done
+
+# Battery info
+if command -v upower &> /dev/null; then
+  upower --enumerate &> "${DIR}/upower.txt"
+  upower --dump &>> "${DIR}/upower.txt"
+  upower --wakeups &>> "${DIR}/upower.txt"
+else
+  echo "upower was not found."
+fi
 
 # Python
 if command -v pip &> /dev/null; then
