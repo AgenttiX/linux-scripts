@@ -33,7 +33,7 @@ mkdir -p "${DIR}/hdparm" "${DIR}/smartctl"
 
 # Basic info
 echo -n "Hostname: "
-hostname |& tee -a "${DIR}/basic.txt"
+hostname |& tee "${DIR}/basic.txt"
 echo -n "Uname: "
 uname -a |& tee -a "${DIR}/basic.txt"
 echo "HDDs" |& tee -a "${DIR}/basic.txt"
@@ -50,7 +50,6 @@ lscpu &> "${DIR}/lscpu.txt"
 lspci &> "${DIR}/lspci.txt"
 lsscsi &> "${DIR}/lsscsi.txt"
 lsusb &> "${DIR}/lsusb.txt"
-
 vainfo &> "${DIR}/vainfo.txt"
 vdpauinfo &> "${DIR}/vdpauinfo.txt"
 
@@ -85,14 +84,14 @@ fi
 # Python
 if command -v pip &> /dev/null; then
   pip -V &> "${DIR}/pip.txt"
-  pip list |& tee -a "${DIR}/pip.txt"
+  pip list &>> "${DIR}/pip.txt"
 else
   echo "pip was not found."
 fi
 
 if command -v pip3 &> /dev/null; then
   pip3 -V &> "${DIR}/pip3.txt"
-  pip3 list |& tee -a "${DIR}/pip3.txt"
+  pip3 list &>> "${DIR}/pip3.txt"
 else
   echo "pip3 was not found."
 fi
