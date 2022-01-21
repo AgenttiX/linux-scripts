@@ -1,0 +1,97 @@
+#
+#  ePSXe config file 2.0.0
+#
+
+# Plugins names
+VideoPlugin = GPUCORE
+SoundPlugin = SPUCORE
+InputPlugin = INPUTCORE
+Input2Plugin = INPUTCORE
+# File paths/names/devices
+BiosPath = /home/mika/snap/epsxe/1/.epsxe/bios/scph1001.bin
+CdromDevice = /dev/cdrom
+IsoDirectory = .
+BiosHLE = 0
+
+# Memory cards [files]
+MemcardPath1 = /home/mika/snap/epsxe/1/.epsxe/memcards/epsxe000.mcr
+MemcardPath2 = /home/mika/snap/epsxe/1/.epsxe/memcards/epsxe001.mcr
+MemcardByGame = 0
+Memcard1Enable = 1
+Memcard2Enable = 1
+
+# Video options
+GPUfullRes = 39322400
+GPUResX = 800
+GPUResY = 600
+GPUIRatio = 1
+GPUFilterHW = 1
+GPURemoveBands = 0
+GPUFullscreen = 0
+GPUVsync = 1
+GPUScanlines = 0
+GPUScanlinesBr = 96
+GPUScanlinesTh = 1
+GPU2DScaler = 0
+GPUOverscanTop = 2
+GPUOverscanBottom = 0
+GPURunMode = 0
+GPUFrameLimit = 1
+GPUFrameSkip = 0
+GPUCustomFPS = -1
+GPUShowFPS = 0
+GPUShader = 0
+GPUScreenRatio = 1
+GPUBright = 0
+GPUShaderDir = NONE
+
+# Sounds options
+SoundEnabled = 1
+SPULatency = 4
+SPUQuality = 2
+
+# Input options 
+Keys1 = 25,28,26,27,40,53,52,39,54,0,0,55,111,114,116,113
+Keys2 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Keys3 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Keys4 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Multitap1 = 0
+Keys5 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Keys6 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Keys7 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Keys8 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Multitap2 = 0
+GamepadFullAxis = 192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192,192
+GamepadARange = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GamepadType = 1,0,0,0,1,0,0,0
+Joystick1 = none
+Joystick2 = none
+Joystick3 = none
+Joystick4 = none
+Joystick5 = none
+Joystick6 = none
+Joystick7 = none
+Joystick8 = none
+PAD1AFButton1 = 0
+PAD1AFFreq1 = 0
+PAD1AFButton2 = 0
+PAD1AFFreq2 = 0
+PAD1AFButton3 = 0
+PAD1AFFreq3 = 0
+PAD1AFButton4 = 0
+PAD1AFFreq4 = 0
+PAD2AFButton1 = 0
+PAD2AFFreq1 = 0
+PAD2AFButton2 = 0
+PAD2AFFreq2 = 0
+PAD2AFButton3 = 0
+PAD2AFFreq3 = 0
+PAD2AFButton4 = 0
+PAD2AFFreq4 = 0
+
+# Misc options
+AutoPpfLoad = 1
+CPUMode = 1
+GTESubpixel = 1
+GTEWidescreen = 4
+CPUOverclocking = 10
