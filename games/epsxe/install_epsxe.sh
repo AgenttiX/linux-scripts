@@ -1,12 +1,13 @@
 #!/usr/bin/bash -e
-# The direct installation does not work on new Ubuntu versions due to library conflicts.
-# The preferred way to install is from a snap as below.
 
 if [ "${EUID}" -eq 0 ]; then
-   echo "This script should be run as root."
+   echo "This script should not be run as root."
    exit 1
 fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# The direct installation does not work on new Ubuntu versions due to library conflicts.
+# The preferred way to install is from a snap as below.
 
 # sudo apt-get install libsdl-ttf2.0-0
 
@@ -23,9 +24,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Snap installation #
 #####################
 
+# There is no release version of the snap yet.
 sudo snap install --candidate epsxe
 
-CONFIG_PATH="/home/${USER}/snap/epsxe/1/.epsxe"
+CONFIG_PATH="${HOME}/snap/epsxe/1/.epsxe"
 if ! [ -L "$CONFIG_PATH" ]; then
   mkdir -p "$(dirname "${CONFIG_PATH}")"
   if [ -d "$CONFIG_PATH" ]; then
