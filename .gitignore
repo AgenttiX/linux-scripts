@@ -16,6 +16,7 @@ zsh-syntax-highlighting
 # Misc
 *.7z
 *.ab
+*.AppImage
 *.bak
 *.bin
 *.bk
@@ -39,6 +40,7 @@ crypto/PhoenixMiner_*
 crypto/teamredminer
 crypto/teamredminer-v*
 drivers/backup
+games/rpcs3/dev_*
 geant4.*
 Geekbench-*
 honeygain/honeygain.env
