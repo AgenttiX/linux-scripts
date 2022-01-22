@@ -20,7 +20,9 @@ zsh-syntax-highlighting
 *.bin
 *.bk
 *.jar
+*.mec
 *.mcr
+*.nvm
 *.ps2
 *.tar
 *.tar.gz
