@@ -297,11 +297,15 @@ def main():
     parser.add_argument("--deep", help="Deep-clean all", action="store_true")
     parser.add_argument("--docker", help="Deep-clean Docker", action="store_true")
     parser.add_argument("--firefox", help="Deep-clean Firefox", action="store_true")
+    parser.add_argument("--reboot", help="Reboot once the script is ready", action="store_true")
+    parser.add_argument("--shutdown", help="Shutdown once the script is ready", action="store_true")
     parser.add_argument("--thunderbird", help="Deep-clean Thunderbird", action="store_true")
     parser.add_argument("--zerofree", help="Zero free disk space", action="store_true")
     args = parser.parse_args()
     logger.info("Args: %s", args)
 
+    if args.reboot and args.shutdown:
+        raise ValueError("Both reboot and shutdown cannot be selected simultaneously.")
     if args.deep:
         print_info("Deep scan has been selected. Some processes may take a long time.")
 
@@ -325,6 +329,11 @@ def main():
     fwupdmgr()
     if zero:
         zerofree()
+
+    if args.reboot:
+        run(["reboot", "now"])
+    if args.shutdown:
+        run(["shutdown", "now"])
 
 
 if __name__ == "__main__":
