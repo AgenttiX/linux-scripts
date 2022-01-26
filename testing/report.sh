@@ -44,19 +44,19 @@ echo "HDDs" |& tee -a "${DIR}/basic.txt"
 smartctl --scan |& tee -a "${DIR}/basic.txt"
 
 function report_command () {
-  COMMAND=$1
-  if command -v "${COMMAND}" &> /dev/null; then
-    $COMMAND "${@:2}" &> "${DIR}/${COMMAND}.txt"
+  if [ "${1}" = "sudo" ]; then
+    if command -v "${2}" &> /dev/null; then
+      # shellcheck disable=SC2024
+      sudo "${@:2}" &> "${DIR}/${2}.txt"
+    else
+      echo "The command \"${2}\" was not found."
+    fi
   else
-    echo "The command \"${COMMAND}\" was not found."
-  fi
-}
-function report_command_no_stderr () {
-  COMMAND=$1
-  if command -v "${COMMAND}" &> /dev/null; then
-    $COMMAND "${@:2}" > "${DIR}/${COMMAND}.txt"
-  else
-    echo "The command \"${COMMAND} was not found."
+    if command -v "${1}" &> /dev/null; then
+      ${1} "${@:2}" &> "${DIR}/${1}.txt"
+    else
+      echo "The command \"${1}\" was not found."
+    fi
   fi
 }
 
@@ -97,7 +97,6 @@ if command -v smartctl &> /dev/null; then
 else
   echo "The command \"smartctl\" was not found."
 fi
-
 # Non-root info
 
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
