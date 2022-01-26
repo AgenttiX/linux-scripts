@@ -65,6 +65,7 @@ function report_command () {
 # Root info
 # These should be first so that the probability of having to ask sudo password again is minimized.
 
+report_command sudo dmesg
 report_command sudo dmidecode
 if command -v docker &> /dev/null; then
   {
@@ -103,6 +104,7 @@ fi
 
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
+cat "/var/log/syslog" > "${DIR}/syslog.txt"
 
 report_command acpi --everything --details
 report_command clinfo
