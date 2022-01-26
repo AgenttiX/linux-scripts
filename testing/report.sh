@@ -153,6 +153,10 @@ report_command vdpauinfo
 report_command xinput list
 report_command xrandr
 
+if [ -d "/var/log/samba" ]; then
+  cp -r "/var/log/samba" "${DIR}"
+fi
+
 if [ "$1" != "--no-report" ]; then
   # Packaging
   7zr a -mx=9 "${DIR}_$(date '+%Y-%m-%d_%H-%M-%S').7z" "${DIR}"
