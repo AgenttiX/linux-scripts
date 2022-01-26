@@ -81,18 +81,22 @@ else
   echo "The command \"lshw\" was not found."
 fi
 # Storage devices
-mapfile -t SMARTCTL_SCAN < <(smartctl --scan)
-for LINE in "${SMARTCTL_SCAN[@]}"; do
-  IFS=', ' read -r -a ARR <<< "${LINE}"
-  DISK="${ARR[0]}"
-  DISK_NAME="$(basename "${DISK}")"
-  # shellcheck disable=SC2024
-  sudo hdparm -I "${DISK}" &> "${DIR}/hdparm/${DISK_NAME}.txt"
-  # shellcheck disable=SC2024
-  if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}.txt"; then
-    echo "Checking smartctl data for ${DISK} failed. Either the drive does not support smartctl or it's failing."
-  fi
-done
+if command -v smartctl &> /dev/null; then
+  mapfile -t SMARTCTL_SCAN < <(smartctl --scan)
+  for LINE in "${SMARTCTL_SCAN[@]}"; do
+    IFS=', ' read -r -a ARR <<< "${LINE}"
+    DISK="${ARR[0]}"
+    DISK_NAME="$(basename "${DISK}")"
+    # shellcheck disable=SC2024
+    sudo hdparm -I "${DISK}" &> "${DIR}/hdparm/${DISK_NAME}.txt"
+    # shellcheck disable=SC2024
+    if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}.txt"; then
+      echo "Checking smartctl data for ${DISK} failed. Either the drive does not support smartctl or it's failing."
+    fi
+  done
+else
+  echo "The command \"smartctl\" was not found."
+fi
 
 # Non-root info
 
