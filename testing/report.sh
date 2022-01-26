@@ -21,11 +21,13 @@ set +e
 sudo apt-get install acpi clinfo dmidecode i2c-tools lshw lsscsi vainfo vdpauinfo
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
-sudo modprobe at24
-sudo modprobe ee1004
-sudo modprobe eeprom
-sudo modprobe i2c-i801
-sudo modprobe i2c-amd-mp2-pci
+if command -v decode-dimms &> /dev/null; then
+  sudo modprobe at24
+  sudo modprobe ee1004
+  sudo modprobe eeprom
+  sudo modprobe i2c-i801
+  sudo modprobe i2c-amd-mp2-pci
+fi
 set -e
 
 mkdir -p "${DIR}"
