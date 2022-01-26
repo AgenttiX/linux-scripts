@@ -1,14 +1,12 @@
-#!/bin/sh -e
-# TODO: Work in progress
+#!/bin/bash -e
 
-wget https://cdn.geekbench.com/Geekbench-5.4.0-Linux.tar.gz -O geekbench5.tar.gz
-wget https://cdn.geekbench.com/Geekbench-4.3.3-Linux.tar.gz -O geekbench4.tar.gz
-wget https://cdn.primatelabs.com/Geekbench-3.4.2-Linux.tar.gz -O geekbench3.tar.gz
-wget https://cdn.primatelabs.com/Geekbench-2.4.3-Linux.tar.gz -O geekbench2.tar.gz
-tar -xzf geekbench5.tar.gz
-tar -xzf geekbench4.tar.gz
-tar -xzf geekbench3.tar.gz
-tar -xzf geekbench2.tar.gz
-rm geekbench*.tar.gz
+VERSIONS=("5.4.4" "4.4.4" "3.4.4" "2.4.3")
+for VERSION in "${VERSIONS[@]}"; do
+  echo "Downloading Geekbench ${VERSION}"
+  FILENAME="Geekbench-${VERSION}-Linux.tar.gz"
+  wget "https://cdn.geekbench.com/${FILENAME}" -O "${FILENAME}"
+  tar -xzf "${FILENAME}"
+  rm "${FILENAME}"
+done
 mv ./dist/* .
 rm ./dist -r
