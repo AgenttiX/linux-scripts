@@ -43,7 +43,11 @@ hostname |& tee "${DIR}/basic.txt"
 echo -n "Uname: "
 uname -a |& tee -a "${DIR}/basic.txt"
 echo "HDDs" |& tee -a "${DIR}/basic.txt"
-smartctl --scan |& tee -a "${DIR}/basic.txt"
+if command -v smartctl &> /dev/null; then
+  smartctl --scan |& tee -a "${DIR}/basic.txt"
+else
+  echo "The command \"smartctl\" was not found."
+fi
 
 function report_command () {
   if [ "${1}" = "sudo" ]; then
