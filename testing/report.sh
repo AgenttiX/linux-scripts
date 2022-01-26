@@ -15,7 +15,10 @@ fi
 
 # Install dependencies
 sudo apt-get update
-sudo apt-get install acpi clinfo dmidecode i2c-tools lshw lsscsi p7zip vainfo vdpauinfo
+sudo apt-get install p7zip
+echo "The following packages will enable additional reporting. Please install them if you can."
+set +e
+sudo apt-get install acpi clinfo dmidecode i2c-tools lshw lsscsi vainfo vdpauinfo
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 sudo modprobe at24
@@ -23,6 +26,7 @@ sudo modprobe ee1004
 sudo modprobe eeprom
 sudo modprobe i2c-i801
 sudo modprobe i2c-amd-mp2-pci
+set -e
 
 mkdir -p "${DIR}"
 # Remove old results
@@ -39,87 +43,104 @@ uname -a |& tee -a "${DIR}/basic.txt"
 echo "HDDs" |& tee -a "${DIR}/basic.txt"
 smartctl --scan |& tee -a "${DIR}/basic.txt"
 
-# Non-root info
-cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
-cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
-
-acpi --everything --details &> "${DIR}/acpi.txt"
-decode-dimms &> "${DIR}/dimms.txt"
-lsblk -a &> "${DIR}/lsblk.txt"
-lscpu &> "${DIR}/lscpu.txt"
-lspci &> "${DIR}/lspci.txt"
-lsscsi &> "${DIR}/lsscsi.txt"
-lsusb &> "${DIR}/lsusb.txt"
-vainfo &> "${DIR}/vainfo.txt"
-vdpauinfo &> "${DIR}/vdpauinfo.txt"
-
-xinput list &> "${DIR}/xinput.txt"
-xrandr &> "${DIR}/xrandr.txt"
+function report_command () {
+  COMMAND=$1
+  if command -v "${COMMAND}" &> /dev/null; then
+    $COMMAND "${@:2}" &> "${DIR}/${COMMAND}.txt"
+  else
+    echo "The command \"${COMMAND}\" was not found."
+  fi
+}
+function report_command_no_stderr () {
+  COMMAND=$1
+  if command -v "${COMMAND}" &> /dev/null; then
+    $COMMAND "${@:2}" > "${DIR}/${COMMAND}.txt"
+  else
+    echo "The command \"${COMMAND} was not found."
+  fi
+}
 
 # Root info
-sudo dmidecode &> "${DIR}/dmidecode.txt"
-sudo lshw -html > "${DIR}/lshw.html"
+# These should be first so that the probability of having to ask sudo password again is minimized.
 
+report_command sudo dmidecode
+if command -v docker &> /dev/null; then
+  {
+    sudo docker -v
+    sudo docker system info
+    sudo docker image ls
+    sudo docker container ls
+  } &> "${DIR}/docker.txt"
+else
+  echo "The command \"docker\" was not found."
+fi
+if command -v lshw &> /dev/null; then
+  # shellcheck disable=SC2024
+  sudo lshw -html > "${DIR}/lshw.html"
+else
+  echo "The command \"lshw\" was not found."
+fi
 # Storage devices
 mapfile -t SMARTCTL_SCAN < <(smartctl --scan)
 for LINE in "${SMARTCTL_SCAN[@]}"; do
   IFS=', ' read -r -a ARR <<< "${LINE}"
   DISK="${ARR[0]}"
   DISK_NAME="$(basename "${DISK}")"
-  sudo hdparm -I "${DISK}" &> "${DIR}/hdparm/${DISK_NAME}"
-  if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}"; then
+  # shellcheck disable=SC2024
+  sudo hdparm -I "${DISK}" &> "${DIR}/hdparm/${DISK_NAME}.txt"
+  # shellcheck disable=SC2024
+  if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}.txt"; then
     echo "Checking smartctl data for ${DISK} failed. Either the drive does not support smartctl or it's failing."
   fi
 done
 
+# Non-root info
+
+cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
+cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
+
+report_command acpi --everything --details
+report_command clinfo
+report_command decode-dimms
+report_command lsblk
+report_command lscpu
+report_command lspci
+report_command lsscsi
+report_command lsusb
+report_command nvidia-smi
 # Battery info
 if command -v upower &> /dev/null; then
-  upower --enumerate &> "${DIR}/upower.txt"
-  upower --dump &>> "${DIR}/upower.txt"
-  upower --wakeups &>> "${DIR}/upower.txt"
+  {
+    upower --enumerate
+    upower --dump
+    upower --wakeups
+  } &> "${DIR}/upower.txt"
 else
-  echo "upower was not found."
+  echo "The command \"upower\" was not found."
 fi
-
 # Python
 if command -v pip &> /dev/null; then
-  pip -V &> "${DIR}/pip.txt"
-  pip list &>> "${DIR}/pip.txt"
+  {
+    pip -V
+    pip list
+  } &> "${DIR}/pip.txt"
 else
-  echo "pip was not found."
+  echo "Python pip was not found."
 fi
-
 if command -v pip3 &> /dev/null; then
-  pip3 -V &> "${DIR}/pip3.txt"
-  pip3 list &>> "${DIR}/pip3.txt"
+  {
+    pip3 -V
+    pip3 list
+  } &> "${DIR}/pip3.txt"
 else
-  echo "pip3 was not found."
+  echo "Python pip3 was not found."
 fi
-
-# GPU info
-if command -v clinfo &> /dev/null; then
-  clinfo &> "${DIR}/clinfo.txt"
-else
-  echo "clinfo was not found."
-fi
-
-if command -v nvidia-smi &> /dev/null; then
-  nvidia-smi &> "${DIR}/nvidia-smi.txt"
-else
-  echo "nvidia-smi was not found. This system probably doesn't have Nvidia GPUs installed."
-fi
-
-if command -v rocminfo &> /dev/null; then
-  rocminfo &> "${DIR}/rocminfo.txt"
-else
-  echo "rocminfo was not found."
-fi
-
-if command -v rocm-smi &> /dev/null; then
-  rocm-smi &> "${DIR}/rocm-smi.txt"
-else
-  echo "rocm-smi was not found."
-fi
+report_command rocminfo
+report_command rocm-smi
+report_command vainfo
+report_command vdpauinfo
+report_command xinput list
+report_command xrandr
 
 if [ "$1" != "--no-report" ]; then
   # Packaging
