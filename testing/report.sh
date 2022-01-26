@@ -118,7 +118,10 @@ report_command lsblk
 report_command lscpu
 report_command lspci
 report_command lsscsi
+# lsusb seems to return 1 on virtual servers.
+set +e
 report_command lsusb
+set -e
 report_command nvidia-smi
 # Battery info
 if command -v upower &> /dev/null; then
