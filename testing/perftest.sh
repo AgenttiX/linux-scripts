@@ -16,21 +16,37 @@ sudo apt-get install sysbench speedtest stress-ng wget
 ./geekbench/download_geekbench.sh
 
 speedtest |& tee "${DIR}/speedtest.txt"
-7z b -mmt1 |& tee "${DIR}/7z_single_thread.txt"
-7z b |& tee "${DIR}/7z.txt"
+# These are managed by PTS
+# 7z b -mmt1 |& tee "${DIR}/7z_single_thread.txt"
+# 7z b |& tee "${DIR}/7z.txt"
 
-GEEKBENCH_SEARCH=( "${SCRIPT_DIR}/geekbench/Geekbench-5."*"/geekbench_x86_64" )
-GEEKBENCH_5="${GEEKBENCH_SEARCH[0]}"
-$GEEKBENCH_5 --sysinfo |& tee "${DIR}/geekbench5.txt"
-$GEEKBENCH_5 --compute-list |& tee -a "${DIR}/geekbench5.txt"
-$GEEKBENCH_5 --cpu --save "${DIR}/geekbench5_result_cpu.txt" |& tee -a "${DIR}/geekbench5.txt"
-$GEEKBENCH_5 --compute CUDA --save "${DIR}/geekbench5_result_cuda.txt" |& tee -a "${DIR}/geekbench5.txt"
-$GEEKBENCH_5 --compute OpenCL --save "${DIR}/geekbench5_result_opencl.txt"|& tee -a "${DIR}/geekbench5.txt"
+function run_geekbench_gpu() {
+  VERSION=$1
+  GEEKBENCH_SEARCH=( "${SCRIPT_DIR}/geekbench/Geekbench-${VERSION}."*"/geekbench_x86_64" )
+  GEEKBENCH="${GEEKBENCH_SEARCH[0]}"
+  OUTPUT="${DIR}/geekbench${VERSION}.txt"
+  $GEEKBENCH --sysinfo |& tee "${DIR}/geekbench${VERSION}.txt"
+  $GEEKBENCH --compute-list |& tee -a "${DIR}/geekbench${VERSION}.txt"
+  $GEEKBENCH --cpu --save "${DIR}/geekbench${VERSION}_result_cpu.txt" |& tee -a "${OUTPUT}"
 
-GEEKBENCH_SEARCH=( "${SCRIPT_DIR}/geekbench/Geekbench-4."*"/geekbench_x86_64" )
-GEEKBENCH_4="${GEEKBENCH_SEARCH[0]}"
-$GEEKBENCH_4 --sysinfo |& tee "${DIR}/geekbench4.txt"
-$GEEKBENCH_4 --compute-list |& tee -a "${DIR}/geekbench4.txt"
-$GEEKBENCH_4 --cpu --save "${DIR}/geekbench4_result_cpu.txt" |& tee -a "${DIR}/geekbench4.txt"
-$GEEKBENCH_4 --compute CUDA --save "${DIR}/geekbench4_result_cuda.txt" |& tee -a "${DIR}/geekbench4.txt"
-$GEEKBENCH_4 --compute OpenCL --save "${DIR}/geekbench4_result_opencl.txt"|& tee -a "${DIR}/geekbench4.txt"
+  # TODO: process --compute-list and run on all GPUs
+  $GEEKBENCH --compute CUDA --save "${DIR}/geekbench${VERSION}_result_cuda.txt" |& tee -a "${OUTPUT}"
+  $GEEKBENCH --compute OpenCL --save "${DIR}/geekbench${VERSION}_result_opencl.txt"|& tee -a "${OUTPUT}"
+}
+run_geekbench_gpu "5"
+run_geekbench_gpu "4"
+
+# TODO: Passmark
+
+# TODO: PTS
+if ! which phoronix-test-suite > /dev/null; then
+  FILENAME="phoronix-test-suite_10.8.1_all.deb"
+  wget "https://phoronix-test-suite.com/releases/repo/pts.debian/files/${FILENAME}" -O "${FILENAME}"
+  sudo dpkg -i "${FILENAME}"
+  rm "${FILENAME}"
+  phoronix-test-suite openbenchmarking-login
+  phoronix-test-suite batch-setup
+fi
+phoronix-test-suite openbenchmarking-refresh
+
+./pts/run-tests.sh
