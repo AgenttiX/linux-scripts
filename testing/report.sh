@@ -157,8 +157,9 @@ report_command vdpauinfo
 report_command xinput list
 report_command xrandr
 
-if [ -d "/var/log/samba" ]; then
-  cp -r "/var/log/samba" "${DIR}"
+if [ -d "/var/log/samba" ] && command -v rsync &> /dev/null; then
+  # The cores folder would require root access, so let's skip it.
+  rsync -av --progress "/var/log/samba" "${DIR}" --exclude "cores"
 fi
 
 if [ "$1" != "--no-report" ]; then
