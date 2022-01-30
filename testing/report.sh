@@ -91,7 +91,7 @@ fi
 if command -v smartctl &> /dev/null; then
   mapfile -t SMARTCTL_SCAN < <(smartctl --scan)
   for LINE in "${SMARTCTL_SCAN[@]}"; do
-    IFS=', ' read -r -a ARR <<< "${LINE}"
+    IFS=", " read -r -a ARR <<< "${LINE}"
     DISK="${ARR[0]}"
     DISK_NAME="$(basename "${DISK}")"
     # shellcheck disable=SC2024
@@ -104,10 +104,25 @@ if command -v smartctl &> /dev/null; then
 else
   echo "The command \"smartctl\" was not found."
 fi
+# RAID devices
+# This should be after regular HDD/SSD checks so that the individual drives are checked before the higher-level features.
+if command -v mdadm &> /dev/null; then
+  mapfile -t MDADM_SCAN < <(sudo mdadm --detail --scan)
+  echo "${MDADM_SCAN[@]}"
+  for LINE in "${MDADM_SCAN[@]}"; do
+    IFS=" " read -r -a ARR <<< "${LINE}"
+    # shellcheck disable=SC2024
+    sudo mdadm --detail "${ARR[1]}" &>> "${DIR}/mdadm.txt"
+  done
+else
+  echo "The command \"mdadm\" was not found."
+fi
+
 # Non-root info
 
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
+cat "/proc/mdstat" > "${DIR}/mdstat.txt"
 cat "/var/log/syslog" > "${DIR}/syslog.txt"
 
 report_command acpi --everything --details
