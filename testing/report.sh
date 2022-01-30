@@ -14,11 +14,12 @@ if [ -z "${DIR}" ]; then
 fi
 
 # Install dependencies
+LM_SENSORS_INSTALLED=$(command -v sensors &> /dev/null)
 sudo apt-get update
 sudo apt-get install p7zip
 echo "The following packages will enable additional reporting. Please install them if you can."
 set +e
-sudo apt-get install acpi clinfo dmidecode i2c-tools lshw lsscsi vainfo vdpauinfo
+sudo apt-get install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 if command -v decode-dimms &> /dev/null; then
@@ -29,6 +30,15 @@ if command -v decode-dimms &> /dev/null; then
   sudo modprobe i2c-amd-mp2-pci
 fi
 set -e
+# It's not clear whether this should be before or after loading the kernel modules.
+# As this is after loading them, it could detect more devices, but on the other hand
+# it might be unsafe.
+# TODO: test that this works
+if (command -v sensors &> /dev/null) && [ "${LM_SENSORS_INSTALLED}" -ne 1 ]; then
+  echo "lm-sensors was installed with this run of the script."
+  echo "Therefore the sensors haven't been configured yet and should be configured now."
+  sudo sensors-detect
+fi
 
 mkdir -p "${DIR}"
 # Remove old results
@@ -138,6 +148,7 @@ set +e
 report_command lsusb
 set -e
 report_command nvidia-smi
+report_command sensors
 # Battery info
 if command -v upower &> /dev/null; then
   {
