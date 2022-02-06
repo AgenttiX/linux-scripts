@@ -19,7 +19,7 @@ sudo apt-get update
 sudo apt-get install p7zip
 echo "The following packages will enable additional reporting. Please install them if you can."
 set +e
-sudo apt-get install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo
+sudo apt-get install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 if command -v decode-dimms &> /dev/null; then
@@ -180,6 +180,7 @@ else
 fi
 report_command vainfo
 report_command vdpauinfo
+report_command vulkaninfo
 report_command xinput list
 report_command xrandr
 
