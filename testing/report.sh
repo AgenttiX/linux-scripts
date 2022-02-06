@@ -148,17 +148,6 @@ set +e
 report_command lsusb
 set -e
 report_command nvidia-smi
-report_command sensors
-# Battery info
-if command -v upower &> /dev/null; then
-  {
-    upower --enumerate
-    upower --dump
-    upower --wakeups
-  } &> "${DIR}/upower.txt"
-else
-  echo "The command \"upower\" was not found."
-fi
 # Python
 if command -v pip &> /dev/null; then
   {
@@ -178,6 +167,17 @@ else
 fi
 report_command rocminfo
 report_command rocm-smi
+report_command sensors
+# Battery info
+if command -v upower &> /dev/null; then
+  {
+    upower --enumerate
+    upower --dump
+    upower --wakeups
+  } &> "${DIR}/upower.txt"
+else
+  echo "The command \"upower\" was not found."
+fi
 report_command vainfo
 report_command vdpauinfo
 report_command xinput list
