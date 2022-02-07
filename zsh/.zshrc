@@ -225,3 +225,8 @@ unset GEANT_SCRIPT
 
 # Configure NorduGrid ARC
 export X509_CERT_DIR="${HOME}/.globus"
+
+# Work aliases etc.
+if [ -f "${HOME}/Git/vxl-scripts/utils.zsh" ]; then
+  . "${HOME}/Git/vxl-scripts/utils.zsh"
+fi
