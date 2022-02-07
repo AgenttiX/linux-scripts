@@ -14,10 +14,7 @@ unset GEANT_SCRIPT
 # Configure NorduGrid ARC
 export X509_CERT_DIR="${HOME}/.globus"
 
-# Fix Pythia 8 Python bindings
-if [ -d "/usr/local/share/Pythia8/" ]; then
-    export PYTHONPATH="${PYTHONPATH}:/usr/local/lib"
-fi
+# Pythia 8 Python bindigs are configured in python.zsh
 
 # CERN ROOT
 # https://root.cern/

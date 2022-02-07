@@ -174,23 +174,6 @@ if [ -f "/etc/profile.d/apps-bin-path.sh" ]; then
     emulate sh -c "source /etc/profile.d/apps-bin-path.sh"
 fi
 
-# Anaconda can be configured for zsh by running
-# "conda init zsh" in a shell that has conda enabled (such as bash)
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('${HOME}/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "${HOME}/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "${HOME}/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="${HOME}/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 # Fix ROCm OpenCL
 # By default clinfo and other OpenCL applications might not see the ROCm driver.
 if [ -d "/opt/rocm" ]; then
