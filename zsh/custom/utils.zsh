@@ -1,4 +1,4 @@
-compress() {
+compress_7z() {
   if [ $# -lt 1 ]; then
     echo "Please give the file path."
   fi
