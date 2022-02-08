@@ -67,13 +67,17 @@ function report_command () {
   if [ "${1}" = "sudo" ]; then
     if command -v "${2}" &> /dev/null; then
       # shellcheck disable=SC2024
-      sudo "${@:2}" &> "${DIR}/${2}.txt"
+      if sudo "${@:2}" &> "${DIR}/${2}.txt"; then :; else
+        echo "Running the command \"${*}\" failed."
+      fi
     else
       echo "The command \"${2}\" was not found."
     fi
   else
     if command -v "${1}" &> /dev/null; then
-      ${1} "${@:2}" &> "${DIR}/${1}.txt"
+      if ${1} "${@:2}" &> "${DIR}/${1}.txt"; then :; else
+        echo "Running the command \"${*}\" failed."
+      fi
     else
       echo "The command \"${1}\" was not found."
     fi
