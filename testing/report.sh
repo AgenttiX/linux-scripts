@@ -16,10 +16,10 @@ fi
 # Install dependencies
 LM_SENSORS_INSTALLED=$(command -v sensors &> /dev/null)
 # set +e
-if sudo apt-get update; then
+if sudo apt-get update; then :; else
   echo "Updating repository data failed. Are there expired signing keys or missing Release files?"
 fi
-if sudo apt-get install p7zip; then
+if sudo apt-get install p7zip; then :; else
   echo "Failed to install p7zip. Compressing the final report may not work."
 fi
 echo "The following packages will enable additional reporting. Please install them if you can."
