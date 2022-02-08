@@ -15,8 +15,12 @@ fi
 
 # Install dependencies
 LM_SENSORS_INSTALLED=$(command -v sensors &> /dev/null)
-sudo apt-get update
-sudo apt-get install p7zip
+if sudo apt-get update; then
+  echo "Updating repository data failed. Are there expired signing keys or missing Release files?"
+fi
+if sudo apt-get install p7zip; then
+  echo "Failed to install p7zip. Compressing the final report may not work."
+fi
 echo "The following packages will enable additional reporting. Please install them if you can."
 set +e
 sudo apt-get install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools
