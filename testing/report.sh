@@ -145,6 +145,7 @@ report_command decode-dimms
 report_command df --human-readable
 report_command lsblk
 report_command lscpu
+report_command lsmod
 report_command lspci
 report_command lsscsi
 # lsusb seems to return 1 on virtual servers.
