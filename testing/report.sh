@@ -115,7 +115,7 @@ if command -v smartctl &> /dev/null; then
     # shellcheck disable=SC2024
     sudo hdparm -I "${DISK}" &> "${DIR}/hdparm/${DISK_NAME}.txt"
     # shellcheck disable=SC2024
-    if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}.txt"; then
+    if sudo smartctl --all "${DISK}" &> "${DIR}/smartctl/${DISK_NAME}.txt"; then :; else
       echo "Checking smartctl data for ${DISK} failed. Either the drive does not support smartctl or it's failing."
     fi
   done
