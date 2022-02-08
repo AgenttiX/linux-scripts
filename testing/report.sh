@@ -147,6 +147,7 @@ report_command acpi --everything --details
 report_command clinfo
 report_command decode-dimms
 report_command df --human-readable
+report_command dpkg --list
 report_command lsblk
 report_command lsb_release -a
 report_command lscpu
