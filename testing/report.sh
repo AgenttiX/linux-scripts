@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
@@ -15,7 +15,7 @@ fi
 
 # Install dependencies
 LM_SENSORS_INSTALLED=$(command -v sensors &> /dev/null)
-set +e
+# set +e
 if sudo apt-get update; then
   echo "Updating repository data failed. Are there expired signing keys or missing Release files?"
 fi
@@ -33,7 +33,7 @@ if command -v decode-dimms &> /dev/null; then
   sudo modprobe i2c-i801
   sudo modprobe i2c-amd-mp2-pci
 fi
-set -e
+# set -e
 # It's not clear whether this should be before or after loading the kernel modules.
 # As this is after loading them, it could detect more devices, but on the other hand
 # it might be unsafe.
@@ -150,9 +150,9 @@ report_command lsmod
 report_command lspci
 report_command lsscsi
 # lsusb seems to return 1 on virtual servers.
-set +e
+# set +e
 report_command lsusb
-set -e
+# set -e
 report_command nvidia-smi
 # Python
 if command -v pip &> /dev/null; then
