@@ -148,6 +148,7 @@ report_command clinfo
 report_command decode-dimms
 report_command df --human-readable
 report_command dpkg --list
+report_command intel_gpu_top -L
 report_command lsblk
 report_command lsb_release -a
 report_command lscpu
