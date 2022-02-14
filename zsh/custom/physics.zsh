@@ -17,7 +17,7 @@ unset GEANT_SCRIPT
 # Configure NorduGrid ARC
 export X509_CERT_DIR="${HOME}/.globus"
 
-# Pythia 8 Python bindigs are configured in python.zsh
+# Pythia 8 Python bindings are configured in python.zsh
 
 # CERN ROOT
 # https://root.cern/
@@ -27,3 +27,10 @@ if [ -f "${ROOT_SCRIPT}" ]; then
     source "${ROOT_SCRIPT}"
 fi
 unset ROOT_SCRIPT
+
+ZOTERO_SCRIPT="${HOME}/Downloads/Zotero/Zotero_linux-x86_64/zotero"
+if [ -f "${ZOTERO_SCRIPT}" ]; then
+  # shellcheck disable=SC2139
+  alias zotero="${ZOTERO_SCRIPT}"
+fi
+unset ZOTERO_SCRIPT
