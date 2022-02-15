@@ -174,6 +174,12 @@ if [ -f "/etc/profile.d/apps-bin-path.sh" ]; then
     emulate sh -c "source /etc/profile.d/apps-bin-path.sh"
 fi
 
+# Fix command-line usage of LibreOffice
+# https://askubuntu.com/a/977080/
+if [ -d "/usr/lib/libreoffice/program" ]; then
+    export LD_LIBRARY_PATH="/usr/lib/libreoffice/program:${LD_LIBRARY_PATH}"
+fi
+
 # Fix ROCm OpenCL
 # By default clinfo and other OpenCL applications might not see the ROCm driver.
 if [ -d "/opt/rocm" ]; then
