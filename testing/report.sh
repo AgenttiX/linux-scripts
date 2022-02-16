@@ -179,7 +179,7 @@ else
   echo "Python pip3 was not found."
 fi
 report_command rocminfo
-report_command rocm-smi
+report_command rocm-smi --showallinfo
 report_command sensors
 # Battery info
 if command -v upower &> /dev/null; then
