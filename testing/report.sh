@@ -160,8 +160,8 @@ report_command lsscsi
 report_command lsusb
 # set -e
 report_command neofetch --stdout
+report_command numba --sysinfo
 report_command nvidia-smi
-# Python
 if command -v pip &> /dev/null; then
   {
     pip -V
