@@ -37,6 +37,7 @@ crypto/ethminer.txt
 crypto/ethminer_config.sh
 crypto/nanominer-linux-*
 crypto/PhoenixMiner_*
+crypto/SRBMiner-*
 crypto/teamredminer
 crypto/teamredminer-v*
 drivers/backup
