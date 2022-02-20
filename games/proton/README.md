@@ -1,5 +1,19 @@
 # Proton configurations
 
+### General
+Adjusting Wine/Proton configs
+``` bash
+protontrics <game_id> winecfg
+```
+
+If you mess up the settings of a game, you can reset its Proton configs with:
+``` bash
+rm ~/.steam/steam/steamapps/compatdata/<game_id>
+```
+
+Virtual desktop:
+[TODO](https://www.reddit.com/r/Lutris/comments/qyw3eb/launching_game_shows_empty_blue_wine_desktop/)
+
 ### Among Us
 Launch options:
 ``` bash
@@ -19,3 +33,17 @@ Click play to launch the game, and then close it.
 If you try to play, you should get a black screen.
 Run `ffxiv.sh` again.
 The game should now be ready to play.
+
+### LEGO Lord of the Rings
+The game requires DirectX 9 to be installed:
+``` bash
+protontricks 214510 d3dx9_41
+```
+<!--
+If you have a multi-monitor setup and want to run the game on a secondary monitor:
+``` bash
+protontricks 214510 winecfg
+```
+-->
+[ProtonDB](https://www.protondb.com/app/214510),
+[GitHub](https://github.com/ValveSoftware/Proton/issues/1836)
