@@ -80,6 +80,10 @@ alias fixwifi="sudo iwlist scan | grep 'Cell\|ESSID:\|Quality='"
 alias pingu="ping -c 4 google.com"
 alias pingu6="ping6 -c 4 google.com"
 
+# Protontricks
+# https://github.com/Matoking/protontricks
+alias protontricks="flatpak run com.github.Matoking.protontricks"
+
 if ! command -v rocm-smi &> /dev/null && [ -f "/opt/rocm/bin/rocm-smi" ]; then
   alias rocm-smi="/opt/rocm/bin/rocm-smi"
 fi
