@@ -1,0 +1,14 @@
+# This file is loaded on X startup
+# It's set up with
+# ln -s "${HOME}/Git/linux-scripts/.xprofile" "${HOME}/.xprofile"
+
+# Fix for BOINC to pause when the computer is used
+# https://wiki.archlinux.org/title/BOINC#Projects_using_GPU
+xhost si:localuser:boinc
+# Note that this may not be applied until you reboot or run
+# $ systemctl stop boinc-client.service
+# $ xhost si:localuser:boinc
+# $ systemctl start boinc-client.service
+# Reports of this issue
+# https://github.com/BOINC/boinc/issues/1187
+# https://bugzilla.redhat.com/show_bug.cgi?id=1047044
