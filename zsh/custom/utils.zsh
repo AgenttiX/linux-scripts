@@ -76,6 +76,9 @@ alias fixaudio="pulseaudio -k && sudo alsa force-reload"
 # it makes auto-connection quicker
 alias fixwifi="sudo iwlist scan | grep 'Cell\|ESSID:\|Quality='"
 
+# shellcheck disable=SC2139
+alias modem="sudo ${HOME}/Git/linux-scripts/modem.py"
+
 # Easy pinging
 alias pingu="ping -c 4 google.com"
 alias pingu6="ping6 -c 4 google.com"
