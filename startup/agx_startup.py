@@ -504,6 +504,17 @@ def disable_wakeups() -> None:
             write_to_virtual_file(wakeup_file_path, source[0])
 
 
+def fix_boinc() -> subprocess.CompletedProcess:
+    """Fix BOINC suspension on computer use
+
+    Failure only breaks this feature, so it's OK to set check=False
+    """
+    ret = subprocess.run(["xhost", "si:localuser:boinc"], check=False)
+    if ret.returncode:
+        print(f"Fixing BOINC suspension failed, got return code {ret.returncode}")
+    return ret
+
+
 def hdparm() -> None:
     board = board_name()
 
@@ -544,3 +555,4 @@ if __name__ == "__main__":
     hdparm()
     custom_writes()
     custom_commands()
+    fix_boinc()
