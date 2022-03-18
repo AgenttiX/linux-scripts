@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+echo "Installing the agx-startup script"
 cp ./agx-startup.service /etc/systemd/system/
 cp ./agx_startup.py /usr/local/bin/
 chown root:root /etc/systemd/system/agx-startup.service
@@ -7,3 +8,4 @@ chmod 644 /etc/systemd/system/agx-startup.service
 chmod 755 /usr/local/bin/agx_startup.py
 systemctl daemon-reload
 systemctl enable agx-startup.service
+echo "Installation ready"
