@@ -445,6 +445,8 @@ def write_to_virtual_file(path: str, data: str) -> None:
     try:
         with open(path, "w") as file:
             print(data, file=file)
+    except FileNotFoundError:
+        print("Could not write to file, as it does not exist:", path)
     except PermissionError:
         print("Could not write to", path, "Are you running without root?")
 
