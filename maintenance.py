@@ -245,8 +245,7 @@ def get_zerofree_status(args: argparse.Namespace) -> bool:
 
 def remove_custom_files() -> None:
     print("Removing custom files")
-    user = utils.get_user()
-    home = os.path.join("/home", user)
+    home = os.path.join("/home", utils.get_user())
     home_files = [
         "client_state.xml",
         "coproc_info.xml",
@@ -258,6 +257,7 @@ def remove_custom_files() -> None:
     for file in home_files:
         full_path = os.path.join(home, file)
         if os.path.exists(full_path):
+            print("Removing \"{full_path}\"")
             os.remove(full_path)
 
 
