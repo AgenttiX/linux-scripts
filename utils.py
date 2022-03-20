@@ -2,9 +2,11 @@
 Utility methods for scripts
 """
 
+import getpass
 import typing as tp
 import logging
 import os
+import pwd
 import subprocess as sp
 
 logger = logging.getLogger(__name__)
@@ -73,6 +75,31 @@ def alert_if_not_root(fail: bool = True):
             raise PermissionError(text)
         print(text)
         logger.warning(text)
+
+
+def get_user() -> str:
+    """Get the name of the user that executed this process, even if sudo was used.
+    Based on https://unix.stackexchange.com/a/626389/"""
+    try:
+        return os.getlogin()
+    except OSError:
+        # Some Ubuntu installations and systemd services don't support os.getlogin()
+        pass
+
+    if "USER" not in os.environ:
+        # Possibly a systemd service, but no sudo was used.
+        return getpass.getuser()
+    user = os.environ["USER"]
+
+    if user == "root":
+        if "SUDO_USER" in os.environ:
+            return os.environ["SUDO_USER"]
+
+        if "PKEXEC_UID" in os.environ:
+            pkexec_uid = int(os.environ["PKEXEC_UID"])
+            return pwd.getpwuid(pkexec_uid).pw_name
+
+    return user
 
 
 def is_virtual():

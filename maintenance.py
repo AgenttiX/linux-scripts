@@ -243,6 +243,24 @@ def get_zerofree_status(args: argparse.Namespace) -> bool:
     return False
 
 
+def remove_custom_files() -> None:
+    print("Removing custom files")
+    user = utils.get_user()
+    home = os.path.join("/home", user)
+    home_files = [
+        "client_state.xml",
+        "coproc_info.xml",
+        "lockfile",
+        "stderrgpudetect.txt",
+        "stdoutgpudetect.txt",
+        "time_stats_log"
+    ]
+    for file in home_files:
+        full_path = os.path.join(home, file)
+        if os.path.exists(full_path):
+            os.remove(full_path)
+
+
 def security() -> None:
     if os.path.exists("/usr/bin/freshclam"):
         print_info("Running freshclam")
@@ -323,6 +341,8 @@ def main():
     docker(args.deep or args.docker)
     print()
     bleachbit(deep=args.deep, firefox=(args.deep or args.firefox), thunderbird=(args.deep or args.thunderbird))
+    print()
+    remove_custom_files()
     print()
     trim()
     print()
