@@ -1,7 +1,4 @@
-"""Script for quickly installing Android apps over ADB
-
-TODO: Work in progress
-"""
+"""Script for quickly installing Android apps over ADB"""
 
 from adb import adb_commands
 # from gplaydl import gplaydl
@@ -85,11 +82,13 @@ def main():
     ]
     for apps in app_types:
         tools.download_play_multi(apps)
+
     # device = gplaydl.devicecode
     # gplaydl.devicecode = "BRAVIA_ATV2"
     # tools.download_play_multi(TV_APPS)
     # gplaydl.devicecode = device
 
+    # TODO: The app installation has not been tested yet
     # device = adb_commands.AdbCommands()
     # device.ConnectDevice(rsa_keys=[tools.SIGNER])
     # install_default_apps(device)

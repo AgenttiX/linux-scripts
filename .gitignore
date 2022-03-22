@@ -16,6 +16,7 @@ zsh-syntax-highlighting
 # Misc
 *.7z
 *.ab
+*.apk
 *.AppImage
 *.bak
 *.bin
