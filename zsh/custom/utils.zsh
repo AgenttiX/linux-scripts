@@ -59,6 +59,41 @@ replacerec() {
     fi
 }
 
+# Chats
+start-chats() {
+  # Start chat clients
+  # The "&!" is zsh-specific
+  # https://askubuntu.com/a/10557/
+  if (command -v discord &> /dev/null); then
+    if pgrep -x "Discord" > /dev/null; then :; else
+      echo "Starting Discord"
+      discord &> /dev/null &!
+    fi
+  fi
+  # The "telegram-deskto" is not a typo.
+  if command -v flatpak &> /dev/null; then
+    if pgrep -x "telegram-deskto" > /dev/null; then :; else
+      echo "Starting Telegram"
+      flatpak run org.telegram.desktop &!
+    fi
+  fi
+  if command -v signal-desktop &> /dev/null; then
+    if pgrep -x "signal-desktop" > /dev/null; then :; else
+      echo "Starting Signal"
+      signal-desktop --start-in-tray &> /dev/null &!
+    fi
+  fi
+}
+
+close-chats() {
+  # Close chat clients
+  killall --signal TERM Discord
+  # The "telegram-deskto" is not a typo.
+  killall --signal TERM telegram-deskto
+  killall --signal TERM signal-desktop
+  killall --signal TERM walc
+}
+
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
 alias dirsum1="tar c . | md5sum"
 

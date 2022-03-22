@@ -5,6 +5,7 @@ Routine maintenance script for GNU/Linux-based systems
 """
 
 import argparse
+import glob
 import logging
 import os
 import subprocess as sp
@@ -243,6 +244,18 @@ def get_zerofree_status(args: argparse.Namespace) -> bool:
     return False
 
 
+def mdadm() -> None:
+    """mdadm scrubbing
+    https://wiki.archlinux.org/title/RAID#Scrubbing
+    """
+    if os.path.exists("/sbin/mdadm"):
+        print_info("Running mdadm scrubbing")
+        endpoints = glob.glob(f"/sys/block/md*/md/sync_action")
+        for path in endpoints:
+            with open(path, "w") as endpoint:
+                endpoint.write("check")
+
+
 def remove_custom_files() -> None:
     print("Removing custom files")
     home = os.path.join("/home", utils.get_user())
@@ -349,6 +362,7 @@ def main():
     fwupdmgr()
     if zero:
         zerofree()
+    mdadm()
 
     if args.reboot:
         run(["reboot", "now"])
