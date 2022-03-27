@@ -249,7 +249,10 @@ def mdadm() -> None:
     https://wiki.archlinux.org/title/RAID#Scrubbing
     """
     if os.path.exists("/sbin/mdadm"):
-        print_info("Running mdadm scrubbing")
+        print_info(
+            "Starting mdadm scrubbing. "
+            "You can monitor the progress with \"cat /proc/mdstat\". "
+            "Rebooting will restart the scrubbing from the beginning.")
         endpoints = glob.glob(f"/sys/block/md*/md/sync_action")
         for path in endpoints:
             with open(path, "w") as endpoint:
