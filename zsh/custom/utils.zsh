@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# TODO: Think whether to use hyphens or underscores in the names.
+# https://unix.stackexchange.com/a/168222/
+
 compress_7z() {
   if [ $# -lt 1 ]; then
     echo "Please give the file path."
