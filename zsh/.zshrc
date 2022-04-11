@@ -186,6 +186,11 @@ if [ -d "/opt/rocm" ]; then
     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
 fi
 
+# Ruby
+# https://jekyllrb.com/docs/installation/ubuntu/
+export GEM_HOME="$HOME/gems"
+export PATH="${HOME}/gems/bin:${PATH}"
+
 # Work aliases etc.
 if [ -f "${HOME}/Git/vxl-scripts/utils.zsh" ]; then
   . "${HOME}/Git/vxl-scripts/utils.zsh"

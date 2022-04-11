@@ -4,8 +4,12 @@ audioconf() {
   # https://askubuntu.com/a/14083/
   local COMBINED_SINK="combined"
   local HDMI_CARD="alsa_card.pci-0000_03_00.1"
-  local HDMI_PROFILE="output:hdmi-surround"
-  local HDMI_SINK="alsa_output.pci-0000_03_00.1.hdmi-surround"
+  HDMI_PROFILE="output:hdmi-stereo"
+  # HDMI surround does not work yet with my current TV setup.
+  # The front channels work with it, though, but the audio going to the back channels is dropped.
+  # local HDMI_PROFILE="output:hdmi-surround"
+  local HDMI_SINK="alsa_output.pci-0000_03_00.1.hdmi-stereo"
+  # local HDMI_SINK="alsa_output.pci-0000_03_00.1.hdmi-surround"
   local HEADPHONE_CARD="alsa_card.usb-SteelSeries_Arctis_Pro_Wireless-00"
   local HEADPHONE_PROFILE="output:mono-chat+output:stereo-game+input:mono-chat"
   local HEADPHONE_SINK="alsa_output.usb-SteelSeries_Arctis_Pro_Wireless-00.stereo-game"
