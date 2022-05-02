@@ -127,6 +127,12 @@ else
 fi
 unset STDERRED_PATH
 
+# Ruby
+# https://jekyllrb.com/docs/installation/ubuntu/
+# This has to be before colorls loading, as it uses gem, which is configured here.
+export GEM_HOME="$HOME/gems"
+export PATH="${HOME}/gems/bin:${PATH}"
+
 # Colorls configuration
 # https://github.com/athityakumar/colorls
 if command -v gem &> /dev/null; then
@@ -185,11 +191,6 @@ fi
 if [ -d "/opt/rocm" ]; then
     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
 fi
-
-# Ruby
-# https://jekyllrb.com/docs/installation/ubuntu/
-export GEM_HOME="$HOME/gems"
-export PATH="${HOME}/gems/bin:${PATH}"
 
 # Work aliases etc.
 if [ -f "${HOME}/Git/vxl-scripts/utils.zsh" ]; then
