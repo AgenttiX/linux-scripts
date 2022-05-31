@@ -8,10 +8,11 @@
 # https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
 
 echo "Creating a backup of the existing Firefox profile"
-cp "${HOME}/snap/firefox" "${HOME}/snap/firefox-backup-$(date +%s)"
+cp -r "${HOME}/snap/firefox" "${HOME}/snap/firefox-backup-$(date +%s)"
 
 echo "Removing the Firefox snap"
 sudo snap remove firefox
+sudo apt-get remove firefox
 
 echo "Adding the Mozilla PPA"
 sudo add-apt-repository ppa:mozillateam/ppa
