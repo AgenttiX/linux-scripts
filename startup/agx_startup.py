@@ -3,6 +3,7 @@
 """
 Startup configuration for my devices.
 To adapt this script for your needs, replace the device ids with ones extracted from your systems.
+You can use the command "powertop" to find the device ids and other power control commands.
 
 To enable this script, run startup-enabler.sh
 """
@@ -45,10 +46,6 @@ CUSTOM_WRITES: tp.Dict[str, tp.Dict[str, str]] = {
     },
     "0B4Ch": {
         "/sys/module/snd_hda_intel/parameters/power_save": "1"
-    },
-    "ROG ZENITH II EXTREME": {
-        "/sys/class/net/enp71s0/device/power/wakeup": "disabled",
-        "/sys/bus/usb/devices/9-3.2.1/power/wakeup": "disabled"
     },
 }
 
@@ -305,13 +302,23 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/pci/devices/0000:49:00.3",
         "/sys/bus/pci/devices/0000:05:00.3",
         "/sys/bus/pci/devices/0000:24:00.3",
+        "/sys/bus/usb/devices/7-5.1",
 
         # Logitech G19
         "/sys/bus/usb/devices/9-3.2.1",
         "/sys/bus/usb/devices/9-3.2.2",
+        "/sys/bus/usb/devices/9-3.4.1",
 
         # Logitech PowerPlay
+        # "/sys/bus/usb/devices/9-3.1/",
         # "/sys/bus/usb/devices/9-3.4/",
+
+        # Arctis Pro Wireless
+        "/sys/bus/usb/devices/1-1.2",
+        "/sys/bus/usb/devices/1-1.3",
+
+        # LG monitor USB
+        "/sys/bus/usb/devices/5-1.4",
     ],
     # "X58A-UD7": [
     #     # Nvidia GPU
@@ -431,6 +438,15 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
     # ],
 }
 
+# These wakeup sources are not in /proc/acpi/wakeup and therefore have to be specified manually
+WAKEUP_SOURCES: tp.Dict[str, tp.List[str]] = {
+    "ROG ZENITH II EXTREME": [
+        "/sys/class/net/enp71s0/device",
+        "/sys/bus/usb/devices/9-3.1",
+        "/sys/bus/usb/devices/9-3.4.1",
+    ]
+}
+
 
 # Actual program
 
@@ -488,7 +504,21 @@ def custom_commands() -> None:
         subprocess.run(command, check=True)
 
 
-def disable_wakeups() -> None:
+def disable_wakeup(device: str, info: bool = True) -> bool:
+    if not os.path.exists(device):
+        if info:
+            print(f"Device \"{device}\" not found")
+        return False
+    control_path = os.path.join(device, "power/wakeup")
+    if not os.path.exists(control_path):
+        if info:
+            print(f"Device wakeup control path \"{control_path}\" not found")
+        return False
+    write_to_virtual_file(control_path, "disabled")
+    return True
+
+
+def disable_wakeups(sources: tp.Dict[str, tp.List[str]] = WAKEUP_SOURCES) -> None:
     wakeup_file_path = "/proc/acpi/wakeup"
 
     # Read the file and close it as quickly as possible
@@ -497,11 +527,19 @@ def disable_wakeups() -> None:
 
     line_iter = iter(lines)
     next(line_iter)
-    sources = [line.strip().split() for line in line_iter]
+    auto_sources = [line.strip().split() for line in line_iter]
 
-    for source in sources:
+    for source in auto_sources:
         if len(source) >= 3 and source[2] == "*enabled":
             write_to_virtual_file(wakeup_file_path, source[0])
+
+    board = board_name()
+    if board not in sources.keys():
+        print("Board has not been configured for manual disabling of wakeups.")
+        return
+
+    for device in sources[board]:
+        disable_wakeup(device)
 
 
 def fix_boinc() -> subprocess.CompletedProcess:
@@ -528,24 +566,31 @@ def hdparm() -> None:
             subprocess.run(["hdparm", param, str(value), drive_path], check=True)
 
 
-def power_control() -> None:
+def device_power_control(device: str) -> bool:
+    if not os.path.exists(device):
+        print("Device", device, "not found")
+        return False
+    control_path = os.path.join(device, "power/control")
+    if not os.path.exists(control_path):
+        print(f"Device power control path \"{control_path}\" not found")
+        return False
+    write_to_virtual_file(control_path, "auto")
+    return True
+
+
+def power_control(
+        devices: tp.Dict[str, tp.List[str]] = POWER_CONTROL_DEVICES,
+        disable_wakeups: bool = True) -> None:
     board = board_name()
 
-    if board not in POWER_CONTROL_DEVICES.keys():
+    if board not in devices.keys():
         print("Computer has not been configured for power control:", board)
         return
 
-    devices = POWER_CONTROL_DEVICES[board]
-
-    for device in devices:
-        if os.path.exists(device):
-            control_path = os.path.join(device, "power/control")
-            if os.path.exists(control_path):
-                write_to_virtual_file(control_path, "auto")
-            else:
-                print("Device power control path", control_path, "not found")
-        else:
-            print("Device", device, "not found")
+    for device in devices[board]:
+        device_power_control(device)
+        if disable_wakeups:
+            disable_wakeup(device, info=False)
 
 
 if __name__ == "__main__":
