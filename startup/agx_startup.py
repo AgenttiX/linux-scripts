@@ -189,6 +189,17 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
 
         # Audio
         "/sys/bus/pci/devices/0000:00:1b.0",
+
+        # Thunderbolt 3 dock
+        "/sys/bus/pci/devices/0000:3c:00.0",
+        "/sys/bus/pci/devices/0000:04:00.0",
+        "/sys/bus/pci/devices/0000:05:00.0",
+        "/sys/bus/pci/devices/0000:05:01.0",
+        "/sys/bus/pci/devices/0000:05:02.0",
+        "/sys/bus/pci/devices/0000:06:00.0",
+        "/sys/bus/pci/devices/0000:07:00.0",
+        "/sys/bus/usb/devices/5-2.1.1.4",
+
     ],
     "ROG ZENITH II EXTREME": [
         # Chipset
@@ -440,6 +451,10 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
 
 # These wakeup sources are not in /proc/acpi/wakeup and therefore have to be specified manually
 WAKEUP_SOURCES: tp.Dict[str, tp.List[str]] = {
+    # ThinkPad T480
+    "20L5CTO1WW": [
+        "/sys/bus/usb/devices/6-2.1.2",
+    ],
     "ROG ZENITH II EXTREME": [
         "/sys/class/net/enp71s0/device",
         "/sys/bus/usb/devices/9-3.1",
