@@ -75,3 +75,25 @@ unless you have a device with the A/B partition scheme or without a separate rec
 - Reboot to system
 
 ([XDA discussion of proper installation order](https://forum.xda-developers.com/t/what-is-the-proper-order-of-flashing-rom-kernel-root-gapps-and-anti-throttle.3651521/))
+
+## Root installation steps
+- Install Magisk when installing the ROM as above
+- Install [Magisk Manager](https://github.com/topjohnwu/Magisk)
+- Go to Magisk Manager settings and set these:
+  - Hide Magisk app
+  - Enable Zygisk
+  - Enable Zygisk DenyList
+  - [Show system and OS apps in Zygisk DenyList](https://i.imgur.com/jsu2Xsm.jpg)
+- Add these apps to the DenyList
+  - Google Pay
+  - Google Play services
+  - Google Play Store
+  - All other apps that refuse to work on rooted phones
+- Install [Universal SafetyNet Fix](https://github.com/kdrag0n/safetynet-fix)
+- Install [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf)
+- (Install [Google Pay SQlite Fix Module](https://forum.xda-developers.com/t/working-magisk-with-google-pay-as-of-gms-17-1-22-on-pie.3929950/page-9#post-79643248))
+- Reboot
+- Delete app data and cache for the aforementioned Google apps
+- Install and run [SafetyNet Test](https://play.google.com/store/apps/details?id=org.freeandroidtools.safetynettest)
+  - Your device should now pass the check
+- Delete app data and cache for the apps that still refuse to work
