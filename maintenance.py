@@ -207,9 +207,15 @@ def docker(all_unused_images: bool = False) -> None:
 
 def flatpak() -> None:
     if os.path.exists("/usr/bin/flatpak"):
+        print_info("Removing unused Flatpak apps (so that unnecessary apps are not updated)")
+        run(["flatpak", "remove", "--unused"])
         print_info("Updating Flatpak apps")
         # Flatpak may return a non-zero exit code even when it's capable of installing the updates.
         run(["flatpak", "update"], check=False)
+        print_info("Removing unused Flatpak apps (if some apps have become unused due to the update)")
+        # Especially different Nvidia driver versions come as separate packages, and upgrades may leave old
+        # versions dangling on the system.
+        run(["flatpak", "remove", "--unused"])
     else:
         print_info("flatpak not found")
 
