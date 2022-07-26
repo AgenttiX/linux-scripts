@@ -1,5 +1,6 @@
 #!/bin/bash -e
-# Thanks to FireFlower for this script!
+# From
+# https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Ensuring_that_the_groups_are_valid
 
 shopt -s nullglob
 for g in `find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V`; do
