@@ -19,6 +19,18 @@ This folder contains some tools for working with Android devices.
 - [TWRP](https://twrp.me/samsung/samsunggalaxynote2n7105.html)
 - [Stock ROM](https://sfirmware.com/samsung-gt-n7105/)
 
+### Samsung Galaxy Note 8 (SM-N950F, greatlte)
+- [LineageOS](https://forum.xda-developers.com/t/lineageos-19-1-android-12l-signature-spoofing-ota-updates-for-s8-s8-note8.4370375/)
+- [TWRP](https://twrp.me/samsung/samsunggalaxynote8.html)
+- Kernel
+  - [A2N Kernel](https://forum.xda-developers.com/t/kernel-9-a2n-kernel-for-galaxy-s8-s8-note8-exynos-high-end-stable-v-2022-07-01.4399227/)
+  - [DeluxeROM & kernel](https://forum.xda-developers.com/t/deluxerom-v32-n950f-g955f-g950f-dug6-pie-aroma-romcontrol-kernel-final.3784712/)
+  - [RAD Kernel](https://forum.xda-developers.com/t/kernel-q-aosp-oneui-2-r4-rad-kernel-n950-f-n-fd.4172681/)
+  - [RZ Kernel](https://forum.xda-developers.com/t/kernel-eas-eol-9-10-treble-n950n-f-fd-rz-kernel-for-samsung-galaxy-note-8.3916568/)
+- Stock ROM:
+  [SamMobile](https://www.sammobile.com/samsung/galaxy-note-8/firmware/)
+  [Samsung Fan Club](https://sfirmware.com/samsung-sm-n950f/)
+
 ### Samsung Galaxy Tab 3 10.1 (GT-P5220)
 - [LineageOS](https://forum.xda-developers.com/t/rom-gt-p52xx-unofficial-7-1-2-lineageos-14-1.3587761/)
 - [TWRP](https://forum.xda-developers.com/t/recovery-gt-p52xx-unofficial-twrp-3-x-for-samsung-galaxy-tab-3-10-1.3340938/)
@@ -31,7 +43,7 @@ This folder contains some tools for working with Android devices.
 - [Magisk](https://github.com/topjohnwu/Magisk) (preferred)
 - [SuperSU](https://supersuroot.org/)
 
-## Installation steps
+## Custom ROM installation steps
 These instructions look very complicated, but they are actually quite straightforward,
 unless you have a device with the A/B partition scheme or without a separate recovery partition.
 
@@ -75,3 +87,25 @@ unless you have a device with the A/B partition scheme or without a separate rec
 - Reboot to system
 
 ([XDA discussion of proper installation order](https://forum.xda-developers.com/t/what-is-the-proper-order-of-flashing-rom-kernel-root-gapps-and-anti-throttle.3651521/))
+
+## Root installation steps
+- Install Magisk when installing the ROM as above
+- Install [Magisk Manager](https://github.com/topjohnwu/Magisk)
+- Go to Magisk Manager settings and set these:
+  - Hide Magisk app
+  - Enable Zygisk
+  - Enable Zygisk DenyList
+  - [Show system and OS apps in Zygisk DenyList](https://i.imgur.com/jsu2Xsm.jpg)
+- Add these apps to the DenyList
+  - Google Pay
+  - Google Play services
+  - Google Play Store
+  - All other apps that refuse to work on rooted phones
+- Install [Universal SafetyNet Fix](https://github.com/kdrag0n/safetynet-fix)
+- Install [MagiskHide Props Config](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf)
+- (Install [Google Pay SQlite Fix Module](https://forum.xda-developers.com/t/working-magisk-with-google-pay-as-of-gms-17-1-22-on-pie.3929950/page-9#post-79643248))
+- Reboot
+- Delete app data and cache for the aforementioned Google apps
+- Install and run [SafetyNet Test](https://play.google.com/store/apps/details?id=org.freeandroidtools.safetynettest)
+  - Your device should now pass the check
+- Delete app data and cache for the apps that still refuse to work
