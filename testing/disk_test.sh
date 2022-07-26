@@ -12,8 +12,11 @@ if command -v smartctl &> /dev/null; then
     IFS=", " read -r -a ARR <<< "${LINE}"
     DISK="${ARR[0]}"
     DISK_NAME="$(basename "${DISK}")"
-    echo "Starting long SMART test on ${DISK_NAME}"
+    echo "#####"
+    echo "# Starting long SMART test on ${DISK_NAME}"
+    echo "#####"
     sudo smartctl --test=long "${DISK}"
+    echo
   done
 else
   echo "The command \"smartctl\" was not found."
