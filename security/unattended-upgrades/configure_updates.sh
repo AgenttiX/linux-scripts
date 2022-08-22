@@ -25,7 +25,7 @@ fi
 
 echo "Installing config"
 cp "${CONFIG_SOURCE}" "${CONFIG_TARGET}"
-chown root:root "${SCRIPT_TARGET}"
+chown root:root "${CONFIG_TARGET}"
 chmod 644 "${CONFIG_TARGET}"
 
 echo "Installing script"
