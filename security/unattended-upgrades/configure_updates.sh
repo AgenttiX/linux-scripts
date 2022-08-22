@@ -31,7 +31,7 @@ chmod 644 "${CONFIG_TARGET}"
 echo "Installing script"
 cp "${SCRIPT_SOURCE}" "${SCRIPT_TARGET}"
 chown root:root "${SCRIPT_TARGET}"
-chmod 755 "${SCRIPT}"
+chmod 755 "${SCRIPT_TARGET}"
 
 echo "Ready. Please add something like this to \"sudo crontab -e\":"
 echo "0 03 * * 7 ${SCRIPT_TARGET} >> /var/log/reboot_history.log"
