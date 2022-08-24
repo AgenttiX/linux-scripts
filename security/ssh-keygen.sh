@@ -12,3 +12,11 @@
 
 # When running, don't accidentally overwrite your existing keys!
 ssh-keygen -t rsa -b 4096
+
+DEFAULT_KEY="${HOME}/.ssh/id_rsa.pub"
+if [ -f "${DEFAULT_KEY}" ]; then
+  echo "Default public key: ${DEFAULT_KEY}"
+  cat "${DEFAULT_KEY}"
+else
+  echo "Default public key ${DEFAULT_KEY} does not exist. You probably created the key at a different path."
+fi
