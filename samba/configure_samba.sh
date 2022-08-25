@@ -29,7 +29,7 @@ while true; do
     read -p "Are you going to have domain users log in to this machine?" yn
     case $yn in
         [Yy]* ) INSTALL_LOGIN=true; break;;
-        [Nn]* ) INSTALL_LOGIN=false; exit;;
+        [Nn]* ) INSTALL_LOGIN=false; break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
