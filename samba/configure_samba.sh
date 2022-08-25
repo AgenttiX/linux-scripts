@@ -41,6 +41,7 @@ else
   echo "Installing Samba without login support."
   sudo apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind krb5-config krb5-user
 fi
+echo "Samba version: $(samba --version)"
 
 echo "Testing Samba configuration before applying it. You may see a warning about weak crypto."
 echo "It is because of GnuTLS default settings and out of the scope of Samba itself. It is being worked on upstream."
@@ -84,3 +85,14 @@ sed -i 's/^group:          files systemd$/group:          files systemd winbind/
 echo "-----"
 cat "${NSSWITCH_CONF}"
 echo "-----"
+
+# systemctl status smbd.service
+# systemctl status nmbd.service
+# systemctl status winbind.service
+
+echo "Samba version: $(samba --version)"
+echo "If Samba version < 4.15.0, join the host to the domain with:"
+echo "net ads join -U your-admin-username"
+echo "If Samba version >= 4.15.0, join the host to the domain with:"
+echo "samba-tool domain join your-domain.example.com MEMBER -U your-admin-username"
+echo "Then reboot"
