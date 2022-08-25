@@ -26,7 +26,7 @@ NSSWITCH_CONF="/etc/nsswitch.conf"
 SMB_CONF="/etc/samba/smb.conf"
 
 while true; do
-    read -p "Are you going to have domain users log in to this machine?" yn
+    read -p "Are you going to have domain users log in to this machine (y/n)?" yn
     case $yn in
         [Yy]* ) INSTALL_LOGIN=true; break;;
         [Nn]* ) INSTALL_LOGIN=false; break;;
@@ -47,7 +47,7 @@ echo "It is because of GnuTLS default settings and out of the scope of Samba its
 # https://bugzilla.samba.org/show_bug.cgi?id=14583
 # https://bugzilla.redhat.com/show_bug.cgi?id=1840754
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=975882
-testparm "${SCRIPT_DIR}/smb.conf" --suppress-prompt
+testparm "${CONF_DIR}/smb.conf" --suppress-prompt
 
 if [ ! -f "${KRB5_CONF}.bak" ]; then
   echo "Backing up existing ${KRB5_CONF}"
@@ -56,7 +56,7 @@ else
   echo "Backup of ${KRB5_CONF} already exists."
 fi
 echo "Configuring Kerberos"
-cp "${SCRIPT_DIR}/krb5.conf" "${KRB5_CONF}"
+cp "${CONF_DIR}/krb5.conf" "${KRB5_CONF}"
 chown root:root "${KRB5_CONF}"
 chmod 644 "${KRB5_CONF}"
 
@@ -67,7 +67,7 @@ else
   echo "Backup of ${SMB_CONF} already exists."
 fi
 echo "Configuring Samba"
-cp "${SCRIPT_DIR}/smb.conf" "${SMB_CONF}"
+cp "${CONF_DIR}/smb.conf" "${SMB_CONF}"
 chown root:root "${SMB_CONF}"
 chmod 644 "${SMB_CONF}"
 
