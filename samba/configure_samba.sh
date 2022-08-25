@@ -14,7 +14,7 @@ if [ -z "$1" ]; then
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-CONF_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")}/$1/samba"
+CONF_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")/$1/samba"
 
 if [ ! -d "${CONF_DIR}" ]; then
   echo "Config directory was not found: ${CONF_DIR}"
