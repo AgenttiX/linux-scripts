@@ -144,6 +144,7 @@ cat "/proc/mdstat" > "${DIR}/mdstat.txt"
 cat "/var/log/syslog" > "${DIR}/syslog.txt"
 
 report_command acpi --everything --details
+report_command arp
 report_command clinfo
 report_command decode-dimms
 report_command df --human-readable
