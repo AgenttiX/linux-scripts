@@ -4,6 +4,8 @@ adb >= 1.3.0
 
 chkcrontab >= 1.7
 
+exif >= 1.3.5
+
 # gplaycli >= 3.29
 gplaydl >= 1.3.5
 
