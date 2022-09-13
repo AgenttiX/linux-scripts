@@ -1,6 +1,6 @@
 """Script for quickly installing Android apps over ADB"""
 
-from adb import adb_commands
+# from adb import adb_commands
 # from gplaydl import gplaydl
 
 import android_tools as tools
@@ -42,11 +42,16 @@ UTILITY_APPS = [
     "net.sourceforge.opencamera",
     "org.mozilla.firefox",
 ]
-MAGISK_VERSION = "23.0"
+MAGISK_VERSION = "25.2"
 DIRECT_APPS = {
-    f"https://github.com/topjohnwu/Magisk/releases/download/v23.0/Magisk-v{MAGISK_VERSION}.apk": f"Magisk-v{MAGISK_VERSION}.apk",
+    f"https://github.com/topjohnwu/Magisk/releases/download/v{MAGISK_VERSION}/Magisk-v{MAGISK_VERSION}.apk": f"Magisk-v{MAGISK_VERSION}.apk",
     "https://f-droid.org/F-Droid.apk": "F-Droid.apk",
-    "https://github.com/YTVanced/VancedManager/releases/latest/download/manager.apk": "Vanced_manager.apk",
+    # YouTube Vanced has been discontinued
+    # https://vancedapp.com/
+    # "https://github.com/YTVanced/VancedManager/releases/latest/download/manager.apk": "Vanced_manager.apk",
+    # It's still available from APKMirror, but that page does not support automatic downloads
+    # https://www.apkmirror.com/apk/team-vanced/vanced-manager/vanced-manager-2-6-2-crimson-release/vanced-manager-2-6-2-crimson-android-apk-download/
+    # https://www.apkmirror.com/apk/team-vanced/youtube-vanced/youtube-vanced-17-03-38-release/
 }
 TESTING_APPS = [
     "com.cpuid.cpu_z",
@@ -63,12 +68,12 @@ TESTING_APPS = [
 ]
 
 
-def install_default_apps(device: adb_commands.AdbCommands):
-    pass
-    # TODO:
-    # - split the apps to categories
-    # - add settings configuration
-    # https://stackoverflow.com/questions/14432706/adb-command-to-open-settings-and-change-them
+# def install_default_apps(device: adb_commands.AdbCommands):
+#     pass
+#     # TODO:
+#     # - split the apps to categories
+#     # - add settings configuration
+#     # https://stackoverflow.com/questions/14432706/adb-command-to-open-settings-and-change-them
 
 
 def main():
