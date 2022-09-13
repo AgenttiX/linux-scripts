@@ -44,7 +44,7 @@ def main():
     if running_index == -1:
         raise RuntimeError("The running kernel appears not to be installed")
 
-    print("Which kernels would you like to remove?")
+    print("Which kernels would you like to remove? (Separate the numbers by spaces)")
     # Input is safe in Python 3
     remove_input = input()  # nosec
 
