@@ -103,6 +103,15 @@ close-chats() {
   killall --signal TERM walc
 }
 
+update() {
+  sudo apt-get update
+  sudo apt-get dist-upgrade
+  sudo snap refresh
+  flatpak uninstall --unused
+  flatpak update
+  flatpak uninstall --unused
+}
+
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
 alias dirsum1="tar c . | md5sum"
 
@@ -134,9 +143,6 @@ alias protontricks="flatpak run com.github.Matoking.protontricks"
 if ! command -v rocm-smi &> /dev/null && [ -f "/opt/rocm/bin/rocm-smi" ]; then
   alias rocm-smi="/opt/rocm/bin/rocm-smi"
 fi
-
-# Easy upgrading
-alias sagdu="sudo apt-get update && sudo apt-get dist-upgrade && sudo snap refresh && flatpak update"
 
 # Print most recently modified files in current directory. It takes no arguments
 alias vikat="find ${1} -type f | xargs stat --format '%Y :%y: %n' 2>/dev/null | sort -nr | cut -d: -f2,3,5 | head"
