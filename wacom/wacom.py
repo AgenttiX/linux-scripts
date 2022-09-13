@@ -183,7 +183,7 @@ def get_display_info(name: str = ":0") -> tp.Dict[str, tp.Tuple[int, int]]:
             continue
         crtc = d.xrandr_get_crtc_info(params.crtc, res.config_timestamp)
         # Available modes
-        modes = {find_mode(mode, res.modes) for mode in params.modes}
+        # modes = {find_mode(mode, res.modes) for mode in params.modes}
         monitors[params.name] = (crtc.width, crtc.height)
 
     return monitors
@@ -241,14 +241,19 @@ def script(use_big: bool = True):
     #     print(area_x, area_y)
     #     stylus.set_output(area_x, area_y, 1920+180, 0)
 
-    # For the ultrawide monitor
+    # If the ultrawide monitor is connected
     if big_monitor is not None:
         if use_big:
             area_y = 1440
             area_x = int(tablet_aspect_ratio * 1440)
             logger.info(f"Tablet area: ({area_x}, {area_y})")
-            stylus.set_output(area_x, area_y, 1920, 0)
+            # If the left-most monitor is connected
+            if "DisplayPort-2" in monitor_names:
+                stylus.set_output(area_x, area_y, 1920, 0)
+            else:
+                stylus.set_output(area_x, area_y, 0, 0)
         else:
+            # Use the left-most monitor
             stylus.set_output(1920, 1080, 0, 0)
     # For laptop
     # The ports in ThinkPad T480 are
