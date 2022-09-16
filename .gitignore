@@ -52,10 +52,12 @@ LHAPDF*
 logs
 modem-pin.txt
 obs-studio/basic/profiles/**/service.json
+obs-studio/plugin_config/obs-browser
 obs-studio/plugin_config/rtmp-services
 obs-studio/plugin_config/StreamFX/config.json
 obs-studio/plugins
 obs-studio/profiler_data
+obs-studio/updates
 physics/csc/config.sh
 physics/kale/config.sh
 pythia8*
