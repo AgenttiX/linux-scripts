@@ -1,5 +1,10 @@
-#!/usr/bin/bash -e
+#!/usr/bin/env bash
+set -e
+
 # Backup an Android device with ADB
+# This is deprecated and will not backup app data on Android >= 12
+# https://android.stackexchange.com/a/231237/
+# https://developer.android.com/about/versions/12/behavior-changes-12#adb-backup-restrictions
 
 if [ $# -ne 1 ]; then
   echo "Please give the backup path as argument. Use the .ab file extension."
