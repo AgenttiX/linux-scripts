@@ -18,7 +18,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
 LOG_DIR = os.path.join(REPO_DIR, "logs")
 sys.path.append(REPO_DIR)
-import utils
+import misc_utils as utils
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(

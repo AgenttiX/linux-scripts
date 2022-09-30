@@ -1,5 +1,7 @@
 """
 Utility methods for scripts
+
+This file cannot be named utils.py due to naming conflicts with installed packages.
 """
 
 import getpass

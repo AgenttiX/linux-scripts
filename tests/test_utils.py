@@ -1,6 +1,6 @@
 import unittest
 
-import utils
+import misc_utils as utils
 
 
 class UtilsTestCase(unittest.TestCase):

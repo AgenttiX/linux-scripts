@@ -12,8 +12,8 @@ import subprocess as sp
 import time
 import typing as tp
 
-import utils
-from utils import print_info, run
+import misc_utils as utils
+from misc_utils import print_info, run
 
 log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
 os.makedirs(log_path, exist_ok=True)

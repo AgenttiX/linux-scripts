@@ -31,7 +31,7 @@ from Xlib.protocol.rq import DictWrapper
 REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIR)
 
-import utils
+import misc_utils as utils
 
 XSETWACOM: str = "/usr/bin/xsetwacom"
 
