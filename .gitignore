@@ -61,6 +61,8 @@ obs-studio/updates
 physics/csc/config.sh
 physics/kale/config.sh
 pythia8*
+samba/cepces
+samba/sscep
 testing/report
 xournalpp/autosave
 xournalpp/errorlogs

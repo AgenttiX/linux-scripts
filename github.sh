@@ -25,8 +25,16 @@ get_download_url() {
 download_latest_release() {
   if [ $# -ne 3 ]; then
     echo "download_latest_release: Download the latest release of a GitHub repository."
-    echo "Usage: "
+    echo "Usage: download_latest_release <user_name/repository_name> <file_search_string> <output_path>"
     exit 1
   fi
   wget "$(get_download_url "$1" "$2")" -O "$3"
+}
+
+download_release_source() {
+  if [ $# -ne 3 ]; then
+    echo "download_latest_release_source: Download the source code of the latest release of a GitHub repository."
+    echo "Usage: download_latest_release_source <user_name/repository_name> <release> <file_extension (zip/tar.gz)> <output_path>"
+  fi
+  wget "https://github.com/$1/archive/refs/tags/$2.$3" -O "$4"
 }

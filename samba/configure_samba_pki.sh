@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -e
+
+# Configure an Active Directory Certificate Services client.
+
+if [ "${EUID}" -eq 0 ]; then
+   echo "This script should not be run as root."
+   exit 1
+fi
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+REPO_DIR="$(dirname "${SCRIPT_DIR}")"
+GIT_DIR="$(dirname "${REPO_DIR}")"
+
+. "${REPO_DIR}/github.sh"
+
+sudo apt-get update
+# First line: direct dependencies
+# Second line: build dependencies
+sudo apt-get install \
+  certmonger python3-cryptography python3-requests python3-requests-kerberos wget \
+  autoconf automake libtool libssl-dev pkgconf
+
+# These need wget, which is installed above.
+CEPCES_RELEASE="$(get_latest_release "openSUSE/cepces")"
+CEPCES_RELEASE_NUMBER="${CEPCES_RELEASE:1}"
+CEPCES_DIR="${SCRIPT_DIR}/cepces/cepces-${CEPCES_RELEASE_NUMBER}"
+SSCEP_RELEASE="$(get_latest_release "certnanny/sscep")"
+SSCEP_RELEASE_NUMBER="${SSCEP_RELEASE:1}"
+SSCEP_DIR="${SCRIPT_DIR}/sscep/sscep-${SSCEP_RELEASE_NUMBER}"
+
+mkdir -p "${SCRIPT_DIR}/cepces"
+if ! [ -d "${CEPCES_DIR}" ]; then
+  download_release_source "openSUSE/cepces" "${CEPCES_RELEASE}" "tar.gz" "${SCRIPT_DIR}/cepces/cepces-${CEPCES_RELEASE_NUMBER}.tar.gz"
+  tar -xvzf "${CEPCES_DIR}.tar.gz" -C "${SCRIPT_DIR}/cepces"
+fi
+cd ${CEPCES_DIR}
+
+# All the requirements are provided by apt
+# pip3 install -r requirements.txt
+sudo python3 setup.py install
+
+mkdir -p "${SCRIPT_DIR}/sscep"
+if ! [ -d "${SSCEP_DIR}" ]; then
+  download_release_source "certnanny/sscep" "${SSCEP_RELEASE}" "tar.gz" "${SCRIPT_DIR}/sscep/sscep-${SSCEP_RELEASE_NUMBER}.tar.gz"
+  tar -xvzf "${SSCEP_DIR}.tar.gz" -C "${SCRIPT_DIR}/sscep"
+fi
+cd ${SSCEP_DIR}
+
+./bootstrap.sh
+./configure
+make
+sudo make install
