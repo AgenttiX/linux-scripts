@@ -12,5 +12,7 @@ echo "Samba configuration:"
 testparm --suppress-prompt
 echo "Updating group policies."
 samba-gpupdate --rsop
+echo "CAs:"
+getcert list-cas
 echo "Certificates:"
 ls /var/lib/samba/certs
