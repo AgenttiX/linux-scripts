@@ -8,7 +8,9 @@ if [ "${EUID}" -ne 0 ]; then
    exit 1
 fi
 
+echo "Samba configuration:"
 testparm --suppress-prompt
+echo "Updating group policies."
 samba-gpupdate --rsop
 echo "Certificates:"
 ls /var/lib/samba/certs

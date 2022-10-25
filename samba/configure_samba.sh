@@ -40,7 +40,8 @@ if $INSTALL_LOGIN; then
   sudo apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user
 else
   echo "Installing Samba without login support."
-  sudo apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind krb5-config krb5-user
+  # libnss-winbind is necessary for group policy support.
+  sudo apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libnss-winbind krb5-config krb5-user
 fi
 echo "Samba version: $(samba --version)"
 
