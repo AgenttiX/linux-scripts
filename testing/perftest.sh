@@ -34,7 +34,7 @@ sudo apt-get install sysbench speedtest stress-ng wget
 ./geekbench/download_geekbench.sh
 
 if ! which phoronix-test-suite > /dev/null; then
-  FILENAME="phoronix-test-suite_10.8.1_all.deb"
+  FILENAME="phoronix-test-suite_10.8.4_all.deb"
   wget "https://phoronix-test-suite.com/releases/repo/pts.debian/files/${FILENAME}" -O "${FILENAME}"
   sudo dpkg -i "${FILENAME}"
   rm "${FILENAME}"
