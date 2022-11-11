@@ -9,6 +9,7 @@ fi
 
 if [ "$#" -ne 1 ]; then
   echo "Plase give the LibreNMS server IP as the only parameter."
+  exit 1
 fi
 
 apt-get update
