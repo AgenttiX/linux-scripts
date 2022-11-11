@@ -1,9 +1,14 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
 # LibreNMS client installation
 
 if [ "${EUID}" -ne 0 ]; then
    echo "This script should be run as root."
    exit 1
+fi
+
+if [ "$#" -ne 1 ]; then
+  echo "Plase give the LibreNMS server IP as the only parameter."
 fi
 
 apt-get update
@@ -19,12 +24,12 @@ if ! [ -f /etc/snmp/snmpd.conf ]; then
 fi
 
 echo "Creating firewall rule for SNMP"
-ufw allow snmp comment "LibreNMS SNMP"
+ufw allow from "$1" to any port snmp comment "LibreNMS SNMP"
 
 # check_mk agent
 # https://docs.librenms.org/Extensions/Agent-Setup/
 echo "Creating firewall rule for check_mk"
-ufw allow 6556 comment "LibreNMS check_mk"
+ufw allow from "$1" to any port 6556 comment "LibreNMS check_mk"
 echo "Downloading check_mk agent"
 if [ -d /opt/librenms-agent ]; then
     echo "LibreNMS agent appears to be already downloaded. If you have run this script previously, check afterwards that there are no duplicate lines in /etc/snmp/snmpd.conf."
