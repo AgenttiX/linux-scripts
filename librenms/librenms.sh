@@ -134,5 +134,12 @@ if [ $INSTALL_SMART -eq 1 ]; then
     echo "*/3 * * * * /etc/snmp/smart -u"
 fi
 
+echo "Starting snmpd to see that it works."
 systemctl restart snmpd
 systemctl status snmpd
+echo "Stopping snmpd to allow configuring."
+systemctl stop snmpd
+systemctl status snmpd
+# https://stackoverflow.com/questions/13538307/net-snmp-reloading-working-in-strange-way
+echo "Do not edit the snmpd config while it's running! You may run into bizarre issues with SNMPv3 user settings not being applied."
+echo "SNMPv3 SHA-512 and AES-256 have been verified to work with LibreNMS."
