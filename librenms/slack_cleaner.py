@@ -30,7 +30,7 @@ def main():
     print(slack.conversations)
 
     # user = slack.get_user("librenms")
-    channel = slack.get_channel("server")
+    channel = slack.get_channel("it-alerts")
 
     deletable = [
         "Device Down! Due to no ICMP response",
