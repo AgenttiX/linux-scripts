@@ -82,3 +82,31 @@ Shut down the VM.
 - Configure huge pages
   - Enable huge pages in the VM settings
   - Use the scripts from this repo to reserve the memory or use your own configs
+
+### Issues
+Nvidia dmesg spam
+- This can cause lag spikes! (Based on my personal experience.)
+- [Reddit](https://www.reddit.com/r/VFIO/comments/dhdkiv/stop_modprobe_spam/)
+- [Reddit 2](https://www.reddit.com/r/VFIO/comments/90tg4h/comment/e2tppqv/)
+- [Launchpad](https://bugs.launchpad.net/ubuntu/+source/casper/+bug/1824177)
+- [Launchpad 2](https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/1655584)
+
+Add this to your `/etc/modprobe/some-nvidia-script.conf`.
+Replace the version number with the one you're using.
+```
+blacklist nvidia
+blacklist nvidia_drm
+blacklist nvidia_modeset
+blacklist nvidia_uvm
+
+blacklist nvidia_370
+blacklist nvidia_370_drm
+blacklist nvidia_370_modeset
+blacklist nvidia_370_uvm
+
+alias nvidia off
+alias nvidia-uvm off
+alias nvidia-modeset off
+alias nvidia-drm off
+```
+You may also have to add the GPU UIDs to the kernel parameters to prevent the Nvidia driver from grabbing the device.
