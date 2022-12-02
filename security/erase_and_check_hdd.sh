@@ -17,8 +17,9 @@ if ! (command -v smartctl &> /dev/null); then
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-LOG_DIR="${SCRIPT_DIR}/logs"
+LOG_DIR="$(dirname "${SCRIPT_DIR}")/logs"
 TIMESTAMP="$(date +%Y-%m-%d_%H-%M-%S)"
+mkdir -p "${LOG_DIR}"
 
 smartctl --info "${DISK}"
 hdparm -I "${DISK}" &> "${LOG_DIR}/hdparm_${TIMESTAMP}.txt"
