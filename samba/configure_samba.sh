@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+# Before running this script
+# - Add an entry like "YOUR_LOCAL_IP hostname.fqdn hostname" to /etc/hosts
+# https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Domain_Member#Local_Host_Name_Resolution
+
+# Full instructions
 # https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Domain_Member
 
 if [ "${EUID}" -ne 0 ]; then
