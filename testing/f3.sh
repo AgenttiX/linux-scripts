@@ -1,4 +1,5 @@
-#!/bin/sh -e
+#!/usr/bin/env bash
+set -e
 # Flash memory testing script, based on f3
 
 if [ ! $# -eq 1 ]; then
@@ -9,8 +10,9 @@ if [ ! -d $1 ]; then
     echo "The given argument should be a directory"
     exit 2
 fi
-if [ ! -f "/usr/bin/f3write" ]; then
-    sudo apt-get install f3
+if ! (command -v f3read &> /dev/null); then
+  echo "F3 seems not to be installed. Installing."
+  sudo apt-get install f3
 fi
 f3write $1
 f3read $1
