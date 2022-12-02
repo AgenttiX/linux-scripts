@@ -12,7 +12,7 @@ fi
 MEMORY=16384
 HUGEPAGES="$(($MEMORY/$(($(grep Hugepagesize /proc/meminfo | awk '{print $2}')/1024))))"
 
-echo "Allocating hugepages..."
+echo "Allocating hugepages."
 echo $HUGEPAGES > /proc/sys/vm/nr_hugepages
 ALLOC_PAGES=$(cat /proc/sys/vm/nr_hugepages)
 
@@ -28,7 +28,7 @@ done
 
 if [ "$ALLOC_PAGES" -ne "$HUGEPAGES" ]
 then
-    echo "Not able to allocate all hugepages. Reverting..."
+    echo "Not able to allocate all hugepages. Reverting."
     echo 0 > /proc/sys/vm/nr_hugepages
     exit 1
 fi
@@ -36,23 +36,23 @@ fi
 # Set CPU governor to "performance"
 for file in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo "performance" > $file; done
 
-# Unload all Nvidia drivers
+echo "Unloading Nvidia drivers."
 modprobe -r nvidia_drm
 modprobe -r nvidia_modeset
 modprobe -r nvidia_uvm
 modprobe -r nvidia
 
-# Unload the GPU from the host OS
+echo "Unloading PCIe devices from the host OS."
 # You can use the IOMMU script to find the PCIe IDs
 set +e  # If the VM is already running, these can't be detached
 virsh nodedev-detach pci_0000_4c_00_0
 virsh nodedev-detach pci_0000_4c_00_1
 set -e
 
-# Load VFIO kernel module
+echo "Loading VFIO kernel module."
 modprobe vfio-pci
 
-# Isolating pinned CPUs
+echo "Isolating pinned CPUs."
 HOST_CPUS="0-23,32-55"
 # VM_CPUS="24-31,56-63"
 systemctl set-property --runtime -- user.slice AllowedCPUs="${HOST_CPUS}"
