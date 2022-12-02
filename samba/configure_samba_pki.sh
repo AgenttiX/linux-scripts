@@ -29,25 +29,31 @@ SSCEP_RELEASE="$(get_latest_release "certnanny/sscep")"
 SSCEP_RELEASE_NUMBER="${SSCEP_RELEASE:1}"
 SSCEP_DIR="${SCRIPT_DIR}/sscep/sscep-${SSCEP_RELEASE_NUMBER}"
 
+echo "Downloading cepces."
 mkdir -p "${SCRIPT_DIR}/cepces"
 if ! [ -d "${CEPCES_DIR}" ]; then
   download_release_source "openSUSE/cepces" "${CEPCES_RELEASE}" "tar.gz" "${SCRIPT_DIR}/cepces/cepces-${CEPCES_RELEASE_NUMBER}.tar.gz"
   tar -xvzf "${CEPCES_DIR}.tar.gz" -C "${SCRIPT_DIR}/cepces"
 fi
-cd ${CEPCES_DIR}
+cd "${CEPCES_DIR}"
 
+echo "Installing cepces."
 # All the requirements are provided by apt
 # pip3 install -r requirements.txt
 sudo python3 setup.py install
+echo "cepces installation ready."
 
+echo "Downloading sscep."
 mkdir -p "${SCRIPT_DIR}/sscep"
 if ! [ -d "${SSCEP_DIR}" ]; then
   download_release_source "certnanny/sscep" "${SSCEP_RELEASE}" "tar.gz" "${SCRIPT_DIR}/sscep/sscep-${SSCEP_RELEASE_NUMBER}.tar.gz"
   tar -xvzf "${SSCEP_DIR}.tar.gz" -C "${SCRIPT_DIR}/sscep"
 fi
-cd ${SSCEP_DIR}
+cd "${SSCEP_DIR}"
 
+echo "Installing sscep."
 ./bootstrap.sh
 ./configure
 make
 sudo make install
+echo "sscep installation ready."
