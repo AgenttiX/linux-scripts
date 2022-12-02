@@ -47,6 +47,8 @@ echo "Unloading PCIe devices from the host OS."
 set +e  # If the VM is already running, these can't be detached
 virsh nodedev-detach pci_0000_4c_00_0
 virsh nodedev-detach pci_0000_4c_00_1
+# Unload USB controller as well
+virsh nodedev-detach pci_0000_24_00_3
 set -e
 
 echo "Loading VFIO kernel module."
