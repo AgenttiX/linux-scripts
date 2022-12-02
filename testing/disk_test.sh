@@ -5,6 +5,11 @@ if [ "${EUID}" -eq 0 ]; then
   exit 1
 fi
 
+if ! (command -v smartctl &> /dev/null); then
+  echo "smartmontools seems not to be installed. Installing."
+  sudo apt-get install smartmontools
+fi
+
 # Storage devices
 if command -v smartctl &> /dev/null; then
   mapfile -t SMARTCTL_SCAN < <(smartctl --scan)

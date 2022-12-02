@@ -11,6 +11,11 @@ if ! [ -e "${DISK}" ]; then
   exit 1
 fi
 
+if ! (command -v smartctl &> /dev/null); then
+  echo "smartmontools seems not to be installed. Installing."
+  apt-get install smartmontools
+fi
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 LOG_DIR="${SCRIPT_DIR}/logs"
 TIMESTAMP="$(date +%Y-%m-%d_%H-%M-%S)"
