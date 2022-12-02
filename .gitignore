@@ -50,6 +50,7 @@ id_rsa*
 keys
 LHAPDF*
 logs
+lshw.html
 modem-pin.txt
 obs-studio/basic/profiles/**/service.json
 obs-studio/plugin_config/obs-browser
