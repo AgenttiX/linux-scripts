@@ -11,7 +11,8 @@ Core:
   Thread Scheduler Mode: Operating System
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
-  SPU GETLLAR polling detection: false
+  SPU Reservation Busy Waiting Percentage: 0
+  SPU GETLLAR Busy Waiting Percentage: 100
   SPU Debug: false
   MFC Debug: false
   Preferred SPU Threads: 0
@@ -21,8 +22,10 @@ Core:
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false
+  Accurate SPU Reservations: true
   Accurate Cache Line Stores: false
   Accurate RSX reservation access: false
+  RSX FIFO Accuracy: Fast
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
@@ -32,6 +35,7 @@ Core:
   Enable TSX: Disabled
   Accurate xfloat: false
   Approximate xfloat: true
+  Relaxed xfloat: true
   Accurate PPU 128-byte Reservation Op Max Length: 0
   Stub PPU Traps: 0
   Full Width AVX-512: false
@@ -52,21 +56,29 @@ Core:
   TSX Transaction First Limit: 800
   TSX Transaction Second Limit: 2000
   Clocks scale: 100
+  SPU Wake-Up Delay: 0
+  SPU Wake-Up Delay Thread Mask: 63
+  Max CPU Preempt Count: 0
+  Allow RSX CPU Preemptions: true
   Sleep Timers Accuracy: As Host
   Performance Report Threshold: 500
   Enable Performance Report: false
+  Assume External Debugger: false
 VFS:
   Enable /host_root/: false
   Initialize Directories: true
   Limit disk cache size: false
   Disk cache maximum size (MB): 5120
+  Empty /dev_hdd0/tmp/: true
 Video:
   Renderer: Vulkan
   Resolution: 1280x720
   Aspect ratio: 16:9
   Frame limit: Auto
+  Second Frame Limit: 0.000000
   MSAA: Auto
   Shader Mode: Async Shader Recompiler
+  Shader Precision: High
   Write Color Buffers: false
   Write Depth Buffer: false
   Read Color Buffers: false
@@ -81,6 +93,7 @@ Video:
   Force High Precision Z buffer: false
   Strict Rendering Mode: false
   Disable ZCull Occlusion Queries: false
+  Disable Video Output: false
   Disable Vertex Cache: false
   Disable FIFO Reordering: false
   Enable Frame Skip: false
@@ -89,12 +102,11 @@ Video:
   Disable Vulkan Memory Allocator: false
   Use full RGB output range: true
   Strict Texture Flushing: false
-  Disable native float16 support: false
-  Multithreaded RSX: false
+  Multithreaded RSX: true
   Relaxed ZCULL Sync: false
   Enable 3D: false
   Debug Program Analyser: false
-  Accurate ZCULL stats: true
+  Accurate ZCULL stats: false
   Consecutive Frames To Draw: 1
   Consecutive Frames To Skip: 1
   Resolution Scale: 100
@@ -107,15 +119,17 @@ Video:
   Vblank Rate: 60
   Vblank NTSC Fixup: false
   DECR memory layout: false
+  Allow Host GPU Labels: false
+  Disable MSL Fast Math: false
   Vulkan:
-    Adapter: NVIDIA GeForce MX150
+    Adapter: AMD RADV VEGA20
     Force FIFO present mode: false
     Force primitive restart flag: false
-    Force Disable Exclusive Fullscreen Mode: false
+    Exclusive Fullscreen Mode: Automatic
     Asynchronous Texture Streaming 2: false
-    Enable FidelityFX Super Resolution Upscaling: false
+    Enable FidelityFX Super Resolution Upscaling: true
     FidelityFX CAS Sharpening Intensity: 50
-    Asynchronous Queue Scheduler: Device
+    Asynchronous Queue Scheduler: Safe
   Performance Overlay:
     Enabled: false
     Enable Framerate Graph: false
@@ -147,17 +161,22 @@ Video:
     Blur effect strength: 0
 Audio:
   Renderer: Cubeb
-  Audio provider: CellAudio
+  Audio Provider: CellAudio
+  RSXAudio Avport: HDMI 0
   Dump to file: false
   Convert to 16 bit: false
-  Audio Channels: Downmix to Stereo
+  Audio Format: Stereo
+  Audio Formats: 0
+  Audio Device: "@@@default@@@"
   Master Volume: 100
   Enable Buffering: true
   Desired Audio Buffer Duration: 100
   Enable Time Stretching: false
+  Disable Sampling Skip: false
   Time Stretching Threshold: 75
   Microphone Type: "Null"
   Microphone Devices: "@@@@@@@@@@@@"
+  Music Handler: Qt
 Input/Output:
   Keyboard: "Null"
   Mouse: Basic
@@ -169,18 +188,30 @@ Input/Output:
   Buzz emulated controller: "Null"
   Turntable emulated controller: "Null"
   GHLtar emulated controller: "Null"
+  Pad handler mode: Single-threaded
+  Pad handler sleep (microseconds): 1000
+  Background input enabled: true
+  Show move cursor: false
 System:
   License Area: SCEE
   Language: English (US)
   Keyboard Type: Finnish keyboard
   Enter button assignment: Enter with cross
   Console time offset (s): 0
+  PSID high: 0
+  PSID low: 0
 Net:
   Internet enabled: Disconnected
   IP address: 0.0.0.0
+  Bind address: 0.0.0.0
   DNS address: 8.8.8.8
   IP swap list: ""
   PSN status: Disconnected
+Savestate:
+  Start Paused: false
+  Suspend Emulation Savestate Mode: false
+  Inspection Mode Savestates: false
+  Save Disc Game Data: false
 Miscellaneous:
   Automatically start games after boot: true
   Exit RPCS3 when process finishes: false
