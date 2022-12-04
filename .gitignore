@@ -20,9 +20,15 @@ zsh-syntax-highlighting
 *.AppImage
 *.bak
 *.bin
+*.BIN
 *.bk
+*.cache
+*.dat
+*.idx
+*.iso
 *.jar
 *.mec
+*.mcd
 *.mcr
 *.nvm
 *.ps2

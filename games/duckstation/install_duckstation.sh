@@ -10,14 +10,15 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 sudo apt-get update
 sudo apt-get install wget
 
-wget "https://github.com/stenzek/duckstation/releases/download/latest/duckstation-qt-x64.AppImage" -O "./duckstation-qt-x64.AppImage"
-chmod +x "./duckstation-qt-x64.AppImage"
+FILENAME="DuckStation-x64.AppImage"
+wget "https://github.com/stenzek/duckstation/releases/download/latest/${FILENAME}" -O "${SCRIPT_DIR}/${FILENAME}"
+chmod +x "${SCRIPT_DIR}/${FILENAME}"
 
 CONFIG_PATH="${HOME}/.local/share/duckstation"
 if ! [ -L "$CONFIG_PATH" ]; then
   mkdir -p "$(dirname "${CONFIG_PATH}")"
   if [ -d "$CONFIG_PATH" ]; then
-    rm -r "${CONFIG_PATH}"
+    mv "${CONFIG_PATH}" "${HOME}/DuckStation-old-config-backup"
   fi
   ln -s "${SCRIPT_DIR}" "${CONFIG_PATH}"
 fi
