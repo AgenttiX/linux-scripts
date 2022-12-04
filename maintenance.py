@@ -15,11 +15,12 @@ import typing as tp
 import misc_utils as utils
 from misc_utils import print_info, run
 
-log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
-os.makedirs(log_path, exist_ok=True)
+SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
+LOG_PATH = os.path.join(SCRIPT_PATH, "logs")
+os.makedirs(LOG_PATH, exist_ok=True)
 logging.basicConfig(
     handlers=[
-        logging.FileHandler(os.path.join(log_path, "maintenance_{}.txt".format(time.strftime("%Y-%m-%d_%H-%M-%S"))))
+        logging.FileHandler(os.path.join(LOG_PATH, "maintenance_{}.txt".format(time.strftime("%Y-%m-%d_%H-%M-%S"))))
     ],
     level=logging.DEBUG,
     format="%(asctime)s %(levelname)-8s %(message)s"
@@ -323,6 +324,15 @@ def trim() -> None:
         print_info("fstrim not found")
 
 
+def virtualbox_host() -> None:
+    """This does not work, as it does not capture output."""
+    if os.path.exists("/usr/bin/virtualbox"):
+        print_info("Running VirtualBox maintenance script.")
+        run([os.path.join(SCRIPT_PATH, "virtualbox", "vbox_host_maintenance.sh")])
+    else:
+        print_info("VirtualBox not found")
+
+
 def zerofree() -> None:
     print("Zeroing free disk space on /")
     # The directory /var/tmp is used instead of /tmp, as the latter may be on a ramdisk or a separate partition.
@@ -340,6 +350,7 @@ def main():
     parser.add_argument("--reboot", help="Reboot once the script is ready", action="store_true")
     parser.add_argument("--shutdown", help="Shutdown once the script is ready", action="store_true")
     parser.add_argument("--thunderbird", help="Deep-clean Thunderbird", action="store_true")
+    parser.add_argument("--virtualbox", help="Optimize VirtualBox disk images on the host", action="store_true")
     parser.add_argument("--zerofree", help="Zero free disk space", action="store_true")
     args = parser.parse_args()
     logger.info("Args: %s", args)
@@ -348,6 +359,8 @@ def main():
         raise ValueError("Both reboot and shutdown cannot be selected simultaneously.")
     if args.deep:
         print_info("Deep scan has been selected. Some processes may take a long time.")
+    if args.virtualbox:
+        raise NotImplementedError("VirtualBox support does not work yet.")
 
     zero = get_zerofree_status(args)
 
@@ -380,4 +393,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    virtualbox()
+    # main()
