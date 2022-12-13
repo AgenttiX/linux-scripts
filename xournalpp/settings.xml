@@ -145,6 +145,10 @@
     </data>
   </data>
   <data name="deviceClasses">
+    <data name="Dell Premium USB Optical Mouse">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
     <data name="G2Touch Multi-Touch by G2TSP">
       <attribute name="deviceClass" type="int" value="3"/>
       <attribute name="deviceSource" type="int" value="5"/>
@@ -161,6 +165,14 @@
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="0"/>
     </data>
+    <data name="Logitech USB Laser Mouse">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
+    <data name="Logitech USB Optical Mouse">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
     <data name="SynPS/2 Synaptics TouchPad">
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="6"/>
@@ -168,6 +180,10 @@
     <data name="TPPS/2 IBM TrackPoint">
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="7"/>
+    </data>
+    <data name="USB OPTICAL MOUSE ">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
     </data>
     <data name="Virtual core XTEST pointer">
       <attribute name="deviceClass" type="int" value="0"/>
