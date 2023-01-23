@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
+
 # Based on the script by Joona Halonen
 # https://github.com/JoonaHa/Single-GPU-VFIO-Win10/blob/main/hooks/win10-vfio/prepare/begin/start.sh
 # set -x
@@ -33,7 +35,7 @@ then
     exit 1
 fi
 
-# Set CPU governor to "performance"
+echo "Setting CPU governor to \"performance\"."
 for file in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo "performance" > $file; done
 
 echo "Unloading Nvidia drivers."
