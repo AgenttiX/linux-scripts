@@ -49,96 +49,96 @@ CUSTOM_WRITES: tp.Dict[str, tp.Dict[str, str]] = {
     },
 }
 
+DEFAULT_HDPARM_PARAMS = {
+    # Advanced Power Management
+    # 127 = the highest performance that allows spin-down
+    "-B": 127,
+    # Spindown timeout
+    # 241 = 1 * 30 min = 30 min
+    "-S": 241
+}
 HDPARM_PARAMS: tp.Dict[str, tp.Dict[str, tp.Dict[str, int]]] = {
     "0B4Ch": {
-        "ata-TOSHIBA_THNSNF128GCSS_Z2IS10NMT8KY": {
-            "-B": 127,
-            "-S": 241
-        },
-        "ata-ST4000DM000-1F2168_S301LPS3": {
-            "-B": 127,
-            "-S": 241
-        },
-        "ata-ST4000DM000-1F2168_Z3018Q9G": {
-            "-B": 127,
-            "-S": 241
-        },
-        "ata-ST4000DM000-1F2168_Z30199N4": {
-            "-B": 127,
-            "-S": 241
-        },
-        "ata-ST4000DM000-1F2168_Z302HEFX": {
-            "-B": 127,
-            "-S": 241
-        },
-        "ata-ST4000DM000-1F2168_Z303ZLPZ": {
-            "-B": 127,
-            "-S": 241
-        }
+        "ata-TOSHIBA_THNSNF128GCSS_Z2IS10NMT8KY": DEFAULT_HDPARM_PARAMS,
+        "ata-ST4000DM000-1F2168_S301LPS3": DEFAULT_HDPARM_PARAMS,
+        "ata-ST4000DM000-1F2168_Z3018Q9G": DEFAULT_HDPARM_PARAMS,
+        "ata-ST4000DM000-1F2168_Z30199N4": DEFAULT_HDPARM_PARAMS,
+        "ata-ST4000DM000-1F2168_Z302HEFX": DEFAULT_HDPARM_PARAMS,
+        "ata-ST4000DM000-1F2168_Z303ZLPZ": DEFAULT_HDPARM_PARAMS,
+    },
+    "H12SSL-i": {
+        "ata-KINGSTON_SV300S37A60G_50026B722B025035": DEFAULT_HDPARM_PARAMS,
+        "ata-ST18000NM000J-2TV103_WR5045KM": DEFAULT_HDPARM_PARAMS,
+        "ata-ST18000NM000J-2TV103_WR504FLS": DEFAULT_HDPARM_PARAMS,
+        "ata-ST18000NM000J-2TV103_WR506LK7": DEFAULT_HDPARM_PARAMS,
+        "ata-ST18000NM000J-2TV103_WR508JCN": DEFAULT_HDPARM_PARAMS,
+        "ata-ST18000NM000J-2TV103_WR508LS2": DEFAULT_HDPARM_PARAMS,
+        "ata-ST18000NM000J-2TV103_WR5090KG": DEFAULT_HDPARM_PARAMS,
+        "ata-WDC_WD30EFRX-68AX9N0_WD-WMC1T0871116": DEFAULT_HDPARM_PARAMS,
     }
 }
 
 POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
     # HP Z400 Workstation
-    "0B4Ch": [
-        # GPU
-        "/sys/bus/i2c/devices/i2c-0/device",
-        "/sys/bus/i2c/devices/i2c-12/device",
-
-        # Audio
-        "/sys/bus/pci/devices/0000:00:1b.0",
-
-        # LAN
-        "/sys/bus/pci/devices/0000:01:00.0",
-
-        # USB
-        "/sys/bus/usb/devices/1-4",
-        "/sys/bus/pci/devices/0000:00:1a.0",
-        "/sys/bus/pci/devices/0000:00:1a.2",
-        "/sys/bus/pci/devices/0000:00:1d.2",
-        "/sys/bus/pci/devices/0000:00:1a.7",
-        "/sys/bus/pci/devices/0000:00:1d.0",
-        "/sys/bus/pci/devices/0000:03:00.0",
-        "/sys/bus/pci/devices/0000:00:1d.1",
-        "/sys/bus/pci/devices/0000:00:1d.7",
-
-        # CPU, motherboard & memory
-        "/sys/bus/pci/devices/0000:00:15.0",
-        "/sys/bus/pci/devices/0000:3f:04.1",
-        "/sys/bus/pci/devices/0000:00:10.1",
-        "/sys/bus/pci/devices/0000:3f:03.1",
-        "/sys/bus/pci/devices/0000:00:14.2",
-        "/sys/bus/pci/devices/0000:00:11.0",
-        "/sys/bus/pci/devices/0000:00:00.0",
-        "/sys/bus/pci/devices/0000:3f:05.0",
-        "/sys/bus/pci/devices/0000:3f:05.2",
-        "/sys/bus/pci/devices/0000:00:1e.0",
-        "/sys/bus/pci/devices/0000:3f:04.3",
-        "/sys/bus/pci/devices/0000:3f:05.1",
-        "/sys/bus/pci/devices/0000:3f:03.4",
-        "/sys/bus/pci/devices/0000:3f:02.1",
-        "/sys/bus/pci/devices/0000:3f:04.0",
-        "/sys/bus/pci/devices/0000:3f:05.3",
-        "/sys/bus/pci/devices/0000:3f:04.2",
-        "/sys/bus/pci/devices/0000:00:14.1",
-        "/sys/bus/pci/devices/0000:00:14.0",
-        "/sys/bus/pci/devices/0000:3f:00.1",
-        "/sys/bus/pci/devices/0000:37:05.0",
-        "/sys/bus/pci/devices/0000:3f:00.0",
-        "/sys/bus/pci/devices/0000:00:1f.2",
-        "/sys/bus/pci/devices/0000:3f:06.2",
-        "/sys/bus/pci/devices/0000:3f:03.0",
-        "/sys/bus/pci/devices/0000:3f:06.0",
-        "/sys/bus/pci/devices/0000:00:10.0",
-        "/sys/bus/pci/devices/0000:00:11.1",
-        "/sys/bus/pci/devices/0000:00:1f.0",
-        "/sys/bus/pci/devices/0000:3f:02.0",
-        "/sys/bus/pci/devices/0000:00:1c.0",
-        "/sys/bus/pci/devices/0000:3f:06.3",
-        "/sys/bus/pci/devices/0000:00:1c.5",
-        "/sys/bus/pci/devices/0000:00:1a.1",
-        "/sys/bus/pci/devices/0000:3f:06.1",
-    ],
+    # "0B4Ch": [
+    #     # GPU
+    #     "/sys/bus/i2c/devices/i2c-0/device",
+    #     "/sys/bus/i2c/devices/i2c-12/device",
+    #
+    #     # Audio
+    #     "/sys/bus/pci/devices/0000:00:1b.0",
+    #
+    #     # LAN
+    #     "/sys/bus/pci/devices/0000:01:00.0",
+    #
+    #     # USB
+    #     "/sys/bus/usb/devices/1-4",
+    #     "/sys/bus/pci/devices/0000:00:1a.0",
+    #     "/sys/bus/pci/devices/0000:00:1a.2",
+    #     "/sys/bus/pci/devices/0000:00:1d.2",
+    #     "/sys/bus/pci/devices/0000:00:1a.7",
+    #     "/sys/bus/pci/devices/0000:00:1d.0",
+    #     "/sys/bus/pci/devices/0000:03:00.0",
+    #     "/sys/bus/pci/devices/0000:00:1d.1",
+    #     "/sys/bus/pci/devices/0000:00:1d.7",
+    #
+    #     # CPU, motherboard & memory
+    #     "/sys/bus/pci/devices/0000:00:15.0",
+    #     "/sys/bus/pci/devices/0000:3f:04.1",
+    #     "/sys/bus/pci/devices/0000:00:10.1",
+    #     "/sys/bus/pci/devices/0000:3f:03.1",
+    #     "/sys/bus/pci/devices/0000:00:14.2",
+    #     "/sys/bus/pci/devices/0000:00:11.0",
+    #     "/sys/bus/pci/devices/0000:00:00.0",
+    #     "/sys/bus/pci/devices/0000:3f:05.0",
+    #     "/sys/bus/pci/devices/0000:3f:05.2",
+    #     "/sys/bus/pci/devices/0000:00:1e.0",
+    #     "/sys/bus/pci/devices/0000:3f:04.3",
+    #     "/sys/bus/pci/devices/0000:3f:05.1",
+    #     "/sys/bus/pci/devices/0000:3f:03.4",
+    #     "/sys/bus/pci/devices/0000:3f:02.1",
+    #     "/sys/bus/pci/devices/0000:3f:04.0",
+    #     "/sys/bus/pci/devices/0000:3f:05.3",
+    #     "/sys/bus/pci/devices/0000:3f:04.2",
+    #     "/sys/bus/pci/devices/0000:00:14.1",
+    #     "/sys/bus/pci/devices/0000:00:14.0",
+    #     "/sys/bus/pci/devices/0000:3f:00.1",
+    #     "/sys/bus/pci/devices/0000:37:05.0",
+    #     "/sys/bus/pci/devices/0000:3f:00.0",
+    #     "/sys/bus/pci/devices/0000:00:1f.2",
+    #     "/sys/bus/pci/devices/0000:3f:06.2",
+    #     "/sys/bus/pci/devices/0000:3f:03.0",
+    #     "/sys/bus/pci/devices/0000:3f:06.0",
+    #     "/sys/bus/pci/devices/0000:00:10.0",
+    #     "/sys/bus/pci/devices/0000:00:11.1",
+    #     "/sys/bus/pci/devices/0000:00:1f.0",
+    #     "/sys/bus/pci/devices/0000:3f:02.0",
+    #     "/sys/bus/pci/devices/0000:00:1c.0",
+    #     "/sys/bus/pci/devices/0000:3f:06.3",
+    #     "/sys/bus/pci/devices/0000:00:1c.5",
+    #     "/sys/bus/pci/devices/0000:00:1a.1",
+    #     "/sys/bus/pci/devices/0000:3f:06.1",
+    # ],
     # ThinkPad T480
     "20L5CTO1WW": [
         # PCIe
@@ -199,7 +199,117 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/pci/devices/0000:06:00.0",
         "/sys/bus/pci/devices/0000:07:00.0",
         "/sys/bus/usb/devices/5-2.1.1.4",
-
+    ],
+    # Supermicro H12SSL-i
+    "H12SSL-i": [
+        # AMD PCIe Dummy Host Bridge
+        "/sys/bus/pci/devices/0000:00:01.0",
+        "/sys/bus/pci/devices/0000:00:02.0",
+        "/sys/bus/pci/devices/0000:00:03.0",
+        "/sys/bus/pci/devices/0000:00:04.0",
+        "/sys/bus/pci/devices/0000:00:05.0",
+        "/sys/bus/pci/devices/0000:00:07.0",
+        "/sys/bus/pci/devices/0000:00:08.0",
+        "/sys/bus/pci/devices/0000:40:01.0",
+        "/sys/bus/pci/devices/0000:40:02.0",
+        "/sys/bus/pci/devices/0000:40:04.0",
+        "/sys/bus/pci/devices/0000:40:05.0",
+        "/sys/bus/pci/devices/0000:40:07.0",
+        "/sys/bus/pci/devices/0000:40:08.0",
+        "/sys/bus/pci/devices/0000:80:01.0",
+        "/sys/bus/pci/devices/0000:80:02.0",
+        "/sys/bus/pci/devices/0000:80:03.0",
+        "/sys/bus/pci/devices/0000:80:04.0",
+        "/sys/bus/pci/devices/0000:80:05.0",
+        "/sys/bus/pci/devices/0000:80:07.0",
+        "/sys/bus/pci/devices/0000:80:08.0",
+        "/sys/bus/pci/devices/0000:c0:01.0",
+        "/sys/bus/pci/devices/0000:c0:04.0",
+        "/sys/bus/pci/devices/0000:c0:02.0",
+        "/sys/bus/pci/devices/0000:c0:05.0",
+        "/sys/bus/pci/devices/0000:c0:07.0",
+        "/sys/bus/pci/devices/0000:c0:08.0",
+        # AMD PCIe Dummy Function
+        "/sys/bus/pci/devices/0000:03:00.0",
+        "/sys/bus/pci/devices/0000:47:00.0",
+        "/sys/bus/pci/devices/0000:81:00.0",
+        "/sys/bus/pci/devices/0000:c1:00.0",
+        # AMD Starship (and some IOMMU and PTDMA)
+        "/sys/bus/pci/devices/0000:00:00.0",
+        "/sys/bus/pci/devices/0000:00:18.1",
+        "/sys/bus/pci/devices/0000:00:18.3",
+        "/sys/bus/pci/devices/0000:00:18.4",
+        "/sys/bus/pci/devices/0000:00:18.5",
+        "/sys/bus/pci/devices/0000:00:18.6",
+        "/sys/bus/pci/devices/0000:00:18.7",
+        "/sys/bus/pci/devices/0000:04:00.0",
+        "/sys/bus/pci/devices/0000:04:00.2",
+        "/sys/bus/pci/devices/0000:40:00.0",
+        "/sys/bus/pci/devices/0000:40:00.2",
+        "/sys/bus/pci/devices/0000:48:00.0",
+        "/sys/bus/pci/devices/0000:82:00.0",
+        "/sys/bus/pci/devices/0000:c0:00.0",
+        "/sys/bus/pci/devices/0000:c2:00.0",
+        # IOMMU
+        "/sys/bus/pci/devices/0000:00:00.2",
+        "/sys/bus/pci/devices/0000:c0:00.2",
+        # AMD PTDMA
+        "/sys/bus/pci/devices/0000:c2:00.2",
+        "/sys/bus/pci/devices/0000:c1:00.2",
+        "/sys/bus/pci/devices/0000:48:00.2",
+        "/sys/bus/pci/devices/0000:47:00.2",
+        "/sys/bus/pci/devices/0000:81:00.2",
+        "/sys/bus/pci/devices/0000:82:00.2",
+        "/sys/bus/pci/devices/0000:03:00.2",
+        # Cryptographic Croprocessor PSPCPP
+        "/sys/bus/pci/devices/0000:48:00.1",
+        # AMD FCH LPC Bridge
+        "/sys/bus/pci/devices/0000:00:14.3",
+        # SATA controller
+        "/sys/bus/pci/devices/0000:84:00.0",
+        "/sys/bus/pci/devices/0000:84:00.0",
+        "/sys/bus/pci/devices/0000:4a:00.0",
+        "/sys/bus/pci/devices/0000:49:00.0/ata1",
+        "/sys/bus/pci/devices/0000:49:00.0/ata2",
+        "/sys/bus/pci/devices/0000:49:00.0/ata3",
+        "/sys/bus/pci/devices/0000:49:00.0/ata4",
+        "/sys/bus/pci/devices/0000:49:00.0/ata5",
+        "/sys/bus/pci/devices/0000:49:00.0/ata6",
+        "/sys/bus/pci/devices/0000:49:00.0/ata7",
+        "/sys/bus/pci/devices/0000:49:00.0/ata8",
+        # "/sys/bus/pci/devices/0000:49:00.0/ata9",
+        # "/sys/bus/pci/devices/0000:49:00.0/ata10",
+        "/sys/bus/pci/devices/0000:83:00.0",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata11",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata12",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata13",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata14",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata15",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata16",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata17",
+        "/sys/bus/pci/devices/0000:4a:00.0/ata18",
+        # Ethernet
+        "/sys/bus/usb/devices/7-1.2",
+        # USB controllers
+        "/sys/bus/pci/devices/0000:04:00.3",
+        "/sys/bus/pci/devices/0000:42:00.0",
+        "/sys/bus/pci/devices/0000:45:00.0",
+        # SMBus PIIX4 I2C
+        "/sys/bus/i2c/devices/i2c-1",
+        # SMCI HID KM
+        "/sys/bus/usb/devices/7-1.1",
+        # AST i2c bit bus
+        "/sys/bus/i2c/devices/i2c-3",
+        # ASPEED AST1150 PCI-to-PCI bridge
+        "/sys/bus/pci/devices/0000:43:00.0",
+        # Samsung
+        "/sys/bus/pci/devices/0000:02:00.0",
+        # NVMe
+        "/sys/bus/pci/devices/0000:01:00.0",
+        # Mellanox
+        "/sys/bus/pci/devices/0000:41:00.0",
+        # RTL2832U
+        "/sys/bus/i2c/devices/i2c-4",
     ],
     "ROG ZENITH II EXTREME": [
         # Chipset
