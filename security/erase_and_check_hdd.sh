@@ -40,6 +40,8 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 fi
 
-badblocks -wsv "${DISK}" -o "${LOG_DIR}/badblocks_${TIMESTAMP}.txt"
+# The larger blocksize is necessary for larger drives
+# https://askubuntu.com/questions/548945/how-to-check-badsector-on-ext4-6tb
+badblocks -b 8192 -wsv "${DISK}" -o "${LOG_DIR}/badblocks_${TIMESTAMP}.txt"
 smartctl --test=long "${DISK}"
 smartctl --all "${DISK}" |& tee "${LOG_DIR}/smartctl_${TIMESTAMP}_after.txt"
