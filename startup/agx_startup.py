@@ -667,11 +667,15 @@ def disable_wakeups(sources: tp.Dict[str, tp.List[str]] = WAKEUP_SOURCES) -> Non
         disable_wakeup(device)
 
 
-def fix_boinc() -> subprocess.CompletedProcess:
+def fix_boinc() ->  tp.Optional[subprocess.CompletedProcess]:
     """Fix BOINC suspension on computer use
 
     Failure only breaks this feature, so it's OK to set check=False
     """
+    if not os.path.exists("/usr/bin/xhost"):
+        print("xhost was not found, cannot fix BOINC suspension")
+        return None
+
     ret = subprocess.run(["xhost", "si:localuser:boinc"], check=False)
     if ret.returncode:
         print(f"Fixing BOINC suspension failed, got return code {ret.returncode}")
