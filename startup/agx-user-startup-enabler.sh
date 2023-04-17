@@ -12,7 +12,7 @@ PLASMA_WORKSPACE_DIR="${HOME}/.config/plasma-workspace"
 if [ -d "${PLASMA_WORKSPACE_DIR}" ]; then
   echo "Installing the agx-user-pre-startup script."
   mkdir -p "${PLASMA_WORKSPACE_DIR}/env"
-  ln -s "${SCRIPT_DIR}/agx-user-pre-startup.sh" "${PLASMA_WORKSPACE_DIR}/env/agx-user-pre-startup.sh"
+  ln -sf "${SCRIPT_DIR}/agx-user-pre-startup.sh" "${PLASMA_WORKSPACE_DIR}/env/agx-user-pre-startup.sh"
 else
   echo "Plasma workspace config directory was not found. Cannot install pre-startup script."
 fi
@@ -20,7 +20,7 @@ fi
 STARTUP_DIR="${HOME}/.config/autostart/"
 if [ -d "${STARTUP_DIR}" ]; then
   echo "Installing the agx-user-startup script."
-  ln -s "${SCRIPT_DIR}/agx-user-startup.desktop" "${STARTUP_DIR}/agx-user-startup.desktop"
+  ln -sf "${SCRIPT_DIR}/agx-user-startup.desktop" "${STARTUP_DIR}/agx-user-startup.desktop"
 else
   echo "Autostart directory was not found. Cannot install startup script."
 fi
