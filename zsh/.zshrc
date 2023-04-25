@@ -173,6 +173,10 @@ export POWERSHELL_TELEMETRY_OPTOUT="1"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias fuck="sudo"
+alias fucking="sudo"
+alias please="sudo"
+
 # Powerlevel10k configuration
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
