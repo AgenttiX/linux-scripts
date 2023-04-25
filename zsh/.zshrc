@@ -130,8 +130,8 @@ unset STDERRED_PATH
 # Ruby
 # https://jekyllrb.com/docs/installation/ubuntu/
 # This has to be before colorls loading, as it uses gem, which is configured here.
-export GEM_HOME="$HOME/gems"
-export PATH="${HOME}/gems/bin:${PATH}"
+export GEM_HOME="$HOME/.gems"
+export PATH="${HOME}/.gems/bin:${PATH}"
 
 # Colorls configuration
 # https://github.com/athityakumar/colorls
