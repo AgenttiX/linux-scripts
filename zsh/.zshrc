@@ -136,12 +136,14 @@ export PATH="${HOME}/.gems/bin:${PATH}"
 # Colorls configuration
 # https://github.com/athityakumar/colorls
 if command -v gem &> /dev/null; then
-    COLORLS_PATH="$(dirname $(gem which colorls))"
-    if [ -d $COLORLS_PATH ]; then
+    COLORLS_FILE_PATH="$(gem which colorls)"
+    if [ -f "${COLORLS_FILE_PATH}" ]; then
+        COLORLS_PATH="$(dirname "${COLORLS_FILE_PATH}")"
         source "${COLORLS_PATH}/tab_complete.sh"
     else
         echo "Colorls was not found. Please install it with \"gem install colorls\" or remove it form .zshrc."
     fi
+    unset COLORLS_FILE_PATH
     unset COLORLS_PATH
 else
     echo "Gem was not found. Please install Ruby."
