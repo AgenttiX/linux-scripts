@@ -202,3 +202,7 @@ fi
 if [ -f "${HOME}/Git/vxl-scripts/utils.zsh" ]; then
   . "${HOME}/Git/vxl-scripts/utils.zsh"
 fi
+
+if [ -f "${HOME}/Git/private-scripts/utils.zsh" ]; then
+  . "${HOME}/Git/private-scripts/utils.zsh"
+fi
