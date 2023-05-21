@@ -6,6 +6,7 @@
 compress_7z() {
   if [ $# -lt 1 ]; then
     echo "Please give the file path."
+    return 1
   fi
   # https://stackoverflow.com/a/965072/
   FILENAME=$(basename -- "$1")
@@ -20,6 +21,7 @@ compress_7z() {
 compress_zip() {
   if [ $# -lt 1 ]; then
     echo "Please give the file path."
+    return 1
   fi
   # https://stackoverflow.com/a/965072/
   FILENAME=$(basename -- "$1")
