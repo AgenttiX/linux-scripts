@@ -13,8 +13,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 apt-get update
-if ! command -v wget &> /dev/null
-then
+if ! command -v wget &> /dev/null; then
     echo "Wget was not found. Installing it now."
     apt-get install wget -y
 fi
@@ -24,13 +23,17 @@ if ! [ -f /etc/snmp/snmpd.conf ]; then
     apt-get install snmpd -y
 fi
 
-echo "Creating firewall rule for SNMP"
-ufw allow from "$1" to any port snmp comment "LibreNMS SNMP"
+if command -v ufw &> /dev/null; then
+  echo "Creating firewall rule for SNMP"
+  ufw allow from "$1" to any port snmp comment "LibreNMS SNMP"
+  echo "Creating firewall rule for check_mk"
+  ufw allow from "$1" to any port 6556 comment "LibreNMS check_mk"
+else
+  echo "Could not create firewall rules, as ufw was not found."
+fi
 
 # check_mk agent
 # https://docs.librenms.org/Extensions/Agent-Setup/
-echo "Creating firewall rule for check_mk"
-ufw allow from "$1" to any port 6556 comment "LibreNMS check_mk"
 echo "Downloading check_mk agent"
 if [ -d /opt/librenms-agent ]; then
     echo "LibreNMS agent appears to be already downloaded. If you have run this script previously, check afterwards that there are no duplicate lines in /etc/snmp/snmpd.conf."
