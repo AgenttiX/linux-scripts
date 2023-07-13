@@ -8,5 +8,5 @@ LOG_PATH="${REPO_DIR}/logs/rsync_backup_${TIMESTAMP}.txt"
 rsync \
   --archive --compress --delete --partial --progress --stats \
   --exclude-from="${SCRIPT_DIR}/rsync_exclude.txt" \
-  "/home" \
+  "${HOME}" \
   "${USER}@agx-file-backup:." |& tee -a "${LOG_PATH}"
