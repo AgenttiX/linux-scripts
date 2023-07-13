@@ -13,6 +13,10 @@ if [ -d "${PLASMA_WORKSPACE_DIR}" ]; then
   echo "Installing the agx-user-pre-startup script."
   mkdir -p "${PLASMA_WORKSPACE_DIR}/env"
   ln -sf "${SCRIPT_DIR}/agx-user-pre-startup.sh" "${PLASMA_WORKSPACE_DIR}/env/agx-user-pre-startup.sh"
+
+  echo "Installing the agx-user-shutdown script."
+  mkdir -p "${PLASMA_WORKSPACE_DIR}/shutdown"
+  ln -sf "${SCRIPT_DIR}/agx-user-shutdown.sh" "${PLASMA_WORKSPACE_DIR}/shutdown/agx-user-shutdown.sh"
 else
   echo "Plasma workspace config directory was not found. Cannot install pre-startup script."
 fi
