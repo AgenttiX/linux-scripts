@@ -26,6 +26,7 @@
 .steam/steam/steamapps
 .steam/ubuntu12_32
 .steam/ubuntu12_64
+.Trash-1000
 .wine
 Git/**/logs
 Git/**/test-results
