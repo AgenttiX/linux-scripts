@@ -19,7 +19,10 @@ sudo apt-get update
 # Second line: build dependencies
 sudo apt-get install \
   certmonger python3-cryptography python3-requests python3-requests-kerberos wget \
-  autoconf automake libtool libssl-dev make pkgconf
+  autoconf automake libkrb5-dev libssl-dev libtool make pkgconf python3-pip
+# Python 3.11 does not allow installing packages globally by default,
+# and requests_gssapi is not available with apt-get.
+sudo pip3 install requests_gssapi --break-system-packages
 
 # These need wget, which is installed above.
 CEPCES_RELEASE="$(get_latest_release "openSUSE/cepces")"
@@ -41,6 +44,8 @@ echo "Installing cepces."
 # All the requirements are provided by apt
 # pip3 install -r requirements.txt
 sudo python3 setup.py install
+echo "Manually placing the cepces-submit binary to a folder where Samba can find it."
+sudo cp "${CEPCES_DIR}/bin/cepces-submit" "/usr/lib/certmonger/cepces-submit"
 echo "cepces installation ready."
 
 echo "Downloading sscep."
