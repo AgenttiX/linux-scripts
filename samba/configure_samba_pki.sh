@@ -19,7 +19,7 @@ sudo apt-get update
 # Second line: build dependencies
 sudo apt-get install \
   certmonger python3-cryptography python3-requests python3-requests-kerberos wget \
-  autoconf automake libtool libssl-dev pkgconf
+  autoconf automake libtool libssl-dev make pkgconf
 
 # These need wget, which is installed above.
 CEPCES_RELEASE="$(get_latest_release "openSUSE/cepces")"
@@ -51,9 +51,17 @@ if ! [ -d "${SSCEP_DIR}" ]; then
 fi
 cd "${SSCEP_DIR}"
 
-echo "Installing sscep."
+echo "Bootstrapping sscep installation."
 ./bootstrap.sh
+echo "Configuring sscep installation."
 ./configure
+echo "Making sscep."
 make
+echo "Installing sscep."
 sudo make install
 echo "sscep installation ready."
+
+echo "Restarting smbd.service."
+sudo systemctl restart smbd.service
+echo "smbd.service restarted."
+sudo systemctl status smbd.service
