@@ -12,4 +12,5 @@ fi
 cp ./issue.net /etc/issue.net
 chmod 744 /etc/issue.net
 sed -i '/^#Banner .*/a Banner \/etc\/issue.net' /etc/ssh/sshd_config
-echo "You have to restart the sshd service with \"sudo systemctl restart sshd.service\""
+systemctl restart sshd.service
+systemctl status sshd.service
