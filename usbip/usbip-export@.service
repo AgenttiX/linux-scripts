@@ -1,0 +1,20 @@
+# Export devices by calling this service with:
+# systemctl start usbip-export@[idVendor]:[idProduct].service
+# refer dmesg or lsusb to catch your preferred device
+# https://gist.github.com/peedy2495/e9ed5938bf0c2e3983185d0c9622e97d
+
+[Unit]
+Description=exporting device via usbip host daemon
+After=network-online.target
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/usbipd -D
+ExecStartPost=/bin/sh -c "dev=%i; statePrev=1; state=$(/usr/bin/lsusb|grep -q $dev; echo $?); while true; do if [ $state -ne $statePrev ]; then /usr/sbin/usbip bind --busid=$(/usr/sbin/usbip list -p -l | grep "$dev" | cut '-d#' -f1 | cut '-d=' -f2 | tr -d '[:space:]'); fi; sleep 1; statePrev=$state; state=$(/usr/bin/lsusb|grep -q $dev; echo $?); done &"
+ExecStop=/bin/sh -c "/usr/sbin/usbip unbind --busid=$(/usr/sbin/usbip list -p -l | grep "%i" | cut '-d#' -f1 | cut '-d=' -f2 | tr -d '[:space:]'); killall usbipd"
+
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target

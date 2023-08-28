@@ -1,0 +1,20 @@
+# Attach remote devices by calling this service with:
+# systemctl start usbip-attach@[host]_[idVendor]:[idProduct].service
+# refer dmesg or lsusb on remote-host to catch your preferred device
+# https://gist.github.com/peedy2495/e9ed5938bf0c2e3983185d0c9622e97d
+
+[Unit]
+Description=attach remote device from usbip-host
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+ExecStart=/bin/sh -c "host=$(echo %i|cut '-d_' -f1|tr -d '[:space:]'); dev=$(echo %i|cut '-d_' -f2|tr -d '[:space:]'); while true; do /usr/bin/lsusb | grep -q $dev; if [ $? -ne 0 ]; then busid=$(/usr/sbin/usbip list -p -r $host | grep $dev | cut '-d:' -f1 $
+ExecStop=/bin/sh -c "dev=$(echo %i|cut '-d_' -f2|tr -d '[:space:]'); /usr/sbin/usbip port | while read i; do echo $i | grep -q $dev; if [ $? -eq 0 ]; then /usr/sbin/usbip detach --port=$port; fi; echo $i | grep -q Port; if [ $? -eq 0 ]; then port=$(echo $i $
+
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target
