@@ -10,7 +10,7 @@ Wants=network-online.target
 
 [Service]
 Type=forking
-ExecStart=/bin/sh -c "host=$(echo %i|cut '-d_' -f1|tr -d '[:space:]'); dev=$(echo %i|cut '-d_' -f2|tr -d '[:space:]'); while true; do lsusb | grep -q $dev; if [ $? -ne 0 ]; then busid=$(usbip list -p -r $host | grep $dev | cut '-d:' -f1 | xargs echo -n); usbip port|grep -q $dev; if [ $? -ne 0 ]; then /usr/sbin/usbip attach --remote=$host --busid=$busid; fi; fi; sleep 30; done &"
+ExecStart=/bin/sh -c "host=$(echo %i|cut '-d_' -f1|tr -d '[:space:]'); dev=$(echo %i|cut '-d_' -f2|tr -d '[:space:]'); while true; do lsusb | grep -q $dev; if [ $? -ne 0 ]; then busid=$(usbip list -p -r $host | grep $dev | cut '-d:' -f1 | xargs echo -n); usbip port|grep -q $dev; if [ $? -ne 0 ]; then usbip attach --remote=$host --busid=$busid; fi; fi; sleep 30; done &"
 ExecStop=/bin/sh -c "dev=$(echo %i|cut '-d_' -f2|tr -d '[:space:]'); usbip port | while read i; do echo $i | grep -q $dev; if [ $? -eq 0 ]; then usbip detach --port=$port; fi; echo $i | grep -q Port; if [ $? -eq 0 ]; then port=$(echo $i | cut '-d ' -f2 | cut '-d:' -f1 | tr -d '[:space:]'); fi; done"
 Restart=on-failure
 RestartSec=30s

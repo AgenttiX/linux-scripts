@@ -10,8 +10,8 @@ After=network-online.target
 [Service]
 Type=forking
 ExecStart=/bin/sh -c "modprobe usbip_core && modprobe usbip_host && modprobe vhci-hcd && usbipd -D"
-ExecStartPost=/bin/sh -c "dev=%i; statePrev=1; state=$(/usr/bin/lsusb|grep -q $dev; echo $?); while true; do if [ $state -ne $statePrev ]; then /usr/sbin/usbip bind --busid=$(/usr/sbin/usbip list -p -l | grep "$dev" | cut '-d#' -f1 | cut '-d=' -f2 | tr -d '[:space:]'); fi; sleep 1; statePrev=$state; state=$(/usr/bin/lsusb|grep -q $dev; echo $?); done &"
-ExecStop=/bin/sh -c "/usr/sbin/usbip unbind --busid=$(/usr/sbin/usbip list -p -l | grep "%i" | cut '-d#' -f1 | cut '-d=' -f2 | tr -d '[:space:]'); killall usbipd"
+ExecStartPost=/bin/sh -c "dev=%i; statePrev=1; state=$(/usr/bin/lsusb|grep -q $dev; echo $?); while true; do if [ $state -ne $statePrev ]; then usbip bind --busid=$(usbip list -p -l | grep "$dev" | cut '-d#' -f1 | cut '-d=' -f2 | tr -d '[:space:]'); fi; sleep 1; statePrev=$state; state=$(/usr/bin/lsusb|grep -q $dev; echo $?); done &"
+ExecStop=/bin/sh -c "usbip unbind --busid=$(usbip list -p -l | grep "%i" | cut '-d#' -f1 | cut '-d=' -f2 | tr -d '[:space:]'); killall usbipd"
 
 Restart=on-failure
 RestartSec=30s
