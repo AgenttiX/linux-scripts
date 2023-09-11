@@ -35,9 +35,8 @@ def modem_number() -> int:
     # Note: capture_output=True can be used instead of Pipe in Python 3.7 ->
     modem_search = subprocess.run(["mmcli", "-L"], check=True, stdout=subprocess.PIPE)
     rows = str(modem_search.stdout, encoding="ascii").strip("\n").split("\n")
-    # TODO test this
-    # if rows[0] == "No modems found":
-    #     raise RuntimeError("No modems found. Please reboot.")
+    if rows[0] == "No modems were found":
+        raise RuntimeError("No modems found. Please try again or reboot.")
     if len(rows) > 1 and rows[0] != "Found 1 modems:":
         raise RuntimeError("Got invalid response from mmcli:", modem_search.stdout)
     if len(rows) > 1:
@@ -48,7 +47,7 @@ def modem_number() -> int:
     try:
         number = int(modem_path.split("/")[-1])
     except ValueError as e:
-        raise ValueError(f"Invalid modem path: {modem_path}") from e
+        raise ValueError(f"Invalid modem path \"{modem_path}\" on row \"{rows[row_ind]}\"") from e
     return number
 
 
