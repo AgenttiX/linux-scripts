@@ -149,6 +149,7 @@ report_command clinfo
 report_command decode-dimms
 report_command df --human-readable
 report_command dpkg --list
+report_command fwupdmgr get-updates
 report_command glxinfo -t
 report_command intel_gpu_top -L
 report_command lsblk
