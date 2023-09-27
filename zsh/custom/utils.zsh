@@ -106,14 +106,53 @@ close-chats() {
 }
 
 update() {
-  sudo apt-get update
-  sudo apt-get autoremove
-  sudo apt-get dist-upgrade
-  sudo apt-get autoremove
-  sudo snap refresh
-  flatpak uninstall --unused
-  flatpak update
-  flatpak uninstall --unused
+  if (command -v apt-get &> /dev/null); then
+    echo "Updating apt-get packages"
+    sudo apt-get update
+    # Remove unused packages before upgrading to prevent unnecessary upgrades
+    sudo apt-get autoremove
+    sudo apt-get dist-upgrade
+    sudo apt-get autoremove
+  fi
+  if (command -v snap &> /dev/null); then
+    echo "Updating Snap packages"
+    sudo snap refresh
+  fi
+  if (command -v flatpak &> /dev/null); then
+    echo "Updating Flatpak packages"
+    # Remove unused packages before updating to prevent unnecessary updates
+    flatpak uninstall --unused
+    flatpak update
+    flatpak uninstall --unused
+  fi
+  if (command -v zgen &> /dev/null); then
+    echo "Updating zgen"
+    zgen update
+  fi
+
+  # Git repositories
+  PWD_BEFORE_UPDATE="${PWD}"
+  if [ -d "${HOME}/Git/linux-scripts" ]; then
+    echo "Updating linux-scripts"
+    cd "${HOME}/Git/linux-scripts"
+    git pull
+  fi
+  if [ -d "${HOME}/Git/windows-scripts" ]; then
+    echo "Updating windows-scripts"
+    cd "${HOME}/Git/windows-scripts"
+    git pull
+  fi
+  if [ -d "${HOME}/Git/private-scripts" ]; then
+    echo "Updating private-scripts"
+    cd "${HOME}/Git/private-scripts"
+    git pull
+  fi
+  if [ -d "${HOME}/Git/vxl-scripts" ]; then
+    echo "Updating vxl-scripts"
+    cd "${HOME}/Git/vxl-scripts"
+    git pull
+  fi
+  cd "${PWD_BEFORE_UPDATE}"
 }
 
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
