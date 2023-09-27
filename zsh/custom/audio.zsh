@@ -1,10 +1,56 @@
 #!/usr/bin/env zsh
 
+pipewire_id() {
+  # https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/395#note_2007623
+  pw-cli i "${1}" | grep -oP "id: \K\w+"
+}
+
 audioconf() {
+  # Audio configuration script for PipeWire
+  # You can find the node names with:
+  # pw-cli i all | grep "node.name"
+  local COMBINED="combined"
+  local T480_SPEAKER="alsa_output.pci-0000_00_1f.3.3.analog-stereo"
+  local TB4_DOCK_ANALOG="alsa_output.usb-Lenovo_ThinkPad_Thunderbolt_4_Dock_USB_Audio_000000000000-00.3.analog-stereo"
+
+  NODES="$(pw-cli i all | grep "node.name")"
+
+  case "${1}" in
+    all)
+      if grep -q "${COMBINED}" <<< "${CARDS}"; then
+        wpctl set-default "$(pipewire_id "${COMBINED}")"
+      else
+        echo "Combined sink was not found. Have you loaded the user startup script?"
+      fi
+      ;;
+    hdmi | HDMI)
+      ;;
+    speakers)
+      if grep -q "${T480_SPEAKER}" <<< "${CARDS}"; then
+        wpctl set-default "$(pipewire_id "${T480_SPEAKER}")"
+      else
+        echo "Speaker device was not found."
+      fi
+      ;;
+    tb4 | TB4)
+      if grep -q "${HDMI_CARD}" <<< "${CARDS}"; then
+        wpctl set-default "$(pipewire_id "${TB4_DOCK_ANALOG}")"
+      else
+        echo "Thunderbolt dock was not found."
+      fi
+      ;;
+    *)
+      echo "Unknown device node name"
+      ;;
+  esac
+}
+
+audioconf_pulseaudio() {
+  # Audio device configuration script for old PulseAudio
   # https://askubuntu.com/a/14083/
   local COMBINED_SINK="combined"
   local HDMI_CARD="alsa_card.pci-0000_03_00.1"
-  HDMI_PROFILE="output:hdmi-stereo"
+  local HDMI_PROFILE="output:hdmi-stereo"
   # HDMI surround does not work yet with my current TV setup.
   # The front channels work with it, though, but the audio going to the back channels is dropped.
   # local HDMI_PROFILE="output:hdmi-surround"
@@ -129,7 +175,7 @@ audioconf() {
       fi
       ;;
     *)
-      echo -n "Unknown config name"
+      echo "Unknown config name"
       ;;
   esac
 }
