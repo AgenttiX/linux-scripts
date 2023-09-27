@@ -39,6 +39,10 @@ sudo chown root:root "/etc/modprobe.d/psmouse.conf"
 sudo chmod 644 "/etc/modprobe.d/psmouse.conf"
 echo "psmouse configured"
 
+echo "Configuring python-validity"
+sudo systemctl enable open-fprintd-resume open-fprintd-suspend
+echo "python-validity configured"
+
 # https://github.com/erpalma/throttled
 echo "Installing Throttled"
 mkdir -p "${HOME}/Git"
