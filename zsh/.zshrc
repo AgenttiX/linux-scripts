@@ -1,22 +1,28 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc,
+# especially before sourcing zgen.zsh, which is slow.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -f "${HOME}/.zgen/init.zsh" && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    P10K_DELAYED_SETUP=false
+else
+    P10K_DELAYED_SETUP=true
 fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# This is configured by zgen.
+# export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# This is configured by zgen.
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -69,30 +75,76 @@ COMPLETION_WAITING_DOTS="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="$HOME/.oh-my-zsh/custom2"
-# You can also do this with a symbolic link
+# ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom2"
+ZSH_CUSTOM="${HOME}/Git/linux-scripts/zsh/custom"
+# You can also do this with a symbolic link.
 
 # Custom plugin configuration
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
+# Use VSCodium as the default VS Code for the vscode plugin
+VSCODE=codium
+
+if [ ! -d "${HOME}/.zgen" ]; then
+    git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+fi
+# This has to be after ZSH_CUSTOM, but before using the zgen command
+source "${HOME}/.zgen/zgen.zsh"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    # Oh my Zsh plugins
-    adb celery cp docker git npm nvm pip pylint rsync ubuntu ufw virtualenv
-    # These have been removed
-    # - django: deprecated
-    # - sudo: was annoying when combined with the autocomplete plugins
-    # Custom plugins
-    zsh-autocomplete
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
+# plugins=(
+#     # Oh my Zsh plugins
+#     adb celery cp docker git npm nvm pip pylint rsync ubuntu ufw virtualenv
+#     # These have been removed
+#     # - django: deprecated
+#     # - sudo: was annoying when combined with the autocomplete plugins
+#     # Custom plugins
+#     zsh-autocomplete
+#     zsh-autosuggestions
+#     zsh-syntax-highlighting
+# )
 
-source $ZSH/oh-my-zsh.sh
+# If the zgen init script doesn't exist
+if ! zgen saved; then
+    # Plugins
+    zgen oh-my-zsh
+    zgen oh-my-zsh plugins/adb
+    zgen oh-my-zsh plugins/celery
+    zgen oh-my-zsh plugins/cp
+    zgen oh-my-zsh plugins/docker
+    zgen oh-my-zsh plugins/git
+    zgen oh-my-zsh plugins/npm
+    zgen oh-my-zsh plugins/nvm
+    zgen oh-my-zsh plugins/pip
+    zgen oh-my-zsh plugins/pylint
+    zgen oh-my-zsh plugins/rsync
+    zgen oh-my-zsh plugins/ubuntu
+    zgen oh-my-zsh plugins/ufw
+    zgen oh-my-zsh plugins/virtualenv
+    zgen oh-my-zsh plugins/vscode
+    zgen load marlonrichert/zsh-autocomplete
+    zgen load sobolevn/wakatime-zsh-plugin
+    zgen load zsh-users/zsh-autosuggestions
+    zgen load zsh-users/zsh-syntax-highlighting
+
+    # Theme
+    zgen load romkatv/powerlevel10k powerlevel10k
+
+    # Generate the init script from plugins above
+    zgen save
+fi
+
+# Delayed Powerlevel10k setup to avoid the warning about console output.
+# This has to be after "zgen save"
+if [[ "${P10K_DELAYED_SETUP}" = true && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Handled by zgen
+# source "${ZSH}/oh-my-zsh.sh"
 
 # User configuration
 
