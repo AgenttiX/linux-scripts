@@ -1,0 +1,18 @@
+{
+    "sync.autoDownload": true,
+    "workbench.iconTheme": "vscode-icons",
+    "remote.OSS.hosts": [
+        {
+            "type": "manual",
+            "name": "newafo",
+            "host": "newafo",
+            "port": 8000,
+            "folders": [
+                {
+                    "name": "pttools",
+                    "path": "/home/local_makimika/git/pttools"
+                }
+            ]
+        }
+    ]
+}
