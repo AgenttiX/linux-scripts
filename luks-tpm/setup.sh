@@ -2,6 +2,11 @@
 # This script enables automatic TPM-based unlocking of the LUKS encrypted
 # root partition with a fallback to password query.
 
+# This script has been tested to work with Ubuntu, but it's rather rudimentary,
+# and may require manually inputting the password after a kernel upgrade.
+# You should probably use Mortar instead.
+# https://github.com/noahbliss/mortar
+
 if [ "${EUID}" -ne 0 ]; then
    echo "This script should be run as root."
    exit 1
