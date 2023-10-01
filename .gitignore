@@ -24,6 +24,8 @@ zsh-syntax-highlighting
 *.bk
 *.cache
 *.dat
+*.deb
+*.deb.*
 *.idx
 *.iso
 *.jar
