@@ -2,7 +2,7 @@
 
 pipewire_id() {
   # https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/395#note_2007623
-  pw-cli i "${1}" | grep -oP "id: \K\w+"
+  pw-cli i "${1}" | grep --only-matching --perl-regexp "id: \K\w+"
 }
 
 audioconf() {
@@ -10,33 +10,88 @@ audioconf() {
   # You can find the node names with:
   # pw-cli i all | grep "node.name"
   local COMBINED="combined"
-  local T480_SPEAKER="alsa_output.pci-0000_00_1f.3.3.analog-stereo"
+  local HEADPHONES="alsa_output.usb-SteelSeries_Arctis_Pro_Wireless-00.stereo-game"
+  local HEADPHONES_MIC="alsa_input.usb-SteelSeries_Arctis_Pro_Wireless-00.mono-chat"
+  local T480_SPEAKERS="alsa_output.pci-0000_00_1f.3.3.analog-stereo"
   local TB4_DOCK_ANALOG="alsa_output.usb-Lenovo_ThinkPad_Thunderbolt_4_Dock_USB_Audio_000000000000-00.3.analog-stereo"
+  local WEBCAM="alsa_input.usb-046d_0821_A7E23B90-00.analog-stereo"
+  local Z2E_HDMI="alsa_output.pci-0000_01_00.1.hdmi-surround-extra1.2"
+  local Z2E_OPTICAL="alsa_output.usb-Generic_USB_Audio-00.2.iec958-ac3-surround-51"
+  local Z2E_SPEAKERS="alsa_output.usb-Generic_USB_Audio-00.analog-surround-51"
 
+  local DEV_ID
+  local NODES
   NODES="$(pw-cli i all | grep "node.name")"
 
   case "${1}" in
     all)
-      if grep -q "${COMBINED}" <<< "${CARDS}"; then
-        wpctl set-default "$(pipewire_id "${COMBINED}")"
+      if grep -q "${COMBINED}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${COMBINED}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
       else
         echo "Combined sink was not found. Have you loaded the user startup script?"
       fi
       ;;
     hdmi | HDMI)
+      if grep -q "${Z2E_HDMI}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${Z2E_HDMI}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      else
+        echo "HDMI device was not found."
+      fi
+      ;;
+    headphones)
+      if grep -q "${HEADPHONES}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${HEADPHONES}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      else
+        echo "Headphones device was not found."
+      fi
+      if grep -q "${HEADPHONES_MIC}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${HEADPHONES_MIC}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      else
+        echo "Headphones mic device was not found."
+      fi
+      ;;
+    optical | iec958 | IEC958)
+      if grep -q "${COMBINED}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${Z2E_OPTICAL}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      else
+        echo "Optical device was not found."
+      fi
       ;;
     speakers)
-      if grep -q "${T480_SPEAKER}" <<< "${CARDS}"; then
-        wpctl set-default "$(pipewire_id "${T480_SPEAKER}")"
+      if grep -q "${Z2E_SPEAKERS}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${Z2E_SPEAKERS}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      elif grep -q "${T480_SPEAKERS}" <<< "${NODES}"; then
+        wpctl set-default "$(pipewire_id "${T480_SPEAKERS}")"
       else
         echo "Speaker device was not found."
       fi
       ;;
     tb4 | TB4)
-      if grep -q "${HDMI_CARD}" <<< "${CARDS}"; then
+      if grep -q "${HDMI_CARD}" <<< "${NODES}"; then
         wpctl set-default "$(pipewire_id "${TB4_DOCK_ANALOG}")"
       else
         echo "Thunderbolt dock was not found."
+      fi
+      ;;
+    webcam | C910)
+      if grep -q "${WEBCAM}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${WEBCAM}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      else
+        echo "Webcam mic was not found."
       fi
       ;;
     *)
