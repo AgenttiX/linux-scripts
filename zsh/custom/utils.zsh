@@ -44,6 +44,13 @@ findit() {
     fi
 }
 
+# This does not work, since zsh functions are not available in the KDE Alt+F2 prompt
+# fix-kde() {
+#   killall plasmashell
+#   sleep 1
+#   kstart plasmashell
+# }
+
 pdfsearch() {
     # https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files
     if [ $# -ne 2 ]; then
