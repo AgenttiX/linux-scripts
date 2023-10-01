@@ -16,19 +16,23 @@ CONFIG_FILE_BACKUP="${SCRIPT_DIR}/50unattended-upgrades.bak"
 SCRIPT_SOURCE="${SCRIPT_DIR}/reboot_if_needed.sh"
 SCRIPT_TARGET="/usr/local/bin/reboot_if_needed.sh"
 
-if [ ! -f "${CONFIG_FILE_BACKUP}}" ]; then
-  echo "Backing up old configuration to .bak"
-  cp "${CONFIG_TARGET}" "${CONFIG_FILE_BACKUP}"
+if [ -f "${CONFIG_TARGET}" ]; then
+  if [ ! -f "${CONFIG_FILE_BACKUP}}" ]; then
+    echo "Backing up old configuration to .bak"
+    cp "${CONFIG_TARGET}" "${CONFIG_FILE_BACKUP}"
+  else
+    echo "Backup already exists."
+  fi
 else
-  echo "Backup already exists"
+  echo "No previous config file was found. No need to backup."
 fi
 
-echo "Installing config"
+echo "Installing config."
 cp "${CONFIG_SOURCE}" "${CONFIG_TARGET}"
 chown root:root "${CONFIG_TARGET}"
 chmod 644 "${CONFIG_TARGET}"
 
-echo "Installing script"
+echo "Installing script."
 cp "${SCRIPT_SOURCE}" "${SCRIPT_TARGET}"
 chown root:root "${SCRIPT_TARGET}"
 chmod 755 "${SCRIPT_TARGET}"
