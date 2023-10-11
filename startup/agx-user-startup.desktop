@@ -1,6 +1,6 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-Exec=${HOME}/Git/linux-scripts/startup/agx-user-startup.sh
+Exec=SCRIPT_DIR/agx-user-startup.sh
 Icon=dialog-scripts
 Name=agx-user-startup.sh
 Path=

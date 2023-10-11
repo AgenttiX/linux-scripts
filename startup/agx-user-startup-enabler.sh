@@ -24,7 +24,10 @@ fi
 STARTUP_DIR="${HOME}/.config/autostart/"
 if [ -d "${STARTUP_DIR}" ]; then
   echo "Installing the agx-user-startup script."
-  ln -sf "${SCRIPT_DIR}/agx-user-startup.desktop" "${STARTUP_DIR}/agx-user-startup.desktop"
+  DESKTOP_FILE="${STARTUP_DIR}/agx-user-startup.desktop"
+  cp "${SCRIPT_DIR}/agx-user-startup.desktop" "${DESKTOP_FILE}"
+  # The .desktop files don't support ~ or $HOME
+  sed -i "s@SCRIPT_DIR@${SCRIPT_DIR}@g" "${DESKTOP_FILE}"
 else
   echo "Autostart directory was not found. Cannot install startup script."
 fi
