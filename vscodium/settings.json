@@ -5,7 +5,7 @@
         {
             "type": "manual",
             "name": "newafo",
-            "host": "newafo",
+            "host": "localhost",
             "port": 8000,
             "folders": [
                 {
