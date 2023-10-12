@@ -1,7 +1,22 @@
-#!/bin/bash -a
+#!/usr/bin/env bash
+# set -e
+
 # From:
 # https://www.reddit.com/r/linux_gaming/comments/171ssnk/cs2_linux_customise_and_adjust_your_cs2sh_file/
 # https://raw.githubusercontent.com/MichaelDeets/cs2.sh/master/cs2-example.sh
+
+# SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+# LOG_FILE="${SCRIPT_DIR}/script_log.txt"
+
+# echo "Starting" > "${LOG_FILE}"
+# date -u >> "${LOG_FILE}"
+
+# This script seems to run inside a chroot
+# if [ "$(stat -c %d:%i /)" != "$(stat -c %d:%i /proc/1/root/.)" ]; then
+#   echo "We are chrooted!" >> "${LOG_FILE}"
+# else
+#   echo "Business as usual" >> "${LOG_FILE}"
+# fi
 
 GAMEROOT=$(cd "${0%/*}" && echo $PWD)
 UNAME=$(command -v uname)
@@ -63,4 +78,7 @@ while [ $STATUS -eq 42 ]; do
 	fi
 	STATUS=$?
 done
+
+# echo "Ready" >> "${LOG_FILE}"
+# date -u >> "${LOG_FILE}"
 exit $STATUS
