@@ -88,15 +88,22 @@ start-chats() {
       discord &> /dev/null &!
     fi
   fi
-  # The "telegram-deskto" is not a typo.
   if command -v flatpak &> /dev/null; then
-    if pgrep -x "telegram-deskto" > /dev/null; then :; else
+    if pgrep -x "ferdium" > /dev/null; then :; else
+      echo "Starting Ferdium"
+      flatpak run org.ferdium.Ferdium &!
+    fi
+    if pgrep -f "mattermost-desktop" > /dev/null; then :; else
+      echo "Starting Mattermost"
+      flatpak run org.mattermost.Desktop &!
+    fi
+    if pgrep -f "telegram-desktop" > /dev/null; then :; else
       echo "Starting Telegram"
       flatpak run org.telegram.desktop &!
     fi
   fi
   if command -v signal-desktop &> /dev/null; then
-    if pgrep -x "signal-desktop" > /dev/null; then :; else
+    if pgrep -f "signal-desktop" > /dev/null; then :; else
       echo "Starting Signal"
       signal-desktop --start-in-tray &> /dev/null &!
     fi
@@ -105,11 +112,16 @@ start-chats() {
 
 close-chats() {
   # Close chat clients
-  killall --signal TERM Discord
+  # Ferdium may require two signals to fully close.
+  # Therefore it's the first to give it as much time as possible to close cleanly.
+  killall --signal TERM ferdium 2> /dev/null
+  killall --signal TERM Discord 2> /dev/null
   # The "telegram-deskto" is not a typo.
-  killall --signal TERM telegram-deskto
-  killall --signal TERM signal-desktop
-  killall --signal TERM walc
+  killall --signal TERM telegram-deskto 2> /dev/null
+  killall --signal TERM signal-desktop 2> /dev/null
+  killall --signal TERM walc 2> /dev/null
+  # Second attempt to close Ferdium
+  killall --signal TERM ferdium 2> /dev/null
 }
 
 update() {
