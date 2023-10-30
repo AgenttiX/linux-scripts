@@ -16,6 +16,7 @@
 .googleearth/Cache
 .local/share/Trash
 .npm
+.nv
 .nvm
 .rustup
 .steam/debian-installation/appcache
@@ -28,8 +29,10 @@
 .steam/ubuntu12_64
 .Trash-1000
 .wine
+Git/**/htmlcov
 Git/**/logs
 Git/**/test-results
+Git/**/venv
 miniconda3
 snap
 Syncthing
