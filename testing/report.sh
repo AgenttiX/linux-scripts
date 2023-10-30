@@ -199,6 +199,7 @@ report_command vdpauinfo
 report_command vulkaninfo
 report_command xinput list
 report_command xrandr
+report_command zpool status
 
 if [ -d "/var/log/samba" ] && command -v rsync &> /dev/null; then
   # The cores folder would require root access, so let's skip it.
