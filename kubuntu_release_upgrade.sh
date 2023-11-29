@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+if [ "${EUID}" -eq 0 ]; then
+  echo "This script should not be run as root."
+  exit 1
+fi
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 LOG_DIR="${SCRIPT_DIR}/logs"
 mkdir -p "${LOG_DIR}"
