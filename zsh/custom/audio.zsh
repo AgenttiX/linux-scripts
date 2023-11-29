@@ -1,5 +1,14 @@
 #!/usr/bin/env zsh
 
+fix-audio() {
+  # This fixes audio crackling issues
+  systemctl --user restart pipewire.service
+  systemctl --user restart pipewire-pulse.service
+  # For old PulseAudio
+  # pulseaudio -k
+  # sudo alsa force-reload
+}
+
 pipewire_id() {
   # https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/395#note_2007623
   pw-cli i "${1}" | grep --only-matching --perl-regexp "id: \K\w+"

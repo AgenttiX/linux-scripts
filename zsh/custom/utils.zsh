@@ -184,9 +184,6 @@ alias dirsum2="find . -type f -name '*' -exec md5sum {} + | awk '{print $1}' | s
 # It takes one argument, which is text. For examble: eti some_text
 alias eti="grep -rnI -B 1 -A 1"
 
-# Reload broken audio devices
-alias fixaudio="pulseaudio -k && sudo alsa force-reload"
-
 # Scan wifi networks. This also refreshes the wifi-list, so if device was not connected,
 # it makes auto-connection quicker
 alias fixwifi="sudo iwlist scan | grep 'Cell\|ESSID:\|Quality='"
