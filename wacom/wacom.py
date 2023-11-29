@@ -248,7 +248,7 @@ def script(use_big: bool = True):
             area_x = int(tablet_aspect_ratio * 1440)
             logger.info(f"Tablet area: ({area_x}, {area_y})")
             # If the left-most monitor is connected
-            if any([name in monitor_names for name in ["DisplayPort-2", "DP-2"]]):
+            if any([name in monitor_names for name in ["DisplayPort-2", "DP-2", "HDMI-0"]]):
                 stylus.set_output(area_x, area_y, 1920, 0)
             else:
                 stylus.set_output(area_x, area_y, 0, 0)
