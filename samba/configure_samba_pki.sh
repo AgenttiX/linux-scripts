@@ -105,6 +105,7 @@ fi
 if [ ! -f "${KEYTAB}" ]; then
   echo "Kerberos keytab does not exist. Creating."
   # https://runops.wordpress.com/2015/04/22/create-machine-keytab-on-linux-for-active-directory-authentication/
+  # https://wiki.samba.org/index.php/Keytab_Extraction#Online_Keytab_Creation_from_Machine_Account_Password
   KRB5_KTNAME="FILE:${KEYTAB}" sudo net ads keytab CREATE -P
 fi
 
