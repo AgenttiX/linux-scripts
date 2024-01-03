@@ -27,6 +27,7 @@ audioconf() {
   local Z2E_HDMI="alsa_output.pci-0000_01_00.1.hdmi-surround-extra1.2"
   local Z2E_OPTICAL="alsa_output.usb-Generic_USB_Audio-00.2.iec958-ac3-surround-51"
   local Z2E_SPEAKERS="alsa_output.usb-Generic_USB_Audio-00.analog-surround-51"
+  local Z2E_SPEAKERS2="alsa_output.usb-Generic_USB_Audio-00.2.analog-surround-51"
 
   local DEV_ID
   local NODES
@@ -79,6 +80,10 @@ audioconf() {
     speakers)
       if grep -q "${Z2E_SPEAKERS}" <<< "${NODES}"; then
         DEV_ID="$(pipewire_id "${Z2E_SPEAKERS}")"
+        wpctl set-default "${DEV_ID}"
+        wpctl set-volume "${DEV_ID}" 1
+      elif grep -q "${Z2E_SPEAKERS2}" <<< "${NODES}"; then
+        DEV_ID="$(pipewire_id "${Z2E_SPEAKERS2}")"
         wpctl set-default "${DEV_ID}"
         wpctl set-volume "${DEV_ID}" 1
       elif grep -q "${T480_SPEAKERS}" <<< "${NODES}"; then
