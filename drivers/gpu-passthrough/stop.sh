@@ -20,13 +20,14 @@ virsh nodedev-reattach pci_0000_4c_00_0
 virsh nodedev-reattach pci_0000_4c_00_1
 virsh nodedev-reattach pci_0000_24_00_3
 
-echo "Reloading Nvidia drivers."
-set +e
-modprobe nvidia_drm
-modprobe nvidia_modeset
-modprobe nvidia_uvm
-modprobe nvidia
-set -e
+# Uncomment this if you don't use the any other Nvidia GPU on the host.
+# echo "Reloading Nvidia drivers."
+# set +e
+# modprobe nvidia_drm
+# odprobe nvidia_modeset
+# modprobe nvidia_uvm
+# modprobe nvidia
+# set -e
 
 echo "Disabling hugepages."
 echo 0 > /proc/sys/vm/nr_hugepages

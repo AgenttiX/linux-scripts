@@ -38,11 +38,12 @@ fi
 echo "Setting CPU governor to \"performance\"."
 for file in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo "performance" > $file; done
 
-echo "Unloading Nvidia drivers."
-modprobe -r nvidia_drm
-modprobe -r nvidia_modeset
-modprobe -r nvidia_uvm
-modprobe -r nvidia
+# Uncomment this if you don't use the any other Nvidia GPU on the host.
+# echo "Unloading Nvidia drivers."
+# modprobe -r nvidia_drm
+# modprobe -r nvidia_modeset
+# modprobe -r nvidia_uvm
+# modprobe -r nvidia
 
 echo "Unloading PCIe devices from the host OS."
 # You can use the IOMMU script to find the PCIe IDs
