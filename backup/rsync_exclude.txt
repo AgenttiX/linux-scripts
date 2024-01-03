@@ -28,6 +28,14 @@
 .steam/ubuntu12_32
 .steam/ubuntu12_64
 .Trash-1000
+.var/app/com.discordapp.Discord
+.var/app/com.github.iwalton3.jellyfin-media-player
+.var/app/com.mastermindzh.tidal-hifi
+.var/app/com.mattermost.Desktop
+.var/app/com.plexamp.Plexamp
+.var/app/com.skype.Client
+.var/app/com.slack.Slack
+.var/app/com.spotify.Client
 .wine
 Git/**/htmlcov
 Git/**/logs
