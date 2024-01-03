@@ -8,6 +8,7 @@ import argparse
 import glob
 import logging
 import os
+import shutil
 import subprocess as sp
 import time
 import typing as tp
@@ -334,12 +335,20 @@ def virtualbox_host() -> None:
 
 
 def zerofree() -> None:
-    print("Zeroing free disk space on /")
+    print_info("Zeroing free disk space on /")
     # The directory /var/tmp is used instead of /tmp, as the latter may be on a ramdisk or a separate partition.
     run(["dd", "if=/dev/zero", "of=/var/tmp/bigemptyfile", "bs=4096k", "status=progress"], sudo=True)
-    print("Removing temporary file.")
+    print_info("Removing temporary file.")
     run(["rm", "/var/tmp/bigemptyfile"], sudo=True)
-    print("Zeroing ready.")
+    print_info("Zeroing ready.")
+
+
+def zgen() -> None:
+    if shutil.which("zgen") is not None:
+        print_info("Running zgen")
+        run(["zgen"])
+    else:
+        print_info("zgen not found.")
 
 
 def main():
@@ -370,6 +379,8 @@ def main():
     snap()
     print()
     flatpak()
+    print()
+    zgen()
     print()
     security()
     print()
