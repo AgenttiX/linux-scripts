@@ -29,11 +29,13 @@ zsh-syntax-highlighting
 *.idx
 *.iso
 *.jar
+*.log
 *.mec
 *.mcd
 *.mcr
 *.nvm
 *.ps2
+*.sha256
 *.tar
 *.tar.gz
 *.tgz
