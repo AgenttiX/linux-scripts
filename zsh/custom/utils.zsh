@@ -3,6 +3,13 @@
 # TODO: Think whether to use hyphens or underscores in the names.
 # https://unix.stackexchange.com/a/168222/
 
+apt-rdepends-installed () {
+  # Find installed apt packages which depend on argument(s)
+  # From:
+  # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
+	apt-cache rdepends "$@" | grep "  " | xargs apt list --installed
+}
+
 compress_7z() {
   if [ $# -lt 1 ]; then
     echo "Please give the file path."
@@ -124,6 +131,23 @@ close-chats() {
   killall --signal TERM ferdium 2> /dev/null
 }
 
+retry_until() {
+  # From:
+  # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
+	if [ "$2" = "" ]
+	then
+		echo "Usage: $0 sleeptime command"
+	fi
+
+	local sleeptime="$1"
+	shift
+
+	until $@
+	do
+		sleep "$sleeptime"
+	done
+}
+
 update() {
   if (command -v apt-get &> /dev/null); then
     echo "Updating apt-get packages"
@@ -150,6 +174,7 @@ update() {
   fi
 
   # Git repositories
+  local PWD_BEFORE_UPDATE
   PWD_BEFORE_UPDATE="${PWD}"
   if [ -d "${HOME}/Git/linux-scripts" ]; then
     echo "Updating linux-scripts"
@@ -172,6 +197,35 @@ update() {
     git pull
   fi
   cd "${PWD_BEFORE_UPDATE}"
+
+  # zsh completions using zsh-manpage-completion-generator
+  # Based on:
+  # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
+  if command -v fish &> /dev/null; then
+    local FISH_COMPLETION_DIR
+    local PWD_BEFORE_UPDATE
+    FISH_COMPLETION_DIR="${XDG_DATA_HOME-$HOME}/.local/share/fish/generated_completions"
+    PWD_BEFORE_UPDATE="${PWD}"
+
+    echo "Downloading zsh-manpage-completion-generator."
+    cd "${ZSH_CUSTOM}"
+    curl -sSL "https://github.com/umlx5h/zsh-manpage-completion-generator/releases/latest/download/zsh-manpage-completion-generator_$(uname -s)_$(uname -m).tar.gz" \
+      | tar xz "zsh-manpage-completion-generator"
+    chmod a+x "${ZSH_CUSTOM}/zsh-manpage-completion-generator"
+
+    echo "Creating fish completions."
+    fish -c "fish_update_completions"
+
+    echo "Converting fish completions to zsh completions."
+    ./zsh-manpage-completion-generator
+    cd "${PWD_BEFORE_UPDATE}"
+    unset PWD_BEFORE_UPDATE
+
+    # You disable the completions for specific commands by deleting the files here.
+    # rm "${FISH_COMPLETION_DIR}/_git*"
+  else
+      echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
+  fi
 }
 
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
@@ -205,3 +259,9 @@ fi
 
 # Print most recently modified files in current directory. It takes no arguments
 alias vikat="find ${1} -type f | xargs stat --format '%Y :%y: %n' 2>/dev/null | sort -nr | cut -d: -f2,3,5 | head"
+
+alias screeni="screen -rD || screen"
+
+alias fuck="sudo"
+alias fucking="sudo"
+alias please="sudo"

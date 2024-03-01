@@ -84,3 +84,4 @@ testing/report
 xournalpp/autosave
 xournalpp/errorlogs
 xournalpp/metadata
+zsh/custom/zsh-manpage-completion-generator

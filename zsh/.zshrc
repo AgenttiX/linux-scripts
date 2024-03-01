@@ -1,3 +1,7 @@
+# -----
+# Initial zsh setup
+# -----
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc,
 # especially before sourcing zgen.zsh, which is slow.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -81,8 +85,6 @@ ZSH_CUSTOM="${HOME}/Git/linux-scripts/zsh/custom"
 
 # Custom plugin configuration
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
-# Use VSCodium as the default VS Code for the vscode plugin
-VSCODE=codium
 
 if [ ! -d "${HOME}/.zgen" ]; then
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
@@ -107,12 +109,14 @@ source "${HOME}/.zgen/zgen.zsh"
 #     zsh-syntax-highlighting
 # )
 
-# If the zgen init script doesn't exist
+# If the zgen init script doesn't exist, then configure and generate it.
 if ! zgen saved; then
     # Plugins
     zgen oh-my-zsh
     zgen oh-my-zsh plugins/adb
+    zgen oh-my-zsh plugins/autojump
     zgen oh-my-zsh plugins/celery
+    zgen oh-my-zsh plugins/colored-man-pages
     zgen oh-my-zsh plugins/cp
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/git
@@ -121,10 +125,12 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/pip
     zgen oh-my-zsh plugins/pylint
     zgen oh-my-zsh plugins/rsync
+    zgen oh-my-zsh plugins/screen
     zgen oh-my-zsh plugins/ubuntu
     zgen oh-my-zsh plugins/ufw
     zgen oh-my-zsh plugins/virtualenv
     zgen oh-my-zsh plugins/vscode
+    zgen oh-my-zsh plugins/web-search
     zgen load marlonrichert/zsh-autocomplete
     zgen load sobolevn/wakatime-zsh-plugin
     zgen load zsh-users/zsh-autosuggestions
@@ -142,6 +148,73 @@ fi
 if [[ "${P10K_DELAYED_SETUP}" = true && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# -----
+# Completion
+# -----
+
+# From: https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
+# Additional completions from man pages with
+# https://github.com/umlx5h/zsh-manpage-completion-generator
+# Seems better than above, less faulty files
+[[ "${fpath[*]}" == *"$HOME/.local/share/zsh/generated_man_completions"* ]] || \
+	[ -d "$HOME/.local/share/zsh/generated_man_completions" ] && \
+		fpath+=("$HOME/.local/share/zsh/generated_man_completions")
+
+# Use modern completion system
+# At the moment this is too slow, and is therefore currently disabled.
+# autoload -U +X compinit && compinit
+
+zstyle ':completion:*' use-compctl false
+
+# show hidden folders/files in completion list
+zstyle ':completion:*' hidden false
+
+# _expand completer adds a / after valid directory or space after valid filename, command etc.
+zstyle ':completion:*' add-space true
+
+# define message formats for messages from completion
+zstyle ':completion:*:warnings' format 'No completion matches with given input'
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' auto-description 'specify: %d'
+
+# show more descriptions
+zstyle ':completion:*' verbose true
+
+# group completion list by entry types
+zstyle ':completion:*:*:-command-:*:commands' \
+	group-name commands
+zstyle ':completion:*:*:-command-:*:functions' \
+	group-name functions
+# ^ but don't group
+#zstyle ':completion:*' group-name ''
+
+# pasting with tabs doesn't perform completion
+zstyle ':completion:*' insert-tab pending
+
+# with commands like `rm' it's annoying if one gets offered the same filename
+# again even if it is already on the command line. To avoid that:
+zstyle ':completion:*:rm:*' ignore-line yes
+
+# which completers should be called
+zstyle ':completion:*' completer _complete _expand _ignored _match _correct _approximate _prefix
+
+# completers will try to match: exact matches, then case sensitive matches,
+# then case insensitive matches, then correction, then partial word completions
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+
+# I don't fully know what these do or if they're optimal :)
+
+# enable arrow key movement and list index visualizer
+# for cycling through completion options
+# idk what else this does or what other options it has
+zstyle ':completion:*' menu select=2
+
+
+# -----
+# Other configs
+# -----
 
 # Handled by zgen
 # source "${ZSH}/oh-my-zsh.sh"
@@ -166,6 +239,23 @@ export EDITOR="nano"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# Use VSCodium as the default VS Code for the vscode plugin
+VSCODE=codium
+
+
+# -----
+# External tools
+# -----
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Print stderr with red. For more see
 # https://github.com/sickill/stderred
@@ -216,19 +306,6 @@ alias lc='colorls -lA --sd'
 # https://github.com/PowerShell/PowerShell#telemetry
 export POWERSHELL_TELEMETRY_OPTOUT="1"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias fuck="sudo"
-alias fucking="sudo"
-alias please="sudo"
-
 # Powerlevel10k configuration
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -250,7 +327,10 @@ if [ -d "/opt/rocm" ]; then
     export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
 fi
 
-# Work aliases etc.
+# -----
+# Additional repositories
+# -----
+
 if [ -f "${HOME}/Git/vxl-scripts/utils.zsh" ]; then
   . "${HOME}/Git/vxl-scripts/utils.zsh"
 fi
