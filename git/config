@@ -1,0 +1,65 @@
+# Based on
+# https://gitlab.com/drjaska-projects/configs/git/-/blob/master/config
+
+[include]
+    # Create this file using a separate script (or manually)
+    path = ~/.config/git/config_private
+
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+[color]
+    ui = true
+[core]
+    # excludesfile = ~/.config/git/ignore
+    # fsmonitor = true
+    pager = delta
+    # untrackedcache = true
+[diff]
+    colorMoved = default
+[interactive]  # Configure git to use d-s-f for `git add --patch`
+    diffFilter = delta --color-only --features=interactive
+    # diffFilter = diff-so-fancy --patch
+[merge]
+    conflictstyle = diff3
+[pager]
+    diff = delta
+    # diff = diff-so-fancy | less -RFX #--tabs=8
+[pull]
+    rebase = true
+
+
+# -----
+# Delta
+# -----
+
+[delta]
+	hyperlinks = true
+	max-line-distance = 1.0 # look for within-line changed with maximum effort
+	features = decorations
+	default-language = c
+	navigate = true
+	line-numbers = true
+	zero-style = 'dim syntax'
+	minus-style = 'syntax dim "#220000"'
+	plus-style = 'syntax dim "#002800"'
+	minus-empty-line-marker-style = minus-style
+	plus-empty-line-marker-style = plus-style
+	minus-emph-style = 'syntax auto'
+	plus-emph-style = 'syntax auto'
+[delta "interactive"]
+	keep-plus-minus-markers = false
+	file-modified-label = " "
+	file-added-label    = " "
+	file-removed-label  = " "
+	file-copied-label   = " "
+	file-renamed-label  = " "
+[delta "decorations"]
+	file-decoration-style = yellow
+	file-style = file yellow ul
+	hunk-header-decoration-style = cyan box dim ul
+	hunk-header-style = auto
+	file-modified-label = " "
+	file-added-label    = " "
+	file-removed-label  = " "
+	file-copied-label   = " "
+	file-renamed-label  = " "
