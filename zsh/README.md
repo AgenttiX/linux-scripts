@@ -7,7 +7,7 @@ of this repository and executing the following commands.
 ``` bash
 sudo apt-get update
 sudo apt-get install git zsh
-ln -s "<REPOSITORY_FOLDER>/zsh/.zshrc" "${HOME}/.zshrc"
+ln -s "<REPOSITORY_FOLDER>/zsh/.zshenv" "${HOME}/.zshenv"
 ```
 
 ### Additional plugins

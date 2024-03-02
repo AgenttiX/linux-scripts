@@ -265,3 +265,5 @@ alias screeni="screen -rD || screen"
 alias fuck="sudo"
 alias fucking="sudo"
 alias please="sudo"
+
+alias translate="ddg \!translate ${@}"

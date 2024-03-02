@@ -85,3 +85,4 @@ xournalpp/autosave
 xournalpp/errorlogs
 xournalpp/metadata
 zsh/custom/zsh-manpage-completion-generator
+zsh/.zcompdump*

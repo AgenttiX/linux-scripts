@@ -80,7 +80,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom2"
-ZSH_CUSTOM="${HOME}/Git/linux-scripts/zsh/custom"
+ZSH_CUSTOM="${ZDOTDIR}/custom"
 # You can also do this with a symbolic link.
 
 # Custom plugin configuration
@@ -242,6 +242,35 @@ export EDITOR="nano"
 
 # Use VSCodium as the default VS Code for the vscode plugin
 VSCODE=codium
+
+# Enable the use of "!" without escaping it as "\!"
+# For e.g. DuckDuckGo bangs
+setopt nobanghist
+
+
+# -----
+# Key bindings
+# -----
+
+# select emacs keymap and bind it to main
+# zsh now uses emacs keybindings even if our EDITOR is set to vim
+# this gives some bash-like keybinds like
+# Ctrl+A to beginning of line
+# Ctrl+E to end of line
+# Ctrl+K kill line from cursor to end
+bindkey -e
+
+# bind Ctrl-U to kill line before cursor
+bindkey \^U backward-kill-line
+
+# Now the key bindings are
+# Ctrl+D exit the terminal
+# Ctrl+W kill previous word
+# Ctrl+Y paste previously killed
+# Ctrl+U kill line before the cursor
+# Ctrl+K kill line after the cursor
+
+# You can see the existing key bindings with the command "bindkey"
 
 
 # -----
