@@ -16,8 +16,8 @@ compress_7z() {
     return 1
   fi
   # https://stackoverflow.com/a/965072/
-  FILENAME=$(basename -- "$1")
-  NAME="${FILENAME%.*}"
+  local FILENAME=$(basename -- "$1")
+  local NAME="${FILENAME%.*}"
   # https://superuser.com/a/742034/
   7zr a -t7z -mx=9 "${NAME}.7z" "${FILENAME}"
   7zr t "${NAME}.7z"
@@ -31,8 +31,8 @@ compress_zip() {
     return 1
   fi
   # https://stackoverflow.com/a/965072/
-  FILENAME=$(basename -- "$1")
-  NAME="${FILENAME%.*}"
+  local FILENAME=$(basename -- "$1")
+  local NAME="${FILENAME%.*}"
   # https://superuser.com/a/742034/
   7z a -mm=Deflate -mfb=258 -mpass=15 "${NAME}.zip" "${FILENAME}"
   7z t "${NAME}.zip"
@@ -174,8 +174,7 @@ update() {
   fi
 
   # Git repositories
-  local PWD_BEFORE_UPDATE
-  PWD_BEFORE_UPDATE="${PWD}"
+  local PWD_BEFORE_UPDATE="${PWD}"
   if [ -d "${HOME}/Git/linux-scripts" ]; then
     echo "Updating linux-scripts"
     cd "${HOME}/Git/linux-scripts"
@@ -202,10 +201,7 @@ update() {
   # Based on:
   # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
   if command -v fish &> /dev/null; then
-    local FISH_COMPLETION_DIR
-    local PWD_BEFORE_UPDATE
-    FISH_COMPLETION_DIR="${XDG_DATA_HOME-$HOME}/.local/share/fish/generated_completions"
-    PWD_BEFORE_UPDATE="${PWD}"
+    local FISH_COMPLETION_DIR="${XDG_DATA_HOME-$HOME}/.local/share/fish/generated_completions"
 
     echo "Downloading zsh-manpage-completion-generator."
     cd "${ZSH_CUSTOM}"
@@ -219,7 +215,6 @@ update() {
     echo "Converting fish completions to zsh completions."
     ./zsh-manpage-completion-generator
     cd "${PWD_BEFORE_UPDATE}"
-    unset PWD_BEFORE_UPDATE
 
     # You disable the completions for specific commands by deleting the files here.
     # rm "${FISH_COMPLETION_DIR}/_git*"
