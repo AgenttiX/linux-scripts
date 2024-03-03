@@ -223,6 +223,9 @@ update() {
   fi
 }
 
+# For those familiar with Vim
+alias :q="exit"
+
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
 alias dirsum1="tar c . | md5sum"
 
@@ -239,6 +242,13 @@ alias fixwifi="sudo iwlist scan | grep 'Cell\|ESSID:\|Quality='"
 
 # shellcheck disable=SC2139
 alias modem="sudo ${HOME}/Git/linux-scripts/modem.py"
+
+# if ! command -v nvim &> /dev/null && command -v flatpak; then
+#   alias nvim="flatpak run io.neovim.nvim"
+# fi
+
+# The "; :" discards any additional arguments
+alias pat="image headpat; :"
 
 # Easy pinging
 alias pingu="ping -c 4 google.com"
@@ -257,8 +267,10 @@ alias vikat="find ${1} -type f | xargs stat --format '%Y :%y: %n' 2>/dev/null | 
 
 alias screeni="screen -rD || screen"
 
+# Fun sudo aliases
 alias fuck="sudo"
 alias fucking="sudo"
 alias please="sudo"
 
+# Google Translate
 alias translate="ddg \!translate ${@}"
