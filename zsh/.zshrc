@@ -114,6 +114,7 @@ if ! zgen saved; then
     # Plugins
     zgen oh-my-zsh
     zgen oh-my-zsh plugins/adb
+    zgen oh-my-zsh plugins/asdf
     zgen oh-my-zsh plugins/autojump
     zgen oh-my-zsh plugins/celery
     zgen oh-my-zsh plugins/colored-man-pages
