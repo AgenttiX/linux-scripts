@@ -1,21 +1,21 @@
 name: CI
 on: push
 env:
-  PYTHON_VERSION: 3.11
+  PYTHON_VERSION: 3.12
 jobs:
   fossa:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Print Python version
       run: python -V
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Load pip cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: .pip
         key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
@@ -39,15 +39,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Print Python version
         run: python -V
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Load pip cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .pip
           key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
@@ -65,7 +65,7 @@ jobs:
         run: pylint startup tests f3.py kernel_remover.py maintenance.py modem.py misc_misc_utils.py 2>&1 | tee pylint.txt
         working-directory: ${{ github.workspace }}
       - name: Upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Lint
           path: |
@@ -75,11 +75,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - uses: AppThreat/sast-scan-action@master
       with:
         type: bash,python
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: reports
         path: reports
@@ -88,15 +88,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Print Python version
       run: python -V
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Load pip cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: .pip
         key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
@@ -123,7 +123,7 @@ jobs:
         coverage json
       working-directory: ${{ github.workspace }}
     - name: Upload results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: Coverage
         path: |
