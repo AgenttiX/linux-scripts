@@ -1,3 +1,4 @@
+import os
 import unittest
 
 import modem
@@ -13,8 +14,6 @@ class ModemTestCase(unittest.TestCase):
         self.assertEqual(pin, pin2)
 
     @staticmethod
+    @unittest.skipIf("GITHUB_ACTIONS" in os.environ, reason="Unsupported on GitHub Actions")
     def test_modem_number():
-        try:
-            modem.modem_number()
-        except ValueError:
-            pass
+        modem.modem_number()
