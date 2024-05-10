@@ -265,6 +265,8 @@ def mdadm() -> None:
         for path in endpoints:
             with open(path, "w") as endpoint:
                 endpoint.write("check")
+        with open("/proc/mdstat") as file:
+            print(file.read())
 
 
 def remove_custom_files() -> None:
