@@ -29,6 +29,7 @@ fi
 KRB5_CONF="/etc/krb5.conf"
 NSSWITCH_CONF="/etc/nsswitch.conf"
 SMB_CONF="/etc/samba/smb.conf"
+SECRETS_LDB="/var/lib/samba/private/secrets.ldb"
 
 while true; do
     read -p "Are you going to have domain users log in to this machine (y/n)?" yn
@@ -92,6 +93,12 @@ sed -i 's/^group:          files systemd$/group:          files systemd winbind/
 echo "-----"
 cat "${NSSWITCH_CONF}"
 echo "-----"
+
+if [ ! -f "${SECRETS_LDB}" ]; then
+  echo "${SECRETS_LDB} does not exist. Creating an empty one to avoid Samba error messages."
+  echo "https://bugzilla.samba.org/show_bug.cgi?id=14657"
+  sudo ldbadd -H "${SECRETS_LDB}" </dev/null
+fi
 
 echo "Presence of extended ACL support:"
 smbd -b | grep HAVE_LIBACL

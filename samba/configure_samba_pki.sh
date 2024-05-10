@@ -95,13 +95,6 @@ echo "Installing sscep."
 sudo make install
 echo "sscep installation ready."
 
-SECRETS_LDB="/var/lib/samba/private/secrets.ldb"
-if [ ! -f "${SECRETS_LDB}" ]; then
-  echo "${SECRETS_LDB} does not exist. Creating an empty one to avoid Samba error messages."
-  echo "https://bugzilla.samba.org/show_bug.cgi?id=14657"
-  sudo ldbadd -H "${SECRETS_LDB}" </dev/null
-fi
-
 if [ ! -f "${KEYTAB}" ]; then
   echo "Kerberos keytab does not exist. Creating."
   # https://runops.wordpress.com/2015/04/22/create-machine-keytab-on-linux-for-active-directory-authentication/
