@@ -8,6 +8,8 @@ if [ "${EUID}" -ne 0 ]; then
    exit 1
 fi
 
+echo "Presence of extended ACL support:"
+smbd -b | grep HAVE_LIBACL
 echo "Samba configuration:"
 testparm --suppress-prompt
 echo "Updating group policies."
