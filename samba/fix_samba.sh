@@ -14,8 +14,12 @@ echo "Samba configuration:"
 testparm --suppress-prompt
 echo "Updating group policies."
 samba-gpupdate --rsop
-echo "CAs:"
-getcert list-cas
+if command -v getcert &> /dev/null; then
+  echo "CAs:"
+  getcert list-cas
+else
+  echo "Certmonger was not found."
+fi
 echo "Certificates:"
 ls /var/lib/samba/certs
 echo "Winbindd ping:"
