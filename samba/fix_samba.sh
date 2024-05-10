@@ -18,3 +18,5 @@ echo "CAs:"
 getcert list-cas
 echo "Certificates:"
 ls /var/lib/samba/certs
+echo "Winbindd ping:"
+wbinfo --ping-dc
