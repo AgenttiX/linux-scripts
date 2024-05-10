@@ -43,11 +43,11 @@ done
 sudo apt-get update
 if $INSTALL_LOGIN; then
   echo "Installing Samba with login support."
-  sudo apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libpam-winbind libnss-winbind libpam-krb5 krb5-config krb5-user
+  sudo apt-get install acl attr krb5-config krb5-user ldb-tools libnss-winbind samba samba-dsdb-modules samba-vfs-modules winbind libpam-krb5 libpam-winbind
 else
   echo "Installing Samba without login support."
   # libnss-winbind is necessary for group policy support.
-  sudo apt-get install acl attr samba samba-dsdb-modules samba-vfs-modules winbind libnss-winbind krb5-config krb5-user
+  sudo apt-get install acl attr krb5-config krb5-user ldb-tools libnss-winbind samba samba-dsdb-modules samba-vfs-modules winbind
 fi
 echo "Samba version: $(samba --version)"
 
