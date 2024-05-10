@@ -93,6 +93,9 @@ echo "-----"
 cat "${NSSWITCH_CONF}"
 echo "-----"
 
+echo "Presence of extended ACL support:"
+smbd -b | grep HAVE_LIBACL
+
 # systemctl status smbd.service
 # systemctl status nmbd.service
 # systemctl status winbind.service
