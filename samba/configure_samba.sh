@@ -28,6 +28,7 @@ fi
 
 KRB5_CONF="/etc/krb5.conf"
 NSSWITCH_CONF="/etc/nsswitch.conf"
+SAM_LDB="/var/lib/samba/private/sam.ldb"
 SMB_CONF="/etc/samba/smb.conf"
 SECRETS_LDB="/var/lib/samba/private/secrets.ldb"
 
@@ -98,6 +99,11 @@ if [ ! -f "${SECRETS_LDB}" ]; then
   echo "${SECRETS_LDB} does not exist. Creating an empty one to avoid Samba error messages."
   echo "https://bugzilla.samba.org/show_bug.cgi?id=14657"
   sudo ldbadd -H "${SECRETS_LDB}" </dev/null
+fi
+if [ ! -f "${SAM_LDB}" ]; then
+  echo "${SAM_LDB} does not exist. Creating an empty one to avoid Samba error messages."
+  echo "https://bugzilla.samba.org/show_bug.cgi?id=14657"
+  sudo ldbadd -H "${SAM_LDB}" </dev/null
 fi
 
 echo "Presence of extended ACL support:"
