@@ -24,3 +24,5 @@ echo "Certificates:"
 ls /var/lib/samba/certs
 echo "Winbindd ping:"
 wbinfo --ping-dc
+echo "Kerberos tickets:"
+klist
