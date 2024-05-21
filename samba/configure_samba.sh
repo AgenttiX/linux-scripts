@@ -31,6 +31,7 @@ NSSWITCH_CONF="/etc/nsswitch.conf"
 SAM_LDB="/var/lib/samba/private/sam.ldb"
 SMB_CONF="/etc/samba/smb.conf"
 SECRETS_LDB="/var/lib/samba/private/secrets.ldb"
+USER_MAP="/etc/samba/user.map"
 
 while true; do
     read -p "Are you going to have domain users log in to this machine (y/n)?" yn
@@ -80,6 +81,19 @@ echo "Configuring Samba"
 cp "${CONF_DIR}/smb.conf" "${SMB_CONF}"
 chown root:root "${SMB_CONF}"
 chmod 644 "${SMB_CONF}"
+
+if [ -f "${USER_MAP}" ]; then
+  if [ ! -f "${USER_MAP}.bak" ]; then
+    echo "Backing up existing ${USER_MAP}"
+    cp "${USER_MAP}" "${USER_MAP}.bak"
+  else
+    echo "Backup of ${USER_MAP} already exists."
+  fi
+fi
+echo "Configuring (root) user mapping"
+cp "${CONF_DIR}/user.map" "${USER_MAP}"
+chown root:root "${USER_MAP}"
+chmod 644 "${USER_MAP}"
 
 if [ ! -f "${NSSWITCH_CONF}.bak" ]; then
   echo "Backing up existing ${NSSWITCH_CONF}"
