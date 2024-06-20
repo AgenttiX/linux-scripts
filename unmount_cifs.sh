@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -eu
+
 # https://www.commandlinefu.com/commands/view/10958/unmount-all-cifs-drives
 
 if [ "${EUID}" -ne 0 ]; then

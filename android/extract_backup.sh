@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 # ADB backup extractor
 # Will not work on encrypted backups, but instead produces the error:

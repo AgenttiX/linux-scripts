@@ -1,4 +1,6 @@
-#!/usr/bin/bash -e
+#!/usr/bin/env bash
+set -eu
+
 # Downloader for YouTube livestreams
 # Based on:
 # https://stackoverflow.com/a/37074870/

@@ -1,4 +1,6 @@
-#!/usr/bin/sh -e
+#!/usr/bin/env sh
+set -eu
+
 # Ubuntu 22.04 installs Firefox as snap by default,
 # and the deb package is merely a wrapper for the snap.
 # To get some extensions such as KeePassXC working,

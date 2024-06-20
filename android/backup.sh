@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 # Backup an Android device with ADB
 # This is deprecated and will not backup app data on Android >= 12

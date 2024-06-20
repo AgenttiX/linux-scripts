@@ -1,4 +1,6 @@
-#!/usr/bin/sh -e
+#!/usr/bin/env sh
+set -eu
+
 # Ethereum mining script
 
 # The configuration should be specified as variables in ethminer_config.sh

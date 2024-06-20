@@ -1,4 +1,5 @@
-#!/usr/bin/sh -e
+#!/usr/bin/env sh
+set -eu
 
 FILENAME="platform-tools-latest-linux.zip"
 URL="https://dl.google.com/android/repository/${FILENAME}"

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu
 
 if [ "$1" == "" ]; then
   echo "Please add a device name as an argument."

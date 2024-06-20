@@ -1,4 +1,6 @@
-#!/usr/bin/sh -e
+#!/usr/bin/env sh
+set -eu
+
 # TODO: Work in progress
 
 . ./ethminer_config.sh

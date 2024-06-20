@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -eu
+
 # yt-dlp is a better maintained and more feature-complete variant of the popular youtube-dl.
 # https://github.com/yt-dlp/yt-dlp
 

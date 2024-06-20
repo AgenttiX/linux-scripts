@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 # This script is for flashing the additional critical partitions with TWRP.
 # This should not be done, unless you want to completely wipe

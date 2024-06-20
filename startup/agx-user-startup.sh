@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # set -e
+set -u
 
 echo "Configuring SSH agent"
 SETUP_AGENT="${HOME}/Git/private-scripts/ssh/setup_agent.sh"

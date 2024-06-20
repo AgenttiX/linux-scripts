@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -eu
 
 # WORK IN PROGRESS
 

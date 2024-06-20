@@ -1,4 +1,5 @@
-#!/usr/bin/sh -e
+#!/usr/bin/env sh
+set -eu
 
 get_latest_release() {
   if [ $# -ne 1 ]; then

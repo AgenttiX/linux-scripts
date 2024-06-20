@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 # Before running this script, run "rclone config" to configure rclone.
 

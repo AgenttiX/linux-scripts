@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eu
 
 # This script is for flashing the partitions manually using images extracted
 # from an official OxygenOS zip, which you can get here:

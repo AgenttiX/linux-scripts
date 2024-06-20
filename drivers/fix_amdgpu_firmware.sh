@@ -1,4 +1,6 @@
-#!/usr/bin/bash -e
+#!/usr/bin/env bash
+set -eu
+
 # Based on
 # https://askubuntu.com/a/1124256/
 
