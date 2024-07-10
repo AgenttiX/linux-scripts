@@ -168,10 +168,6 @@ update() {
     flatpak update
     flatpak uninstall --unused
   fi
-  if (command -v zgen &> /dev/null); then
-    echo "Updating zgen"
-    zgen update
-  fi
 
   # Git repositories
   local PWD_BEFORE_UPDATE="${PWD}"
@@ -197,6 +193,13 @@ update() {
   fi
   cd "${PWD_BEFORE_UPDATE}"
 
+  # This should be after the Git repo pulling,
+  # since the repos can have an updated zsh config.
+  if (command -v zgen &> /dev/null); then
+    echo "Updating zgen"
+    zgen update
+  fi
+
   # zsh completions using zsh-manpage-completion-generator
   # Based on:
   # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
@@ -216,7 +219,7 @@ update() {
     ./zsh-manpage-completion-generator
     cd "${PWD_BEFORE_UPDATE}"
 
-    # You disable the completions for specific commands by deleting the files here.
+    # You can disable the completions for specific commands by deleting the files here.
     # rm "${FISH_COMPLETION_DIR}/_git*"
   else
       echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
