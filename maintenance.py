@@ -158,6 +158,9 @@ BLEACHBIT_THUNDERBIRD: tp.List[str] = [
 
 
 def apt() -> None:
+    """This does not print output properly while the process is being run,
+    which makes it impossible to answer prompts.
+    """
     print_info("Running apt")
     run(["apt-get", "update"], sudo=True)
     # run(["apt-get", "autoremove", "-y"])
@@ -376,8 +379,8 @@ def main():
     zero = get_zerofree_status(args)
 
     print_info("Running maintenance script")
-    apt()
-    print()
+    # apt()
+    # print()
     snap()
     print()
     flatpak()
