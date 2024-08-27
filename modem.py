@@ -152,8 +152,9 @@ def main():
         print(f"Could not enable modem: {e}")
 
     # The modem will take a while to initialize
-    time.sleep(1)
-    enable_location(modem)
+    # time.sleep(1)
+    # This no longer works on ThinkPad T480, but instead gives the error that the modem has no location capabilities.
+    # enable_location(modem)
 
 
 if __name__ == "__main__":
