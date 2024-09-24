@@ -8,5 +8,6 @@ fi
 
 apt-get update
 apt-get --fix-broken install
+dpkg --configure -a
 update-initramfs -u
 update-grub
