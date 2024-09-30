@@ -18,3 +18,10 @@ if command -v pactl >/dev/null 2>&1; then
   echo "Configuring PipeWire"
   pactl load-module module-combine-sink
 fi
+
+if command -v flatpak >/dev/null 2>&1; then
+  echo "Starting Slack"
+  flatpak run com.slack.Slack
+  echo "Starting Mattermost"
+  flatpak run com.mattermost.Desktop
+fi
