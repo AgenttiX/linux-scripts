@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# This script should continue on errors
 # set -e
 set -u
 
