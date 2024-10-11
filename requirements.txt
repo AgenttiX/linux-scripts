@@ -22,12 +22,9 @@ python-xlib >= 0.33
 
 # qmk >= 1.0.0
 
-# This version is kept back by gplaydl
-# requests >= 2.23.0
-requests >= 2.28.2
+requests >= 2.32.3
 
 # For LibreNMS log spam cleaner
-# This version is kept back by requests
-slack-cleaner2 >= 3.2.2
+slack-cleaner2 >= 3.2.7
 
 # tasmotizer >= 1.2.1
