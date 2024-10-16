@@ -57,15 +57,21 @@ echo "deb [signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg] https://ap
 # Speedtest
 # curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash
 
+# TeamViewer
+if command -v teamviewer &> /dev/null; then
+  sudo teamviewer repo default
+fi
+
 # -----
 # PPAs
 # -----
-add-apt-repository ppa:linrunner/tlp
 # add-apt-repository ppa:linuxuprising/java
+add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:phoerious/keepassxc
 # add-apt-repository ppa:thopiekar/openrgb
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
-  echo "This seems to be a laptop. Enabling the Touchegg repository."
+  echo "This seems to be a laptop. Enabling the TLP and Touchegg repositories."
+  add-apt-repository ppa:linrunner/tlp
   add-apt-repository ppa:touchegg/stable
 else
   echo "This does not seem to be a laptop. Skipping Touchegg repository setup."
