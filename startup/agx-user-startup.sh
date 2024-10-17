@@ -3,10 +3,13 @@
 # set -e
 set -u
 
-echo "Configuring SSH agent"
-SETUP_AGENT="${HOME}/Git/private-scripts/ssh/setup_agent.sh"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+REPO_DIR="$(dirname "${SCRIPT_DIR}")"
+
+echo "Starting SSH agent configuration script."
+SETUP_AGENT="${REPO_DIR}/ssh/setup_agent.sh"
 if [ -f "${SETUP_AGENT}" ]; then
-  "${SETUP_AGENT}"
+  "${SETUP_AGENT}" private-scripts
 fi
 
 ACTIVITYWATCH="${HOME}/Downloads/activitywatch/aw-qt"
