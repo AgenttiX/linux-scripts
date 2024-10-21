@@ -6,7 +6,7 @@ if [ "${EUID}" -eq 0 ]; then
    exit 1
 fi
 
-if [ -z "$1" ]; then
+if [ "$#" -ne 1 ]; then
   echo "Please give the name of the repo containing the config files."
   exit 1
 fi
