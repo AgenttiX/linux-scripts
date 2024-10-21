@@ -5,6 +5,11 @@ Configuration script for drawing tablets.
 This script is based on X11 utilities and will unfortunately not yet work on Wayland.
 To run this script automatically when plugging in the tablet, please run "install_wacom.sh".
 
+This script works on X11 only, and not on Wayland.
+OpenTabletDriver supports Wayland as well, and it's a lot more comprehensive.
+Please use it instead.
+https://opentabletdriver.net/
+
 Based on a similar script by Alpi Tolvanen
 https://gitlab.com/tolvanea/linux_utility_scripts/-/blob/master/wacom_intuos
 
