@@ -78,6 +78,9 @@ obs-studio/plugin_config/StreamFX/config.json
 obs-studio/plugins
 obs-studio/profiler_data
 obs-studio/updates
+opentabletdriver/Logs
+opentabletdriver/Plugins
+opentabletdriver/settings.json
 physics/csc/config.sh
 physics/kale/config.sh
 pythia8*
