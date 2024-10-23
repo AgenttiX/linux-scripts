@@ -173,7 +173,7 @@
       <attribute name="deviceSource" type="int" value="0"/>
     </data>
     <data name="G2Touch Multi-Touch by G2TSP">
-      <attribute name="deviceClass" type="int" value="3"/>
+      <attribute name="deviceClass" type="int" value="4"/>
       <attribute name="deviceSource" type="int" value="5"/>
     </data>
     <data name="Generic USB Audio Consumer Control">
@@ -213,6 +213,10 @@
       <attribute name="deviceSource" type="int" value="0"/>
     </data>
     <data name="SynPS/2 Synaptics TouchPad">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="6"/>
+    </data>
+    <data name="Synaptics TM3276-022">
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="6"/>
     </data>
