@@ -74,7 +74,7 @@ if [ "$(hostnamectl chassis)" = "laptop" ]; then
   add-apt-repository ppa:linrunner/tlp
   add-apt-repository ppa:touchegg/stable
 else
-  echo "This does not seem to be a laptop. Skipping Touchegg repository setup."
+  echo "This does not seem to be a laptop. Skipping Touchegg and TLP repository setup."
 fi
 
 apt-get update
