@@ -65,6 +65,8 @@ fi
 # -----
 # PPAs
 # -----
+# For OpenTabletDriver dotnet-runtime-6.0 dependency
+add-apt-repository ppa:dotnet/backports
 # add-apt-repository ppa:linuxuprising/java
 add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:phoerious/keepassxc
