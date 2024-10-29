@@ -6,6 +6,9 @@ set -u
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 REPO_DIR="$(dirname "${SCRIPT_DIR}")"
 
+# Run the pre-startup script again to ensure that the SSH agent is available
+# . "${SCRIPT_DIR}/agx-user-pre-startup.sh"
+
 echo "Starting SSH agent configuration script."
 SETUP_AGENT="${REPO_DIR}/ssh/setup_agent.sh"
 if [ -f "${SETUP_AGENT}" ]; then
