@@ -12,7 +12,8 @@ PLASMA_WORKSPACE_DIR="${HOME}/.config/plasma-workspace"
 if [ -d "${PLASMA_WORKSPACE_DIR}" ]; then
   echo "Installing the agx-user-pre-startup script."
   mkdir -p "${PLASMA_WORKSPACE_DIR}/env"
-  ln -sf "${SCRIPT_DIR}/agx-user-pre-startup.sh" "${PLASMA_WORKSPACE_DIR}/env/agx-user-pre-startup.sh"
+  # This is no longer needed, as it didn't work on Wayland
+  # ln -sf "${SCRIPT_DIR}/agx-user-pre-startup.sh" "${PLASMA_WORKSPACE_DIR}/env/agx-user-pre-startup.sh"
 
   echo "Installing the agx-user-shutdown script."
   mkdir -p "${PLASMA_WORKSPACE_DIR}/shutdown"
