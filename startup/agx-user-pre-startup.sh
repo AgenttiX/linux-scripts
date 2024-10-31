@@ -13,13 +13,24 @@
 export SSH_ASKPASS="/usr/bin/ksshaskpass"
 export SSH_ASKPASS_REQUIRE=prefer
 
-if ! pgrep -u "${USER}" ssh-agent > /dev/null; then
+# Wait for kwallet
+# This is necessary on Wayland, but not on X11
+# if command -v kwallet-query &> /dev/null; then
+#   kwallet-query -l kdewallet > /dev/null
+# fi
+
+SSH_AGENT_UPDATED=false
+# Pgrep finds regexes, and without the specification for the start and end of the line,
+# it could find e.g. the gcr-ssh-agent provided by the package gcr,
+# and not start the correct SSH agent.
+if ! pgrep -u "${USER}" '^ssh-agent$' > /dev/null; then
   # echo "SSH agent seems not to be started. Starting, and saving its configuration."
-  ssh-agent > ~/.ssh-agent-info
+  ssh-agent > "${HOME}/.ssh-agent-info"
+  SSH_AGENT_UPDATED=true
 fi
-if [[ "${SSH_AGENT_PID}" == "" ]]; then
+if [[ "${SSH_AGENT_PID}" == "" ]] || [ "${SSH_AGENT_UPDATED}" = true ]; then
   # echo "SSH agent configuration seems not to be loaded. Loading."
-  eval "$(<~/.ssh-agent-info)" > /dev/null
+  eval "$(<"${HOME}/.ssh-agent-info")" > /dev/null
 fi
 
 # echo "SSH_AUTH_SOCK=${SSH_AUTH_SOCK}" >> "${LOG_PATH}"
