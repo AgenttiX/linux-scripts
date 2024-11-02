@@ -27,6 +27,7 @@ echo "Adding new identities."
 # Otherwise the server you connect to can use the SSH keys
 # as if it was your local machine!
 
+# Support for TPM-based keys
 LIBTPM2_PKCS11="/usr/lib/x86_64-linux-gnu/libtpm2_pkcs11.so.1"
 if [ -f "${LIBTPM2_PKCS11}" ]; then
   set +e
@@ -37,6 +38,15 @@ fi
 # The id_rsa is only used for specific purposes
 if [ -f "${HOME}/.ssh/id_rsa" ]; then
   ssh-add "${HOME}/.ssh/id_rsa"
+fi
+
+# Support for smart cards. These may require a PIN, which is why this is after id_rsa.
+# https://www.linux.fi/wiki/HST#Ssh_2
+OPENSC_PKCS11="/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so"
+if [ -f "${OPENSC_PKCS11}" ]; then
+  set +e
+  ssh-add -s "${OPENSC_PKCS11}"
+  set -e
 fi
 
 . "${CONF_SCRIPT}"
