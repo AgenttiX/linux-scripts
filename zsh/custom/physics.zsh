@@ -1,5 +1,14 @@
 #!/usr/bin/env zsh
 
+pull-thesis() {
+  OLD_PWD="$(pwd)"
+  cd "${HOME}/Git/pttools" || return
+  git pull
+  cd "${HOME}/Git/msc-thesis2" || return
+  git pull
+  cd "${OLD_PWD}" || return
+}
+
 # Enable Geant4
 GEANT_SCRIPT="/usr/local/bin/geant4.sh"
 if [ -f "${GEANT_SCRIPT}" ]; then
