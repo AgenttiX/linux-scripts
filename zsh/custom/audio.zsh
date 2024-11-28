@@ -2,8 +2,7 @@
 
 fix-audio() {
   # This fixes audio crackling issues
-  systemctl --user restart pipewire.service
-  systemctl --user restart pipewire-pulse.service
+  systemctl --user restart pipewire.service pipewire-pulse.service
   # For old PulseAudio
   # pulseaudio -k
   # sudo alsa force-reload
