@@ -32,7 +32,12 @@ fi
 
 if command -v flatpak >/dev/null 2>&1; then
   echo "Starting Slack"
-  flatpak run com.slack.Slack
+  flatpak run com.slack.Slack &
   echo "Starting Mattermost"
-  flatpak run com.mattermost.Desktop
+  flatpak run com.mattermost.Desktop &
+fi
+
+if command -v telegram-desktop  >/dev/null 2>&1; then
+  echo "Starting Telegram"
+  telegram-desktop &
 fi
