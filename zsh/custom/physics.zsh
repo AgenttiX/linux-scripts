@@ -1,11 +1,13 @@
 #!/usr/bin/env zsh
 
-pull-thesis() {
+update-thesis() {
   OLD_PWD="$(pwd)"
   cd "${HOME}/Git/pttools" || return
   git pull
+  git push
   cd "${HOME}/Git/msc-thesis2" || return
   git pull
+  git push
   cd "${OLD_PWD}" || return
 }
 
