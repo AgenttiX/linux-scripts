@@ -84,6 +84,11 @@ replacerec() {
     fi
 }
 
+function nvidia-smi {
+  # https://forums.developer.nvidia.com/t/nvidia-smi-uses-all-of-ram-and-swap/295639/3
+  valgrind nvidia-smi "$@" 2> /dev/null
+}
+
 # Chats
 start-chats() {
   # Start chat clients
