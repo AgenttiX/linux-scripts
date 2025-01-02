@@ -1,4 +1,5 @@
-#!/usr/bin/sh -e
+#!/usr/bin/env sh
+set -eu
 
 # This script is trivial and mostly a note for myself.
 # As of 2021, the default key length of ssh-keygen is 3072 bits, but

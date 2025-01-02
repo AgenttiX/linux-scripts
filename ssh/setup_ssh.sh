@@ -23,12 +23,4 @@ else
   ln -s "${CONF_DIR}" "${SSH_DIR}"
 fi
 
-echo "Disabling password login."
-sudo sed -i "s@#PasswordAuthentication yes@PasswordAuthentication no@g" "/etc/ssh/sshd_config"
-sudo systemctl restart ssh
-
-echo "Creating UFW firewall rule and enabling UFW."
-sudo ufw allow ssh comment SSH
-sudo ufw enable
-
 echo "SSH configured."
