@@ -6,10 +6,10 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo "Configuring SSH."
 
-chmod 700 "${SCRIPT_DIR}"
-chmod 600 "${SCRIPT_DIR}/authorized_keys"
-if [ -f "${SCRIPT_DIR}/config" ]; then
-  chmod 600 "${SCRIPT_DIR}/config"
+chmod 700 "${CONF_DIR}"
+chmod 600 "${CONF_DIR}/authorized_keys"
+if [ -f "${CONF_DIR}/config" ]; then
+  chmod 600 "${CONF_DIR}/config"
 fi
 
 if [ -L "${SSH_DIR}" ]; then
