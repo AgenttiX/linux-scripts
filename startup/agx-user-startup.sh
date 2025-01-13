@@ -19,15 +19,20 @@ if [ -f "${SETUP_AGENT}" ]; then
   "${SETUP_AGENT}" private-scripts
 fi
 
+# This should be before other applications just in case, since this configures audio settings for them.
+if command -v pactl >/dev/null 2>&1; then
+  echo "Configuring PipeWire"
+  pactl load-module module-combine-sink
+fi
+
+if command -v syncthing  >/dev/null 2>&1; then
+  syncthing &
+fi
+
 ACTIVITYWATCH="${HOME}/Downloads/activitywatch/aw-qt"
 if [ -f "${ACTIVITYWATCH}" ]; then
   echo "Starting ActivityWatch"
   "${ACTIVITYWATCH}" &
-fi
-
-if command -v pactl >/dev/null 2>&1; then
-  echo "Configuring PipeWire"
-  pactl load-module module-combine-sink
 fi
 
 if command -v flatpak >/dev/null 2>&1; then
