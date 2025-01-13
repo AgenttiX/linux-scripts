@@ -51,12 +51,11 @@ findit() {
     fi
 }
 
-# This does not work, since zsh functions are not available in the KDE Alt+F2 prompt
-# fix-kde() {
-#   killall plasmashell
-#   sleep 1
-#   kstart plasmashell
-# }
+fix-kde() {
+  killall plasmashell -9
+  sleep 1
+  kstart plasmashell
+}
 
 pdfsearch() {
     # https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files
@@ -246,7 +245,7 @@ alias eti="grep -rnI -B 1 -A 1"
 
 # Scan wifi networks. This also refreshes the wifi-list, so if device was not connected,
 # it makes auto-connection quicker
-alias fixwifi="sudo iwlist scan | grep 'Cell\|ESSID:\|Quality='"
+alias fix-wifi="sudo iwlist scan | grep 'Cell\|ESSID:\|Quality='"
 
 # shellcheck disable=SC2139
 alias modem="sudo ${HOME}/Git/linux-scripts/modem.py"
