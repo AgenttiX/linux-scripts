@@ -15,6 +15,7 @@ echo "Configuring SSH agent."
 
 # Wait for kwallet
 if command -v kwallet-query &> /dev/null; then
+  # If you get exit code 4 here, create a folder named "Passwords" manually in KDE Wallet.
   kwallet-query -l kdewallet > /dev/null
 fi
 
