@@ -42,7 +42,19 @@ if command -v flatpak >/dev/null 2>&1; then
   flatpak run com.mattermost.Desktop &
 fi
 
-if command -v telegram-desktop  >/dev/null 2>&1; then
+if command -v signal-desktop >/dev/null 2>&1; then
+  echo "Starting Signal"
+  signal-desktop --start-in-tray &
+fi
+
+if command -v telegram-desktop >/dev/null 2>&1; then
   echo "Starting Telegram"
   telegram-desktop &
+fi
+
+if [ "$(hostname)" == "agx-z2e-kubuntu" ]; then
+  echo "Starting Discord"
+  flatpak run com.discordapp.Discord &
+  echo "Starting Steam"
+  steam &
 fi
