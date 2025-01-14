@@ -6,6 +6,10 @@ if [ "${EUID}" -ne 0 ]; then
    exit 1
 fi
 
+echo "Installing SSH server."
+apt-get update
+apt-get install openssh-server
+
 echo "Disabling password login."
 sed -i "s@#PasswordAuthentication yes@PasswordAuthentication no@g" "/etc/ssh/sshd_config"
 systemctl restart ssh

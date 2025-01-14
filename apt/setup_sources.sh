@@ -69,7 +69,7 @@ fi
 # https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#register-the-ubuntu-net-backports-package-repository
 # add-apt-repository ppa:dotnet/backports
 # add-apt-repository ppa:linuxuprising/java
-add-apt-repository ppa:obsproject/obs-studio
+# add-apt-repository ppa:obsproject/obs-studio
 add-apt-repository ppa:phoerious/keepassxc
 # add-apt-repository ppa:thopiekar/openrgb
 if [ "$(hostnamectl chassis)" = "laptop" ]; then

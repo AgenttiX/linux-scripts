@@ -28,7 +28,7 @@ if ! pgrep -u "${USER}" '^ssh-agent$' > /dev/null; then
   ssh-agent > "${HOME}/.ssh-agent-info"
   SSH_AGENT_UPDATED=true
 fi
-if [[ "${SSH_AGENT_PID}" == "" ]] || [ "${SSH_AGENT_UPDATED}" = true ]; then
+if [ "${SSH_AGENT_UPDATED}" = true ] || [[ "${SSH_AGENT_PID}" == "" ]]; then
   # echo "SSH agent configuration seems not to be loaded. Loading."
   eval "$(<"${HOME}/.ssh-agent-info")" > /dev/null
 fi
