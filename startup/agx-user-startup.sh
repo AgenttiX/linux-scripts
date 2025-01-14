@@ -49,7 +49,7 @@ fi
 
 if command -v telegram-desktop >/dev/null 2>&1; then
   echo "Starting Telegram"
-  telegram-desktop &
+  telegram-desktop -startintray &
 fi
 
 if [ "$(hostname)" == "agx-z2e-kubuntu" ]; then
