@@ -1,14 +1,8 @@
 ### Installing zsh
 Zsh is an awesome shell with the extensive plugin collection
 [Oh My Zsh](https://ohmyz.sh/).
-You can install and configure it by cd'ing to the root
-of this repository and executing the following commands.
+You can install it using the `install_zsh.sh` script.
 
-``` bash
-sudo apt-get update
-sudo apt-get install git zsh
-ln -s "<REPOSITORY_FOLDER>/zsh/.zshenv" "${HOME}/.zshenv"
-```
 
 ### Additional plugins
 [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete),
@@ -16,15 +10,14 @@ ln -s "<REPOSITORY_FOLDER>/zsh/.zshenv" "${HOME}/.zshenv"
 and
 [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting):
 
+
 ### Powerlevel10k theme
 Installation of the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) theme:
 first download all the
 [MesloLGS theme files](https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k)
 and set it as your default terminal font.
-Then run the following command.
-``` bash
-ln -s "<REPOSITORY_FOLDER>/zsh/.p10k.zsh" "${HOME}/.p10k.zsh"
-```
+Then run the `install_zsh.sh` script if you haven't yet run iiiit.
+
 
 ### Stderred
 With [stderred](https://github.com/sickill/stderred) you can get stderr displayed in red.
