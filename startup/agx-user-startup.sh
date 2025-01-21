@@ -37,9 +37,9 @@ fi
 
 if command -v flatpak >/dev/null 2>&1; then
   echo "Starting Slack"
-  flatpak run com.slack.Slack &
+  flatpak run com.slack.Slack --startup &
   echo "Starting Mattermost"
-  flatpak run com.mattermost.Desktop &
+  flatpak run com.mattermost.Desktop --hidden &
 fi
 
 if command -v signal-desktop >/dev/null 2>&1; then
@@ -54,7 +54,7 @@ fi
 
 if [ "$(hostname)" == "agx-z2e-kubuntu" ]; then
   echo "Starting Discord"
-  flatpak run com.discordapp.Discord &
+  flatpak run com.discordapp.Discord --start-minimized &
   echo "Starting Steam"
-  steam &
+  steam -nochatui -nofriendsui -silent &
 fi
