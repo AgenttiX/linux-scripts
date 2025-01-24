@@ -25,8 +25,22 @@ if command -v pactl >/dev/null 2>&1; then
   pactl load-module module-combine-sink
 fi
 
-if command -v syncthing  >/dev/null 2>&1; then
+if command -v displaycal-apply-profiles >/dev/null 2>&1; then
+  displaycal-apply-profiles &
+fi
+
+# Syncthing and cloud services should be started as early as possible to ensure
+# that the user does not modify files before they are synced.
+if command -v syncthing >/dev/null 2>&1; then
   syncthing &
+fi
+
+if command -v dropbox >/dev/null 2>&1; then
+  dropbox start -i &
+fi
+
+if command -v rescuetime >/dev/null 2>&1; then
+  rescuetime &
 fi
 
 ACTIVITYWATCH="${HOME}/Downloads/activitywatch/aw-qt"
