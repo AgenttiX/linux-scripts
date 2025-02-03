@@ -24,8 +24,8 @@
 [pager]
     diff = delta
     # diff = diff-so-fancy | less -RFX #--tabs=8
-[pull]
-    rebase = true
+# [pull]
+#     rebase = true
 
 
 # -----
