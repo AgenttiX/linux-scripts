@@ -14,11 +14,15 @@ fi
 
 apt-get update
 apt-get install \
-  apt-transport-https autojump bleachbit build-essential ca-certificates cifs-utils clamtk cmake curl cutecom \
+  apt-transport-https autojump bleachbit bluetooth build-essential ca-certificates \
+  cifs-utils clamtk cmake curl cutecom \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
-  filelight filezilla gfortran gimp git git-gui gparted htop inkscape kde-config-flatpak keepassxc ktorrent \
-  libreoffice libreoffice-help-fi lm-sensors mumble network-manager-openvpn openssh-server optipng powertop \
+  exfatprogs filelight filezilla freerdp2-wayland gfortran gimp git git-gui gparted htop \
+  inkscape kde-config-flatpak keepassxc ktorrent \
+  libreoffice libreoffice-help-fi lm-sensors mumble network-manager-openvpn openssh-server optipng \
+  pipewire-audio powertop \
   python3-dev python3-venv \
+  remmina remmina-plugin-kwallet \
   s-tui signal-desktop stress synaptic texlive-full texmaker ufw vlc wget wireguard yt-dlp zsh
 
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
