@@ -152,6 +152,55 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         # Nvidia MX 150
         "/sys/bus/pci/devices/0000:01:00.0",
     ],
+    # ThinkPad L14 Gen 5
+    "21L2S0V400": [
+        # Intel DTT
+        "/sys/bus/pci/devices/0000:00:04.0/power/control",
+        # Intel GNA
+        "/sys/bus/pci/devices/0000:00:08.0/power/control",
+        # Intel IPMT
+        "/sys/bus/pci/devices/0000:00:0a.0/power/control",
+        # Intel NPU
+        "/sys/bus/pci/devices/0000:00:0b.0/power/control",
+        # Wi-Fi
+        "/sys/bus/pci/devices/0000:00:14.3/power/control",
+        # Audio
+        "/sys/bus/pci/devices/0000:00:1f.3/power/control",
+        # Thunderbolt 4
+        "/sys/bus/pci/devices/0000:00:07.0/power/control",
+        "/sys/bus/pci/devices/0000:00:0d.3/power/control",
+        # Ethernet
+        "/sys/bus/pci/devices/0000:49:00.0/power/control",
+
+        # Intel PCI
+        "/sys/bus/pci/devices/0000:00:14.2/power/control",
+        "/sys/bus/pci/devices/0000:00:1f.0/power/control",
+        "/sys/bus/pci/devices/0000:00:1f.6/power/control",
+        "/sys/bus/pci/devices/0000:00:1c.0/power/control",
+        "/sys/bus/pci/devices/0000:00:1c.4/power/control",
+        "/sys/bus/pci/devices/0000:00:00.0/power/control",
+
+        # I2C
+        "/sys/bus/pci/devices/0000:00:15.0/power/control",
+        "/sys/bus/i2c/devices/i2c-1/device/power/control",
+        "/sys/bus/i2c/devices/i2c-3/device/power/control",
+
+        # SPI
+        "/sys/bus/pci/devices/0000:00:1f.5/power/control",
+
+        # NVMe SSD
+        "/sys/bus/pci/devices/0000:04:00.0/power/control"
+
+        # ThinkPad Thunderbolt 4 dock
+        "/sys/bus/usb/devices/1-1.1/power/control",
+        "/sys/bus/usb/devices/1-1.4.4.4/power/control",
+
+        # Lenovo USB keyboard
+        "/sys/bus/usb/devices/1-1.4.4.1/power/control",
+
+        # USB mouse
+        # "/sys/bus/usb/devices/1-1.4.4.2.4/power/control",
+    ],
     # ThinkPad S230u
     "334729G": [
         # I2C
