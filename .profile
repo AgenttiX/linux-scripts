@@ -36,3 +36,6 @@ fi
 if [ -f "${HOME}/.ssh-agent-info" ]; then
     eval "$(<"${HOME}/.ssh-agent-info")" > /dev/null
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
