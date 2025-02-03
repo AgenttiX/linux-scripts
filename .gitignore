@@ -54,12 +54,17 @@ crypto/SRBMiner-*
 crypto/teamredminer
 crypto/teamredminer-v*
 drivers/backup
+games/rpcs3/captures
 games/rpcs3/dev_*
+games/rpcs3/games
 games/rpcs3/games.yml
 games/rpcs3/GuiConfigs
 games/rpcs3/Icons
 games/rpcs3/input_configs
+games/rpcs3/players_history.yml
 games/rpcs3/rpcn.yml
+games/rpcs3/savestates
+games/rpcs3/sounds
 games/rpcs3/uuid
 geant4.*
 Geekbench-*
