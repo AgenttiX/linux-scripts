@@ -316,7 +316,7 @@ bindkey -M isearch " " magic-space
 
 # Print stderr with red. For more see
 # https://github.com/sickill/stderred
-STDERRED_PATH="$HOME/Git/stderred/build/libstderred.so"
+STDERRED_PATH="$HOME/Git/stderred/lib64/libstderred.so"
 if [ -f $STDERRED_PATH ]; then
     export LD_PRELOAD="${STDERRED_PATH}${LD_PRELOAD:+:$LD_PRELOAD}"
     red_colored_text=$(tput setaf 9)

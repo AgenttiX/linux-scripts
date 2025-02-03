@@ -17,7 +17,7 @@ apt-get install \
   apt-transport-https autojump bleachbit bluetooth build-essential ca-certificates \
   cifs-utils clamtk cmake curl cutecom \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
-  exfatprogs filelight filezilla freerdp2-wayland gfortran gimp git git-gui gparted htop \
+  exfatprogs filelight filezilla freerdp2-wayland gcc-multilib g++-multilib gfortran gimp git git-gui gparted htop \
   inkscape kde-config-flatpak keepassxc ktorrent \
   libreoffice libreoffice-help-fi lm-sensors mumble network-manager-openvpn openssh-server optipng \
   pipewire-audio powertop \
