@@ -34,7 +34,6 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "adobe_reader.*",
     "amsn.*",
     "amule.*",
-    "apt.*",
     "audacious.*",
     "bash.*",
     "beagle.*",
@@ -66,7 +65,7 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     # "firefox.cookies",
     "firefox.crash_reports",
     "firefox.dom",
-    "firefox.download_history",
+    # "firefox.download_history",
     "firefox.forms",
     # "firefox.passwords",
     "firefox.session_restore",
@@ -140,6 +139,10 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "yum.*"
 ]
 
+BLEACHBIT_ROOT: tp.List[str] = [
+    "apt.*",
+]
+
 BLEACHBIT_DEEP: tp.List[str] = [
     "deepscan.backup",
     "deepscan.ds_store",
@@ -193,9 +196,13 @@ def bleachbit(deep: bool = False, firefox: bool = False, thunderbird: bool = Fal
         args += BLEACHBIT_FIREFOX
     if thunderbird:
         args += BLEACHBIT_THUNDERBIRD
-    # Bleachbit does not run with the run() function for some reason
+    # Bleachbit does not run with the run() function for some reason.
+    # Run both as root and as the current user.
     if os.geteuid() != 0:
-        args.insert(0, "sudo")
+        args2 = ["sudo", *args, *BLEACHBIT_ROOT]
+        sp.run(args2, check=True)
+    else:
+        args += BLEACHBIT_ROOT
     sp.run(args, check=True)
 
 
@@ -358,6 +365,7 @@ def zgen() -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Maintenance script")
+    parser.add_argument("--bleachbit-only", help="Run only Bleachbit", action="store_true")
     parser.add_argument("--deep", help="Deep-clean all", action="store_true")
     parser.add_argument("--docker", help="Deep-clean Docker", action="store_true")
     parser.add_argument("--firefox", help="Deep-clean Firefox", action="store_true")
@@ -375,6 +383,10 @@ def main():
         print_info("Deep scan has been selected. Some processes may take a long time.")
     if args.virtualbox:
         raise NotImplementedError("VirtualBox support does not work yet.")
+
+    if args.bleachbit_only:
+        bleachbit(deep=args.deep, firefox=(args.deep or args.firefox), thunderbird=(args.deep or args.thunderbird))
+        return
 
     zero = get_zerofree_status(args)
 

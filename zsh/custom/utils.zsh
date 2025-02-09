@@ -10,6 +10,10 @@ apt-rdepends-installed () {
 	apt-cache rdepends "$@" | grep "  " | xargs apt list --installed
 }
 
+clear-history() {
+  "${HOME}/Git/linux-scripts/security/clear_history.sh"
+}
+
 compress_7z() {
   if [ $# -lt 1 ]; then
     echo "Please give the file path."
