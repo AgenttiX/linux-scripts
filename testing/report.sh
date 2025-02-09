@@ -6,6 +6,7 @@ if [ "${EUID}" -eq 0 ]; then
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+PARENT_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")"
 export DIR="${SCRIPT_DIR}/report"
 
 if [ -z "${DIR}" ]; then
@@ -14,16 +15,35 @@ if [ -z "${DIR}" ]; then
 fi
 
 # Install dependencies
-LM_SENSORS_INSTALLED=$(command -v sensors &> /dev/null)
+command -v sensors &> /dev/null
+LM_SENSORS_INSTALLED=$?
 # set +e
 if sudo apt-get update; then :; else
   echo "Updating repository data failed. Are there expired signing keys or missing Release files?"
 fi
-if sudo apt-get install p7zip; then :; else
-  echo "Failed to install p7zip. Compressing the final report may not work."
+if sudo apt-get install git p7zip; then :; else
+  echo "Failed to install git and p7zip. Downloading dependencies and compressing the final report may not work."
 fi
 echo "The following packages will enable additional reporting. Please install them if you can."
 sudo apt-get install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools
+
+echo "Downloading LinPEAS"
+curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh -o "${SCRIPT_DIR}/linpeas.sh"
+chmod +x "${SCRIPT_DIR}/linpeas.sh"
+
+OLDPWD="${PWD}"
+LYNIS_DIR="${PARENT_DIR}/lynis"
+if [ -d "${LYNIS_DIR}" ]; then
+  echo "Lynis was found. Updating."
+  cd "${LYNIS_DIR}" || exit 1
+  git pull
+else
+  echo "Lynis was not found. Downloading."
+  cd "${PARENT_DIR}" || exit 1
+  git clone https://github.com/CISOfy/lynis
+fi
+cd "${OLDPWD}" || exit 1
+
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 if command -v decode-dimms &> /dev/null; then
@@ -38,7 +58,7 @@ fi
 # As this is after loading them, it could detect more devices, but on the other hand
 # it might be unsafe.
 # TODO: test that this works
-if (command -v sensors &> /dev/null) && [ "${LM_SENSORS_INSTALLED}" -ne 1 ]; then
+if (command -v sensors &> /dev/null) && [ "${LM_SENSORS_INSTALLED}" -eq 1 ]; then
   echo "lm-sensors was installed with this run of the script."
   echo "Therefore the sensors haven't been configured yet and should be configured now."
   sudo sensors-detect
@@ -84,7 +104,9 @@ function report_command () {
   fi
 }
 
+# -----
 # Root info
+# -----
 # These should be first so that the probability of having to ask sudo password again is minimized.
 
 report_command sudo dmesg
@@ -99,12 +121,14 @@ if command -v docker &> /dev/null; then
 else
   echo "The command \"docker\" was not found."
 fi
+
 if command -v lshw &> /dev/null; then
   # shellcheck disable=SC2024
   sudo lshw -html > "${DIR}/lshw.html"
 else
   echo "The command \"lshw\" was not found."
 fi
+
 # Storage devices
 if command -v smartctl &> /dev/null; then
   mapfile -t SMARTCTL_SCAN < <(smartctl --scan)
@@ -122,6 +146,7 @@ if command -v smartctl &> /dev/null; then
 else
   echo "The command \"smartctl\" was not found."
 fi
+
 # RAID devices
 # This should be after regular HDD/SSD checks so that the individual drives are checked before the higher-level features.
 if command -v mdadm &> /dev/null; then
@@ -136,7 +161,16 @@ else
   echo "The command \"mdadm\" was not found."
 fi
 
+# Lynis security scan
+echo "Starting Lynis as root. If you see a warning about file permissions, press enter to continue."
+sudo "${LYNIS_DIR}/lynis" audit system |& tee "${DIR}/lynis.txt"
+
+# -----
 # Non-root info
+# -----
+
+# LinPEAS security scan
+"${SCRIPT_DIR}/linpeas.sh" |& tee "${DIR}/linpeas.txt"
 
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
@@ -165,6 +199,7 @@ report_command lsusb
 report_command neofetch --stdout
 report_command numba --sysinfo
 report_command nvidia-smi
+
 if command -v pip &> /dev/null; then
   {
     pip -V
@@ -173,6 +208,7 @@ if command -v pip &> /dev/null; then
 else
   echo "Python pip was not found."
 fi
+
 if command -v pip3 &> /dev/null; then
   {
     pip3 -V
@@ -181,9 +217,11 @@ if command -v pip3 &> /dev/null; then
 else
   echo "Python pip3 was not found."
 fi
+
 report_command rocminfo
 report_command rocm-smi --showallinfo
 report_command sensors
+
 # Battery info
 if command -v upower &> /dev/null; then
   {
@@ -194,6 +232,7 @@ if command -v upower &> /dev/null; then
 else
   echo "The command \"upower\" was not found."
 fi
+
 report_command vainfo
 report_command vdpauinfo
 report_command vulkaninfo
