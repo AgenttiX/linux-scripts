@@ -175,6 +175,7 @@ sudo "${LYNIS_DIR}/lynis" audit system |& tee "${DIR}/lynis.txt"
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
 cat "/proc/mdstat" > "${DIR}/mdstat.txt"
+cat "/sys/power/mem_sleep" > "${DIR}/mem_sleep.txt"
 cat "/var/log/syslog" > "${DIR}/syslog.txt"
 
 report_command acpi --everything --details
