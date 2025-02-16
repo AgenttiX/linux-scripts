@@ -28,3 +28,8 @@ apt-get update
 # https://www.reddit.com/r/linux_gaming/comments/1dnccoq/ubuntu_2404_wayland_on_nvidia_troubleshoot_guide/
 # https://askubuntu.com/questions/1514352/ubuntu-24-04-with-nvidia-driver-libegl-warning-egl-failed-to-create-dri2-scre
 apt-get install cuda nvidia-container-toolkit  # libnvidia-egl-wayland1
+
+echo "Fixing suspend."
+# https://bbs.archlinux.org/viewtopic.php?id=288181
+systemctl enable nvidia-suspend.service nvidia-hibernate.service nvidia-resume.service
+echo "Installation ready."
