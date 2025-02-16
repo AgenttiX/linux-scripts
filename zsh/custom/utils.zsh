@@ -87,10 +87,11 @@ replacerec() {
     fi
 }
 
-function nvidia-smi {
-  # https://forums.developer.nvidia.com/t/nvidia-smi-uses-all-of-ram-and-swap/295639/3
-  valgrind nvidia-smi "$@" 2> /dev/null
-}
+# function nvidia-smi {
+#   # This fix is no longer needed and won't work with the latest Nvidia drivers (570->).
+#   # https://forums.developer.nvidia.com/t/nvidia-smi-uses-all-of-ram-and-swap/295639/3
+#   valgrind nvidia-smi "$@" 2> /dev/null
+# }
 
 # Chats
 start-chats() {
