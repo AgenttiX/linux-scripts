@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 # TODO: Think whether to use hyphens or underscores in the names.
+# Hyphens are probably better, since they're easire to write.
 # https://unix.stackexchange.com/a/168222/
 
 apt-rdepends-installed () {

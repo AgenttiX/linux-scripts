@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 fix-audio() {
-  # This fixes audio crackling issues
+  # This fixes issues with audio crackling and missing devices.
   systemctl --user restart pipewire.service pipewire-pulse.service
   # For old PulseAudio
   # pulseaudio -k
