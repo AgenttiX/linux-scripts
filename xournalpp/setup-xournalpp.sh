@@ -14,11 +14,14 @@ flatpak install flathub com.github.xournalpp.xournalpp
 
 # Backup old configs
 if [ -e "${CONFIG_DIR}" ] && [ ! -L "${CONFIG_DIR}" ]; then
+  echo "Backing up old configuration."
   mv "${CONFIG_DIR}" "${CONFIG_DIR}-old"
 fi
 if [ -e "${CONFIG_DIR2}" ] && [ ! -L "${CONFIG_DIR2}" ]; then
+  echo "Backing up old Flatpak configuration."
   mv "${CONFIG_DIR2}" "${CONFIG_DIR2}-old"
 fi
 
+echo "Creating symlinks."
 ln -f -s "${SCRIPT_DIR}" "${CONFIG_DIR}"
 ln -f -s "${SCRIPT_DIR}" "${CONFIG_DIR2}"
