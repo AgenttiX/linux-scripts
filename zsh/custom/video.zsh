@@ -23,3 +23,24 @@ fix_rotation() {
     ffmpeg -display_rotation 0 -i "${OLD_NAME}" -c copy "${ARG}"
   done
 }
+
+monitorconf() {
+  # Monitors:
+  # DP-1 = VG248
+  # DP-2 = 34GK950F
+  # DP-3 = VE247
+  # HDMI-A-1 = TV
+  case "${1}" in
+    pc | PC)
+      kscreen-doctor output.DP-1.enable output.DP-2.enable output.DP-3.enable output.HDMI-A-1.disable \
+        output.DP-1.mode.1920x1080@144 output.DP-2.mode.3440x1440@144 output.DP-3.mode.1920x1080@60 \
+        output.DP-1.position.0,180 output.DP-2.position.1920,0 output.DP-3.position.5360,180
+      ;;
+    tv | TV)
+      kscreen-doctor output.DP-1.disable output.DP-2.disable output.DP-3.enable output.HDMI-A-1.enable \
+        output.DP-3.mode.1920x1080@60 output.HDMI-A-1.mode.3840x2160@120 \
+        output.DP-3.position.0,0 output.HDMI-A-1.position.0,0 \
+        output.HDMI-A-1.wcg.enable output.HDMI-A-1.scale.2
+      ;;
+  esac
+}
