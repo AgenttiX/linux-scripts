@@ -21,6 +21,8 @@ set -eu
 # You can find some MSM images here:
 # https://www.thecustomdroid.com/oneplus-6-6t-unbrick-guide/
 
+# If you have issues in getting Fastboot to work, try a USB 2.0 cable or a USB 2.0 port.
+
 # Enable factory reset if doing a clean install!
 FACTORY_RESET=true
 FLASH_A=true
@@ -42,6 +44,13 @@ LOG_PATH="${REPO_DIR}/logs/flash_oneplus6_${TIMESTAMP}.txt"
 
 echo "Starting OnePlus 6 fastboot flash script." |& tee "${LOG_PATH}"
 
+if [ -f "${FASTBOOT}" ]; then
+  echo "Fastboot found."
+else
+  echo "Fastboot was not found. Please run \"download_tools.sh\"."
+  exit 1
+fi
+
 # Directory checks
 
 OTA_DIR="${CWD}/OTA"
@@ -59,6 +68,12 @@ else
   echo "LineageOS directory was not found. Please put the img files and signatures to the subdirectory \"LineageOS\"."
   exit 1
 fi
+if [ -f "${LINEAGEOS_DIR}/imgs.sha256" ]; then
+  echo "LineageOS SHA256 file found."
+else
+  echo "LineageOS SHA256 file was not found. Please create it from the SHA256 checksums on the download website."
+  exit 1
+fi
 
 TWRP_DIR="${CWD}/TWRP"
 if [ -d "${TWRP_DIR}" ]; then
@@ -74,8 +89,7 @@ sha256sum -c "./imgs.sha256"
 # "${CWD}"
 
 cd "${TWRP_DIR}"
-TWRP_PATTERN="${TWRP_DIR}/*.img"
-TWRP_FILES=($TWRP_PATTERN)
+TWRP_FILES=("${TWRP_DIR}"/*.img)
 TWRP_IMG="${TWRP_FILES[0]}"
 sha256sum -c "${TWRP_IMG}.sha256"
 wget "https://eu.dl.twrp.me/public.asc" -O "${TWRP_DIR}/public.asc"
