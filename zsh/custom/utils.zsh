@@ -62,6 +62,11 @@ fix-kde() {
   kstart plasmashell
 }
 
+fix-kde-hard() {
+  rm -rf "${HOME}/.cache/"*plasma*
+  kwin_wayland --replace &
+}
+
 pdfsearch() {
     # https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files
     if [ $# -ne 2 ]; then
