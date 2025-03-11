@@ -83,6 +83,7 @@ obs-studio/plugin_config/rtmp-services
 obs-studio/plugin_config/StreamFX/config.json
 obs-studio/plugins
 obs-studio/profiler_data
+obs-studio/safe_mode
 obs-studio/updates
 opentabletdriver/Logs
 opentabletdriver/Plugins
