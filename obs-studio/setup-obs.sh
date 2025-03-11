@@ -14,7 +14,12 @@ sudo add-apt-repository ppa:obsproject/obs-studio
 
 # https://github.com/obsproject/obs-studio/wiki/install-instructions#prerequisites-for-all-versions
 sudo apt-get update
-sudo apt-get install ffmpeg obs-studio v4l2loopback-dkms
+PACKAGES=("ffmpeg" "obs-studio" "v4l2loopback-dkms")
+if cat /proc/cpuinfo | grep -q "Intel"; then
+  # Intel oneVPL (formerly Intel Media SDK) for QuickSync hardware encoding
+  PACKAGES+=("libmfx-gen1.2")
+fi
+sudo apt-get install "${PACKAGES[@]}"
 
 # flatpak install flathub com.obsproject.Studio
 

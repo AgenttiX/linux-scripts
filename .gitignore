@@ -78,6 +78,7 @@ modem-pin.txt
 neovim/plugin/packer_compiled.lua
 obs-studio/basic/profiles/**/service.json
 obs-studio/plugin_config/obs-browser
+obs-studio/plugin_config/obs-websocket
 obs-studio/plugin_config/rtmp-services
 obs-studio/plugin_config/StreamFX/config.json
 obs-studio/plugins
