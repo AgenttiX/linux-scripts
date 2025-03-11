@@ -18,6 +18,9 @@ audioconf() {
   # You can find the node names with:
   # pw-cli i all | grep "node.name"
   local COMBINED="combined"
+  # If the correct profile is not available,
+  # try connecting the transmitter directly to the computer instead of through a USB hub.
+  # Somehow, this makes the correct profile available.
   local HEADPHONES="alsa_output.usb-SteelSeries_Arctis_Pro_Wireless-00.stereo-game"
   local HEADPHONES_MIC="alsa_input.usb-SteelSeries_Arctis_Pro_Wireless-00.mono-chat"
   local T480_SPEAKERS="alsa_output.pci-0000_00_1f.3.3.analog-stereo"
