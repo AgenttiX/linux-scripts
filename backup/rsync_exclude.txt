@@ -14,6 +14,11 @@
 .config/Element/Cache
 .gems
 .googleearth/Cache
+.local/share/Steam/appcache
+.local/share/Steam/compatibilitytools.d
+.local/share/Steam/steamapps
+.local/share/Steam/ubuntu12_32
+.local/share/Steam/ubuntu12_64
 .local/share/Trash
 .npm
 .nv
@@ -37,6 +42,7 @@
 .var/app/com.slack.Slack
 .var/app/com.spotify.Client
 .wine
+.zoom
 Git/**/htmlcov
 Git/**/logs
 Git/**/test-results
