@@ -77,6 +77,7 @@ lshw.html
 modem-pin.txt
 neovim/plugin/packer_compiled.lua
 obs-studio/basic/profiles/**/service.json
+obs-studio/basic/scenes/*.json.v*
 obs-studio/plugin_config/obs-browser
 obs-studio/plugin_config/obs-websocket
 obs-studio/plugin_config/rtmp-services
