@@ -13,21 +13,23 @@ if [ "${EUID}" -ne 0 ]; then
 fi
 
 apt-get update
-apt-get install \
-  apt-transport-https autojump bleachbit bluetooth build-essential ca-certificates \
-  cifs-utils clamtk cmake curl cutecom \
-  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
-  exfatprogs filelight filezilla freerdp2-wayland gcc-multilib g++-multilib gfortran gimp git git-gui gparted htop \
-  inkscape kde-config-flatpak keepassxc ktorrent \
-  libreoffice libreoffice-help-fi lm-sensors mumble network-manager-openvpn openssh-server optipng \
-  pipewire-audio powertop \
-  python3-dev python3-venv \
-  remmina remmina-plugin-kwallet \
-  s-tui signal-desktop stress synaptic texlive-full texmaker ufw vlc wget wireguard yt-dlp zsh
-
+APT_PACKAGES=(
+  "apt-transport-https" "autojump" "bleachbit" "bluetooth" "build-essential" "ca-certificates"
+  "cifs-utils" "clamtk" "cmake" "curl" "cutecom"
+  "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
+  "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
+  "gcc-multilib" "g++-multilib" "gfortran" "gimp" "git" "git-gui" "gparted" "htop"
+  "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent"
+  "libreoffice" "libreoffice-help-fi" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
+  "pipewire-audio" "powertop"
+  "python3-dev" "python3-venv"
+  "remmina" "remmina-plugin-kwallet"
+  "s-tui" "signal-desktop" "stress" "synaptic" "texlive-full" "texmaker" "ufw" "vlc" "wget" "wireguard" "yt-dlp" "zsh"
+)
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
-  apt-get install tlp touchegg
+  APT_PACKAGES+=("tlp" "touchegg")
 fi
+apt-get install "${PACKAGES[@]}"
 
 snap install pycharm-professional --classic
 snap install telegram-desktop
