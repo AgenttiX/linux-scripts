@@ -39,9 +39,10 @@ if [ -f "${ROOT_SCRIPT}" ]; then
 fi
 unset ROOT_SCRIPT
 
-ZOTERO_SCRIPT="${HOME}/Downloads/Zotero/Zotero_linux-x86_64/zotero"
-if [ -f "${ZOTERO_SCRIPT}" ]; then
-  # shellcheck disable=SC2139
-  alias zotero="${ZOTERO_SCRIPT}"
-fi
-unset ZOTERO_SCRIPT
+# Zotero is now available on Flatpak, so this is not needed.
+# ZOTERO_SCRIPT="${HOME}/Downloads/Zotero/Zotero_linux-x86_64/zotero"
+# if [ -f "${ZOTERO_SCRIPT}" ]; then
+#   # shellcheck disable=SC2139
+#   alias zotero="${ZOTERO_SCRIPT}"
+# fi
+# unset ZOTERO_SCRIPT
