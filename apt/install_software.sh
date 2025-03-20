@@ -23,8 +23,8 @@ APT_PACKAGES=(
   "libreoffice" "libreoffice-help-fi" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
   "pipewire-audio" "powertop"
   "python3-dev" "python3-venv"
-  "remmina" "remmina-plugin-kwallet"
-  "s-tui" "signal-desktop" "stress" "synaptic" "texlive-full" "texmaker" "ufw" "vlc" "wget" "wireguard" "yt-dlp" "zsh"
+  "remmina" "remmina-plugin-kwallet" "s-tui" "signal-desktop" "stress" "synaptic"
+  "texlive-full" "texmaker" "ufw" "usbtop" "vlc" "wget" "wireguard" "yt-dlp" "zsh"
 )
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
   APT_PACKAGES+=("tlp" "touchegg")
@@ -40,7 +40,6 @@ flatpak install flathub \
   com.github.xournalpp.xournalpp \
   com.mastermindzh.tidal-hifi \
   com.mattermost.Desktop \
-  com.obsproject.Studio \
   com.plexamp.Plexamp \
   com.skype.Client \
   com.slack.Slack \
