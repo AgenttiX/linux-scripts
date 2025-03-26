@@ -20,7 +20,7 @@ APT_PACKAGES=(
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
   "gcc-multilib" "g++-multilib" "gfortran" "gimp" "git" "git-gui" "gparted" "htop"
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent"
-  "libreoffice" "libreoffice-help-fi" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
+  "libreoffice" "libreoffice-help-fi" "links" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
   "pipewire-audio" "powertop"
   "python3-dev" "python3-venv"
   "remmina" "remmina-plugin-kwallet" "s-tui" "signal-desktop" "stress" "synaptic"
