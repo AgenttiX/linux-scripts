@@ -18,7 +18,7 @@ APT_PACKAGES=(
   "cifs-utils" "clamtk" "cmake" "curl" "cutecom"
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
-  "gcc-multilib" "g++-multilib" "gfortran" "gimp" "git" "git-gui" "gparted" "htop"
+  "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-gui" "gparted" "htop"
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent"
   "libreoffice" "libreoffice-help-fi" "links" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
   "pipewire-audio" "powertop"
