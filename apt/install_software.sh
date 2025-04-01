@@ -23,7 +23,7 @@ APT_PACKAGES=(
   "libreoffice" "libreoffice-help-fi" "links" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
   "pipewire-audio" "powertop"
   "python3-dev" "python3-venv"
-  "remmina" "remmina-plugin-kwallet" "s-tui" "signal-desktop" "stress" "synaptic"
+  "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic"
   "texlive-full" "texmaker" "tikzit" "ufw" "usbtop" "vlc" "wget" "wireguard" "yt-dlp" "zsh"
 )
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
