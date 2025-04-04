@@ -8,13 +8,11 @@ if [ "${EUID}" -eq 0 ]; then
 fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-# The official repository does not have a proper Release file and therefore does not work properly.
-# At the moment the official builds are 32-bit only, and therefore adding the i386 architecture is necessary.
+# Previously the official repository did not have a proper Release file and therefore did not work properly.
 # sudo dpkg --add-architecture i386
 # sudo add-apt-repository ppa:gregory-hainaut/pcsx2.official.ppa
 
-# The daily repository has 64-bit builds.
-# However, the package "pcsx2" may still be 32-bit only.
+# As of 2025, this PPA repository has old builds.
 # sudo add-apt-repository ppa:pcsx2-team/pcsx2-daily
 
 # sudo apt-get update
