@@ -19,11 +19,12 @@ APT_PACKAGES=(
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
   "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-gui" "gparted" "htop"
-  "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent"
-  "libreoffice" "libreoffice-help-fi" "links" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
+  "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent" "libenchant-2-voikko"
+  "libreoffice" "libreoffice-help-fi" "libreoffice-voikko"
+  "links" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
   "pipewire-audio" "powertop"
   "python3-dev" "python3-venv"
-  "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic"
+  "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic" "tmispell-voikko"
   "texlive-full" "texmaker" "tikzit" "ufw" "usbtop" "vlc" "wget" "wireguard" "yt-dlp" "zsh"
 )
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
