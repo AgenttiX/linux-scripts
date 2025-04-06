@@ -25,7 +25,7 @@ APT_PACKAGES=(
   "pipewire-audio" "powertop"
   "python3-dev" "python3-venv"
   "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic" "tmispell-voikko"
-  "texlive-full" "texmaker" "tikzit" "ufw" "usbtop" "vlc" "wget" "wireguard" "yt-dlp" "zsh"
+  "texlive-full" "texmaker" "tikzit" "ufw" "usbtop" "vlc" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
 )
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
   APT_PACKAGES+=("tlp" "touchegg")
