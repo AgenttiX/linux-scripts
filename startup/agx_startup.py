@@ -759,6 +759,7 @@ def mount_cifs(hostname: str = "192.168.20.20", mount_dir: str = "/mnt/agx-file"
         print(f"Mounting {folder}")
         subprocess.run(["mount", folder])
 
+
 def device_power_control(device: str) -> bool:
     if not os.path.exists(device):
         print("Device", device, "not found")

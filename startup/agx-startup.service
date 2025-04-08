@@ -1,5 +1,7 @@
 [Unit]
 Description=Mika's startup script
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 ExecStart=/usr/local/bin/agx/agx_startup.py
