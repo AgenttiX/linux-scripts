@@ -13,6 +13,7 @@ import enum
 import glob
 import os
 import subprocess
+import time
 import typing as tp
 
 
@@ -795,4 +796,8 @@ if __name__ == "__main__":
     custom_writes()
     custom_commands()
     fix_boinc()
+
+    sleep_time = 10
+    print("Sleeping for ", sleep_time, "s to wait for network connectivity.")
+    time.sleep(sleep_time)
     mount_cifs()
