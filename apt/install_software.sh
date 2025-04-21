@@ -36,7 +36,9 @@ snap install pycharm-professional --classic
 snap install telegram-desktop
 
 flatpak install flathub \
+  cc.arduino.IDE2 \
   com.discordapp.Discord \
+  com.github.tchx84.Flatseal \
   com.github.iwalton3.jellyfin-media-player \
   com.github.xournalpp.xournalpp \
   com.mastermindzh.tidal-hifi \
