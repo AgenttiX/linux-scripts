@@ -55,6 +55,7 @@ crypto/teamredminer
 crypto/teamredminer-v*
 drivers/backup
 games/pcsx2/bios
+games/pcsx2/memcards
 games/rpcs3/captures
 games/rpcs3/dev_*
 games/rpcs3/games
