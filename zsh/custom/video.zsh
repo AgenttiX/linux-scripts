@@ -25,22 +25,22 @@ fix_rotation() {
 }
 
 monitorconf() {
-  # Monitors:
-  # DP-1 = VG248
-  # DP-2 = 34GK950F
-  # DP-3 = VE247
-  # HDMI-A-1 = TV
+  local PRIMARY="DP-1"
+  local VG248="DP-2"
+  local VE247="DP-3"
+  local TV="HDMI-A-1"
   case "${1}" in
     pc | PC)
-      kscreen-doctor output.DP-1.enable output.DP-2.enable output.DP-3.enable output.HDMI-A-1.disable \
-        output.DP-1.mode.1920x1080@144 output.DP-2.mode.3440x1440@144 output.DP-3.mode.1920x1080@60 \
-        output.DP-1.position.0,180 output.DP-2.position.1920,0 output.DP-3.position.5360,180
+      kscreen-doctor "output.${PRIMARY}.enable" "output.${VG248}.enable" "output.${VE247}.enable" "output.${TV}.disable" \
+        "output.${PRIMARY}.mode.3440x1440@144" "output.${VG248}.mode.1920x1080@144" "output.${VE247}.mode.1920x1080@60" \
+        "output.${VG248}.position.0,180" "output.${PRIMARY}.position.1920,0" "output.${VE247}.position.5360,180" \
+        "output.${PRIMARY}.hdr.enable"
       ;;
     tv | TV)
-      kscreen-doctor output.DP-1.disable output.DP-2.disable output.DP-3.enable output.HDMI-A-1.enable \
-        output.DP-3.mode.1920x1080@60 output.HDMI-A-1.mode.3840x2160@120 \
-        output.DP-3.position.0,0 output.HDMI-A-1.position.0,0 \
-        output.HDMI-A-1.wcg.enable output.HDMI-A-1.scale.2
+      kscreen-doctor "output.${PRIMARY}.disable" "output.${VG248}.disable" "output.${VE247}.enable" "output.${TV}.enable" \
+        "output.${VE247}.mode.1920x1080@60" "output.${TV}.mode.3840x2160@120" \
+        "output.${VE247}.position.0,0" "output.${TV}.position.0,0" \
+        "output.${TV}.wcg.enable" "output.${TV}.scale.2"
       ;;
   esac
 }
