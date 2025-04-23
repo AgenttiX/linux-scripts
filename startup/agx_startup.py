@@ -797,7 +797,7 @@ if __name__ == "__main__":
     custom_commands()
     fix_boinc()
 
-    sleep_time = 10
+    sleep_time = 20
     print("Sleeping for ", sleep_time, "s to wait for network connectivity.")
     time.sleep(sleep_time)
     mount_cifs()
