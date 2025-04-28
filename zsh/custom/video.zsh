@@ -44,3 +44,16 @@ monitorconf() {
       ;;
   esac
 }
+
+yt-dlp-playlist() {
+    if [ $# -ne 1 ]; then
+    echo "Usage: yt-dlp-playlist <playlist url>"
+  fi
+  TITLE="$(yt-dlp --skip-download --print playlist_title --no-warnings "${1}" -I "1:1")"
+  echo "Downloading playlist data: ${TITLE}"
+  echo "Downloading data as txt:"
+  yt-dlp -s --flat-playlist --print-to-file "%(url)s # %(title)s" "%(playlist_title)s.txt" "${1}"
+  echo "Downloading data as json:"
+  yt-dlp --dump-single-json --skip-download --no-warnings "${1}" > "${TITLE}.json"
+  echo "Playlist data downloaded."
+}
