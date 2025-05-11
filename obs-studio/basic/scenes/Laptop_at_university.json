@@ -1,6 +1,6 @@
 {
     "DesktopAudioDevice1": {
-        "prev_ver": 520093698,
+        "prev_ver": 520093699,
         "name": "Desktop Audio",
         "uuid": "ec5bfeea-d817-42e4-ac59-e3635deb9a48",
         "id": "pulse_output_capture",
@@ -31,7 +31,7 @@
         "private_settings": {}
     },
     "AuxAudioDevice1": {
-        "prev_ver": 520093698,
+        "prev_ver": 520093699,
         "name": "Mic/Aux",
         "uuid": "04cb955a-56f9-4ccb-bdd9-edd332023111",
         "id": "pulse_input_capture",
@@ -61,8 +61,8 @@
         "monitoring_type": 0,
         "private_settings": {}
     },
-    "current_scene": "External webcam",
-    "current_program_scene": "External webcam",
+    "current_scene": "Laptop",
+    "current_program_scene": "Laptop",
     "scene_order": [
         {
             "name": "Laptop"
@@ -86,7 +86,7 @@
     "name": "Laptop (at university)",
     "sources": [
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Laptop",
             "uuid": "c492568a-8b65-4116-8702-97f5b740a58d",
             "id": "scene",
@@ -174,13 +174,13 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Laptop screen capture",
             "uuid": "20d76b2d-a845-407c-8ed6-95f4860e56f8",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
-                "RestoreToken": "99680fdf-1432-4013-83b2-116071307b5b"
+                "RestoreToken": "f1fed90d-58d4-4afd-a039-157f99607ff1"
             },
             "mixers": 0,
             "sync": 0,
@@ -200,7 +200,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Primary monitor",
             "uuid": "507e7364-c9cb-495b-b941-09b8a811762d",
             "id": "scene",
@@ -288,13 +288,13 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Primary monitor capture",
             "uuid": "9464f34c-95c8-4e99-8649-f48b2098a30e",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
-                "RestoreToken": "5eed8c3a-ae71-45df-87f7-5061ddb6ef17"
+                "RestoreToken": "bc79c2ec-a982-46da-bce1-cef382fe1d35"
             },
             "mixers": 0,
             "sync": 0,
@@ -314,7 +314,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "External webcam",
             "uuid": "530ee4d6-24e4-4b41-93ca-4dbca5654b22",
             "id": "scene",
@@ -402,7 +402,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "External webcam capture",
             "uuid": "a03bc8aa-3dc5-41a8-9731-285024c65f59",
             "id": "v4l2_input",
@@ -433,7 +433,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Laptop with external webcam",
             "uuid": "30548294-ffea-45d0-a384-62df8f3f33d9",
             "id": "scene",
@@ -578,7 +578,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Internal webcam",
             "uuid": "dc89eb1b-a7d2-419d-89a6-76e367ac010b",
             "id": "scene",
@@ -666,7 +666,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Internal webcam capture",
             "uuid": "5d18a1f6-8b70-4518-ab7a-2e8fc511255f",
             "id": "v4l2_input",
@@ -696,7 +696,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Laptop with internal webcam",
             "uuid": "7263d5ed-7325-40fe-b160-fbe14db6f556",
             "id": "scene",
