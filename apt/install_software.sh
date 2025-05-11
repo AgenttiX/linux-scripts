@@ -53,3 +53,11 @@ flatpak install flathub \
   org.ferdium.Ferdium \
   org.zotero.Zotero \
   tv.plex.PlexDesktop
+
+if command -v asdf &> /dev/null; then
+  # https://github.com/GloriousEggroll/proton-ge-custom
+  asdf plugin add protonge
+  asdf install protonge latest
+else
+  echo "asdf was not found. Skipping ProtonGE installation."
+fi
