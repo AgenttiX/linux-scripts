@@ -44,7 +44,6 @@ flatpak install flathub \
   com.mastermindzh.tidal-hifi \
   com.mattermost.Desktop \
   com.plexamp.Plexamp \
-  com.skype.Client \
   com.slack.Slack \
   com.spotify.Client \
   com.vscodium.codium \
