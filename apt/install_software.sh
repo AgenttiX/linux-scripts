@@ -12,10 +12,11 @@ if [ "${EUID}" -ne 0 ]; then
   exit 1
 fi
 
+echo "Installing apt packages."
 apt-get update
 APT_PACKAGES=(
   "apt-transport-https" "autojump" "bleachbit" "bluetooth" "build-essential" "ca-certificates"
-  "cifs-utils" "clamtk" "cmake" "curl" "cutecom"
+  "cifs-utils" "clamtk" "cloc" "cmake" "curl" "cutecom"
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
   "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-gui" "gparted" "htop"
@@ -32,9 +33,11 @@ if [ "$(hostnamectl chassis)" = "laptop" ]; then
 fi
 apt-get install "${PACKAGES[@]}"
 
+echo "Installing Snap packages."
 snap install pycharm-professional --classic
 snap install telegram-desktop
 
+echo "Installing Flatpak packages."
 flatpak install flathub \
   cc.arduino.IDE2 \
   com.discordapp.Discord \
@@ -56,8 +59,11 @@ flatpak install flathub \
 
 if command -v asdf &> /dev/null; then
   # https://github.com/GloriousEggroll/proton-ge-custom
+  echo "Installing ProtonGE using asdf."
   asdf plugin add protonge
   asdf install protonge latest
 else
   echo "asdf was not found. Skipping ProtonGE installation."
 fi
+
+echo "Software installed."
