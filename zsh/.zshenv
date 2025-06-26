@@ -1,5 +1,9 @@
 # Symlinking the zsh config folder is not needed thanks to this.
-ZDOTDIR="${HOME}/Git/linux-scripts/zsh"
+if [ -d "${HOME}/Git" ]; then
+    ZDOTDIR="${HOME}/Git/linux-scripts/zsh"
+else
+    ZDOTDIR="${HOME}/git/linux-scripts/zsh"
+fi
 
 if [ -f "${HOME}/.cargo/env" ]; then
   . "${HOME}/.cargo/env"
