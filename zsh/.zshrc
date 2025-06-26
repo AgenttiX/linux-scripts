@@ -346,7 +346,7 @@ bindkey -M isearch " " magic-space
 
 # Print stderr with red. For more see
 # https://github.com/sickill/stderred
-STDERRED_PATH="$HOME/Git/stderred/lib64/libstderred.so"
+STDERRED_PATH="${GIT_DIR}/stderred/lib64/libstderred.so"
 if [ -f $STDERRED_PATH ]; then
     export LD_PRELOAD="${STDERRED_PATH}${LD_PRELOAD:+:$LD_PRELOAD}"
     red_colored_text=$(tput setaf 9)
@@ -426,10 +426,10 @@ fi
 # Additional repositories
 # -----
 
-if [ -f "${HOME}/Git/vxl-scripts/utils.zsh" ]; then
-  . "${HOME}/Git/vxl-scripts/utils.zsh"
+if [ -f "${GIT_DIR}/vxl-scripts/utils.zsh" ]; then
+  . "${GIT_DIR}/vxl-scripts/utils.zsh"
 fi
 
-if [ -f "${HOME}/Git/private-scripts/utils.zsh" ]; then
-  . "${HOME}/Git/private-scripts/utils.zsh"
+if [ -f "${GIT_DIR}/private-scripts/utils.zsh" ]; then
+  . "${GIT_DIR}/private-scripts/utils.zsh"
 fi
