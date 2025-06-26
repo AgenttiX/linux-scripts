@@ -376,7 +376,7 @@ if command -v gem &> /dev/null; then
     unset COLORLS_FILE_PATH
     unset COLORLS_PATH
 else
-    echo "Gem was not found. Please install Ruby."
+    # echo "Gem was not found. Please install Ruby."
 fi
 
 # Powerline
