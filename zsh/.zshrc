@@ -7,7 +7,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -f "${HOME}/.zgen/init.zsh" && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    . "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
     P10K_DELAYED_SETUP=false
 else
     P10K_DELAYED_SETUP=true
@@ -90,7 +90,7 @@ if [ ! -d "${HOME}/.zgen" ]; then
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
 fi
 # This has to be after ZSH_CUSTOM, but before using the zgen command
-source "${HOME}/.zgen/zgen.zsh"
+. "${HOME}/.zgen/zgen.zsh"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -177,7 +177,7 @@ fi
 # Delayed Powerlevel10k setup to avoid the warning about console output.
 # This has to be after "zgen save"
 if [[ "${P10K_DELAYED_SETUP}" = true && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    . "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # -----
@@ -248,7 +248,7 @@ zstyle ':completion:*' menu select=2
 # -----
 
 # Handled by zgen
-# source "${ZSH}/oh-my-zsh.sh"
+# . "${ZSH}/oh-my-zsh.sh"
 
 # User configuration
 
@@ -306,7 +306,7 @@ bindkey \^U backward-kill-line
 # Expand glob expressions, subcommands and aliases
 # This variable serves as a blacklist
 GLOBALIAS_FILTER_VALUES=()
-# source ${ZSHLIBPATH}ohmyzsh/plugins/globalias/globalias.plugin.zsh
+# . ${ZSHLIBPATH}ohmyzsh/plugins/globalias/globalias.plugin.zsh
 globalias() {
 	# Get last word to the left of the cursor:
 	# (z) splits into words using shell parsing
@@ -368,7 +368,7 @@ if command -v gem &> /dev/null; then
     COLORLS_FILE_PATH="$(gem which colorls)"
     if [ -f "${COLORLS_FILE_PATH}" ]; then
         COLORLS_PATH="$(dirname "${COLORLS_FILE_PATH}")"
-        source "${COLORLS_PATH}/tab_complete.sh"
+        . "${COLORLS_PATH}/tab_complete.sh"
         alias lc='colorls -lA --sd'
     else
         # echo "Colorls was not found. Please install it with \"gem install colorls\" or remove it form .zshrc."
@@ -386,7 +386,7 @@ fi
 # POWERLINE_SCRIPT="/usr/share/powerline/bindings/zsh/powerline.zsh"
 # if [ -f $POWERLINE_SCRIPT ]; then
 #     powerline-daemon -q
-#     source "/usr/share/powerline/bindings/zsh/powerline.zsh"
+#     . "/usr/share/powerline/bindings/zsh/powerline.zsh"
 # fi
 
 # PowerShell telemetry has to be disabled with an environment variable before starting it.
@@ -395,11 +395,11 @@ export POWERSHELL_TELEMETRY_OPTOUT="1"
 
 # Powerlevel10k configuration
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || . ~/.p10k.zsh
 
 # Add Snap icons to the launcher
 if [ -f "/etc/profile.d/apps-bin-path.sh" ]; then
-    emulate sh -c "source /etc/profile.d/apps-bin-path.sh"
+    emulate sh -c ". /etc/profile.d/apps-bin-path.sh"
 fi
 
 # Fix command-line usage of LibreOffice

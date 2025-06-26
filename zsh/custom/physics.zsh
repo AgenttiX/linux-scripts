@@ -17,7 +17,7 @@ if [ -f "${GEANT_SCRIPT}" ]; then
     PWD_BEFORE_GEANT4="$(pwd)"
     cd "/usr/local/bin" || return 1
     # shellcheck disable=SC1090
-    source "${GEANT_SCRIPT}"
+    . "${GEANT_SCRIPT}"
     cd "${PWD_BEFORE_GEANT4}" || return 1
     # PYTHON_VERSION_STR=$(python3 -c "import sys; print('.'.join(map(str, sys.version_info[:2])))")
     # export PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python${PYTHON_VERSION_STR}/site-packages"
@@ -35,7 +35,7 @@ export X509_CERT_DIR="${HOME}/.globus"
 ROOT_SCRIPT="${HOME}/Downloads/root/bin/thisroot.sh"
 if [ -f "${ROOT_SCRIPT}" ]; then
     # shellcheck disable=SC1090
-    source "${ROOT_SCRIPT}"
+    . "${ROOT_SCRIPT}"
 fi
 unset ROOT_SCRIPT
 
