@@ -237,7 +237,7 @@ update() {
     # You can disable the completions for specific commands by deleting the files here.
     # rm "${FISH_COMPLETION_DIR}/_git*"
   else
-      echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
+      # echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
   fi
 }
 
@@ -265,7 +265,8 @@ alias modem="sudo ${HOME}/Git/linux-scripts/modem.py"
 #   alias nvim="flatpak run io.neovim.nvim"
 # fi
 
-# The "; :" discards any additional arguments
+# A joke for typoing the command "apt".
+# The "; :" discards any additional arguments.
 alias pat="image headpat; :"
 
 # Easy pinging
@@ -280,6 +281,7 @@ if ! command -v rocm-smi &> /dev/null && [ -f "/opt/rocm/bin/rocm-smi" ]; then
   alias rocm-smi="/opt/rocm/bin/rocm-smi"
 fi
 
+# RTFM = Read The Fucking Manual :D
 alias rtfm="man"
 
 # Print most recently modified files in current directory. It takes no arguments

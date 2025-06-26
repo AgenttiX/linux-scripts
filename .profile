@@ -26,6 +26,7 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Rust Cargo
 if [ -f "${HOME}/.cargo/env" ]; then
     . "${HOME}/.cargo/env"
 fi

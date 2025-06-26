@@ -113,29 +113,59 @@ source "${HOME}/.zgen/zgen.zsh"
 if ! zgen saved; then
     # Plugins
     zgen oh-my-zsh
-    zgen oh-my-zsh plugins/adb
-    zgen oh-my-zsh plugins/asdf
-    zgen oh-my-zsh plugins/autojump
-    zgen oh-my-zsh plugins/celery
     zgen oh-my-zsh plugins/colored-man-pages
     zgen oh-my-zsh plugins/cp
-    zgen oh-my-zsh plugins/docker
-    zgen oh-my-zsh plugins/git
-    zgen oh-my-zsh plugins/npm
-    zgen oh-my-zsh plugins/nvm
-    zgen oh-my-zsh plugins/pip
-    zgen oh-my-zsh plugins/pylint
-    zgen oh-my-zsh plugins/rsync
-    zgen oh-my-zsh plugins/screen
-    zgen oh-my-zsh plugins/ubuntu
-    zgen oh-my-zsh plugins/ufw
-    zgen oh-my-zsh plugins/virtualenv
-    zgen oh-my-zsh plugins/vscode
-    zgen oh-my-zsh plugins/web-search
+    zgen oh-my-zsh plugins/git  # Git is already required for downloading oh-my-zsh.
     zgen load marlonrichert/zsh-autocomplete
-    zgen load sobolevn/wakatime-zsh-plugin
     zgen load zsh-users/zsh-autosuggestions
     zgen load zsh-users/zsh-syntax-highlighting
+
+    # Optional features in alphabetical order
+    if command -v adb &> /dev/null; then
+        zgen oh-my-zsh plugins/adb
+    fi
+    if command -v asdf &> /dev/null; then
+        zgen oh-my-zsh plugins/asdf
+    fi
+    if command -v autojump &> /dev/null; then
+        zgen oh-my-zsh plugins/autojump
+    fi
+    if command -v docker &> /dev/null; then
+        zgen oh-my-zsh plugins/docker
+    fi
+    if command -v npm &> /dev/null; then
+        zgen oh-my-zsh plugins/npm
+    fi
+    if command -v nvm &> /dev/null; then
+        zgen oh-my-zsh plugins/nvm
+    fi
+    if command -v python3 &> /dev/null; then
+        zgen oh-my-zsh plugins/celery
+        zgen oh-my-zsh plugins/pip
+        zgen oh-my-zsh plugins/pylint
+        zgen oh-my-zsh plugins/virtualenv
+    fi
+    if command -v rsync &> /dev/null; then
+        zgen oh-my-zsh plugins/rsync
+    fi
+    if command -v screen &> /dev/null; then
+        zgen oh-my-zsh plugins/screen
+    fi
+    if lsb_release -a | grep -q "Ubuntu"; then
+        zgen oh-my-zsh plugins/ubuntu
+    fi
+    if command -v ufw &> /dev/null; then
+        zgen oh-my-zsh plugins/ufw
+    fi
+    if command -v code &> /dev/null; then
+        zgen oh-my-zsh plugins/vscode
+    fi
+    if [ -f "${HOME}/.wakatime.cfg" ]; then
+        zgen load sobolevn/wakatime-zsh-plugin
+    fi
+    if command -v firefox &> /dev/null; then
+        zgen oh-my-zsh plugins/web-search
+    fi
 
     # Theme
     zgen load romkatv/powerlevel10k powerlevel10k
@@ -322,7 +352,7 @@ if [ -f $STDERRED_PATH ]; then
     red_colored_text=$(tput setaf 9)
     export STDERRED_ESC_CODE=`echo -e "$red_colored_text"`
 else
-    echo "stderred was not found. Please install it or remove it from .zshrc."
+    # echo "stderred was not found. Please install it or remove it from .zshrc."
 fi
 unset STDERRED_PATH
 
@@ -339,15 +369,15 @@ if command -v gem &> /dev/null; then
     if [ -f "${COLORLS_FILE_PATH}" ]; then
         COLORLS_PATH="$(dirname "${COLORLS_FILE_PATH}")"
         source "${COLORLS_PATH}/tab_complete.sh"
+        alias lc='colorls -lA --sd'
     else
-        echo "Colorls was not found. Please install it with \"gem install colorls\" or remove it form .zshrc."
+        # echo "Colorls was not found. Please install it with \"gem install colorls\" or remove it form .zshrc."
     fi
     unset COLORLS_FILE_PATH
     unset COLORLS_PATH
 else
     echo "Gem was not found. Please install Ruby."
 fi
-alias lc='colorls -lA --sd'
 
 # Powerline
 # https://github.com/powerline/powerline
@@ -381,7 +411,15 @@ fi
 # Fix ROCm OpenCL
 # By default clinfo and other OpenCL applications might not see the ROCm driver.
 if [ -d "/opt/rocm" ]; then
-    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
+    # Do not change the configuration on clusters, as they have their own driver setup.
+    if command -v srun &> /dev/null; then :; else
+        export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
+    fi
+fi
+
+# This prevents the "disk quota exceeded" error when building Apptainer containers on CSC servers.
+if [ -z "${TMPDIR}" ]; then
+    APPTAINER_CACHEDIR=$TMPDIR
 fi
 
 # -----
