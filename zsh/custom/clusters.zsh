@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-csc-info-all() {
+cluster-info() {
     # Puhti and Mahti
     if command -v csc-workspaces &> /dev/null; then
       csc-workspaces
@@ -15,15 +15,27 @@ csc-info-all() {
       lumi-ldap-userinfo
     fi
 
-    module list
+    if command -v module &> /dev/null; then
+        module list
+    fi
+    if command -v sinfo &> /dev/null; then
+        echo "Currently running Slurm jobs:"
+        squeue -u $USER
 
-    echo "Currently running Slurm jobs:"
-    squeue -u $USER
+        echo "Slurm info:"
+        sinfo
+    fi
+    if command -v numactl &> /dev/null; then
+        echo "Numactl info:"
+        numactl --hardware
+    fi
+    echo "Module locations:"
+    env | egrep ^EBROOT
 
-    echo "Slurm info:"
-    sinfo
+    top -b -n 1 -u $UID
 }
 
+# CSC Summer School 2025 on LUMI
 if [ -d "/scratch/project_462000956/${USER}/summerschool" ]; then
     alias summerschool="cd /scratch/project_462000956/${USER}/summerschool; clear"
 fi
