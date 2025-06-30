@@ -13,17 +13,17 @@ if [ "${EUID}" -ne 0 ]; then
 fi
 
 echo "Installing apt packages."
-apt-get update
+apt update
 APT_PACKAGES=(
-  "apt-transport-https" "autojump" "bleachbit" "bluetooth" "build-essential" "ca-certificates"
-  "cifs-utils" "clamtk" "cloc" "cmake" "curl" "cutecom"
+  "apt-transport-https" "autojump" "autossh" "bleachbit" "bluetooth" "build-essential" "ca-certificates"
+  "cifs-utils" "clamtk" "clinfo" "cloc" "clpeak" "cmake" "curl" "cutecom"
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
   "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-delta" "git-gui" "gparted" "htop"
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent" "libenchant-2-voikko"
   "libreoffice" "libreoffice-help-fi" "libreoffice-voikko"
-  "links" "lm-sensors" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
-  "pipewire-audio" "powertop"
+  "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
+  "pipewire-audio" "pocl-opencl-icd" "powertop"
   "python3-dev" "python3-venv"
   "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic" "tmispell-voikko"
   "texlive-full" "texmaker" "tikzit" "ufw" "usbtop" "vlc" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
@@ -31,7 +31,10 @@ APT_PACKAGES=(
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
   APT_PACKAGES+=("tlp" "touchegg")
 fi
-apt-get install "${PACKAGES[@]}"
+if grep -wq "GenuineIntel" /proc/cpuinfo; then
+  APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-mkl" "intel-opencl-icd")
+fi
+apt install "${APT_PACKAGES[@]}"
 
 echo "Installing Snap packages."
 snap install pycharm-professional --classic
