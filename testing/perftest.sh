@@ -51,7 +51,10 @@ speedtest |& tee "${DIR}/speedtest.txt"
 # 7z b -mmt1 |& tee "${DIR}/7z_single_thread.txt"
 # 7z b |& tee "${DIR}/7z.txt"
 
-if which cryptsetup > /dev/null; then
+if which clpeak &> /dev/null; then
+  clpeak --xml-file "${DIR}/clpeak.xml"
+fi
+if which cryptsetup &> /dev/null; then
   cryptsetup benchmark > "${DIR}/cryptsetup.txt"
 fi
 
