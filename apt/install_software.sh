@@ -19,7 +19,7 @@ APT_PACKAGES=(
   "cifs-utils" "clamtk" "clinfo" "cloc" "clpeak" "cmake" "curl" "cutecom"
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
-  "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-delta" "git-gui" "gparted" "htop"
+  "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-delta" "git-gui" "gparted" "gpg-agent" "htop"
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent" "libenchant-2-voikko"
   "libreoffice" "libreoffice-help-fi" "libreoffice-voikko"
   "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
