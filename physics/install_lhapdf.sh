@@ -8,7 +8,7 @@ if [ "${EUID}" -eq 0 ]; then
   exit 1
 fi
 
-sudo apt-get install build-essential python3-dev wget
+sudo apt install build-essential python3-dev wget
 sudo pip3 install cython
 
 LHAPDF_VERSION="6.3.0"
@@ -26,7 +26,7 @@ cd $LHAPDF_FOLDER
 # If Python 2 is installed as the default Python
 if [[ $(python --version 2>&1) =~ [^2\.*] ]]; then
   echo "Python 2 detected. Installing Python 2 support separately."
-  sudo apt-get install python2.7-dev
+  sudo apt install python2.7-dev
 
   ./configure
   make -j"$(nproc)"

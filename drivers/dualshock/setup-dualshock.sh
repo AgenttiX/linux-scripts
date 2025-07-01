@@ -10,9 +10,9 @@ fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-apt-get update
+apt update
 # You may also want to install bluez-tools, but in my experience it's not necessary.
-apt-get install bluez
+apt install bluez
 
 echo "Copying udev rules."
 cp "${SCRIPT_DIR}/99-ds3-controllers.rules" "/etc/udev/rules.d/99-ds3-controllers.rules"

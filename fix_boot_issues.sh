@@ -6,8 +6,8 @@ if [ "${EUID}" -ne 0 ]; then
   exit 1
 fi
 
-apt-get update
-apt-get --fix-broken install
+apt update
+apt --fix-broken install
 dpkg --configure -a
 update-initramfs -u
 update-grub

@@ -4,6 +4,6 @@
 # - Add CPU stress testing
 
 # http://pyropus.ca/software/memtester/
-sudo apt-get install memtester
+sudo apt install memtester
 
 memtester

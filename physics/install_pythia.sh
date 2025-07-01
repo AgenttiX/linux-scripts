@@ -17,7 +17,7 @@ if ! [ -f "/usr/local/bin/lhapdf" ]; then
   exit
 fi
 
-sudo apt-get install python3-dev
+sudo apt install python3-dev
 
 PYTHIA_VERSION="8303"
 PYTHIA_FOLDER="pythia${PYTHIA_VERSION}"

@@ -12,7 +12,7 @@ if ! ([ -f "${HOME}/.globus/certs.p12" ] && [ -f "${HOME}/.globus/usercert.pem" 
   exit 1
 fi
 
-sudo apt-get install nordugrid-arc-client voms-clients
+sudo apt install nordugrid-arc-client voms-clients
 
 USERNAME="TODO-SET-ME-FROM-INPUT"
 SERVER="kale.grid.helsinki.fi"

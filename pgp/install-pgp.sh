@@ -3,4 +3,4 @@ set -e
 
 # Todo: work in progress
 
-sudo apt-get install gnupg-curl parcimonie
+sudo apt install gnupg-curl parcimonie

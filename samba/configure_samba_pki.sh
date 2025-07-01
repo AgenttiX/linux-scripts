@@ -30,14 +30,14 @@ REPO_DIR="$(dirname "${SCRIPT_DIR}")"
 
 . "${REPO_DIR}/github.sh"
 
-sudo apt-get update
+sudo apt update
 # First line: direct dependencies
 # Second line: build dependencies
-sudo apt-get install \
+sudo apt install \
   certmonger python3-cryptography python3-requests python3-requests-kerberos wget \
   autoconf automake ldb-tools libkrb5-dev libssl-dev libtool make pkgconf python3-pip
 # Python 3.11 does not allow installing packages globally by default,
-# and requests_gssapi is not available with apt-get.
+# and requests_gssapi is not available with apt.
 sudo pip3 install requests_gssapi --break-system-packages
 
 # These need wget, which is installed above.

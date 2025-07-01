@@ -18,14 +18,14 @@ fi
 command -v sensors &> /dev/null
 LM_SENSORS_INSTALLED=$?
 # set +e
-if sudo apt-get update; then :; else
+if sudo apt update; then :; else
   echo "Updating repository data failed. Are there expired signing keys or missing Release files?"
 fi
-if sudo apt-get install git p7zip; then :; else
+if sudo apt install git p7zip; then :; else
   echo "Failed to install git and p7zip. Downloading dependencies and compressing the final report may not work."
 fi
 echo "The following packages will enable additional reporting. Please install them if you can."
-sudo apt-get install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools
+sudo apt install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools
 
 echo "Downloading LinPEAS"
 curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh -o "${SCRIPT_DIR}/linpeas.sh"

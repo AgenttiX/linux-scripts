@@ -13,7 +13,7 @@ fi
 
 if ! (command -v smartctl &> /dev/null); then
   echo "smartmontools seems not to be installed. Installing."
-  apt-get install smartmontools
+  apt install smartmontools
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"

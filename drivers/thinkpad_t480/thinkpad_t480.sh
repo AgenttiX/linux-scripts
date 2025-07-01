@@ -19,16 +19,16 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 WORKDIR="$(pwd)"
 
-sudo apt-get remove fprintd
+sudo apt remove fprintd
 sudo add-apt-repository ppa:uunicorn/open-fprintd
-sudo apt-get update
+sudo apt update
 
 # Lines are:
 # - generic
 # - throttled
 # - python-validity
 # - s-tui
-sudo apt-get install git \
+sudo apt install git \
   build-essential python3-dev libdbus-glib-1-dev libgirepository1.0-dev libcairo2-dev python3-cairo-dev python3-venv python3-wheel \
   open-fprintd fprintd-clients python3-validity \
   s-tui stress

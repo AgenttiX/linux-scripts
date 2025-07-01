@@ -8,8 +8,8 @@ fi
 
 if command -v git &> /dev/null; then :; else
   echo "Git is not installed. Installing."
-  sudo apt-get update
-  sudo apt-get install git
+  sudo apt update
+  sudo apt install git
 fi
 
 mkdir -p "${HOME}/Git"

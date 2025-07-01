@@ -7,7 +7,7 @@ fi
 
 if ! (command -v smartctl &> /dev/null); then
   echo "smartmontools seems not to be installed. Installing."
-  sudo apt-get install smartmontools
+  sudo apt install smartmontools
 fi
 
 # Storage devices

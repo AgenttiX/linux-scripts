@@ -5,7 +5,7 @@ if [ "${EUID}" -eq 0 ]; then
   exit 1
 fi
 
-# This already runs apt-get update
+# This already runs apt update
 source ./report.sh --no-report
 
 # Function definitions
@@ -29,7 +29,7 @@ function run_geekbench_gpu() {
 if ! which speedtest > /dev/null; then
   curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
 fi
-sudo apt-get install sysbench speedtest stress-ng wget
+sudo apt install sysbench speedtest stress-ng wget
 
 ./geekbench/download_geekbench.sh
 

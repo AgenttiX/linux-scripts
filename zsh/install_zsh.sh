@@ -9,8 +9,8 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo "Installing zsh and plugin dependencies."
-sudo apt-get update
-sudo apt-get install autojump build-essential cmake git ruby-dev zsh
+sudo apt update
+sudo apt install autojump build-essential cmake git ruby-dev zsh
 gem install colorls
 
 echo "Creating symlinks."

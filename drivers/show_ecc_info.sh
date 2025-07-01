@@ -5,8 +5,8 @@ set -eu
 
 if ! command -v ras-mc-ctl 2>&1 >/dev/null; then
   echo "Rasdaemon seems not to be installed. Installing."
-  apt-get update
-  apt-get install rasdaemon
+  apt update
+  apt install rasdaemon
   systemctl enable rasdaemon
   systemctl start rasdaemon
 fi

@@ -6,8 +6,8 @@ if [ "${EUID}" -ne 0 ]; then
   exit 1
 fi
 
-apt-get update
-apt-get dist-upgrade -y
-apt-get autoremove -y
-apt-get autoclean -y
+apt update
+apt dist-upgrade -y
+apt autoremove -y
+apt autoclean -y
 python3 ./maintenance.py

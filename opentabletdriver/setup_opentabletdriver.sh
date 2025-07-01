@@ -15,7 +15,7 @@ sudo add-apt-repository ppa:dotnet/backports
 wget "https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest/download/${FILENAME}" -O "${SCRIPT_DIR}/${FILENAME}"
 
 # You may have to install dotnet-runtime-6.0 as well
-sudo apt-get install "${SCRIPT_DIR}/${FILENAME}"
+sudo apt install "${SCRIPT_DIR}/${FILENAME}"
 
 if [ -d "${CONFIG_PATH}" ] && [ ! -L "${CONFIG_PATH}" ]; then
   echo "Backing up old config directory."

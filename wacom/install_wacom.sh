@@ -9,7 +9,7 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TABLET_USER="${USER}"
 
-sudo apt-get install python3-xlib
+sudo apt install python3-xlib
 echo "Installing the launcher."
 sudo cp "${SCRIPT_DIR}"/99-wacom-tablet*.rules "/etc/udev/rules.d/"
 sudo cp "${SCRIPT_DIR}/wacom.sh" "/usr/local/bin/"

@@ -15,8 +15,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # As of 2025, this PPA repository has old builds.
 # sudo add-apt-repository ppa:pcsx2-team/pcsx2-daily
 
-# sudo apt-get update
-# sudo apt-get install pcsx2
+# sudo apt update
+# sudo apt install pcsx2
 flatpak install flathub net.pcsx2.PCSX2
 flatpak --user override --filesystem=home net.pcsx2.PCSX2
 

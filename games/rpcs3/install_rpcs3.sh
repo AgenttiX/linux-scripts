@@ -7,8 +7,8 @@ if [ "${EUID}" -eq 0 ]; then
 fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-# sudo apt-get update
-# sudo apt-get install wget
+# sudo apt update
+# sudo apt install wget
 # wget --content-disposition https://rpcs3.net/latest-appimage
 # chmod +x ./rpcs3*.AppImage
 flatpak install flathub net.rpcs3.RPCS3 com.github.tchx84.Flatseal

@@ -13,13 +13,13 @@ CONFIG_PATH_FLATPAK="${HOME}/.var/app/com.obsproject.Studio/config/obs-studio"
 sudo add-apt-repository ppa:obsproject/obs-studio
 
 # https://github.com/obsproject/obs-studio/wiki/install-instructions#prerequisites-for-all-versions
-sudo apt-get update
+sudo apt update
 PACKAGES=("ffmpeg" "obs-studio" "v4l2loopback-dkms")
 if cat /proc/cpuinfo | grep -q "Intel"; then
   # Intel oneVPL (formerly Intel Media SDK) for QuickSync hardware encoding
   PACKAGES+=("libmfx-gen1.2")
 fi
-sudo apt-get install "${PACKAGES[@]}"
+sudo apt install "${PACKAGES[@]}"
 
 # flatpak install flathub com.obsproject.Studio
 

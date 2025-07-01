@@ -164,13 +164,13 @@ retry_until() {
 }
 
 update() {
-  if (command -v apt-get &> /dev/null); then
-    echo "Updating apt-get packages"
-    sudo apt-get update
+  if (command -v apt &> /dev/null); then
+    echo "Updating apt packages"
+    sudo apt update
     # Remove unused packages before upgrading to prevent unnecessary upgrades
-    sudo apt-get autoremove
-    sudo apt-get dist-upgrade
-    sudo apt-get autoremove
+    sudo apt autoremove
+    sudo apt dist-upgrade
+    sudo apt autoremove
   fi
   if (command -v snap &> /dev/null); then
     echo "Updating Snap packages"

@@ -12,15 +12,15 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-apt-get update
+apt update
 if ! command -v wget &> /dev/null; then
     echo "Wget was not found. Installing it now."
-    apt-get install wget -y
+    apt install wget -y
 fi
 
 if ! [ -f /etc/snmp/snmpd.conf ]; then
     echo "SNMP installation was not found. Installing it now."
-    apt-get install snmpd -y
+    apt install snmpd -y
 fi
 
 if command -v ufw &> /dev/null; then
@@ -123,7 +123,7 @@ select yn in "Yes" "No"; do
     esac
 done
 if [ $INSTALL_SMART -eq 1 ]; then
-    apt-get install -y smartmontools
+    apt install -y smartmontools
     wget https://github.com/librenms/librenms-agent/raw/master/snmp/smart -O /etc/snmp/smart
     chown root:root /etc/snmp/smart
     chmod 755 /etc/snmp/smart

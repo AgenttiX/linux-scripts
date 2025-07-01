@@ -12,8 +12,8 @@ if [ "${EUID}" -ne 0 ]; then
    exit 1
 fi
 
-apt-get update
-apt-get install -y tpm2-initramfs-tool
+apt update
+apt install -y tpm2-initramfs-tool
 read -s -p "Please input the current LUKS passphrase:" luks_passphrase
 echo
 tpm2-initramfs-tool seal --data "$luks_passphrase"

@@ -10,8 +10,8 @@ fi
 
 DISK=$1
 
-apt-get update
-apt-get install nvme-cli smartmontools
+apt update
+apt install nvme-cli smartmontools
 
 nvme list
 

@@ -9,7 +9,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # The direct installation does not work on new Ubuntu versions due to library conflicts.
 # The preferred way to install is from a snap as below.
 
-# sudo apt-get install libsdl-ttf2.0-0
+# sudo apt install libsdl-ttf2.0-0
 
 # wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.7_amd64.deb
 # wget http://archive.ubuntu.com/ubuntu/pool/universe/c/curl3/libcurl3_7.58.0-2ubuntu2_amd64.deb

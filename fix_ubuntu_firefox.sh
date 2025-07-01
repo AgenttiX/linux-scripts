@@ -14,7 +14,7 @@ cp -r "${HOME}/snap/firefox" "${HOME}/snap/firefox-backup-$(date +%s)"
 
 echo "Removing the Firefox snap"
 sudo snap remove firefox
-sudo apt-get remove firefox
+sudo apt remove firefox
 
 echo "Adding the Mozilla PPA"
 sudo add-apt-repository ppa:mozillateam/ppa

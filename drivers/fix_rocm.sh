@@ -46,13 +46,13 @@ sudo apt purge --ignore-missing  amdgpu-install "rocm-*" "rock-*" rocminfo
 set -e
 sudo apt autoremove
 
-sudo apt-get update
-sudo apt-get dist-upgrade
+sudo apt update
+sudo apt dist-upgrade
 # Prerequisites
 # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisites.html
 # Clinfo is specified here to ensure that the debug info printing below works.
-sudo apt-get install clinfo "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)" wget
-# sudo apt-get install gnupg2 libnuma-dev
+sudo apt install clinfo "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)" wget
+# sudo apt install gnupg2 libnuma-dev
 
 echo "Setting permissions"
 sudo usermod -a -G render,video "${LOGNAME}"
@@ -64,14 +64,14 @@ sudo usermod -a -G render,video "${LOGNAME}"
 # Installation using amdgpu-install
 FILENAME="amdgpu-install_${ROCM_VERSION2}_all.deb"
 wget "https://repo.radeon.com/amdgpu-install/${ROCM_VERSION}/ubuntu/jammy/${FILENAME}" -O "${SCRIPT_DIR}/${FILENAME}"
-sudo apt-get install "${SCRIPT_DIR}/${FILENAME}"
+sudo apt install "${SCRIPT_DIR}/${FILENAME}"
 
-sudo apt-get update
+sudo apt update
 sudo amdgpu-install --usecase=graphics,rocm
-sudo apt-get install nvtop rocminfo rocm-smi
+sudo apt install nvtop rocminfo rocm-smi
 
 # The OpenCL packages should be included in the base rocm installation but are included here just in case.
-# sudo apt-get install rocm-dev rocm-opencl-dev rocminfo
+# sudo apt install rocm-dev rocm-opencl-dev rocminfo
 
 
 echo "Printing debug info. It may take a reboot for it to update."

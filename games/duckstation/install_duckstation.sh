@@ -7,8 +7,8 @@ if [ "${EUID}" -eq 0 ]; then
 fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-sudo apt-get update
-sudo apt-get install wget
+sudo apt update
+sudo apt install wget
 
 FILENAME="DuckStation-x64.AppImage"
 wget "https://github.com/stenzek/duckstation/releases/download/latest/${FILENAME}" -O "${SCRIPT_DIR}/${FILENAME}"

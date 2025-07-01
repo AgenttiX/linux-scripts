@@ -8,7 +8,7 @@ if [ "${EUID}" -eq 0 ]; then
   exit 1
 fi
 
-sudo apt-get install \
+sudo apt install \
   build-essential \
   cmake \
   cython3 \
