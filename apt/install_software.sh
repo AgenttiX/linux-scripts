@@ -32,7 +32,7 @@ if [ "$(hostnamectl chassis)" = "laptop" ]; then
   APT_PACKAGES+=("tlp" "touchegg")
 fi
 if grep -wq "GenuineIntel" /proc/cpuinfo; then
-  APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-mkl" "intel-opencl-icd")
+  APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
 fi
 apt install "${APT_PACKAGES[@]}"
 
