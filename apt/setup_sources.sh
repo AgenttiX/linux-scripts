@@ -10,8 +10,8 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 mkdir -p /etc/apt/keyrings
-apt-get update
-apt-get install apt-transport-https ca-certificates curl ubuntu-dbgsym-keyring
+apt update
+apt install apt-transport-https ca-certificates curl gpg-agent ubuntu-dbgsym-keyring
 
 # -----
 # Ubuntu repos
@@ -37,6 +37,11 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Intel oneAPI
+# https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html
+wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list
 
 # Nvidia CUDA
 . "$(dirname "${SCRIPT_DIR}")/drivers/setup_nvidia_repos.sh"
@@ -80,4 +85,4 @@ else
   echo "This does not seem to be a laptop. Skipping Touchegg and TLP repository setup."
 fi
 
-apt-get update
+apt update
