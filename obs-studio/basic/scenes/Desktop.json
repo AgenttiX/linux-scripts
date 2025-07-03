@@ -1,6 +1,6 @@
 {
     "DesktopAudioDevice1": {
-        "prev_ver": 520093698,
+        "prev_ver": 520093699,
         "name": "Desktop Audio",
         "uuid": "a0fa1e25-b611-48c2-bb81-aec23933db04",
         "id": "pulse_output_capture",
@@ -31,13 +31,13 @@
         "private_settings": {}
     },
     "AuxAudioDevice1": {
-        "prev_ver": 520093698,
+        "prev_ver": 520093699,
         "name": "Mic/Aux",
         "uuid": "d4ae58ef-de73-4c8e-8de3-67c37ce0ff12",
         "id": "pulse_input_capture",
         "versioned_id": "pulse_input_capture",
         "settings": {
-            "device_id": "alsa_input.usb-SteelSeries_Arctis_Pro_Wireless-00.mono-chat"
+            "device_id": "alsa_input.usb-046d_Logitech_BRIO_39DB28A6-03.analog-stereo"
         },
         "mixers": 255,
         "sync": 0,
@@ -45,7 +45,7 @@
         "volume": 1.0,
         "balance": 0.5,
         "enabled": true,
-        "muted": true,
+        "muted": false,
         "push-to-mute": false,
         "push-to-mute-delay": 0,
         "push-to-talk": false,
@@ -61,8 +61,8 @@
         "monitoring_type": 0,
         "private_settings": {}
     },
-    "current_scene": "Left monitor",
-    "current_program_scene": "Left monitor",
+    "current_scene": "Webcam",
+    "current_program_scene": "Webcam",
     "scene_order": [
         {
             "name": "Left monitor"
@@ -80,7 +80,7 @@
     "name": "Desktop",
     "sources": [
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Webcam",
             "uuid": "5f30cc73-417c-42e0-8a9f-20f99dcfb3e3",
             "id": "scene",
@@ -168,7 +168,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Right monitor",
             "uuid": "762be98f-0d4e-411a-8d1b-84f662b7e6b5",
             "id": "scene",
@@ -256,7 +256,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Primary monitor",
             "uuid": "41f17b27-154b-4505-9ea2-761c8d67ce46",
             "id": "scene",
@@ -344,7 +344,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Left monitor",
             "uuid": "531bbf72-0c75-4a7c-90ef-c5b70a3c6960",
             "id": "scene",
@@ -432,13 +432,13 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Left monitor capture",
             "uuid": "2739e831-5887-41bb-ae22-a0dd1ec93fe3",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
-                "RestoreToken": "9f42d126-8470-40a9-ae41-821002bcc176"
+                "RestoreToken": "7f4373b2-3110-46ed-b44b-08e628e8a6ce"
             },
             "mixers": 0,
             "sync": 0,
@@ -458,13 +458,13 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Primary monitor capture",
             "uuid": "439c7709-2484-4f30-bced-2932bc4cfe29",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
-                "RestoreToken": "ca536638-85b5-49f0-ba4d-34be8a9044da"
+                "RestoreToken": "c30e31b5-ddc2-44e8-b49b-c4b6f31748bb"
             },
             "mixers": 0,
             "sync": 0,
@@ -484,13 +484,13 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Right monitor capture",
             "uuid": "f02952c8-8ae6-4d86-af89-0ed6160c2fb7",
             "id": "pipewire-screen-capture-source",
             "versioned_id": "pipewire-screen-capture-source",
             "settings": {
-                "RestoreToken": "1ac28555-23f7-4ca4-8b48-b4970204582e"
+                "RestoreToken": "5b150b05-61a4-4d99-8f66-f8e2b62f7aca"
             },
             "mixers": 0,
             "sync": 0,
@@ -510,7 +510,7 @@
             "private_settings": {}
         },
         {
-            "prev_ver": 520093698,
+            "prev_ver": 520093699,
             "name": "Webcam video",
             "uuid": "19b975bf-4a2c-4f51-874c-e894d3c955d2",
             "id": "v4l2_input",
