@@ -36,3 +36,5 @@ if [ -f $FFXIV_CFG ]; then
 else
     echo "The game has not been launched yet, so the in-game settings could not yet be configured. Please run this script again when you have launched the game at least once."
 fi
+
+# TODO: Add the dxvk.conf here
