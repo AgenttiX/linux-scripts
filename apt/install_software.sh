@@ -32,7 +32,7 @@ APT_PACKAGES=(
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
   APT_PACKAGES+=("tlp" "touchegg")
 fi
-if grep -wq "GenuineIntel" /proc/cpuinfo; then
+if grep -q "Intel" /proc/cpuinfo; then
   APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
 fi
 if command -v nvidia-smi &> /dev/null; then
