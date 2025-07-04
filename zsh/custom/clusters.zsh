@@ -36,6 +36,6 @@ cluster-info() {
 }
 
 # CSC Summer School 2025 on LUMI
-if [ -d "/scratch/project_462000956/${USER}/summerschool" ]; then
-    alias summerschool="cd /scratch/project_462000956/${USER}/summerschool; clear"
-fi
+# if [ -d "/scratch/project_462000956/${USER}/summerschool" ]; then
+#     alias summerschool="cd /scratch/project_462000956/${USER}/summerschool; clear"
+# fi
