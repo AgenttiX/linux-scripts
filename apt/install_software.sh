@@ -23,7 +23,7 @@ APT_PACKAGES=(
   "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-delta" "git-gui" "gparted" "gpg-agent" "htop"
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent" "libenchant-2-voikko"
   "libreoffice" "libreoffice-help-fi" "libreoffice-voikko"
-  "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
+  "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "obs-studio" "openssh-server" "optipng"
   "pipewire-audio" "pocl-opencl-icd" "powertop"
   "python3-dev" "python3-venv"
   "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic" "tmispell-voikko"
