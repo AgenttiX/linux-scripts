@@ -15,7 +15,8 @@ fi
 echo "Installing apt packages."
 apt update
 APT_PACKAGES=(
-  "apt-transport-https" "autojump" "autossh" "bleachbit" "bluetooth" "build-essential" "ca-certificates"
+  "apt-transport-https" "autojump" "autossh" "bleachbit" "bluetooth"
+  "boinc" "boinc-client-opencl" "build-essential" "ca-certificates"
   "cifs-utils" "clamtk" "clinfo" "cloc" "clpeak" "cmake" "curl" "cutecom"
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
@@ -33,6 +34,9 @@ if [ "$(hostnamectl chassis)" = "laptop" ]; then
 fi
 if grep -wq "GenuineIntel" /proc/cpuinfo; then
   APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
+fi
+if command -v nvidia-smi &> /dev/null; then
+  APT_PACKAGES+=("boinc-client-nvidia-cuda")
 fi
 apt install "${APT_PACKAGES[@]}"
 
