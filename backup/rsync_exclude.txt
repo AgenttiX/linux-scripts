@@ -22,6 +22,7 @@
 .local/share/fish/generated_completions/
 .local/share/Steam/appcache
 .local/share/Steam/compatibilitytools.d
+.local/share/Steam/config/htmlcache
 .local/share/Steam/steamapps
 .local/share/Steam/ubuntu12_32
 .local/share/Steam/ubuntu12_64

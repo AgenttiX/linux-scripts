@@ -15,14 +15,15 @@ fi
 echo "Installing apt packages."
 apt update
 APT_PACKAGES=(
-  "apt-transport-https" "autojump" "autossh" "bleachbit" "bluetooth" "build-essential" "ca-certificates"
+  "apt-transport-https" "autojump" "autossh" "bleachbit" "bluetooth"
+  "boinc" "boinc-client-opencl" "build-essential" "ca-certificates"
   "cifs-utils" "clamtk" "clinfo" "cloc" "clpeak" "cmake" "curl" "cutecom"
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
   "exfatprogs" "filelight" "filezilla" "freerdp2-wayland"
   "gcc-multilib" "g++-multilib" "gdisk" "gfortran" "gimp" "git" "git-delta" "git-gui" "gparted" "gpg-agent" "htop"
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent" "libenchant-2-voikko"
   "libreoffice" "libreoffice-help-fi" "libreoffice-voikko"
-  "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "openssh-server" "optipng"
+  "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "obs-studio" "openssh-server" "optipng"
   "pipewire-audio" "pocl-opencl-icd" "powertop"
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
   "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic" "tmispell-voikko"
@@ -31,8 +32,11 @@ APT_PACKAGES=(
 if [ "$(hostnamectl chassis)" = "laptop" ]; then
   APT_PACKAGES+=("tlp" "touchegg")
 fi
-if grep -wq "GenuineIntel" /proc/cpuinfo; then
+if grep -q "Intel" /proc/cpuinfo; then
   APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
+fi
+if command -v nvidia-smi &> /dev/null; then
+  APT_PACKAGES+=("boinc-client-nvidia-cuda")
 fi
 apt install "${APT_PACKAGES[@]}"
 
