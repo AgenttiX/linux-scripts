@@ -63,7 +63,9 @@ fi
 
 if command -v telegram-desktop >/dev/null 2>&1; then
   echo "Starting Telegram"
-  telegram-desktop -startintray &
+  # The environment variable fixes compatibility with Kubuntu 25.04
+  # https://github.com/telegramdesktop/tdesktop/issues/29437#issuecomment-2981043225
+  QT_QPA_PLATFORM=xcb telegram-desktop -startintray &
 fi
 
 if [ "$(hostname)" = "agx-z2e-kubuntu" ]; then
