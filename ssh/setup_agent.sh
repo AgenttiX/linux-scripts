@@ -29,10 +29,16 @@ echo "Adding new identities."
 # as if it was your local machine!
 
 # Support for TPM-based keys
-LIBTPM2_PKCS11="/usr/lib/x86_64-linux-gnu/libtpm2_pkcs11.so.1"
+# The path changed with Kubuntu 25.04.
+LIBTPM2_PKCS11="/usr/lib/x86_64-linux-gnu/pkcs11/libtpm2_pkcs11.so"
+LIBTPM2_PKCS11_OLD="/usr/lib/x86_64-linux-gnu/libtpm2_pkcs11.so.1"
 if [ -f "${LIBTPM2_PKCS11}" ]; then
   set +e
   ssh-add -s "${LIBTPM2_PKCS11}"
+  set -e
+elif [ -f "${LIBTPM2_PKCS11_OLD}" ]; then
+  set +e
+  ssh-add -s "${LIBTPM2_PKCS11_OLD}"
   set -e
 fi
 
