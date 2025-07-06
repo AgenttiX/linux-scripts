@@ -55,6 +55,7 @@ if [ -d "${HOME}/Git/throttled" ] {
   cd "${HOME}/Git/throttled"
 }
 sudo ./install.sh
+# Todo: add Throttled config here
 
 cd "${WORKDIR}"
 
