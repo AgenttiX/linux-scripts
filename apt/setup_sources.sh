@@ -18,11 +18,13 @@ apt install apt-transport-https ca-certificates curl gpg-agent ubuntu-dbgsym-key
 # -----
 
 # Debug symbols
-# https://ubuntu.com/server/docs/debug-symbol-packages
-echo "deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse
-deb http://ddebs.ubuntu.com $(lsb_release -cs)-updates main restricted universe multiverse
-deb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe multiverse" | \
-sudo tee -a /etc/apt/sources.list.d/ddebs.list
+# https://documentation.ubuntu.com/server/explanation/debugging/debug-symbol-packages/
+echo "Types: deb
+URIs: http://ddebs.ubuntu.com/
+Suites: $(lsb_release -cs) $(lsb_release -cs)-updates $(lsb_release -cs)-proposed
+Components: main restricted universe multiverse
+Signed-by: /usr/share/keyrings/ubuntu-dbgsym-keyring.gpg" | \
+sudo tee /etc/apt/sources.list.d/ddebs.sources
 
 # -----
 # Custom repos in alphabetical order
