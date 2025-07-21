@@ -196,11 +196,18 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
         "/sys/bus/usb/devices/1-1.1/power/control",
         "/sys/bus/usb/devices/1-1.4.4.4/power/control",
 
+        # ThinkPad Thunderbolt 3 dock
+        "/sys/bus/usb/devices/5-2.1.1.4/power/control",
+        "/sys/bus/usb/devices/6-2.1.2/power/control",
+
         # Lenovo USB keyboard
         "/sys/bus/usb/devices/1-1.4.4.1/power/control",
 
         # USB mouse
         # "/sys/bus/usb/devices/1-1.4.4.2.4/power/control",
+
+        # DisplayPort switch
+        "/sys/bus/usb/devices/5-2.1.4.1/power/control"
     ],
     # ThinkPad S230u
     "334729G": [
