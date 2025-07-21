@@ -24,7 +24,7 @@ APT_PACKAGES=(
   "inkscape" "kde-config-flatpak" "keepassxc" "ktorrent" "libenchant-2-voikko"
   "libreoffice" "libreoffice-help-fi" "libreoffice-voikko"
   "links" "lm-sensors" "mosh" "mumble" "network-manager-openvpn" "obs-studio" "openssh-server" "optipng"
-  "pipewire-audio" "pocl-opencl-icd" "powertop"
+  "pandoc" "pipewire-audio" "pocl-opencl-icd" "powertop"
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
   "remmina" "remmina-plugin-kwallet" "s-tui" "screen" "signal-desktop" "stress" "synaptic" "tmispell-voikko"
   "texlive-full" "texmaker" "tikzit" "ufw" "usbtop" "vlc" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
