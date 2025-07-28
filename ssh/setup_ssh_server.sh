@@ -16,7 +16,7 @@ systemctl restart ssh
 
 if command -v &> /dev/null; then
   echo "Creating UFW firewall rule and enabling UFW."
-  ufw allow ssh comment SSH
+  ufw allow ssh comment "SSH"
   ufw enable
 else
   echo "UFW was not found."
