@@ -88,6 +88,7 @@ obs-studio/plugins
 obs-studio/profiler_data
 obs-studio/safe_mode
 obs-studio/updates
+obs-studio/user.ini
 opentabletdriver/Logs
 opentabletdriver/Plugins
 opentabletdriver/settings.json
