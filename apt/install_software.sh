@@ -42,7 +42,9 @@ apt install "${APT_PACKAGES[@]}"
 
 echo "Installing Snap packages."
 snap install pycharm-professional --classic
-snap install telegram-desktop
+# Telegram snap does not work on Kubuntu 25.04
+# https://github.com/telegramdesktop/tdesktop/issues/29437#issuecomment-3131627645
+# snap install telegram-desktop
 
 echo "Installing Flatpak packages."
 flatpak install flathub \
@@ -61,6 +63,7 @@ flatpak install flathub \
   org.blender.Blender \
   org.chromium.Chromium \
   org.ferdium.Ferdium \
+  org.telegram.desktop \
   org.zotero.Zotero \
   tv.plex.PlexDesktop
 

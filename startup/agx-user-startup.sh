@@ -54,6 +54,8 @@ if command -v flatpak >/dev/null 2>&1; then
   flatpak run com.mattermost.Desktop --hidden &
   echo "Starting Slack"
   flatpak run com.slack.Slack --startup &
+  echo "Starting Telegram"
+  flatpak run org.telegram.desktop -startintray &
 fi
 
 if command -v signal-desktop >/dev/null 2>&1; then
@@ -61,12 +63,14 @@ if command -v signal-desktop >/dev/null 2>&1; then
   signal-desktop --start-in-tray &
 fi
 
-if command -v telegram-desktop >/dev/null 2>&1; then
-  echo "Starting Telegram"
-  # The environment variable fixes compatibility with Kubuntu 25.04
-  # https://github.com/telegramdesktop/tdesktop/issues/29437#issuecomment-2981043225
-  QT_QPA_PLATFORM=xcb telegram-desktop -startintray &
-fi
+# Telegram snap does not work on Kubuntu 25.04
+# https://github.com/telegramdesktop/tdesktop/issues/29437#issuecomment-3131627645
+# if command -v telegram-desktop >/dev/null 2>&1; then
+#   echo "Starting Telegram"
+#   # The environment variable fixes compatibility with Kubuntu 25.04
+#   # https://github.com/telegramdesktop/tdesktop/issues/29437#issuecomment-2981043225
+#   QT_QPA_PLATFORM=xcb telegram-desktop -startintray &
+# fi
 
 if [ "$(hostname)" = "agx-z2e-kubuntu" ]; then
   echo "Starting Discord"
