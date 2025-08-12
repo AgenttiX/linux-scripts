@@ -15,8 +15,6 @@ pipewire_id() {
 
 audioconf() {
   # Audio configuration script for PipeWire
-  # You can find the node names with:
-  # pw-cli i all | grep "node.name"
   local COMBINED="combined"
   # If the correct profile is not available,
   # try connecting the transmitter directly to the computer instead of through a USB hub.
@@ -38,7 +36,7 @@ audioconf() {
 
   local DEV_ID
   local NODES
-  NODES="$(pw-cli i all | grep "node.name")"
+  NODES="$(pw-cli i all | grep "node.name" | sort)"
 
   case "${1}" in
     all)
@@ -88,6 +86,9 @@ audioconf() {
       else
         echo "Headphones device was not found."
       fi
+      ;;
+    nodes)
+      echo "${NODES}"
       ;;
     optical | iec958 | IEC958)
       if grep -q "${Z2E_OPTICAL}" <<< "${NODES}"; then
