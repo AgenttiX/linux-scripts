@@ -25,9 +25,12 @@ audioconf() {
   local HEADPHONES_ARCTIS_MIC="alsa_input.usb-SteelSeries_Arctis_Pro_Wireless-00.mono-chat"
   local HEADPHONES_WH1000XM5="bluez_output.80_99_E7_65_DC_4B.1"
   local L14_SPEAKERS="alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink"
+  local L14_MIC="alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic1__source"
+  # local L14_HEADPHONES_MIC="alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source"
   local T480_SPEAKERS="alsa_output.pci-0000_00_1f.3.3.analog-stereo"
   local TB4_DOCK_ANALOG="alsa_output.usb-Lenovo_ThinkPad_Thunderbolt_4_Dock_USB_Audio_000000000000-00.analog-stereo"
   local WEBCAM_C920E="alsa_input.usb-046d_Logi_Webcam_C920e_BF8F45EF-02.analog-stereo"
+  # local WEBCAM_BRIO=""
   local Z2E_HDMI="alsa_output.pci-0000_01_00.1.hdmi-surround-extra1.2"
   local Z2E_OPTICAL="alsa_output.usb-Generic_USB_Audio-00.2.iec958-ac3-surround-51"
   local Z2E_SPEAKERS="alsa_output.usb-Generic_USB_Audio-00.analog-surround-51"
@@ -66,10 +69,22 @@ audioconf() {
           wpctl set-default "${DEV_ID}"
           wpctl set-volume "${DEV_ID}" 1
         else
-          echo "Headphones mic device was not found."
+          echo "Arctis headphones mic device was not found."
         fi
       elif grep -q "${HEADPHONES_WH1000XM5}" <<< "${NODES}"; then
         wpctl set-default "$(pipewire_id "${HEADPHONES_WH1000XM5}")"
+        # Set Bluetooth audio profile to LDAC
+        pactl set-card-profile "bluez_card.80_99_E7_65_DC_4B" "a2dp-sink"
+        # Use external mic device if available
+        if grep -q "${WEBCAM_C920E}" <<< "${NODES}"; then
+          DEV_ID="$(pipewire_id "${WEBCAM_C920E}")"
+          wpctl set-default "${DEV_ID}"
+          wpctl set-volume "${DEV_ID}" 1
+        elif grep -q "${L14_MIC}" <<< "${NODES}"; then
+          DEV_ID="$(pipewire_id "${L14_MIC}")"
+          wpctl set-default "${DEV_ID}"
+          wpctl set-volume "${DEV_ID}" 1
+        fi
       else
         echo "Headphones device was not found."
       fi
