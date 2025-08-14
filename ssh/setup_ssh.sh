@@ -23,4 +23,7 @@ else
   ln -s "${CONF_DIR}" "${SSH_DIR}"
 fi
 
+echo "Creating the controlmasters directory."
+mkdir -p "${SSH_DIR}/controlmasters"
+
 echo "SSH configured."
