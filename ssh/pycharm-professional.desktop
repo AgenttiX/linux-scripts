@@ -1,0 +1,13 @@
+[Desktop Entry]
+X-SnapInstanceName=pycharm-professional
+Version=1.0
+Type=Application
+Name=PyCharm with SSH
+Icon=/snap/pycharm-professional/496/bin/pycharm.png
+X-SnapAppName=pycharm-professional
+Exec=bash -c "\$HOME/Git/linux-scripts/ssh/pycharm-professional.sh %f"
+Comment=The Only Python IDE you need
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-pycharm
+StartupNotify=true
