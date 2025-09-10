@@ -13,6 +13,7 @@ fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 SSH_DIR="${HOME}/.ssh"
+# Location of the SSH configuration directory in the other repo
 CONF_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")/$1/ssh"
 
 if [ ! -d "${CONF_DIR}" ]; then

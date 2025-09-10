@@ -23,6 +23,18 @@ else
   ln -s "${CONF_DIR}" "${SSH_DIR}"
 fi
 
+SSH_CONFIG_D_DIR="${SSH_DIR}/config.d"
+if [ -L "${SSH_CONFIG_D_DIR}" ]; then
+  echo "SSH conf.d folder is already a symlink. Skipping symlink creation."
+else
+  if [ -d "${SSH_CONFIG_D_DIR}" ]; then
+    echo "Backing up old SSH conf.d folder."
+    mv "${SSH_CONFIG_D_DIR}" "${SSH_CONFIG_D_DIR}-old"
+  fi
+  echo "Creating symlink to the SSH config.d folder."
+  ln -s "${SCRIPT_DIR}/config.d" "${SSH_CONFIG_D_DIR}"
+fi
+
 echo "Creating the controlmasters directory."
 mkdir -p "${SSH_DIR}/controlmasters"
 
