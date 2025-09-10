@@ -10,9 +10,10 @@ apt update
 # Boost is required for AdaptiveCPP
 # https://github.com/AdaptiveCpp/AdaptiveCpp
 # These seem to be also required for its cmake compilation: libedit-dev, libclang-rt-dev
-apt install build-essential clang cmake hdf5-tools \
+apt install build-essential clang clangd cmake hdf5-tools \
   libboost-dev libboost-context-dev libboost-fiber-dev libboost-test-dev \
-  libclang-rt-dev libedit-dev libgomp1 libhdf5-mpi-dev libomp-dev lld mpi-default-dev ninja-build pkg-config
+  libclang-rt-dev libedit-dev libgomp1 libhdf5-mpi-dev libomp-dev lld mpi-default-dev ninja-build pkg-config \
+  python3-dev python3-pylsp python3-pylsp-mypy python3-venv
 
 # These should perhaps be added to the list above: hipcc
 
