@@ -14,6 +14,6 @@ if ! [ -d "${CONF_DIR}" ]; then
 fi
 
 echo "Enabling agx-suspend script."
-cp "${SCRIPT_DIR}/agx-suspend-enabler.sh" "${CONF_DIR}"
-chmod 755 "${CONF_DIR}/agx-suspend-enabler.sh"
+cp "${SCRIPT_DIR}/agx-suspend.sh" "${CONF_DIR}"
+chmod 755 "${CONF_DIR}/agx-suspend.sh"
 echo "agx-suspend script enabled."

@@ -41,8 +41,8 @@ if [ "$(hostnamectl chassis)" = "laptop" ]; then
     if pgrep -x "slack" > /dev/null 2>&1; then :; else
       flatpak run com.slack.Slack --startup &
     fi
-  elif [ "${SSID}" = "Agnet" ]; then
-    echo "Agnet connection detected. Starting personal apps."
+  elif [ "${SSID}" = "Mupsunet" ]; then
+    echo "Mupsunet connection detected. Starting personal apps."
     if pgrep -f "signal-desktop" > /dev/null 2>&1; then :; else
       signal-desktop --start-in-tray &
     fi
