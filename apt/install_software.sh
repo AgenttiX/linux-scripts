@@ -46,7 +46,7 @@ PYTHON_PACKAGES=(
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
 )
 UTILS_PACKAGES=(
-  "autojump" "autossh" "cifs-utils" "curl" "git-delta" "gpg-agent" "links"
+  "autojump" "autossh" "cifs-utils" "curl" "fastfetch" "git-delta" "gpg-agent" "links"
   "mtr-tiny" "optipng" "pandoc" "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
 )
 APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}")
@@ -124,6 +124,7 @@ if [ "${IS_DESKTOP}" = true ]; then
     com.spotify.Client \
     com.vscodium.codium \
     md.obsidian.Obsidian \
+    net.lutris.Lutris \
     org.blender.Blender \
     org.chromium.Chromium \
     org.ferdium.Ferdium \
