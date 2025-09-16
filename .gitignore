@@ -97,6 +97,8 @@ physics/kale/config.sh
 pythia8*
 samba/cepces
 samba/sscep
+testing/linpeas.sh
+testing/lynis
 testing/report
 xournalpp/autosave
 xournalpp/errorlogs

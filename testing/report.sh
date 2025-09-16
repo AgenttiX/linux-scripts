@@ -1,12 +1,40 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu
+
+# This is Mika's reporting script
+# https://github.com/AgenttiX/linux-scripts
 
 if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
   exit 1
 fi
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-PARENT_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")"
+ARGS=()
+
+REPORT=true
+SECURITY=true
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --no-report)
+      REPORT=false
+      shift
+      ;;
+    --no-security)
+      SECURITY=false
+      shift
+      ;;
+    *)
+      echo "Unknown argument: $1"
+      exit 1
+      ;;
+  esac
+done
+
+OLDPWD="${PWD}"
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_PATH}" )" &> /dev/null && pwd )"
+GIT_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")"
 export DIR="${SCRIPT_DIR}/report"
 
 if [ -z "${DIR}" ]; then
@@ -14,62 +42,68 @@ if [ -z "${DIR}" ]; then
   exit 1
 fi
 
-# Install dependencies
-command -v sensors &> /dev/null
-LM_SENSORS_INSTALLED=$?
-# set +e
-if sudo apt update; then :; else
-  echo "Updating repository data failed. Are there expired signing keys or missing Release files?"
-fi
-if sudo apt install git p7zip; then :; else
-  echo "Failed to install git and p7zip. Downloading dependencies and compressing the final report may not work."
-fi
-echo "The following packages will enable additional reporting. Please install them if you can."
-sudo apt install acpi clinfo dmidecode i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools
-
-echo "Downloading LinPEAS"
-curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh -o "${SCRIPT_DIR}/linpeas.sh"
-chmod +x "${SCRIPT_DIR}/linpeas.sh"
-
-OLDPWD="${PWD}"
-LYNIS_DIR="${PARENT_DIR}/lynis"
-if [ -d "${LYNIS_DIR}" ]; then
-  echo "Lynis was found. Updating."
-  cd "${LYNIS_DIR}" || exit 1
-  git pull
+# Detect if lm-sensors was already installed
+if command -v sensors &> /dev/null; then
+  LM_SENSORS_INSTALLED=true
 else
-  echo "Lynis was not found. Downloading."
-  cd "${PARENT_DIR}" || exit 1
-  git clone https://github.com/CISOfy/lynis
+  LM_SENSORS_INSTALLED=false
 fi
-cd "${OLDPWD}" || exit 1
+
+# Install dependencies
+sudo apt update
+sudo apt install 7zip acpi clinfo dmidecode git i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools wget
+
+# Install security scanners
+if [ "${SECURITY}" = true ]; then
+  echo "Downloading LinPEAS"
+  wget "https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh" -O "${SCRIPT_DIR}/linpeas.sh"
+  chmod +x "${SCRIPT_DIR}/linpeas.sh"
+
+  LYNIS_DIR="${GIT_DIR}/lynis"
+  if [ -d "${LYNIS_DIR}" ]; then
+    echo "Lynis was found. Updating."
+    cd "${LYNIS_DIR}"
+    git pull
+  else
+    echo "Lynis was not found. Downloading."
+    cd "${GIT_DIR}"
+    git clone "https://github.com/CISOfy/lynis"
+  fi
+  cd "${OLDPWD}"
+fi
 
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 if command -v decode-dimms &> /dev/null; then
   sudo modprobe at24
   sudo modprobe ee1004
-  sudo modprobe eeprom
   sudo modprobe i2c-i801
   sudo modprobe i2c-amd-mp2-pci
+  # The eeprom module may not be present on all systems.
+  # https://bbs.archlinux.org/viewtopic.php?id=292830
+  set +e
+  sudo modprobe eeprom
+  set -e
 fi
-# set -e
+
 # It's not clear whether this should be before or after loading the kernel modules.
 # As this is after loading them, it could detect more devices, but on the other hand
-# it might be unsafe.
+# it might access some devices that it shouldn't.
 # TODO: test that this works
-if (command -v sensors &> /dev/null) && [ "${LM_SENSORS_INSTALLED}" -eq 1 ]; then
+if (command -v sensors &> /dev/null) && [ "${LM_SENSORS_INSTALLED}" = false ]; then
   echo "lm-sensors was installed with this run of the script."
   echo "Therefore the sensors haven't been configured yet and should be configured now."
   sudo sensors-detect
 fi
 
+# Create the report directory
 mkdir -p "${DIR}"
 # Remove old results
 if [ "$(ls -A $DIR)" ]; then
   rm -r "${DIR:?}"/*
 fi
 mkdir -p "${DIR}/hdparm" "${DIR}/smartctl"
+cp "${SCRIPT_PATH}" "${DIR}"
 
 # Basic info
 echo -n "Hostname: "
@@ -161,16 +195,20 @@ else
   echo "The command \"mdadm\" was not found."
 fi
 
-# Lynis security scan
-echo "Starting Lynis as root. If you see a warning about file permissions, press enter to continue."
-sudo "${LYNIS_DIR}/lynis" audit system |& tee "${DIR}/lynis.txt"
+# Security scanners
+if [ "${SECURITY}" = true ]; then
+  # Lynis security scan
+  # This can take quite a while and should therefore be the last command to be run with sudo.
+  echo "Starting Lynis as root. If you see a warning about file permissions, press enter to continue."
+  sudo "${LYNIS_DIR}/lynis" audit system |& tee "${DIR}/lynis.txt"
+
+  # LinPEAS security scan
+  "${SCRIPT_DIR}/linpeas.sh" |& tee "${DIR}/linpeas.txt"
+fi
 
 # -----
 # Non-root info
 # -----
-
-# LinPEAS security scan
-"${SCRIPT_DIR}/linpeas.sh" |& tee "${DIR}/linpeas.txt"
 
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
@@ -178,13 +216,23 @@ cat "/proc/mdstat" > "${DIR}/mdstat.txt"
 cat "/sys/power/mem_sleep" > "${DIR}/mem_sleep.txt"
 cat "/var/log/syslog" > "${DIR}/syslog.txt"
 
+if command -v fwupdmgr &> /dev/null; then
+  fwupdmgr get-devices > "${DIR}/fwupdmgr_devices.txt"
+  # fwupdmgr returns exit code 2 when no updates are found.
+  set +e
+  fwupdmgr get-updates > "${DIR}/fwupdmgr_updates.txt"
+  set -e
+else
+  echo "The command \"fwupdmgr\" was not found."
+fi
+
 report_command acpi --everything --details
 report_command arp
 report_command clinfo
 report_command decode-dimms
 report_command df --human-readable
 report_command dpkg --list
-report_command fwupdmgr get-updates
+report_command fastfetch
 report_command glxinfo -t
 report_command intel_gpu_top -L
 report_command lsblk
@@ -194,10 +242,9 @@ report_command lsmod
 report_command lspci
 report_command lsscsi
 # lsusb seems to return 1 on virtual servers.
-# set +e
+set +e
 report_command lsusb
-# set -e
-report_command neofetch --stdout
+set -e
 report_command numba --sysinfo
 report_command nvidia-smi
 
@@ -228,7 +275,8 @@ if command -v upower &> /dev/null; then
   {
     upower --enumerate
     upower --dump
-    upower --wakeups
+    # This no longer works on Kubuntu 25.04
+    # upower --wakeups
   } &> "${DIR}/upower.txt"
 else
   echo "The command \"upower\" was not found."
@@ -246,7 +294,7 @@ if [ -d "/var/log/samba" ] && command -v rsync &> /dev/null; then
   rsync -av --progress "/var/log/samba" "${DIR}" --exclude "cores"
 fi
 
-if [ "$1" != "--no-report" ]; then
+if [ "${REPORT}" = true ]; then
   # Packaging
   7zr a -mx=9 "${DIR}_$(date '+%Y-%m-%d_%H-%M-%S').7z" "${DIR}"
   echo "The report is ready."
