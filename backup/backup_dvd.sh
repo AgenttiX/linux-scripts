@@ -19,7 +19,7 @@ FILENAME=$1
 if [ $(command -v ddrescue &> /dev/null) -or $(command -v 7zr &> /dev/null) ]; then :; else
   echo "The necessary packages appear not to be installed. Installing."
   sudo apt update
-  sudo apt install gddrescue p7zip
+  sudo apt install gddrescue 7zip
 fi
 
 ddrescue -b 2048 -n -v "${DEVICE}" "${FILENAME}.iso" rescue.log
