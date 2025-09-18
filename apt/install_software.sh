@@ -75,6 +75,15 @@ if [ "${IS_DESKTOP}" = true ]; then
     wget "https://dl.google.com/linux/direct/${CHROME_DEB}" -O "${CHROME_DEB_PATH}"
     APT_PACKAGES+=("${CHROME_DEB_PATH}")
   fi
+  if dpkg -s zoom &> /dev/null; then
+    echo "Zoom is already installed."
+  else
+    echo "Adding Zoom to the installation list."
+    ZOOM_DEB="zoom_amd64.deb"
+    ZOOM_DEB_PATH="${SCRIPT_DIR}/${ZOOM_DEB}"
+    wget "https://zoom.us/client/latest/${ZOOM_DEB}" -O "${ZOOM_DEB_PATH}"
+    APT_PACKAGES+=("${ZOOM_DEB_PATH}")
+  fi
 fi
 
 # If running on physical hardware
