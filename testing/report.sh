@@ -9,8 +9,6 @@ if [ "${EUID}" -eq 0 ]; then
   exit 1
 fi
 
-ARGS=()
-
 REPORT=true
 SECURITY=true
 
@@ -50,12 +48,14 @@ else
 fi
 
 # Install dependencies
+echo "Updating package lists."
 sudo apt update
+echo "Installing dependencies."
 sudo apt install 7zip acpi clinfo dmidecode git i2c-tools lm-sensors lshw lsscsi vainfo vdpauinfo vulkan-tools wget
 
 # Install security scanners
 if [ "${SECURITY}" = true ]; then
-  echo "Downloading LinPEAS"
+  echo "Downloading LinPEAS."
   wget "https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh" -O "${SCRIPT_DIR}/linpeas.sh"
   chmod +x "${SCRIPT_DIR}/linpeas.sh"
 
@@ -75,6 +75,7 @@ fi
 # Load kernel modules for decode-dimms
 # https://superuser.com/a/1499521/
 if command -v decode-dimms &> /dev/null; then
+  echo "Loading kernel modules for decode-dimms."
   sudo modprobe at24
   sudo modprobe ee1004
   sudo modprobe i2c-i801
@@ -100,12 +101,14 @@ fi
 mkdir -p "${DIR}"
 # Remove old results
 if [ "$(ls -A $DIR)" ]; then
+  echo "Cleaning the report directory."
   rm -r "${DIR:?}"/*
 fi
 mkdir -p "${DIR}/hdparm" "${DIR}/smartctl"
 cp "${SCRIPT_PATH}" "${DIR}"
 
 # Basic info
+echo "Basic info:"
 echo -n "Hostname: "
 hostname |& tee "${DIR}/basic.txt"
 echo -n "Uname: "
@@ -120,6 +123,7 @@ fi
 function report_command () {
   if [ "${1}" = "sudo" ]; then
     if command -v "${2}" &> /dev/null; then
+      echo "Running the command \"${*}\"."
       # shellcheck disable=SC2024
       if sudo "${@:2}" &> "${DIR}/${2}.txt"; then :; else
         echo "Running the command \"${*}\" failed."
@@ -129,6 +133,7 @@ function report_command () {
     fi
   else
     if command -v "${1}" &> /dev/null; then
+      echo "Running the command \"${*}\"."
       if ${1} "${@:2}" &> "${DIR}/${1}.txt"; then :; else
         echo "Running the command \"${*}\" failed."
       fi
@@ -142,6 +147,9 @@ function report_command () {
 # Root info
 # -----
 # These should be first so that the probability of having to ask sudo password again is minimized.
+
+echo "Running the reporting commands that require sudo access."
+echo "If these take a while, then you may be asked to input your sudo password again."
 
 report_command sudo dmesg
 report_command sudo dmidecode
@@ -165,6 +173,7 @@ fi
 
 # Storage devices
 if command -v smartctl &> /dev/null; then
+  echo "Scanning storage devices with hdparm and smartctl."
   mapfile -t SMARTCTL_SCAN < <(smartctl --scan)
   for LINE in "${SMARTCTL_SCAN[@]}"; do
     IFS=", " read -r -a ARR <<< "${LINE}"
@@ -184,6 +193,7 @@ fi
 # RAID devices
 # This should be after regular HDD/SSD checks so that the individual drives are checked before the higher-level features.
 if command -v mdadm &> /dev/null; then
+  echo "Scanning RAID devices with mdadm."
   mapfile -t MDADM_SCAN < <(sudo mdadm --detail --scan)
   echo "${MDADM_SCAN[@]}"
   for LINE in "${MDADM_SCAN[@]}"; do
@@ -195,20 +205,39 @@ else
   echo "The command \"mdadm\" was not found."
 fi
 
+if command -v cpupower &> /dev/null; then
+  echo "Scanning CPU info with cpupower"
+  {
+    sudo cpupower info
+    cpupower frequency-info
+    cpupower idle-info
+    sudo cpupower powercap-info
+    sudo cpupower monitor
+  } &> "${DIR}/cpupower.txt"
+else
+  echo "The command \"cpupower\" was not found."
+fi
+
 # Security scanners
 if [ "${SECURITY}" = true ]; then
+  echo "Running security scanners."
   # Lynis security scan
   # This can take quite a while and should therefore be the last command to be run with sudo.
   echo "Starting Lynis as root. If you see a warning about file permissions, press enter to continue."
   sudo "${LYNIS_DIR}/lynis" audit system |& tee "${DIR}/lynis.txt"
 
   # LinPEAS security scan
+  echo "Starting LinPEAS security scanner."
   "${SCRIPT_DIR}/linpeas.sh" |& tee "${DIR}/linpeas.txt"
 fi
+
 
 # -----
 # Non-root info
 # -----
+
+echo "Running the reporting commands that do not require sudo access."
+echo "You should no longer be asked for your sudo password."
 
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
@@ -224,6 +253,31 @@ if command -v fwupdmgr &> /dev/null; then
   set -e
 else
   echo "The command \"fwupdmgr\" was not found."
+fi
+
+if command -v systemd-analyze &> /dev/null; then
+  systemd-analyze plot > "${DIR}/systemd-analyze-plot.svg"
+  {
+    echo -e '$ systemd-analyze has-tpm2'
+    systemd-analyze has-tpm2
+    echo -e '$ systemd-analyze critical-chain'
+    systemd-analyze critical-chain
+    echo -e '\n$ systemd-analyze blame'
+    systemd-analyze blame
+    echo -e '\n$ systemd-analyze architectures'
+    systemd-analyze architectures
+    echo -e '\n$ systemd-analyze security'
+    systemd-analyze security
+    echo -e '\n$ systemd-analyze unit-paths'
+    systemd-analyze unit-paths
+    echo -e '\n$ systemd-analyze unit-files'
+    systemd-analyze unit-files
+    # This is long and therefore the last.
+    echo e '\n$ systemd-analyze dump'
+    systemd-analyze dump
+  } &> "${DIR}/systemd-analyze.txt"
+else
+  echo "The command \"systemd-analyze\" was not found."
 fi
 
 report_command acpi --everything --details
@@ -272,6 +326,7 @@ report_command sensors
 
 # Battery info
 if command -v upower &> /dev/null; then
+  echo "Scanning battery info with upower."
   {
     upower --enumerate
     upower --dump
