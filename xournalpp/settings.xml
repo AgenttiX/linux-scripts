@@ -248,6 +248,10 @@
       <attribute name="deviceClass" type="int" value="5"/>
       <attribute name="deviceSource" type="int" value="8"/>
     </data>
+    <data name="Wacom Intuos BT M Pen">
+      <attribute name="deviceClass" type="int" value="2"/>
+      <attribute name="deviceSource" type="int" value="1"/>
+    </data>
     <data name="Wacom Intuos BT M Pen cursor">
       <attribute name="deviceClass" type="int" value="0"/>
       <attribute name="deviceSource" type="int" value="3"/>
