@@ -38,4 +38,8 @@ fi
 echo "Creating the controlmasters directory."
 mkdir -p "${SSH_DIR}/controlmasters"
 
+# echo "Fixing locales for Mosh."
+# https://github.com/mobile-shell/mosh/issues/102#issuecomment-5111502
+# sudo sed -i "s/^    SendEnv LANG LC_\*/#   SendEnv LANG LC_\*/g" "/etc/ssh/ssh_config"
+
 echo "SSH configured."
