@@ -33,7 +33,8 @@ OLDPWD="${PWD}"
 SCRIPT_PATH="${BASH_SOURCE[0]}"
 SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_PATH}" )" &> /dev/null && pwd )"
 GIT_DIR="$(dirname "$(dirname "${SCRIPT_DIR}")")"
-export DIR="${SCRIPT_DIR}/report"
+DIR="${SCRIPT_DIR}/report"
+TIMESTAMP="$(date '+%Y-%m-%d_%H-%M-%S')"
 
 if [ -z "${DIR}" ]; then
   echo "Could not configure directory variable: ${DIR}"
@@ -106,6 +107,7 @@ if [ "$(ls -A $DIR)" ]; then
 fi
 mkdir -p "${DIR}/hdparm" "${DIR}/smartctl"
 cp "${SCRIPT_PATH}" "${DIR}"
+sed "s/HOST/$(hostname)/g; s/TIMESTAMP/${TIMESTAMP}/g" "${SCRIPT_DIR}/report_readme_template.txt" > "${DIR}/README.txt"
 
 # Basic info
 echo "Basic info:"
@@ -351,6 +353,6 @@ fi
 
 if [ "${REPORT}" = true ]; then
   # Packaging
-  7zr a -mx=9 "${DIR}_$(date '+%Y-%m-%d_%H-%M-%S').7z" "${DIR}"
+  7zr a -mx=9 "${DIR}_${TIMESTAMP}.7z" "${DIR}"
   echo "The report is ready."
 fi
