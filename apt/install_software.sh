@@ -60,12 +60,13 @@ if [ "${IS_DESKTOP}" = true ]; then
     "mumble" "network-manager-openvpn" "remmina" "signal-desktop" "steam"
     "synaptic" "texmaker" "tikzit" "tmispell-voikko" "vlc"
   )
-  if [ "${XDE_CURRENT_DESKTOP}" = "KDE" ]; then
+  if [ "${XDG_CURRENT_DESKTOP}" = "KDE" ]; then
     APT_PACKAGES+=("kde-config-flatpak" "remmina-plugin-kwallet")
   fi
-  if [ "${XDE_SESSION_TYPE}" = "wayland" ]; then
-    APT_PACKAGES+=("freerdp2-wayland")
-  fi
+  # XDG_SESSION_TYPE is not set properly when running with sudo.
+  # if [ "${XDG_SESSION_TYPE}" = "wayland" ]; then
+  #   APT_PACKAGES+=("freerdp2-wayland")
+  # fi
   if dpkg -s google-chrome-stable &> /dev/null; then
     echo "Google Chrome is already installed."
   else

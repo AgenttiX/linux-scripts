@@ -8,8 +8,9 @@ fi
 
 # CUDA
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
-dpkg -i cuda-keyring_1.1-1_all.deb
+CUDA_KEYRING="cuda-keyring_1.1-1_all.deb"
+wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/${CUDA_KEYRING}" -O "${CUDA_KEYRING}"
+dpkg -i "${CUDA_KEYRING}"
 
 # Nvidia Container Toolkit
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg

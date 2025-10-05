@@ -14,7 +14,10 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Delete old signing key
-apt-key del 7fa2af80
+if command -v apt-key &> /dev/null; then
+  echo "Removing old apt key."
+  apt-key del 7fa2af80
+fi
 
 if [ "${1}" = "--fix" ]; then
   apt purge "^cuda.*$" "^libnvidia.*$" "^nvidia.*$"
