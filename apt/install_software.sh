@@ -34,7 +34,7 @@ apt update
 echo "Constructing the list of apt packages to install."
 BASE_PACKAGES=(
   # Servers should have git-gui too for X11 forwarding.
-  "apt-transport-https" "bleachbit" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "screen" "ufw"
+  "apt-transport-https" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "screen" "ufw"
 )
 DEV_PACKAGES=(
   "build-essential" "cloc" "cmake" "gcc-multilib" "g++-multilib" "gfortran"
@@ -46,8 +46,8 @@ PYTHON_PACKAGES=(
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
 )
 UTILS_PACKAGES=(
-  "autojump" "autossh" "cifs-utils" "curl" "fastfetch" "git-delta" "gpg-agent" "links"
-  "mtr-tiny" "optipng" "pandoc" "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
+  "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "fastfetch" "git-delta" "gpg-agent" "links"
+  "mtr-tiny" "optipng" "pandoc" "ssh-tools" "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
 )
 APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}")
 

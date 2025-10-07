@@ -11,7 +11,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 mkdir -p /etc/apt/keyrings
 apt update
-apt install apt-transport-https ca-certificates curl gpg-agent ubuntu-dbgsym-keyring
+apt install apt-transport-https ca-certificates curl gpg-agent ubuntu-dbgsym-keyring wget
 
 # -----
 # Ubuntu repos
