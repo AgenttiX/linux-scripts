@@ -36,7 +36,8 @@ apt update
 echo "Constructing the list of apt packages to install."
 BASE_PACKAGES=(
   # Servers should have git-gui too for X11 forwarding.
-  "apt-transport-https" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "screen" "ufw"
+  # Screen has been replaced with tmux.
+  "apt-transport-https" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "tmux" "ufw"
 )
 DEV_PACKAGES=(
   "build-essential" "cloc" "cmake" "gcc-multilib" "g++-multilib" "gfortran"
