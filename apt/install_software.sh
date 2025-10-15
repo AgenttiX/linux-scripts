@@ -20,6 +20,8 @@ else
 fi
 set -u
 
+CHASSIS="$(hostnamectl chassis)"
+
 echo "Configuring apt/dpkg architectures."
 ARCH="$(uname -i)"
 FOREIGN_ARCHS="$(dpkg --print-foreign-architectures)}"
@@ -95,16 +97,22 @@ if ! grep -q "hypervisor" /proc/cpuinfo; then
   )
   if [ "${IS_DESKTOP}" = true ]; then
     APT_PACKAGES+=("boinc" "cutecom" "gnome-disk-utility" "gparted" "obs-studio" "pipewire-audio" "rpi-imager")
+    # If running on a laptop
+    if [ "${CHASSIS}" = "laptop" ]; then
+      APT_PACKAGES+=("touchegg")
+    fi
+  fi
+  # If running on a laptop
+  if [ "${CHASSIS}" = "laptop" ]; then
+    APT_PACKAGES+=("tlp")
   fi
 fi
-# If running on a laptop
-if [ "$(hostnamectl chassis)" = "laptop" ]; then
-  APT_PACKAGES+=("tlp" "touchegg")
-fi
+
 # If the system has an Intel CPU
 if grep -q "Intel" /proc/cpuinfo; then
   APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
 fi
+
 # If the system has an Nvidia GPU
 if command -v nvidia-smi &> /dev/null; then
   APT_PACKAGES+=("boinc-client-nvidia-cuda")
