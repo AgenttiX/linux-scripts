@@ -96,7 +96,9 @@ if ! grep -q "hypervisor" /proc/cpuinfo; then
     "lm-sensors" "pocl-opencl-icd" "powertop" "s-tui" "stress" "usbtop"
   )
   if [ "${IS_DESKTOP}" = true ]; then
-    APT_PACKAGES+=("boinc" "cutecom" "gnome-disk-utility" "gparted" "obs-studio" "pipewire-audio" "rpi-imager")
+    APT_PACKAGES+=(
+      "boinc" "cutecom" "gnome-disk-utility" "gparted" "obs-studio" "pipewire-audio" "rpi-imager" "virt-viewer"
+      )
     # If running on a laptop
     if [ "${CHASSIS}" = "laptop" ]; then
       APT_PACKAGES+=("touchegg")
