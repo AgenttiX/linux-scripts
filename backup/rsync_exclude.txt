@@ -1,3 +1,4 @@
+**/.mypy_cache
 **/__pycache__
 **/dhparam.pem
 **/htmlcov
@@ -8,22 +9,32 @@
 **/site-packages
 **/test-results
 **/venv
+.arduino*
 .cache
 .cargo
+.config/JetBrains
 .config/**/Cache
 .config/**/CachedData
 .config/**/CacheStorage
 .config/**/Code Cache
 .config/Code/logs
 .config/Element/Cache
+.config/github-copilot
+.config/Signal/DawnGraphiteCache
+.config/Signal/DawnWebGPUCache
+.config/Signal/GPUCache
 .dropbox
 .gems
 .googleearth/Cache
+.java/.userPrefs/jetbrains
 .local/share/fish/generated_completions/
+.local/share/klipper
+.local/share/JetBrains
 .local/share/Steam/appcache
 .local/share/Steam/compatibilitytools.d
 .local/share/Steam/config/htmlcache
 .local/share/Steam/steamapps
+.local/share/Steam/steamrt64
 .local/share/Steam/ubuntu12_32
 .local/share/Steam/ubuntu12_64
 .local/share/Trash
