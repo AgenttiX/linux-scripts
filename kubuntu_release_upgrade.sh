@@ -10,9 +10,12 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 LOG_DIR="${SCRIPT_DIR}/logs"
 mkdir -p "${LOG_DIR}"
 
+# If you're upgrading to a non-LTS release and don't see an upgrade available,
+# you may have to edit /etc/update-manager/release-upgrades
+
 # https://help.ubuntu.com/community/HirsuteUpgrades/Kubuntu
 # If the upgrade fails, it's good to have a log file of the console output to see how things went wrong.
-pkexec do-release-upgrade -m desktop -f DistUpgradeViewKDE |& tee "${LOG_DIR}/kubuntu_release_upgrade_$(date +%F_%H-%M-%S).txt"
+pkexec do-release-upgrade --frontend=DistUpgradeViewKDE |& tee "${LOG_DIR}/kubuntu_release_upgrade_$(date +%F_%H-%M-%S).txt"
 
 # If Python has been updated, you can find and remove old virtualenvs with
 # ls ${HOME}/Git/**/venv
