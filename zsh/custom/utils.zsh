@@ -244,6 +244,8 @@ update() {
 # For those familiar with Vim
 alias :q="exit"
 
+alias assh="autossh"
+
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
 alias dirsum1="tar c . | md5sum"
 
