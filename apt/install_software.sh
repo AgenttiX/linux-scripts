@@ -102,7 +102,7 @@ if ! grep -q "hypervisor" /proc/cpuinfo; then
       )
     # If running on a laptop
     if [ "${CHASSIS}" = "laptop" ]; then
-      APT_PACKAGES+=("touchegg")
+      APT_PACKAGES+=("gnome-network-displays" "touchegg")
     fi
   fi
   # If running on a laptop
