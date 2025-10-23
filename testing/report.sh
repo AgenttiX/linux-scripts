@@ -166,6 +166,8 @@ else
   echo "The command \"docker\" was not found."
 fi
 
+report_command sudo fdisk -l
+
 if command -v lshw &> /dev/null; then
   # shellcheck disable=SC2024
   sudo lshw -html > "${DIR}/lshw.html"
