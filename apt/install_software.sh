@@ -50,7 +50,7 @@ PYTHON_PACKAGES=(
 )
 UTILS_PACKAGES=(
   "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "fastfetch" "git-delta" "gpg-agent" "links"
-  "mtr-tiny" "optipng" "pandoc" "ssh-tools" "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
+  "mtr-tiny" "optipng" "pdftk" "pandoc" "ssh-tools" "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
 )
 APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}")
 
