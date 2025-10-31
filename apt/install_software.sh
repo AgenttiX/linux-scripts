@@ -133,6 +133,7 @@ if [ "${IS_DESKTOP}" = true ]; then
 
   echo "Installing Flatpak packages."
   flatpak install flathub \
+    app.eduroam.geteduroam \
     cc.arduino.IDE2 \
     com.discordapp.Discord \
     com.github.tchx84.Flatseal \
