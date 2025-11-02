@@ -172,6 +172,12 @@ if ! zgen saved; then
 
     # Generate the init script from plugins above
     zgen save
+
+    # Also configure tmux
+    if command -v tmux &> /dev/null && [ ! -f "${HOME}/.config/tmux/tmux.conf" ]; then
+        echo "Tmux was found, but it seems not to be configured. Configuring using Oh my tmux!"
+        curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
+    fi
 fi
 
 # Delayed Powerlevel10k setup to avoid the warning about console output.
