@@ -98,7 +98,7 @@ if ! grep -q "hypervisor" /proc/cpuinfo; then
   )
   if [ "${IS_DESKTOP}" = true ]; then
     APT_PACKAGES+=(
-      "boinc" "cutecom" "gnome-disk-utility" "gparted" "obs-studio" "pipewire-audio" "rpi-imager" "virt-viewer"
+      "boinc" "cutecom" "gnome-disk-utility" "gparted" "obs-studio" "pipewire-audio" "rpi-imager" "solaar" "virt-viewer"
       )
     # If running on a laptop
     if [ "${CHASSIS}" = "laptop" ]; then
