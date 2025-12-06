@@ -1,0 +1,13 @@
+bin
+dev
+lib
+lib32
+lib64
+libx32
+lost+found
+media
+mnt
+proc
+sbin
+sys
+tmp
