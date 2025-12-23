@@ -18,6 +18,10 @@ elif [ "${1}" == "home" ]; then
     "${HOME}" \
     "${USER}@agx-file-backup:/mnt/backup/${HOSTNAME_TRIMMED}/rsync/" |& tee -a "${LOG_PATH}"
 elif [ "${1}" == "root" ]; then
+  if [ "${EUID}" -ne 0 ]; then
+    echo "This script should be run as root."
+    exit 1
+  fi
   rsync \
     --archive --delete --partial --progress --stats \
     --exclude-from="${SCRIPT_DIR}/rsync_exclude_root.txt" \

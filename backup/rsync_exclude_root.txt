@@ -11,3 +11,4 @@ proc
 sbin
 sys
 tmp
+var/cache
