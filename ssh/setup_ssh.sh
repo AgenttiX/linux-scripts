@@ -6,6 +6,24 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo "Configuring SSH."
 
+echo "Testing whether you have sudo access."
+if sudo -l &>/dev/null; then
+  echo "You seem to have sudo access. Installing optional packages."
+  sudo apt update
+  sudo apt install autossh curl mosh openssh-client ssh-askpass tar
+  # SSH Guardian Agent
+  CPU_ARCH=$(uname -m)
+  if [ "${CPU_ARCH}" = "x86_64" ]; then
+    echo "x86_64 CPU architecture detected. Installing Guardian Agent."
+    curl -L https://api.github.com/repos/StanfordSNR/guardian-agent/releases/latest | grep browser_download_url | grep 'linux' | cut -d'"' -f 4 | xargs curl -Ls | tar xzv
+    sudo cp "${SCRIPT_DIR}/sga_linux_amd64"/* /usr/local/bin
+  else
+    echo "Non-x86_64 CPU architecture (${CPU_ARCH}) detected. Skipping Guardian Agent installation."
+  fi
+else
+  echo "You don't seem to have sudo access. Skipping installation of optional packages."
+fi
+
 chmod 700 "${CONF_DIR}"
 chmod 600 "${CONF_DIR}/authorized_keys"
 if [ -f "${CONF_DIR}/config" ]; then

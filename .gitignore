@@ -97,6 +97,7 @@ physics/kale/config.sh
 pythia8*
 samba/cepces
 samba/sscep
+ssh/sga_linux_amd64
 testing/linpeas.sh
 testing/lynis
 testing/report
