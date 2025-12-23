@@ -67,6 +67,26 @@ fix-kde-hard() {
   kwin_wayland --replace &
 }
 
+mosh() {
+  local HOST="${1:?Usage: $0 HOST [mosh args...]}"
+  shift || true
+
+  # Ask ssh what it would do after config expansion.
+  # ssh -G prints: "remotecommand <value>" (empty if none; may also be absent on some versions)
+  local RC="$(ssh -G -- "$HOST" 2>/dev/null | awk 'tolower($1)=="remotecommand" { $1=""; sub(/^ /,""); print; exit }')"
+
+  local MOSH_PATH="$(whence -p mosh)"
+  # These may also be necessary:
+  # -T -o ClearAllForwardings=yes
+  local MOSH_SSH_OPTIONS="-o ExitOnForwardFailure=no -o ForwardAgent=no"
+  # If RemoteCommand is non-empty, override it for the SSH that mosh uses.
+  if [[ -n "${RC}" ]]; then
+    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS} -o RemoteCommand=none -o RequestTTY=no" -- "${HOST}" "$@"
+  else
+    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS}" -- "${HOST}" "$@"
+  fi
+}
+
 pdfsearch() {
     # https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files
     if [ $# -ne 2 ]; then
@@ -149,8 +169,7 @@ close-chats() {
 retry_until() {
   # From:
   # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
-	if [ "$2" = "" ]
-	then
+	if [ "$2" = "" ]; then
 		echo "Usage: $0 sleeptime command"
 	fi
 
