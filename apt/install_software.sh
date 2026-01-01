@@ -57,7 +57,7 @@ APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
 # If running in a desktop environment. All GUI programs should go here.
 if [ "${IS_DESKTOP}" = true ]; then
   APT_PACKAGES+=(
-    "clamtk" "eduvpn-client" "filelight" "filezilla" "gimp" "inkscape"
+    "clamtk" "eduvpn-client" "filelight" "filezilla" "gimp" "haruna" "inkscape"
     "keepassxc" "ktorrent" "libenchant-2-voikko"
     "libreoffice" "libreoffice-help-en-us" "libreoffice-help-fi" "libreoffice-voikko"
     "mumble" "network-manager-openvpn" "remmina" "signal-desktop" "steam"
