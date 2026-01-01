@@ -25,6 +25,7 @@
   <property name="scrollbarOnLeft" value="false"/>
   <property name="menubarVisible" value="true"/>
   <property name="filepathShownInTitlebar" value="false"/>
+  <property name="pageNumberShownInTitlebar" value="false"/>
   <property name="numColumns" value="1"/>
   <property name="numRows" value="1"/>
   <property name="viewFixedRows" value="false"/>
@@ -67,9 +68,12 @@
   <property name="autosaveEnabled" value="true"/>
   <property name="autosaveTimeout" value="3"/>
   <property name="addHorizontalSpace" value="false"/>
-  <property name="addHorizontalSpaceAmount" value="150"/>
+  <property name="addHorizontalSpaceAmountRight" value="150"/>
+  <property name="addHorizontalSpaceAmountLeft" value="150"/>
   <property name="addVerticalSpace" value="false"/>
-  <property name="addVerticalSpaceAmount" value="150"/>
+  <property name="addVerticalSpaceAmountAbove" value="150"/>
+  <property name="addVerticalSpaceAmountBelow" value="150"/>
+  <property name="unlimitedScrolling" value="false"/>
   <property name="drawDirModsEnabled" value="false"/>
   <property name="drawDirModsRadius" value="50"/>
   <property name="snapRotation" value="false"/>
@@ -81,9 +85,14 @@
   <property name="touchDrawing" value="false"/>
   <property name="gtkTouchInertialScrolling" value="true"/>
   <property name="pressureGuessing" value="false"/>
+  <property name="recolor.enabled" value="false"/>
+  <property name="recolor.sidebar" value="false"/>
+  <property name="recolor.dark" value="4281349190"/>
+  <property name="recolor.light" value="4291219701"/>
   <property name="selectionBorderColor" value="4294901760"/>
   <property name="backgroundColor" value="4292664021"/>
   <property name="selectionMarkerColor" value="4285702095"/>
+  <property name="activeSelectionColor" value="4286381056"/>
   <property name="touchZoomStartThreshold" value="0"/>
   <property name="pageRerenderThreshold" value="5"/>
   <!--The count of rendered PDF pages which will be cached.-->
@@ -114,6 +123,9 @@
   <property name="inputSystemTPCButton" value="false"/>
   <property name="inputSystemDrawOutsideWindow" value="true"/>
   <property name="preferredLocale" value=""/>
+  <property name="useSpacesForTab" value="false"/>
+  <property name="numberOfSpacesForTab" value="4"/>
+  <property name="laserPointerFadeOutTime" value="500"/>
   <property name="stabilizerAveragingMethod" value="0"/>
   <property name="stabilizerPreprocessor" value="0"/>
   <property name="stabilizerBuffersize" value="20"/>
@@ -123,6 +135,7 @@
   <property name="stabilizerMass" value="5"/>
   <property name="stabilizerCuspDetection" value="true"/>
   <property name="stabilizerFinalizeStroke" value="true"/>
+  <property name="colorPalette" value="/app/share/xournalpp/palettes/xournal.gpl"/>
   <property name="latexSettings.autoCheckDependencies" value="true"/>
   <property name="latexSettings.defaultText" value="x^2"/>
   <property name="latexSettings.globalTemplatePath" value="/run/user/1000/doc/36dc5437/default_template.tex"/>
@@ -134,18 +147,26 @@
   <property name="latexSettings.sourceViewAutoIndent" value="true"/>
   <property name="latexSettings.sourceViewSyntaxHighlight" value="true"/>
   <property name="latexSettings.sourceViewShowLineNumbers" value="false"/>
+  <property name="latexSettings.useExternalEditor" value="false"/>
+  <property name="latexSettings.externalEditorAutoConfirm" value="false"/>
+  <property name="latexSettings.externalEditorCmd" value=""/>
+  <property name="latexSettings.temporaryFileExt" value="tex"/>
   <property name="font" font="Sans" size="12"/>
   <data name="buttonConfig">
     <data name="default">
       <attribute name="color" type="hex" value="ff000000"/>
       <attribute name="drawingType" type="string" value="default"/>
       <attribute name="size" type="string" value="thin"/>
+      <attribute name="strokeType" type="string" value="none"/>
       <attribute name="tool" type="string" value="pen"/>
     </data>
     <data name="eraser">
       <attribute name="eraserMode" type="string" value="none"/>
       <attribute name="size" type="string" value="none"/>
       <attribute name="tool" type="string" value="eraser"/>
+    </data>
+    <data name="left">
+      <attribute name="tool" type="string" value="none"/>
     </data>
     <data name="middle">
       <attribute name="tool" type="string" value="none"/>
@@ -318,6 +339,16 @@
     </data>
     <data name="image">
       <attribute name="drawingType" type="string" value="default"/>
+    </data>
+    <data name="laserPointerHighlighter">
+      <attribute name="color" type="hex" value="ffff0000"/>
+      <attribute name="drawingType" type="string" value="default"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
+    </data>
+    <data name="laserPointerPen">
+      <attribute name="color" type="hex" value="ffff0000"/>
+      <attribute name="drawingType" type="string" value="default"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
     </data>
     <data name="pen">
       <attribute name="color" type="hex" value="3333cc"/>
