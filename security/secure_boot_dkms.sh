@@ -11,6 +11,15 @@ if [ "${EUID}" -ne 0 ]; then
   exit 1
 fi
 
+echo "Configuring MOK for DKMS kernel modules."
 update-secureboot-policy --enroll-key
+echo "Updating initramfs."
 update-initramfs -u
-update-grub
+
+if command -v mortar-compilesigninstall &> /dev/null; then
+  echo "Mortar detected. Running mortar-compilesigninstall."
+  mortar-compilesigninstall
+else
+  echo "Updating GRUB configuration."
+  update-grub
+fi
