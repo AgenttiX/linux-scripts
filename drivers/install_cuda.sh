@@ -20,9 +20,12 @@ if command -v apt-key &> /dev/null; then
 fi
 
 if [ "${1}" = "--fix" ]; then
-  apt purge "^cuda.*$" "^libnvidia.*$" "^nvidia.*$"
+  apt purge \
+    "^cuda.*$" \
+    "^libcublas.*$" "^libcufft.*$" "^libcufile.*$" "^libcurand.*$" "^libcusolver.*$" "^libcusparse.*$" \
+    "^libnpp.*$" "^libnvfatbin.*$" "^libnvjitlink.*$" "^libnvjpeg.*$" "^libnvvm.*$" \
+    "^libnvidia.*$" "^nvidia.*$" "^xserver-xorg-video-nvidia.*$"
   apt autoremove
-  apt clean
 fi
 
 . "${SCRIPT_DIR}/setup_nvidia_repos.sh"
@@ -30,7 +33,8 @@ fi
 apt update
 # https://www.reddit.com/r/linux_gaming/comments/1dnccoq/ubuntu_2404_wayland_on_nvidia_troubleshoot_guide/
 # https://askubuntu.com/questions/1514352/ubuntu-24-04-with-nvidia-driver-libegl-warning-egl-failed-to-create-dri2-scre
-apt install cuda nvidia-container-toolkit  # libnvidia-egl-wayland1
+apt install --upgrade cuda nvidia-container-toolkit  # libnvidia-egl-wayland1
+apt autoremove
 
 echo "Fixing suspend."
 # https://bbs.archlinux.org/viewtopic.php?id=288181
