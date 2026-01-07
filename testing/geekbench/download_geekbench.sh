@@ -2,7 +2,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-VERSIONS=("5.4.5" "4.4.4" "3.4.4" "2.4.3")
+VERSIONS=("6.5.0" "5.4.5" "4.4.4" "3.4.4" "2.4.3")
 for VERSION in "${VERSIONS[@]}"; do
   FOLDER_NAME="Geekbench-${VERSION}-Linux"
   if [ -d "${SCRIPT_DIR}/${FOLDER_NAME}" ]; then

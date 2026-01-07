@@ -58,6 +58,7 @@ if which cryptsetup &> /dev/null; then
   cryptsetup benchmark > "${DIR}/cryptsetup.txt"
 fi
 
+run_geekbench_gpu "6"
 run_geekbench_gpu "5"
 run_geekbench_gpu "4"
 
