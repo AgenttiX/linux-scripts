@@ -1,9 +1,14 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -eu
+
+if [ "${EUID}" -ne 0 ]; then
+  echo "This script should be run as root."
+  exit 1
+fi
 
 # https://www.setphaserstostun.org/posts/monitoring-ecc-memory-on-linux-with-rasdaemon/
 
-if ! command -v ras-mc-ctl 2>&1 >/dev/null; then
+if ! command -v ras-mc-ctl &> /dev/null; then
   echo "Rasdaemon seems not to be installed. Installing."
   apt update
   apt install rasdaemon
