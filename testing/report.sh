@@ -324,6 +324,15 @@ else
   echo "Python pip3 was not found."
 fi
 
+if command -v ras-mc-ctl &> /dev/null; then
+  {
+    ras-mc-ctl --print-labels
+    ras-mc-ctl --error-count
+  } &> "${DIR}/ras-mc-ctl.txt"
+else
+  echo "The command \"ras-mc-ctl\" was not found."
+fi
+
 report_command rocminfo
 report_command rocm-smi --showallinfo
 report_command sensors
