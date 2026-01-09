@@ -1,0 +1,6 @@
+# NVIDIA GTX Titan
+ACTION=="add", KERNEL=="0000:4c:00.0", SUBSYSTEM=="pci", RUN+="/bin/sh -c 'echo 1 > /sys/bus/pci/devices/0000:4c:00:0/remove'"
+ACTION=="add", KERNEL=="0000:4c:00.1", SUBSYSTEM=="pci", RUN+="/bin/sh -c 'echo 1 > /sys/bus/pci/devices/0000:4c:00:1/remove'"
+
+# USB controller
+ACTION=="add", KERNEL=="0000:24:00.3", SUBSYSTEM=="pci", RUN+="/bin/sh -c 'echo 1 > /sys/bus/pci/devices/0000:24:00.3/remove'"
