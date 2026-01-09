@@ -534,15 +534,15 @@ def hdparm() -> None:
             subprocess.run(["hdparm", param, str(value), drive_path], check=True)
 
 
-def mount_cifs(hostname: str = "192.168.20.20", mount_dir: str = "/mnt/agx-file"):
-    process = subprocess.run(["ping", "-c", "1", hostname])
-    if process.returncode:
-        print(f"The CIFS server {hostname} was not found. Skipping mounting.")
-        return
-    subfolders = [f.path for f in os.scandir(mount_dir) if f.is_dir()]
-    for folder in subfolders:
-        print(f"Mounting {folder}")
-        subprocess.run(["mount", folder])
+# def mount_cifs(hostname: str = "192.168.20.20", mount_dir: str = "/mnt/agx-file"):
+#     process = subprocess.run(["ping", "-c", "1", hostname])
+#     if process.returncode:
+#         print(f"The CIFS server {hostname} was not found. Skipping mounting.")
+#         return
+#     subfolders = [f.path for f in os.scandir(mount_dir) if f.is_dir()]
+#     for folder in subfolders:
+#         print(f"Mounting {folder}")
+#         subprocess.run(["mount", folder])
 
 
 def device_power_control(device: str) -> bool:
@@ -581,7 +581,7 @@ if __name__ == "__main__":
     custom_commands()
     fix_boinc()
 
-    sleep_time = 20
-    print("Sleeping for", sleep_time, " s to wait for network connectivity.")
-    time.sleep(sleep_time)
-    mount_cifs()
+    # sleep_time = 20
+    # print("Sleeping for", sleep_time, " s to wait for network connectivity.")
+    # time.sleep(sleep_time)
+    # mount_cifs()
