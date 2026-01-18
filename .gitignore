@@ -69,7 +69,6 @@ games/rpcs3/savestates
 games/rpcs3/sounds
 games/rpcs3/uuid
 geant4.*
-Geekbench-*
 honeygain/honeygain.env
 id_rsa*
 keys
@@ -98,6 +97,7 @@ pythia8*
 samba/cepces
 samba/sscep
 ssh/sga_linux_amd64
+testing/geekbench/Geekbench*
 testing/linpeas.sh
 testing/lynis
 testing/report

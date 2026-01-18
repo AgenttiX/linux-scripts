@@ -1,43 +1,34 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -euo pipefail
 
 if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
   exit 1
 fi
 
+SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_PATH}" )" &> /dev/null && pwd )"
+DIR="${SCRIPT_DIR}/report"
+
 # This already runs apt update
-source ./report.sh --no-report
-
-# Function definitions
-
-function run_geekbench_gpu() {
-  VERSION=$1
-  GEEKBENCH_SEARCH=( "${SCRIPT_DIR}/geekbench/Geekbench-${VERSION}."*"/geekbench_x86_64" )
-  GEEKBENCH="${GEEKBENCH_SEARCH[0]}"
-  OUTPUT="${DIR}/geekbench${VERSION}.txt"
-  $GEEKBENCH --sysinfo |& tee "${DIR}/geekbench${VERSION}.txt"
-  $GEEKBENCH --compute-list |& tee -a "${DIR}/geekbench${VERSION}.txt"
-  $GEEKBENCH --cpu --save "${DIR}/geekbench${VERSION}_result_cpu.txt" |& tee -a "${OUTPUT}"
-
-  # TODO: process --compute-list and run on all GPUs
-  $GEEKBENCH --compute CUDA --save "${DIR}/geekbench${VERSION}_result_cuda.txt" |& tee -a "${OUTPUT}"
-  $GEEKBENCH --compute OpenCL --save "${DIR}/geekbench${VERSION}_result_opencl.txt"|& tee -a "${OUTPUT}"
-}
+source ./report.sh --no-report --no-security
 
 # Installers
 
-if ! which speedtest > /dev/null; then
-  curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
-fi
-sudo apt install sysbench speedtest stress-ng wget
+# The speedtest repo is not kept up to date with the latest Ubuntu versions.
+# if ! command -v speedtest > /dev/null; then
+#   curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+# fi
+# sudo apt update
+sudo apt install sysbench stress-ng wget
 
 ./geekbench/download_geekbench.sh
 
-if ! which phoronix-test-suite > /dev/null; then
+if ! command -v phoronix-test-suite &> /dev/null; then
   FILENAME="phoronix-test-suite_10.8.4_all.deb"
-  wget "https://phoronix-test-suite.com/releases/repo/pts.debian/files/${FILENAME}" -O "${FILENAME}"
-  sudo dpkg -i "${FILENAME}"
-  rm "${FILENAME}"
+  FILE_PATH="${SCRIPT_DIR}/${FILENAME}"
+  wget "https://phoronix-test-suite.com/releases/repo/pts.debian/files/${FILENAME}" -O "${FILE_PATH}"
+  sudo apt install "${FILE_PATH}"
+  # rm "${FILE_PATH}"
   phoronix-test-suite openbenchmarking-login
   phoronix-test-suite batch-setup
 fi
@@ -45,23 +36,27 @@ phoronix-test-suite openbenchmarking-refresh
 
 # Tests
 
-speedtest |& tee "${DIR}/speedtest.txt"
+if command -v speedtest &> /dev/null; then
+  speedtest |& tee "${DIR}/speedtest.txt"
+else
+  echo "Speedtest was not found."
+fi
 
 # These are managed by PTS
 # 7z b -mmt1 |& tee "${DIR}/7z_single_thread.txt"
 # 7z b |& tee "${DIR}/7z.txt"
 
-if which clpeak &> /dev/null; then
-  clpeak --xml-file "${DIR}/clpeak.xml"
+if command -v clpeak &> /dev/null; then
+  echo "Running clpeak OpenCL benchmark."
+  clpeak --xml-file "${DIR}/clpeak.xml" |& tee "${DIR}/clpeak.txt"
 fi
-if which cryptsetup &> /dev/null; then
-  cryptsetup benchmark > "${DIR}/cryptsetup.txt"
+if command -v cryptsetup &> /dev/null; then
+  echo "Running cryptsetup benchmark."
+  cryptsetup benchmark |& tee "${DIR}/cryptsetup.txt"
 fi
-
-run_geekbench_gpu "6"
-run_geekbench_gpu "5"
-run_geekbench_gpu "4"
 
 # TODO: Passmark
+
+"${SCRIPT_DIR}/geekbench/geekbench.sh"
 
 ./pts/run-tests.sh
