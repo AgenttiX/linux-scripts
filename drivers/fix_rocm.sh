@@ -11,8 +11,8 @@
 # Note that if you have "nomodeset" enabled:
 # "WARNING: nomodeset detected in kernel parameters, amdgpu requires KMS"
 
-ROCM_VERSION="6.1.2"
-ROCM_VERSION2="6.1.60102-1"
+ROCM_VERSION="6.3.3"
+ROCM_VERSION2="6.3.60303-1"
 
 if [ "${EUID}" -eq 0 ]; then
   echo "This script should not be run as root."
@@ -42,7 +42,7 @@ if command -v amdgpu-install >/dev/null 2>&1; then
   sudo amdgpu-install --uninstall --rocmrelease=all
 fi
 set +e
-sudo apt purge --ignore-missing  amdgpu-install "rocm-*" "rock-*" rocminfo
+sudo apt purge --ignore-missing amdgpu-dkms amdgpu-install "rocm-*" "rock-*" rocminfo
 set -e
 sudo apt autoremove
 
@@ -51,28 +51,29 @@ sudo apt dist-upgrade
 # Prerequisites
 # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisites.html
 # Clinfo is specified here to ensure that the debug info printing below works.
-sudo apt install clinfo "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)" wget
-# sudo apt install gnupg2 libnuma-dev
+sudo apt install clinfo "linux-headers-$(uname -r)" wget
+# sudo apt install gnupg2 libnuma-dev "linux-modules-extra-$(uname -r)"
 
 echo "Setting permissions"
 sudo usermod -a -G render,video "${LOGNAME}"
 
 # Installation using package manager
-# wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
-# echo "deb [arch=amd64] https://repo.radeon.com/rocm/apt/${ROCM_VERSION}/ ${RELEASE_CHANNEL} main" | sudo tee /etc/apt/sources.list.d/rocm.list
-
-# Installation using amdgpu-install
 FILENAME="amdgpu-install_${ROCM_VERSION2}_all.deb"
-wget "https://repo.radeon.com/amdgpu-install/${ROCM_VERSION}/ubuntu/jammy/${FILENAME}" -O "${SCRIPT_DIR}/${FILENAME}"
+wget "https://repo.radeon.com/amdgpu-install/${ROCM_VERSION}/ubuntu/noble/${FILENAME}" -O "${SCRIPT_DIR}/${FILENAME}"
 sudo apt install "${SCRIPT_DIR}/${FILENAME}"
 
 sudo apt update
-sudo amdgpu-install --usecase=graphics,rocm
-sudo apt install nvtop rocminfo rocm-smi
+
+# Installation using amdgpu-install
+# sudo amdgpu-install --usecase=graphics,rocm
+
+# These should be included in rocm: amd-smi-lib rocminfo
+# These are legacy: rocm-smi
+# A newer version of this is already included in the kernel: amdgpu-dkms
+sudo apt install nvtop rocm
 
 # The OpenCL packages should be included in the base rocm installation but are included here just in case.
 # sudo apt install rocm-dev rocm-opencl-dev rocminfo
-
 
 echo "Printing debug info. It may take a reboot for it to update."
 clinfo
