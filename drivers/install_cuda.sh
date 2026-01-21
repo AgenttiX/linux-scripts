@@ -30,10 +30,16 @@ fi
 
 . "${SCRIPT_DIR}/setup_nvidia_repos.sh"
 
-apt update
 # https://www.reddit.com/r/linux_gaming/comments/1dnccoq/ubuntu_2404_wayland_on_nvidia_troubleshoot_guide/
 # https://askubuntu.com/questions/1514352/ubuntu-24-04-with-nvidia-driver-libegl-warning-egl-failed-to-create-dri2-scre
-apt install --upgrade cuda nvidia-container-toolkit  # libnvidia-egl-wayland1
+if lshw -C display | grep "GeForce MX150"; then
+  echo "Old MX150 GPU detected. Installing driver version 580."
+  echo "If you get a black screen after installing, add \"modprobe.blacklist=nvidia_drm\" to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
+  apt install nvidia-driver-pinning-580
+  apt install --upgrade cuda-13-0 cuda-drivers-580 nvidia-container-toolkit
+else
+  apt install --upgrade cuda nvidia-container-toolkit  # libnvidia-egl-wayland1
+fi
 apt autoremove
 
 echo "Fixing suspend."
