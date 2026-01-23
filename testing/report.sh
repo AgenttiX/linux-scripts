@@ -153,8 +153,14 @@ function report_command () {
 echo "Running the reporting commands that require sudo access."
 echo "If these take a while, then you may be asked to input your sudo password again."
 
+# Root info with report_command
 report_command sudo dmesg
 report_command sudo dmidecode
+report_command sudo fdisk -l
+report_command sudo intel_gpu_top -L
+
+# Root info with custom handling
+
 if command -v docker &> /dev/null; then
   {
     sudo docker -v
@@ -165,8 +171,6 @@ if command -v docker &> /dev/null; then
 else
   echo "The command \"docker\" was not found."
 fi
-
-report_command sudo fdisk -l
 
 if command -v lshw &> /dev/null; then
   # shellcheck disable=SC2024
@@ -243,11 +247,45 @@ fi
 echo "Running the reporting commands that do not require sudo access."
 echo "You should no longer be asked for your sudo password."
 
+# Non-root info with cat
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"
 cat "/proc/mdstat" > "${DIR}/mdstat.txt"
 cat "/sys/power/mem_sleep" > "${DIR}/mem_sleep.txt"
 cat "/var/log/syslog" > "${DIR}/syslog.txt"
+
+# Non-root info with report_command
+report_command acpi --everything --details
+report_command arp
+report_command clinfo
+report_command decode-dimms
+report_command df --human-readable
+report_command dpkg --list
+report_command fastfetch
+report_command glxinfo -t
+report_command lsblk
+report_command lsb_release -a
+report_command lscpu
+report_command lsmod
+report_command lspci
+report_command lsscsi
+# lsusb seems to return 1 on virtual servers.
+set +e
+report_command lsusb
+set -e
+report_command numba --sysinfo
+report_command nvidia-smi
+report_command rocminfo
+report_command rocm-smi --showallinfo
+report_command sensors
+report_command vainfo
+report_command vdpauinfo
+report_command vulkaninfo
+report_command xinput list
+report_command xrandr
+report_command zpool status
+
+# Non-root info with custom handling
 
 if command -v fwupdmgr &> /dev/null; then
   fwupdmgr get-devices > "${DIR}/fwupdmgr_devices.txt"
@@ -284,28 +322,6 @@ else
   echo "The command \"systemd-analyze\" was not found."
 fi
 
-report_command acpi --everything --details
-report_command arp
-report_command clinfo
-report_command decode-dimms
-report_command df --human-readable
-report_command dpkg --list
-report_command fastfetch
-report_command glxinfo -t
-report_command intel_gpu_top -L
-report_command lsblk
-report_command lsb_release -a
-report_command lscpu
-report_command lsmod
-report_command lspci
-report_command lsscsi
-# lsusb seems to return 1 on virtual servers.
-set +e
-report_command lsusb
-set -e
-report_command numba --sysinfo
-report_command nvidia-smi
-
 if command -v pip &> /dev/null; then
   {
     pip -V
@@ -333,10 +349,6 @@ else
   echo "The command \"ras-mc-ctl\" was not found."
 fi
 
-report_command rocminfo
-report_command rocm-smi --showallinfo
-report_command sensors
-
 # Battery info
 if command -v upower &> /dev/null; then
   echo "Scanning battery info with upower."
@@ -350,17 +362,15 @@ else
   echo "The command \"upower\" was not found."
 fi
 
-report_command vainfo
-report_command vdpauinfo
-report_command vulkaninfo
-report_command xinput list
-report_command xrandr
-report_command zpool status
-
 if [ -d "/var/log/samba" ] && command -v rsync &> /dev/null; then
   # The cores folder would require root access, so let's skip it.
   rsync -av --progress "/var/log/samba" "${DIR}" --exclude "cores"
 fi
+
+
+# -----
+# Post-processing
+# -----
 
 if [ "${REPORT}" = true ]; then
   # Packaging
