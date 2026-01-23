@@ -113,7 +113,7 @@ fi
 
 # If the system has an Intel CPU
 if grep -q "Intel" /proc/cpuinfo; then
-  APT_PACKAGES+=("intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
+  APT_PACKAGES+=("intel-gpu-info" "intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
 fi
 
 # If the system has an Nvidia GPU
