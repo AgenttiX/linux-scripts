@@ -15,8 +15,16 @@ echo "Configuring SSH agent."
 
 # Wait for kwallet
 if command -v kwallet-query &> /dev/null; then
-  # If you get exit code 4 here, create a folder named "Passwords" manually in KDE Wallet.
+  set +e
   kwallet-query -l kdewallet > /dev/null
+  KWALLET_EXIT_CODE=$?
+  set -e
+  if [ "${KWALLET_EXIT_CODE}" -eq 4 ]; then
+    echo "Warning: kwallet-query exited with code 4. "
+    echo "Please create a folder named \"Passwords\" in KDE Wallet with e.g. KWalletManager."
+  elif [ "${KWALLET_EXIT_CODE}" -ne 0 ]; then
+    echo "Warning: kwallet-query exited with code ${KWALLET_EXIT_CODE}."
+  fi
 fi
 
 echo "Removing existing identities."
