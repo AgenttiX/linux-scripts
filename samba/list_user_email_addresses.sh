@@ -12,9 +12,9 @@ else
   echo "The optional argument \"days\" specifies how many days back to look for user logins."
 fi
 
-DATE=$(date --date "-${DAYS} days" -I)
+DATE="$(date --date "-${DAYS} days" -I)"
 echo "Looking for users who have logged in with SSH since ${DATE}. This requires sudo access."
-USERS=$(sudo journalctl -u ssh --since "${DATE}" | grep "Accepted" | awk '{print $9}' | sort --unique)
+USERS="$(sudo journalctl -u ssh --since "${DATE}" | grep "Accepted" | awk '{print $9}' | sort --unique)"
 
 echo "Searching the LDAP directory for email addresses of the users."
 EMAILS=$(for USERNAME in $USERS; do
