@@ -429,6 +429,9 @@ if [ -z "${TMPDIR}" ]; then
     APPTAINER_CACHEDIR=$TMPDIR
 fi
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 # -----
 # Additional repositories
 # -----
