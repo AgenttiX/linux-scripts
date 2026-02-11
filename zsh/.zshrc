@@ -418,8 +418,9 @@ fi
 # By default clinfo and other OpenCL applications might not see the ROCm driver.
 if [ -d "/opt/rocm" ]; then
     # Do not change the configuration on clusters, as they have their own driver setup.
-    if command -v srun &> /dev/null; then :; else
-        export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib:/opt/rocm/opencl/lib"
+    if ! command -v srun &> /dev/null; then
+        # This path seems to no longer exist on newer ROCm versions: /opt/rocm/opencl/lib
+        export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/rocm/lib"
     fi
 fi
 
