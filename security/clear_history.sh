@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 REPO_DIR="$(dirname "${SCRIPT_DIR}")"
@@ -14,8 +14,6 @@ python3 "${REPO_DIR}/maintenance.py" --bleachbit-only
 # https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/
 sync
 echo 3 | sudo tee /proc/sys/vm/drop_caches
-
-# TODO: Add BleachBit here
 
 # TRIM free disk space
 fstrim -a -v
