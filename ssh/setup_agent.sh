@@ -1,24 +1,30 @@
 #!/usr/bin/env bash
-set -eu
+# set -eu
+set +eu
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 . "${SCRIPT_DIR}/setup_common.sh"
+set +eu
 
 CONF_SCRIPT="${CONF_DIR}/setup_agent.sh"
 
 if [ ! -f "${CONF_SCRIPT}" ]; then
-  echo "The agent configuration was not found at: ${CONF_SCRIPT}"
+  echo "The SSH agent configuration was not found at: ${CONF_SCRIPT}"
   exit 1
 fi
 
-echo "Configuring SSH agent."
+if ! pgrep -u "${USER}" '^ssh-agent$' > /dev/null; then
+  echo "Warning: No SSH agent seems to be running for the user \"${USER}\"."
+fi
+
+echo "Configuring SSH agent using the socket \"${SSH_AUTH_SOCK:-WARNING_NOT_SET}\"."
 
 # Wait for kwallet
 if command -v kwallet-query &> /dev/null; then
-  set +e
+  # set +e
   kwallet-query -l kdewallet > /dev/null
   KWALLET_EXIT_CODE=$?
-  set -e
+  # set -e
   if [ "${KWALLET_EXIT_CODE}" -eq 4 ]; then
     echo "Warning: kwallet-query exited with code 4. "
     echo "Please create a folder named \"Passwords\" in KDE Wallet with e.g. KWalletManager."
@@ -27,10 +33,17 @@ if command -v kwallet-query &> /dev/null; then
   fi
 fi
 
-echo "Removing existing identities."
-ssh-add -D
+# echo "KDE Wallet is loaded. Waiting for SSH agent to be ready."
+# sleep 10
 
-echo "Adding new identities."
+echo "Removing existing identities from the SSH agent."
+ssh-add -D
+SSH_ADD_EXIT_CODE=$?
+if [ "${SSH_ADD_EXIT_CODE}" -ne 0 ]; then
+  echo "Warning: ssh-add -D exited with code ${SSH_ADD_EXIT_CODE}. Future ssh-add commands may fail as well."
+fi
+
+echo "Adding new identities to the SSH agent."
 # Warning! All added keys that are used for multiple devices
 # must be on FIDO2 security keys and require physical confirmation.
 # Otherwise the server you connect to can use the SSH keys
@@ -41,13 +54,13 @@ echo "Adding new identities."
 LIBTPM2_PKCS11="/usr/lib/x86_64-linux-gnu/pkcs11/libtpm2_pkcs11.so"
 LIBTPM2_PKCS11_OLD="/usr/lib/x86_64-linux-gnu/libtpm2_pkcs11.so.1"
 if [ -f "${LIBTPM2_PKCS11}" ]; then
-  set +e
+  # set +e
   ssh-add -s "${LIBTPM2_PKCS11}"
-  set -e
+  # set -e
 elif [ -f "${LIBTPM2_PKCS11_OLD}" ]; then
-  set +e
+  # set +e
   ssh-add -s "${LIBTPM2_PKCS11_OLD}"
-  set -e
+  # set -e
 fi
 
 # The id_rsa is only used for specific purposes
@@ -59,12 +72,12 @@ fi
 # https://www.linux.fi/wiki/HST#Ssh_2
 OPENSC_PKCS11="/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so"
 if [ -f "${OPENSC_PKCS11}" ]; then
-  set +e
+  # set +e
   ssh-add -s "${OPENSC_PKCS11}"
-  set -e
+  # set -e
 fi
 
 . "${CONF_SCRIPT}"
 
-echo "Configured identities:"
+echo "Configured identities in the SSH agent:"
 ssh-add -L

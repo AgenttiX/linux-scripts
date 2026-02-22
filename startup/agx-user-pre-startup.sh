@@ -19,19 +19,19 @@ export SSH_ASKPASS_REQUIRE=prefer
 #   kwallet-query -l kdewallet > /dev/null
 # fi
 
-SSH_AGENT_UPDATED=false
+# SSH_AGENT_UPDATED=false
 # Pgrep finds regexes, and without the specification for the start and end of the line,
 # it could find e.g. the gcr-ssh-agent provided by the package gcr,
 # and not start the correct SSH agent.
-if ! pgrep -u "${USER}" '^ssh-agent$' > /dev/null; then
+# if ! pgrep -u "${USER}" '^ssh-agent$' > /dev/null; then
   # echo "SSH agent seems not to be started. Starting, and saving its configuration."
-  ssh-agent > "${HOME}/.ssh-agent-info"
-  SSH_AGENT_UPDATED=true
-fi
-if [ "${SSH_AGENT_UPDATED}" = true ] || [[ "${SSH_AGENT_PID}" == "" ]]; then
-  # echo "SSH agent configuration seems not to be loaded. Loading."
-  eval "$(<"${HOME}/.ssh-agent-info")" > /dev/null
-fi
+  # ssh-agent > "${HOME}/.ssh-agent-info"
+  # SSH_AGENT_UPDATED=true
+# fi
+# if [ "${SSH_AGENT_UPDATED}" = true ] || [[ "${SSH_AGENT_PID}" == "" ]]; then
+#   echo "SSH agent configuration seems not to be loaded. Loading."
+#   eval "$(<"${HOME}/.ssh-agent-info")" > /dev/null
+# fi
 
 # echo "SSH_AUTH_SOCK=${SSH_AUTH_SOCK}" >> "${LOG_PATH}"
 # echo "SSH_AGENT_PID=${SSH_AGENT_PID}" >> "${LOG_PATH}"

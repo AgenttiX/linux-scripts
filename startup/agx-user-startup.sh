@@ -6,9 +6,9 @@ set -u
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 REPO_DIR="$(dirname "${SCRIPT_DIR}")"
 
-if command -v kwallet-query &> /dev/null; then
-  kwallet-query -l kdewallet > /dev/null
-fi
+# if command -v kwallet-query &> /dev/null; then
+#   kwallet-query -l kdewallet > /dev/null
+# fi
 
 # Run the pre-startup script again to ensure that the SSH agent is available
 . "${SCRIPT_DIR}/agx-user-pre-startup.sh"
@@ -21,7 +21,7 @@ fi
 
 # This should be before other applications just in case, since this configures audio settings for them.
 if command -v pactl >/dev/null 2>&1; then
-  echo "Configuring PipeWire"
+  echo "Configuring PipeWire."
   pactl load-module module-combine-sink
 fi
 
@@ -45,21 +45,21 @@ fi
 
 ACTIVITYWATCH="${HOME}/Downloads/activitywatch/aw-qt"
 if [ -f "${ACTIVITYWATCH}" ]; then
-  echo "Starting ActivityWatch"
+  echo "Starting ActivityWatch."
   "${ACTIVITYWATCH}" &
 fi
 
 if command -v flatpak >/dev/null 2>&1; then
-  echo "Starting Mattermost"
+  echo "Starting Mattermost."
   flatpak run com.mattermost.Desktop --hidden &
-  echo "Starting Slack"
+  echo "Starting Slack."
   flatpak run com.slack.Slack --startup &
-  echo "Starting Telegram"
+  echo "Starting Telegram."
   flatpak run org.telegram.desktop -startintray &
 fi
 
 if command -v signal-desktop >/dev/null 2>&1; then
-  echo "Starting Signal"
+  echo "Starting Signal."
   signal-desktop --start-in-tray &
 fi
 
@@ -73,8 +73,8 @@ fi
 # fi
 
 if [ "$(hostname)" = "agx-z2e-kubuntu" ]; then
-  echo "Starting Discord"
+  echo "Starting Discord."
   flatpak run com.discordapp.Discord --start-minimized &
-  echo "Starting Steam"
+  echo "Starting Steam."
   steam -nochatui -nofriendsui -silent &
 fi
