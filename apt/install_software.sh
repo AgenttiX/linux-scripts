@@ -37,7 +37,7 @@ echo "Constructing the list of apt packages to install."
 BASE_PACKAGES=(
   # Servers should have git-gui too for X11 forwarding.
   # Screen has been replaced with tmux.
-  "7zip" "apt-transport-https" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "tmux" "ufw"
+  "7zip" "apt-transport-https" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "rsync" "tmux" "ufw"
 )
 DEV_PACKAGES=(
   "build-essential" "cloc" "cmake" "gcc-multilib" "g++-multilib" "gfortran"
@@ -50,7 +50,8 @@ PYTHON_PACKAGES=(
 )
 UTILS_PACKAGES=(
   "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "dislocker" "fastfetch" "git-delta" "gpg-agent" "links"
-  "mtr-tiny" "optipng" "pdftk" "pandoc" "ssh-tools" "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
+  "mtr-tiny" "optipng" "pdftk" "pandoc" "rclone" "ssh-tools" "texlive-full" "traceroute"
+  "wget" "wireguard" "xindy" "yt-dlp" "zsh"
 )
 APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}")
 
