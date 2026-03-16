@@ -186,6 +186,7 @@ if [[ "${P10K_DELAYED_SETUP}" = true && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k
     . "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
 # -----
 # Completion
 # -----
@@ -431,6 +432,12 @@ fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# LM Studio
+if [ -d "${HOME}/.lmstudio" ]; then
+    export PATH="${PATH}:${HOME}/.lmstudio/bin"
+fi
+
 
 # -----
 # Additional repositories

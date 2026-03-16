@@ -27,6 +27,7 @@
 .gems
 .googleearth/Cache
 .java/.userPrefs/jetbrains
+.lmstudio/models
 .local/share/fish/generated_completions/
 .local/share/klipper
 .local/share/JetBrains

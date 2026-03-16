@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=LM Studio
+Exec=$HOME/Git/linux-scripts/llm/lm-studio.sh
+Comment=Local AI on your computer
+Categories=Development;IDE;
+Terminal=false
+StartupNotify=true
