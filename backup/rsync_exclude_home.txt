@@ -82,5 +82,6 @@ FTBA
 miniconda3
 snap
 Syncthing
+Vaults
 VirtualBox
 Zotero

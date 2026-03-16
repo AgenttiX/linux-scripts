@@ -42,6 +42,11 @@ else
   echo "Speedtest was not found."
 fi
 
+if command -v gocryptfs &> /dev/null; then
+  echo "Running gocryptfs benchmark."
+  gocryptfs -speed |& tee "${DIR}/gocryptfs.txt"
+fi
+
 # These are managed by PTS
 # 7z b -mmt1 |& tee "${DIR}/7z_single_thread.txt"
 # 7z b |& tee "${DIR}/7z.txt"

@@ -49,9 +49,9 @@ PYTHON_PACKAGES=(
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
 )
 UTILS_PACKAGES=(
-  "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "dislocker" "fastfetch" "git-delta" "gpg-agent" "links"
-  "mtr-tiny" "optipng" "pdftk" "pandoc" "rclone" "ssh-tools" "texlive-full" "traceroute"
-  "wget" "wireguard" "xindy" "yt-dlp" "zsh"
+  "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "dislocker" "fastfetch" "git-delta"
+  "gocryptfs" "gpg-agent" "links" "mtr-tiny" "optipng" "pdftk" "pandoc" "rclone" "ssh-tools"
+  "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
 )
 APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}")
 
