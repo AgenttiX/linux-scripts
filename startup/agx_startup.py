@@ -562,6 +562,10 @@ def power_control(
         disable_wakeups: bool = True) -> None:
     board = board_name()
 
+    # if board == "ROG ZENITH II EXTREME":
+    #     print("Power control has been manually disabled for this board for debugging.")
+    #     return
+
     if board not in devices.keys():
         print("Computer has not been configured for power control:", board)
         return
