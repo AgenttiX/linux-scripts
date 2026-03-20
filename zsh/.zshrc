@@ -455,3 +455,5 @@ fi
 if [ -f "${GIT_DIR}/private-scripts/utils.zsh" ]; then
   . "${GIT_DIR}/private-scripts/utils.zsh"
 fi
+
+unset GIT_DIR
