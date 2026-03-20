@@ -406,7 +406,8 @@ export POWERSHELL_TELEMETRY_OPTOUT="1"
 
 # Powerlevel10k configuration
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || . ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || . ~/.p10k.zsh
+. "${ZDOTDIR}/.p10k.zsh"
 
 # Add Snap icons to the launcher
 if [ -f "/etc/profile.d/apps-bin-path.sh" ]; then

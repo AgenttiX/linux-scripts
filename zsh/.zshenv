@@ -9,6 +9,7 @@ else
 fi
 # Symlinking the zsh config folder is not needed thanks to this.
 ZDOTDIR="${GIT_DIR}/linux-scripts/zsh"
+unset GIT_DIR
 
 if [ -f "${HOME}/.cargo/env" ]; then
   . "${HOME}/.cargo/env"

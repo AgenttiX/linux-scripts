@@ -15,6 +15,7 @@ gem install colorls
 
 echo "Creating symlinks."
 ln -s "${SCRIPT_DIR}/.zshenv" "${HOME}/.zshenv"
-ln -s "${SCRIPT_DIR}/.p10k.zsh" "${HOME}/.p10k.zsh"
+# This is not needed, since the full path tho .p10k.zsh is specified in .zshrc.
+# ln -s "${SCRIPT_DIR}/.p10k.zsh" "${HOME}/.p10k.zsh"
 
 echo "zsh installed."
