@@ -33,6 +33,9 @@ fi
 #   chmod +x "${SCRIPT_DIR}/LM-Studio-"*
 # fi
 
+echo "Ensuring that LM Studio is executable."
+chmod +x "${SCRIPT_DIR}/LM-Studio-"*.appimage
+
 echo "Creating LM Studio shortcut symlink."
 ln -f -s "${SCRIPT_DIR}/lm-studio.desktop" "${HOME}/.local/share/applications/lm-studio.desktop"
 
