@@ -214,6 +214,11 @@ update() {
     zgen update
   fi
 
+  if command -v claude; then
+    echo "Updating Claude"
+    claude update
+  fi
+
   # zsh completions using zsh-manpage-completion-generator
   # Based on:
   # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc
