@@ -8,6 +8,10 @@ fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+# -----
+# Dependencies
+# -----
+
 # Nix is required for llama.cpp
 if ! command -v nix &> /dev/null; then
   echo "Installing Nix."
@@ -16,15 +20,21 @@ if ! command -v nix &> /dev/null; then
   return 1
 fi
 
-if ! command -v ollama &> /dev/null; then
-  echo "Installing Ollama."
-  curl -fsSL https://ollama.com/install.sh | sh
-fi
+# -----
+# Local AI
+# -----
 
-if ! command -v llama-server &> /dev/null; then
-  echo "Installing llama.cpp."
-  nix profile install nixpkgs#llama-cpp --extra-experimental-features nix-command --extra-experimental-features flakes
-fi
+# LM Studio takes care of these
+
+# if ! command -v ollama &> /dev/null; then
+#   echo "Installing Ollama."
+#   curl -fsSL https://ollama.com/install.sh | sh
+# fi
+
+# if ! command -v llama-server &> /dev/null; then
+#   echo "Installing llama.cpp."
+#   nix profile install nixpkgs#llama-cpp --extra-experimental-features nix-command --extra-experimental-features flakes
+# fi
 
 # if [ ! -f "${SCRIPT_DIR}/LM-Studio-"* ]; then
 #   echo "Downloading LM Studio."
@@ -33,19 +43,30 @@ fi
 #   chmod +x "${SCRIPT_DIR}/LM-Studio-"*
 # fi
 
-echo "Ensuring that LM Studio is executable."
-chmod +x "${SCRIPT_DIR}/LM-Studio-"*.appimage
+if [ -f "${SCRIPT_DIR}/LM-Studio-"* ]; then
+  echo "Ensuring that LM Studio is executable."
+  chmod +x "${SCRIPT_DIR}/LM-Studio-"*.appimage
 
-echo "Creating LM Studio shortcut symlink."
-ln -f -s "${SCRIPT_DIR}/lm-studio.desktop" "${HOME}/.local/share/applications/lm-studio.desktop"
+  echo "Creating LM Studio shortcut symlink."
+  ln -f -s "${SCRIPT_DIR}/lm-studio.desktop" "${HOME}/.local/share/applications/lm-studio.desktop"
+fi
 
-ollama --version
+if command -v ollama &> /dev/null; then
+  ollama --version
+fi
 
-which llama-server
-llama-server --version
+if command -v llama-server &> /dev/null; then
+  which llama-server
+  llama-server --version
 
-which llama-cli
-# llama-cli -hf Qwen/Qwen2.5-7B-Instruct-GGUF
+  which llama-cli
+  # llama-cli -hf Qwen/Qwen2.5-7B-Instruct-GGUF
 
-llama-bench --list-devices
-# llama-bench --model ${HOME}/.cache/llama.cpp/Qwen_Qwen2.5-7B-Instruct-GGUF_qwen2.5-7b-instruct-q2_k.gguf
+  llama-bench --list-devices
+  # llama-bench --model ${HOME}/.cache/llama.cpp/Qwen_Qwen2.5-7B-Instruct-GGUF_qwen2.5-7b-instruct-q2_k.gguf
+fi
+
+# -----
+# Cloud AI
+# -----
+curl -fsSL https://claude.ai/install.sh | bash
