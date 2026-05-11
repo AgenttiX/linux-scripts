@@ -50,12 +50,23 @@ if [ -f "${ACTIVITYWATCH}" ]; then
 fi
 
 if command -v flatpak >/dev/null 2>&1; then
-  echo "Starting Mattermost."
-  flatpak run com.mattermost.Desktop --hidden &
-  echo "Starting Slack."
-  flatpak run com.slack.Slack --startup &
-  echo "Starting Telegram."
-  flatpak run org.telegram.desktop -startintray &
+  FLATPAKS="$(flatpak list)"
+  if [[ $FLATPAKS =~ "com.mattermost.Desktop" ]]; then
+    echo "Starting Mattermost."
+    flatpak run com.mattermost.Desktop --hidden &
+  fi
+  if [[ $FLATPAKS =~ "com.slack.Slack" ]]; then
+    echo "Starting Slack."
+    flatpak run com.slack.Slack --startup &
+  fi
+  if [[ $FLATPAKS =~ "org.telegram.desktop" ]]; then
+    echo "Starting Telegram."
+    flatpak run org.telegram.desktop -startintray &
+  fi
+  if [[ $FLATPAKS =~ "com.github.IsmaelMartinez.teams_for_linux" ]]; then
+    echo "Starting Teams."
+    flatpak run com.github.IsmaelMartinez.teams_for_linux
+  fi
 fi
 
 if command -v signal-desktop >/dev/null 2>&1; then
