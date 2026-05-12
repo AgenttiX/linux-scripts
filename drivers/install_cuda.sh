@@ -1,6 +1,5 @@
 #!/bin/bash -e
 # CUDA installer
-# From
 # https://developer.nvidia.com/cuda-downloads
 
 # You can find cuDNN at
@@ -12,6 +11,17 @@ if [ "${EUID}" -ne 0 ]; then
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+NVIDIA_PACKAGES=(
+    "^cuda.*$" \
+    "^libcublas.*$" "^libcufft.*$" "^libcufile.*$" "^libcurand.*$" "^libcusolver.*$" "^libcusparse.*$" \
+    "^libnpp.*$" "^libnvfatbin.*$" "^libnvidia.*$" "^libnvjitlink.*$" "^libnvjpeg.*$" "^libnvvm.*$" \
+    "^nvidia.*$" "^xserver-xorg-video-nvidia.*$"
+)
+
+if [ "${1}" = "--hold" ]; then
+  apt-mark hold "${NVIDIA_PACKAGES[@]}"
+  return 0
+fi
 
 # Delete old signing key
 if command -v apt-key &> /dev/null; then
@@ -20,11 +30,7 @@ if command -v apt-key &> /dev/null; then
 fi
 
 if [ "${1}" = "--fix" ]; then
-  apt purge \
-    "^cuda.*$" \
-    "^libcublas.*$" "^libcufft.*$" "^libcufile.*$" "^libcurand.*$" "^libcusolver.*$" "^libcusparse.*$" \
-    "^libnpp.*$" "^libnvfatbin.*$" "^libnvjitlink.*$" "^libnvjpeg.*$" "^libnvvm.*$" \
-    "^libnvidia.*$" "^nvidia.*$" "^xserver-xorg-video-nvidia.*$"
+  apt purge "${NVIDIA_PACKAGES[@]}"
   apt autoremove
 fi
 
@@ -35,6 +41,7 @@ fi
 if lshw -C display | grep "GeForce MX150"; then
   echo "Old MX150 GPU detected. Installing driver version 580."
   echo "If you get a black screen after installing, add \"modprobe.blacklist=nvidia_drm\" to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
+  # The driver pinning has to be installed before other packages so that the pinning is effective.
   apt install nvidia-driver-pinning-580
   apt install --upgrade cuda-13-0 cuda-drivers-580 nvidia-container-toolkit
 else
