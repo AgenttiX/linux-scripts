@@ -218,6 +218,10 @@ update() {
     echo "Updating Claude"
     claude update
   fi
+  if command -v lms; then
+    echo "Updating LM Studio runtimes"
+    lms runtime update --all
+  fi
 
   # zsh completions using zsh-manpage-completion-generator
   # Based on:
