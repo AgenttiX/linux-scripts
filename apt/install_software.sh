@@ -138,7 +138,6 @@ if [ "${IS_DESKTOP}" = true ]; then
     cc.arduino.IDE2 \
     com.discordapp.Discord \
     com.github.tchx84.Flatseal \
-    com.github.iwalton3.jellyfin-media-player \
     com.github.xournalpp.xournalpp \
     com.mastermindzh.tidal-hifi \
     com.mattermost.Desktop \
@@ -151,6 +150,7 @@ if [ "${IS_DESKTOP}" = true ]; then
     org.blender.Blender \
     org.chromium.Chromium \
     org.ferdium.Ferdium \
+    org.jellyfin.JellyfinDesktop \
     org.telegram.desktop \
     org.zotero.Zotero \
     tv.plex.PlexDesktop
