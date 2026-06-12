@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # Before running this script on Kubuntu, enable Flatpak backend here:
 # https://flatpak.org/setup/Kubuntu
@@ -20,13 +20,13 @@ else
 fi
 set -u
 
+ARCH="$(dpkg --print-architecture)"
 CHASSIS="$(hostnamectl chassis)"
+FOREIGN_ARCHS="$(dpkg --print-foreign-architectures)}"
 
 echo "Configuring apt/dpkg architectures."
-ARCH="$(uname -i)"
-FOREIGN_ARCHS="$(dpkg --print-foreign-architectures)}"
-if [ "${ARCH}" = "x86_64" ] && [[ "${FOREIGN_ARCHS}" != *"i386"* ]]; then
-  echo "Detected x86_64 architecture where i386 is not enabled. Enabling i386."
+if [ "${ARCH}" = "amd64" ] && [[ "${FOREIGN_ARCHS}" != *"i386"* ]]; then
+  echo "Detected amd64 architecture where i386 is not enabled. Enabling i386."
   dpkg --add-architecture i386
 fi
 
