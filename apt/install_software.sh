@@ -59,7 +59,7 @@ APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
 if [ "${IS_DESKTOP}" = true ]; then
   APT_PACKAGES+=(
     "clamtk" "claude-desktop" "eduvpn-client" "filelight" "filezilla" "gimp" "haruna" "inkscape"
-    "keepassxc" "ktorrent" "libenchant-2-voikko"
+    "keepassxc" "krdc" "ktorrent" "libenchant-2-voikko"
     "libreoffice" "libreoffice-help-en-us" "libreoffice-help-fi" "libreoffice-voikko"
     "mumble" "network-manager-openvpn" "remmina" "signal-desktop" "steam"
     "synaptic" "texmaker" "tikzit" "tmispell-voikko" "vlc"
