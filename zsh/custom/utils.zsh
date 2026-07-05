@@ -4,7 +4,7 @@
 # Hyphens are probably better, since they're easire to write.
 # https://unix.stackexchange.com/a/168222/
 
-apt-rdepends-installed () {
+apt-rdepends-installed() {
   # Find installed apt packages which depend on argument(s)
   # From:
   # https://gitlab.com/drjaska-projects/configs/zsh/-/blob/master/.zshrc

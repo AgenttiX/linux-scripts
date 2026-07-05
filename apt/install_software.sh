@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # Before running this script on Kubuntu, enable Flatpak backend here:
 # https://flatpak.org/setup/Kubuntu
@@ -20,13 +20,13 @@ else
 fi
 set -u
 
+ARCH="$(dpkg --print-architecture)"
 CHASSIS="$(hostnamectl chassis)"
+FOREIGN_ARCHS="$(dpkg --print-foreign-architectures)}"
 
 echo "Configuring apt/dpkg architectures."
-ARCH="$(uname -i)"
-FOREIGN_ARCHS="$(dpkg --print-foreign-architectures)}"
-if [ "${ARCH}" = "x86_64" ] && [[ "${FOREIGN_ARCHS}" != *"i386"* ]]; then
-  echo "Detected x86_64 architecture where i386 is not enabled. Enabling i386."
+if [ "${ARCH}" = "amd64" ] && [[ "${FOREIGN_ARCHS}" != *"i386"* ]]; then
+  echo "Detected amd64 architecture where i386 is not enabled. Enabling i386."
   dpkg --add-architecture i386
 fi
 
@@ -59,7 +59,7 @@ APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
 if [ "${IS_DESKTOP}" = true ]; then
   APT_PACKAGES+=(
     "clamtk" "claude-desktop" "eduvpn-client" "filelight" "filezilla" "gimp" "haruna" "inkscape"
-    "keepassxc" "ktorrent" "libenchant-2-voikko"
+    "keepassxc" "krdc" "ktorrent" "libenchant-2-voikko"
     "libreoffice" "libreoffice-help-en-us" "libreoffice-help-fi" "libreoffice-voikko"
     "mumble" "network-manager-openvpn" "remmina" "signal-desktop" "steam"
     "synaptic" "texmaker" "tikzit" "tmispell-voikko" "vlc"
@@ -138,7 +138,6 @@ if [ "${IS_DESKTOP}" = true ]; then
     cc.arduino.IDE2 \
     com.discordapp.Discord \
     com.github.tchx84.Flatseal \
-    com.github.iwalton3.jellyfin-media-player \
     com.github.xournalpp.xournalpp \
     com.mastermindzh.tidal-hifi \
     com.mattermost.Desktop \
@@ -151,6 +150,7 @@ if [ "${IS_DESKTOP}" = true ]; then
     org.blender.Blender \
     org.chromium.Chromium \
     org.ferdium.Ferdium \
+    org.jellyfin.JellyfinDesktop \
     org.telegram.desktop \
     org.zotero.Zotero \
     tv.plex.PlexDesktop
