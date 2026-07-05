@@ -20,7 +20,7 @@ NVIDIA_PACKAGES=(
 
 if [ "${1}" = "--hold" ]; then
   apt-mark hold "${NVIDIA_PACKAGES[@]}"
-  return 0
+  exit 0
 fi
 
 # Delete old signing key
