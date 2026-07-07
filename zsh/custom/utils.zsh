@@ -259,7 +259,6 @@ alias :q="exit"
 # Analyze the contents of a Docker image
 # https://github.com/wagoodman/dive
 alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock docker.io/wagoodman/dive"
-alias assh="autossh"
 
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
 alias dirsum1="tar c . | md5sum"
@@ -301,10 +300,10 @@ fi
 # RTFM = Read The Fucking Manual :D
 alias rtfm="man"
 
+alias screeni="screen -rD || screen"
+
 # Print most recently modified files in current directory. It takes no arguments
 alias vikat="find ${1} -type f | xargs stat --format '%Y :%y: %n' 2>/dev/null | sort -nr | cut -d: -f2,3,5 | head"
-
-alias screeni="screen -rD || screen"
 
 # Fun sudo aliases
 alias fuck="sudo"

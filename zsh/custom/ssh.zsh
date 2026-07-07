@@ -1,27 +1,23 @@
 #!/usr/bin/env zsh
 
-mosh() {
-  local HOST="${1:?Usage: $0 HOST [mosh args...]}"
-  shift || true
-
-  local MOSH_PATH="$(whence -p mosh)"
-  # These may also be necessary:
-  # -T -o ClearAllForwardings=yes
-  local MOSH_SSH_OPTIONS="-o ExitOnForwardFailure=no -o ForwardAgent=no"
-  # If RemoteCommand is non-empty, override it for the SSH that mosh uses.
-  if [[ -n "$(ssh-remote-command $HOST)" ]]; then
-    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS} -o RemoteCommand=none -o RequestTTY=no" -- "${HOST}" "$@"
-  else
-    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS}" -- "${HOST}" "$@"
+assh() {
+  # AutoSSH wrapper that also refreshes the CSC SSH certificate
+  local SSH_SETTINGS="$(ssh -G $1)"
+  local SSH_HOSTNAME="$(awk '$1 == "hostname" { print $2 }' <<< "$SSH_SETTINGS")"
+  if [[ $SSH_HOSTNAME == "roihu"*"csc.fi" ]]; then
+    local GIT_DIR="$(dirname "$(dirname ${ZDOTDIR})")"
+    local CSC_CERT_TOOL="${GIT_DIR}/certificate-helper-tool/csc_cert.py"
+    if [ -f "${CSC_CERT_TOOL}" ]; then
+      local SSH_USER="$(awk '$1 == "user" { print $2 }' <<< "$SSH_SETTINGS")"
+      local STRIPPED_HOSTNAME="${HOST%"-kubuntu"}"
+      local SSH_KEY_NAME="id_ed25519_${STRIPPED_HOSTNAME}"
+      local SSH_KEY_PATH="${HOME}/.ssh/${SSH_KEY_NAME}.pub"
+      if [ -f "${SSH_KEY_PATH}" ]; then
+        "${CSC_CERT_TOOL}" -u "${SSH_USER}" "${SSH_KEY_PATH}"
+      fi
+    fi
   fi
-}
-
-ssh-remote-command() {
-  local HOST="${1:?Usage: $0 HOST}"
-  shift || true
-  # Ask ssh what it would do after config expansion.
-  # ssh -G prints: "remotecommand <value>" (empty if none; may also be absent on some versions)
-  return "$(ssh -G -- "$HOST" 2>/dev/null | awk 'tolower($1)=="remotecommand" { $1=""; sub(/^ /,""); print; exit }')"
+  autossh "$@"
 }
 
 autosshfs() {
@@ -46,3 +42,29 @@ autosshfs() {
     -o ssh_command="ssh -o RemoteCommand=none" \
     "$@"
 }
+
+mosh() {
+  local HOST="${1:?Usage: $0 HOST [mosh args...]}"
+  shift || true
+
+  local MOSH_PATH="$(whence -p mosh)"
+  # These may also be necessary:
+  # -T -o ClearAllForwardings=yes
+  local MOSH_SSH_OPTIONS="-o ExitOnForwardFailure=no -o ForwardAgent=no"
+  # If RemoteCommand is non-empty, override it for the SSH that mosh uses.
+  if [[ -n "$(ssh-remote-command $HOST)" ]]; then
+    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS} -o RemoteCommand=none -o RequestTTY=no" -- "${HOST}" "$@"
+  else
+    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS}" -- "${HOST}" "$@"
+  fi
+}
+
+ssh-remote-command() {
+  local HOST="${1:?Usage: $0 HOST}"
+  shift || true
+  # Ask ssh what it would do after config expansion.
+  # ssh -G prints: "remotecommand <value>" (empty if none; may also be absent on some versions)
+  return "$(ssh -G -- "$HOST" 2>/dev/null | awk 'tolower($1)=="remotecommand" { $1=""; sub(/^ /,""); print; exit }')"
+}
+
+alias asshfs="autosshfs"
