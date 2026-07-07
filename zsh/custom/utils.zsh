@@ -256,6 +256,9 @@ update() {
 # For those familiar with Vim
 alias :q="exit"
 
+# Analyze the contents of a Docker image
+# https://github.com/wagoodman/dive
+alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock docker.io/wagoodman/dive"
 alias assh="autossh"
 
 # Calculate checksum for current directory INCLUDING filenames and permissions. It takes no arguments
