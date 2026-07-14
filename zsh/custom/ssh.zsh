@@ -10,7 +10,7 @@ assh() {
     if [ -f "${CSC_CERT_TOOL}" ]; then
       local SSH_USER="$(awk '$1 == "user" { print $2 }' <<< "$SSH_SETTINGS")"
       local STRIPPED_HOSTNAME="${HOST%"-kubuntu"}"
-      local SSH_KEY_NAME="id_ed25519_${STRIPPED_HOSTNAME}"
+      local SSH_KEY_NAME="id_rsa_tpm_${STRIPPED_HOSTNAME}"
       local SSH_KEY_PATH="${HOME}/.ssh/${SSH_KEY_NAME}.pub"
       if [ -f "${SSH_KEY_PATH}" ]; then
         "${CSC_CERT_TOOL}" -u "${SSH_USER}" "${SSH_KEY_PATH}"

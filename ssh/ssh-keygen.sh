@@ -10,6 +10,8 @@ set -eu
 # https://security.stackexchange.com/questions/143442/what-are-ssh-keygen-best-practices
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
 # https://en.wikipedia.org/wiki/Key_size
+# CSC servers require a minimum of 4096 bits for RSA keys.
+# https://docs.csc.fi/computing/connecting/ssh-keys/#adding-public-key-in-mycsc
 
 # When running, don't accidentally overwrite your existing keys!
 ssh-keygen -t rsa -b 4096
