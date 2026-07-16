@@ -37,7 +37,8 @@ echo "Constructing the list of apt packages to install."
 BASE_PACKAGES=(
   # Servers should have git-gui too for X11 forwarding.
   # Screen has been replaced with tmux.
-  "7zip" "apt-transport-https" "ca-certificates" "git" "git-gui" "htop" "mosh" "openssh-server" "rsync" "tmux" "ufw"
+  "7zip" "apt-transport-https" "ca-certificates" "git" "git-gui"
+  "htop" "mosh" "openssh-server" "rsync" "tmux" "ufw"
 )
 DEV_PACKAGES=(
   "build-essential" "cloc" "cmake" "gcc-multilib" "g++-multilib" "gfortran"
@@ -50,10 +51,16 @@ PYTHON_PACKAGES=(
 )
 UTILS_PACKAGES=(
   "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "dislocker" "fastfetch" "git-delta"
-  "gocryptfs" "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone" "ssh-tools"
-  "texlive-full" "traceroute" "wget" "wireguard" "xindy" "yt-dlp" "zsh"
+  "gocryptfs" "gpg" "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone" "ssh-tools"
+  "texlive-full" "traceroute" "wget" "wireguard" "xindy"
+  # The yt-dlp apt package may not be up to date. In this case, use pip to install the latest version.
+  "yt-dlp"
+  "zsh"
 )
-APT_PACKAGES=("${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}")
+APT_PACKAGES=(
+  "${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
+  "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}"
+)
 
 # If running in a desktop environment. All GUI programs should go here.
 if [ "${IS_DESKTOP}" = true ]; then
@@ -137,6 +144,7 @@ if [ "${IS_DESKTOP}" = true ]; then
     app.eduroam.geteduroam \
     cc.arduino.IDE2 \
     com.discordapp.Discord \
+    com.github.IsmaelMartinez.teams_for_linux \
     com.github.tchx84.Flatseal \
     com.github.xournalpp.xournalpp \
     com.mastermindzh.tidal-hifi \
