@@ -4,13 +4,15 @@
 # Based on the official installation instructions.
 # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/index.html
 
-# As of 2024-07-29, Ubuntu 24.04 is not yet officially supported.
+# It took quite a while for AMD to support Ubuntu 24.04.
 # https://github.com/ROCm/ROCm/issues/2939
 # https://askubuntu.com/questions/1517236/rocm-not-working-on-ubuntu-24-04-desktop
 
-# Note that if you have "nomodeset" enabled:
+# Note that amdgpu requires you not to have "nomodeset" enabled. Otherwise you'll get this warning:
 # "WARNING: nomodeset detected in kernel parameters, amdgpu requires KMS"
 
+# This is the last version supported for Radeon VII
+# https://github.com/ROCm/ROCm/discussions/3893
 ROCM_VERSION="6.3.3"
 ROCM_VERSION2="6.3.60303-1"
 
@@ -51,7 +53,7 @@ sudo apt dist-upgrade
 # Prerequisites
 # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisites.html
 # Clinfo is specified here to ensure that the debug info printing below works.
-sudo apt install clinfo "linux-headers-$(uname -r)" wget
+sudo apt install clinfo "linux-headers-$(uname -r)" libatomic1 libquadmath0 wget
 # sudo apt install gnupg2 libnuma-dev "linux-modules-extra-$(uname -r)"
 
 echo "Setting permissions"
