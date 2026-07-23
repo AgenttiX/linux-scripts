@@ -5,7 +5,7 @@ assh() {
   local SSH_SETTINGS="$(ssh -G $1)"
   local SSH_HOSTNAME="$(awk '$1 == "hostname" { print $2 }' <<< "$SSH_SETTINGS")"
   if [[ $SSH_HOSTNAME == "roihu"*"csc.fi" ]]; then
-    local GIT_DIR="$(dirname "$(dirname ${ZDOTDIR})")"
+    local GIT_DIR="$(dirname "$(dirname "${ZDOTDIR}")")"
     local CSC_CERT_TOOL="${GIT_DIR}/certificate-helper-tool/csc_cert.py"
     if [ -f "${CSC_CERT_TOOL}" ]; then
       local SSH_USER="$(awk '$1 == "user" { print $2 }' <<< "$SSH_SETTINGS")"
@@ -15,6 +15,9 @@ assh() {
       if [ -f "${SSH_KEY_PATH}" ]; then
         "${CSC_CERT_TOOL}" -u "${SSH_USER}" "${SSH_KEY_PATH}"
       fi
+    else
+      echo "CSC certificate helper tool was not found at \"${CSC_CERT_TOOL}\". Please ensure it's installed. You can download it here:"
+      echo "https://github.com/CSCfi/certificate-helper-tool"
     fi
   fi
   autossh "$@"
@@ -53,9 +56,9 @@ mosh() {
   local MOSH_SSH_OPTIONS="-o ExitOnForwardFailure=no -o ForwardAgent=no"
   # If RemoteCommand is non-empty, override it for the SSH that mosh uses.
   if [[ -n "$(ssh-remote-command $HOST)" ]]; then
-    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS} -o RemoteCommand=none -o RequestTTY=no" -- "${HOST}" "$@"
+    "${MOSH_PATH}" --ssh="ssh ${MOSH_SSH_OPTIONS} -o RemoteCommand=none -o RequestTTY=no" -- "${HOST}" "$@"
   else
-    "${MOSH_PATH}" --ssh="ssh ${MOSH_OPTIONS}" -- "${HOST}" "$@"
+    "${MOSH_PATH}" --ssh="ssh ${MOSH_SSH_OPTIONS}" -- "${HOST}" "$@"
   fi
 }
 
