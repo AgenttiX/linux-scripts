@@ -39,15 +39,19 @@ if command -v dropbox >/dev/null 2>&1; then
   dropbox start -i &
 fi
 
-if command -v rescuetime >/dev/null 2>&1; then
-  rescuetime &
-fi
+# RescueTime no longer supports Linux.
+#if command -v rescuetime >/dev/null 2>&1; then
+#  rescuetime &
+#fi
 
-ACTIVITYWATCH="${HOME}/Downloads/activitywatch/aw-qt"
-if [ -f "${ACTIVITYWATCH}" ]; then
-  echo "Starting ActivityWatch."
-  "${ACTIVITYWATCH}" &
-fi
+# ActivityWatch does not work on Wayland.
+# https://docs.activitywatch.net/en/latest/faq.html#why-is-the-active-window-logged-as-unknown-when-using-wayland
+# https://github.com/ActivityWatch/activitywatch/issues/92
+#ACTIVITYWATCH="${HOME}/Downloads/activitywatch/aw-qt"
+#if [ -f "${ACTIVITYWATCH}" ]; then
+#  echo "Starting ActivityWatch."
+#  "${ACTIVITYWATCH}" &
+#fi
 
 if command -v flatpak >/dev/null 2>&1; then
   FLATPAKS="$(flatpak list)"
@@ -65,7 +69,7 @@ if command -v flatpak >/dev/null 2>&1; then
   fi
   if [[ $FLATPAKS =~ "com.github.IsmaelMartinez.teams_for_linux" ]]; then
     echo "Starting Teams."
-    flatpak run com.github.IsmaelMartinez.teams_for_linux
+    flatpak run com.github.IsmaelMartinez.teams_for_linux &
   fi
 fi
 
