@@ -23,6 +23,8 @@ set -u
 ARCH="$(dpkg --print-architecture)"
 CHASSIS="$(hostnamectl chassis)"
 FOREIGN_ARCHS="$(dpkg --print-foreign-architectures)}"
+# This is a newline-separated string, not an array.
+INSTALLED="$(dpkg-query --show --showformat='${Package} ${db:Status-Status}\n' | awk '$2 == "installed" {print $1}')"
 
 echo "Configuring apt/dpkg architectures."
 if [ "${ARCH}" = "amd64" ] && [[ "${FOREIGN_ARCHS}" != *"i386"* ]]; then
@@ -57,14 +59,10 @@ UTILS_PACKAGES=(
   "yt-dlp"
   "zsh"
 )
-APT_PACKAGES=(
-  "${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
-  "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}"
-)
 
 # If running in a desktop environment. All GUI programs should go here.
 if [ "${IS_DESKTOP}" = true ]; then
-  APT_PACKAGES+=(
+  DESKTOP_PACKAGES=(
     "clamtk" "claude-desktop" "eduvpn-client" "filelight" "filezilla" "gimp" "haruna" "inkscape"
     "keepassxc" "krdc" "ktorrent" "libenchant-2-voikko"
     "libreoffice" "libreoffice-help-en-us" "libreoffice-help-fi" "libreoffice-voikko"
@@ -72,7 +70,7 @@ if [ "${IS_DESKTOP}" = true ]; then
     "synaptic" "texmaker" "tikzit" "tmispell-voikko" "vlc"
   )
   if [ "${XDG_CURRENT_DESKTOP}" = "KDE" ]; then
-    APT_PACKAGES+=("kde-config-flatpak" "remmina-plugin-kwallet")
+    DESKTOP_PACKAGES+=("kde-config-flatpak" "remmina-plugin-kwallet")
   fi
   # XDG_SESSION_TYPE is not set properly when running with sudo.
   # if [ "${XDG_SESSION_TYPE}" = "wayland" ]; then
@@ -85,7 +83,7 @@ if [ "${IS_DESKTOP}" = true ]; then
     CHROME_DEB="google-chrome-stable_current_amd64.deb"
     CHROME_DEB_PATH="${SCRIPT_DIR}/${CHROME_DEB}"
     wget "https://dl.google.com/linux/direct/${CHROME_DEB}" -O "${CHROME_DEB_PATH}"
-    APT_PACKAGES+=("${CHROME_DEB_PATH}")
+    DESKTOP_PACKAGES+=("${CHROME_DEB_PATH}")
   fi
   if dpkg -s zoom &> /dev/null; then
     echo "Zoom is already installed."
@@ -94,41 +92,67 @@ if [ "${IS_DESKTOP}" = true ]; then
     ZOOM_DEB="zoom_amd64.deb"
     ZOOM_DEB_PATH="${SCRIPT_DIR}/${ZOOM_DEB}"
     wget "https://zoom.us/client/latest/${ZOOM_DEB}" -O "${ZOOM_DEB_PATH}"
-    APT_PACKAGES+=("${ZOOM_DEB_PATH}")
+    DESKTOP_PACKAGES+=("${ZOOM_DEB_PATH}")
   fi
+  # Install debug symbols for these packages.
+  # These are installed already here before any crashes occur to ensure that if a crash occurs,
+  # the debug symbols are immediately available for debugging.
+  DEBUGGABLE_PACKAGES=(
+    "kinit" "kscreen" "kwin-wayland"
+    "libkwin6"
+    "libqt6core6t64" "libqt6dbus6" "libqt6qml6" "libqt6quick6"
+    # "libsystemd0" "libtbb12" "libxcb-randr0"
+  )
+  DEBUG_PACKAGES=()
+  for PKG in "${DEBUGGABLE_PACKAGES[@]}"; do
+    if grep -q "^${PKG}$" <<< "${INSTALLED}"; then
+      DEBUG_PACKAGES+=("${PKG}-dbgsym")
+    fi
+  done
+  DESKTOP_PACKAGES+=("${DEBUG_PACKAGES[@]}")
+else
+  DESKTOP_PACKAGES=()
 fi
 
 # If running on physical hardware
 if ! grep -q "hypervisor" /proc/cpuinfo; then
-  APT_PACKAGES+=(
+  PHYSICAL_PACKAGES=(
     "bluetooth" "boinc-client-opencl" "clinfo" "clpeak" "exfatprogs" "gdisk"
     "lm-sensors" "pocl-opencl-icd" "powertop" "s-tui" "stress" "usbtop"
   )
   if [ "${IS_DESKTOP}" = true ]; then
-    APT_PACKAGES+=(
+    PHYSICAL_PACKAGES+=(
       "boinc" "cutecom" "gnome-disk-utility" "gparted" "obs-studio" "pipewire-audio" "rpi-imager" "solaar" "virt-viewer"
       )
     # If running on a laptop
     if [ "${CHASSIS}" = "laptop" ]; then
-      APT_PACKAGES+=("gnome-network-displays" "touchegg")
+      PHYSICAL_PACKAGES+=("gnome-network-displays" "touchegg")
     fi
   fi
   # If running on a laptop
   if [ "${CHASSIS}" = "laptop" ]; then
-    APT_PACKAGES+=("tlp")
+    PHYSICAL_PACKAGES+=("tlp")
   fi
+else
+  PHYSICAL_PACKAGES=()
 fi
 
+DRIVER_PACKAGES=()
 # If the system has an Intel CPU
 if grep -q "Intel" /proc/cpuinfo; then
-  APT_PACKAGES+=("intel-gpu-tools" "intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
+  DRIVER_PACKAGES+=("intel-gpu-tools" "intel-media-va-driver" "intel-microcode" "intel-opencl-icd")
 fi
 
 # If the system has an Nvidia GPU
 if command -v nvidia-smi &> /dev/null; then
-  APT_PACKAGES+=("boinc-client-nvidia-cuda")
+  DRIVER_PACKAGES+=("boinc-client-nvidia-cuda")
 fi
 
+APT_PACKAGES=(
+  "${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
+  "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}"
+  "${DESKTOP_PACKAGES[@]}" "${PHYSICAL_PACKAGES[@]}" "${DRIVER_PACKAGES[@]}"
+)
 echo "Installing apt packages."
 apt install "${APT_PACKAGES[@]}"
 
