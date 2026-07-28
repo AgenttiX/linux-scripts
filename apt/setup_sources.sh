@@ -36,14 +36,17 @@ Signed-By: /usr/share/keyrings/ubuntu-dbgsym-keyring.gpg" > /etc/apt/sources.lis
 # -----
 # Custom repos in alphabetical order
 # -----
-# Claude
-download_key "https://downloads.claude.ai/claude-desktop/key.asc" /usr/share/keyrings/claude-desktop-archive-keyring.gpg
-echo "Types: deb
-URIs: https://downloads.claude.ai/claude-desktop/apt/stable
-Suites: stable
-Components: main
-Signed-By: /usr/share/keyrings/claude-desktop-archive-keyring.gpg
-Architectures: ${ARCH}" > /etc/apt/sources.list.d/claude-desktop.sources
+# Claude Desktop
+# This package installs its own claude-desktop.list file, which would conflict with this .sources file.
+# download_key "https://downloads.claude.ai/claude-desktop/key.asc" /usr/share/keyrings/claude-desktop-archive-keyring.gpg
+# echo "Types: deb
+# URIs: https://downloads.claude.ai/claude-desktop/apt/stable
+# Suites: stable
+# Components: main
+# Signed-By: /usr/share/keyrings/claude-desktop-archive-keyring.gpg
+# Architectures: ${ARCH}" > /etc/apt/sources.list.d/claude-desktop.sources
+curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc https://downloads.claude.ai/claude-desktop/key.asc
+echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main" > /etc/apt/sources.list.d/claude-desktop.list
 
 # Docker
 # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
