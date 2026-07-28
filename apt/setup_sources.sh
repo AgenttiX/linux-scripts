@@ -36,14 +36,13 @@ Signed-By: /usr/share/keyrings/ubuntu-dbgsym-keyring.gpg" > /etc/apt/sources.lis
 # -----
 # Custom repos in alphabetical order
 # -----
-
 # Claude
-download_key "https://pkg.claude-desktop-debian.dev/KEY.gpg" /usr/share/keyrings/claude-desktop.gpg
+download_key "https://downloads.claude.ai/claude-desktop/key.asc" /usr/share/keyrings/claude-desktop-archive-keyring.gpg
 echo "Types: deb
-URIs: https://pkg.claude-desktop-debian.dev
+URIs: https://downloads.claude.ai/claude-desktop/apt/stable
 Suites: stable
 Components: main
-Signed-By: /usr/share/keyrings/claude-desktop.gpg
+Signed-By: /usr/share/keyrings/claude-desktop-archive-keyring.gpg
 Architectures: ${ARCH}" > /etc/apt/sources.list.d/claude-desktop.sources
 
 # Docker
