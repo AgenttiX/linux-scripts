@@ -438,6 +438,38 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+# Kilo Code
+if [ -d "${HOME}/.kilo" ]; then
+    export PATH="${PATH}:${HOME}/.kilo/bin"
+fi
+
+###-begin-kilo-completions-###
+#
+# yargs command completion script
+#
+# Installation: kilo completion >> ~/.zshrc
+#    or kilo completion >> ~/.zprofile on OSX.
+#
+_kilo_yargs_completions()
+{
+  local reply
+  local si=$IFS
+  IFS=$'
+' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" kilo --get-yargs-completions "${words[@]}"))
+  IFS=$si
+  if [[ ${#reply} -gt 0 ]]; then
+    _describe 'values' reply
+  else
+    _default
+  fi
+}
+if [[ "'${zsh_eval_context[-1]}" == "loadautofunc" ]]; then
+  _kilo_yargs_completions "$@"
+else
+  compdef _kilo_yargs_completions kilo
+fi
+###-end-kilo-completions-###
+
 # LM Studio
 if [ -d "${HOME}/.lmstudio" ]; then
     export PATH="${PATH}:${HOME}/.lmstudio/bin"
