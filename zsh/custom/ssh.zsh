@@ -5,12 +5,17 @@ assh() {
   local SSH_SETTINGS="$(ssh -G $1)"
   local SSH_HOSTNAME="$(awk '$1 == "hostname" { print $2 }' <<< "$SSH_SETTINGS")"
   if [[ $SSH_HOSTNAME == "roihu"*"csc.fi" ]]; then
+    # Edit these according to the location of the CSC certificate helper tool.
     local GIT_DIR="$(dirname "$(dirname "${ZDOTDIR}")")"
     local CSC_CERT_TOOL="${GIT_DIR}/certificate-helper-tool/csc_cert.py"
+
     if [ -f "${CSC_CERT_TOOL}" ]; then
       local SSH_USER="$(awk '$1 == "user" { print $2 }' <<< "$SSH_SETTINGS")"
+
+      # Edit these according to the naming convention of your SSH keys.
       local STRIPPED_HOSTNAME="${HOST%"-kubuntu"}"
       local SSH_KEY_NAME="id_rsa_tpm_${STRIPPED_HOSTNAME}"
+
       local SSH_KEY_PATH="${HOME}/.ssh/${SSH_KEY_NAME}.pub"
       if [ -f "${SSH_KEY_PATH}" ]; then
         "${CSC_CERT_TOOL}" -u "${SSH_USER}" "${SSH_KEY_PATH}"
