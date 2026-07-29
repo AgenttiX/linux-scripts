@@ -12,6 +12,8 @@
 .arduino*
 .cache
 .cargo
+.config/Claude/Cache
+.config/Claude/vm_bundles
 .config/JetBrains
 .config/**/Cache
 .config/**/CachedData
@@ -27,6 +29,7 @@
 .gems
 .googleearth/Cache
 .java/.userPrefs/jetbrains
+.lmstudio/extensions
 .lmstudio/models
 .local/share/fish/generated_completions/
 .local/share/klipper
@@ -46,9 +49,19 @@
 .nvm
 .rustup
 .steam/debian-installation/appcache
+.steam/debian-installation/bin
 .steam/debian-installation/compatibilitytools.d
 .steam/debian-installation/config/htmlcache
+.steam/debian-installation/controller_base
+.steam/debian-installation/depotcache
+.steam/debian-installation/friends
+.steam/debian-installation/graphics
+.steam/debian-installation/legacycompat
+.steam/debian-installation/package
 .steam/debian-installation/steamapps
+.steam/debian-installation/steamrt32
+.steam/debian-installation/steamrt64
+.steam/debian-installation/steamui
 .steam/debian-installation/ubuntu12_32
 .steam/debian-installation/ubuntu12_64
 .steam/steam/steamapps
@@ -73,6 +86,7 @@
 .zsh_history
 Downloads/activitywatch
 Downloads/MakeMKV
+Downloads/Mullvad
 Downloads/PS2
 Downloads/PS3
 Downloads/Telegram Desktop
