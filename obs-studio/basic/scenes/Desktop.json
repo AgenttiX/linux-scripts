@@ -1,6 +1,7 @@
 {
+    "name": "Desktop",
     "DesktopAudioDevice1": {
-        "prev_ver": 520093699,
+        "prev_ver": 536936448,
         "name": "Desktop Audio",
         "uuid": "a0fa1e25-b611-48c2-bb81-aec23933db04",
         "id": "pulse_output_capture",
@@ -31,7 +32,7 @@
         "private_settings": {}
     },
     "AuxAudioDevice1": {
-        "prev_ver": 520093699,
+        "prev_ver": 536936448,
         "name": "Mic/Aux",
         "uuid": "d4ae58ef-de73-4c8e-8de3-67c37ce0ff12",
         "id": "pulse_input_capture",
@@ -61,26 +62,119 @@
         "monitoring_type": 0,
         "private_settings": {}
     },
-    "current_scene": "Webcam",
-    "current_program_scene": "Webcam",
-    "scene_order": [
-        {
-            "name": "Left monitor"
-        },
-        {
-            "name": "Primary monitor"
-        },
-        {
-            "name": "Right monitor"
-        },
-        {
-            "name": "Webcam"
-        }
-    ],
-    "name": "Desktop",
     "sources": [
         {
-            "prev_ver": 520093699,
+            "prev_ver": 536936448,
+            "name": "Left monitor capture",
+            "uuid": "2739e831-5887-41bb-ae22-a0dd1ec93fe3",
+            "id": "pipewire-screen-capture-source",
+            "versioned_id": "pipewire-screen-capture-source",
+            "settings": {
+                "RestoreToken": "7f4373b2-3110-46ed-b44b-08e628e8a6ce"
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 536936448,
+            "name": "Primary monitor capture",
+            "uuid": "439c7709-2484-4f30-bced-2932bc4cfe29",
+            "id": "pipewire-screen-capture-source",
+            "versioned_id": "pipewire-screen-capture-source",
+            "settings": {
+                "RestoreToken": "c30e31b5-ddc2-44e8-b49b-c4b6f31748bb"
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 536936448,
+            "name": "Right monitor capture",
+            "uuid": "f02952c8-8ae6-4d86-af89-0ed6160c2fb7",
+            "id": "pipewire-screen-capture-source",
+            "versioned_id": "pipewire-screen-capture-source",
+            "settings": {
+                "RestoreToken": "5b150b05-61a4-4d99-8f66-f8e2b62f7aca"
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 536936448,
+            "name": "Webcam video",
+            "uuid": "19b975bf-4a2c-4f51-874c-e894d3c955d2",
+            "id": "v4l2_input",
+            "versioned_id": "v4l2_input",
+            "settings": {
+                "device_id": "/dev/v4l/by-id/usb-046d_Logitech_BRIO_39DB28A6-video-index0",
+                "Power Line Frequency": 1,
+                "input": 0,
+                "pixelformat": 1196444237,
+                "resolution": 8246337209400,
+                "framerate": 60,
+                "color_range": 2
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 536936448,
             "name": "Webcam",
             "uuid": "5f30cc73-417c-42e0-8a9f-20f99dcfb3e3",
             "id": "scene",
@@ -165,10 +259,11 @@
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
             "monitoring_type": 0,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
             "private_settings": {}
         },
         {
-            "prev_ver": 520093699,
+            "prev_ver": 536936448,
             "name": "Right monitor",
             "uuid": "762be98f-0d4e-411a-8d1b-84f662b7e6b5",
             "id": "scene",
@@ -253,10 +348,11 @@
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
             "monitoring_type": 0,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
             "private_settings": {}
         },
         {
-            "prev_ver": 520093699,
+            "prev_ver": 536936448,
             "name": "Primary monitor",
             "uuid": "41f17b27-154b-4505-9ea2-761c8d67ce46",
             "id": "scene",
@@ -341,10 +437,11 @@
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
             "monitoring_type": 0,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
             "private_settings": {}
         },
         {
-            "prev_ver": 520093699,
+            "prev_ver": 536936448,
             "name": "Left monitor",
             "uuid": "531bbf72-0c75-4a7c-90ef-c5b70a3c6960",
             "id": "scene",
@@ -429,120 +526,31 @@
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
             "monitoring_type": 0,
-            "private_settings": {}
-        },
-        {
-            "prev_ver": 520093699,
-            "name": "Left monitor capture",
-            "uuid": "2739e831-5887-41bb-ae22-a0dd1ec93fe3",
-            "id": "pipewire-screen-capture-source",
-            "versioned_id": "pipewire-screen-capture-source",
-            "settings": {
-                "RestoreToken": "7f4373b2-3110-46ed-b44b-08e628e8a6ce"
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {},
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {}
-        },
-        {
-            "prev_ver": 520093699,
-            "name": "Primary monitor capture",
-            "uuid": "439c7709-2484-4f30-bced-2932bc4cfe29",
-            "id": "pipewire-screen-capture-source",
-            "versioned_id": "pipewire-screen-capture-source",
-            "settings": {
-                "RestoreToken": "c30e31b5-ddc2-44e8-b49b-c4b6f31748bb"
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {},
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {}
-        },
-        {
-            "prev_ver": 520093699,
-            "name": "Right monitor capture",
-            "uuid": "f02952c8-8ae6-4d86-af89-0ed6160c2fb7",
-            "id": "pipewire-screen-capture-source",
-            "versioned_id": "pipewire-screen-capture-source",
-            "settings": {
-                "RestoreToken": "5b150b05-61a4-4d99-8f66-f8e2b62f7aca"
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {},
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {}
-        },
-        {
-            "prev_ver": 520093699,
-            "name": "Webcam video",
-            "uuid": "19b975bf-4a2c-4f51-874c-e894d3c955d2",
-            "id": "v4l2_input",
-            "versioned_id": "v4l2_input",
-            "settings": {
-                "device_id": "/dev/v4l/by-id/usb-046d_Logitech_BRIO_39DB28A6-video-index0",
-                "Power Line Frequency": 1,
-                "input": 0,
-                "pixelformat": 1196444237,
-                "resolution": 8246337209400,
-                "framerate": 60,
-                "color_range": 2
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {},
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
             "private_settings": {}
         }
     ],
     "groups": [],
+    "scene_order": [
+        {
+            "name": "Left monitor"
+        },
+        {
+            "name": "Primary monitor"
+        },
+        {
+            "name": "Right monitor"
+        },
+        {
+            "name": "Webcam"
+        }
+    ],
+    "current_scene": "Webcam",
+    "current_program_scene": "Webcam",
+    "canvases": [],
+    "current_transition": "Fade",
+    "transition_duration": 300,
+    "transitions": [],
     "quick_transitions": [
         {
             "name": "Cut",
@@ -566,18 +574,12 @@
             "fade_to_black": true
         }
     ],
-    "transitions": [],
     "saved_projectors": [],
-    "current_transition": "Fade",
-    "transition_duration": 300,
     "preview_locked": false,
     "scaling_enabled": false,
-    "scaling_level": 0,
+    "scaling_level": -10,
     "scaling_off_x": 0.0,
     "scaling_off_y": 0.0,
-    "virtual-camera": {
-        "type2": 3
-    },
     "modules": {
         "scripts-tool": [],
         "output-timer": {
@@ -603,9 +605,9 @@
         "x": 1920,
         "y": 1080
     },
-    "version": 2,
     "migration_resolution": {
         "x": 1920,
         "y": 1080
-    }
+    },
+    "version": 2
 }
