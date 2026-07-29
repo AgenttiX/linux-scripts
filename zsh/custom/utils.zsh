@@ -36,7 +36,7 @@ compress_zip() {
     return 1
   fi
   # https://stackoverflow.com/a/965072/
-  local FILENAME=$(basename -- "$1")
+  local FILENAME="$(basename -- "$1")"
   local NAME="${FILENAME%.*}"
   # https://superuser.com/a/742034/
   7z a -mm=Deflate -mfb=258 -mpass=15 "${NAME}.zip" "${FILENAME}"
@@ -70,12 +70,13 @@ fix-kde-hard() {
 pdfsearch() {
     # https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files
     if [ $# -ne 2 ]; then
-        echo "pdfsearch: Search content from multiple pdfs recursively. For example, search some word from directory of books."
+        echo "pdfsearch: Search content from multiple pdfs recursively. For example, search some word from a directory of books."
         echo "Usage:    pdfsearch <path> <text snippet>"
         echo "Example:  pdfsearch . 'citation'"
-    else
-        find "$1" -name '*.pdf' -exec sh -c "pdftotext \"{}\" - | grep -nH -B 1 -A 1 --label=\"{}\" --color \"$2\"" \;
+        return 1
     fi
+    echo "Searching $1 for \"$2\""
+    find "$1/" -name '*.pdf' -exec sh -c "pdftotext \"{}\" - 2> /dev/null | grep -nH -B 1 -A 1 --label=\"{}\" --color \"$2\"" \;
 }
 
 replacerec() {
@@ -85,12 +86,12 @@ replacerec() {
         echo "replacerec: Find and replace text recursively. Unlike 'sed' it does not try to match special symbols with regex."
         echo "Usage:    replacerec <old-text> <new-text> <filter>"
         echo "Example:  replacerec '(^_^)' ':D' '*.txt'"
-    else
-        export FINDTHIS="$1"
-        export REPLACE="$2"
-        find . \( -type d -name .git -prune \) -o -type f -name "$3" -exec echo {} \;  -exec \
-            ruby -p -i -e "gsub(ENV['FINDTHIS'], ENV['REPLACE'])" {} \;
+        return 1
     fi
+    export FINDTHIS="$1"
+    export REPLACE="$2"
+    find . \( -type d -name .git -prune \) -o -type f -name "$3" -exec echo {} \;  -exec \
+        ruby -p -i -e "gsub(ENV['FINDTHIS'], ENV['REPLACE'])" {} \;
 }
 
 # function nvidia-smi {
@@ -251,6 +252,16 @@ update() {
   else
       # echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
   fi
+}
+
+zotsearch() {
+  if [ $# -ne 1 ]; then
+    echo "zotsearch: Search content from Zotero PDFs."
+    echo "Usage:    zotsearch <text snippet>"
+    echo "Example:  zotsearch 'citation'"
+    return 1
+  fi
+  pdfsearch "${HOME}/Zotero/storage" "$1"
 }
 
 # For those familiar with Vim
