@@ -48,6 +48,9 @@ DEV_PACKAGES=(
 DOCKER_PACKAGES=(
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
 )
+FUN_PACKAGES=(
+  "cmatrix" "cowsay" "fortune-mod"
+)
 PYTHON_PACKAGES=(
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
 )
@@ -149,7 +152,7 @@ if command -v nvidia-smi &> /dev/null; then
 fi
 
 APT_PACKAGES=(
-  "${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}"
+  "${BASE_PACKAGES[@]}" "${DEV_PACKAGES[@]}" "${DOCKER_PACKAGES[@]}" "${FUN_PACKAGES[@]}"
   "${GUI_PACKAGES[@]}" "${PYTHON_PACKAGES[@]}" "${UTILS_PACKAGES[@]}"
   "${DESKTOP_PACKAGES[@]}" "${PHYSICAL_PACKAGES[@]}" "${DRIVER_PACKAGES[@]}"
 )
