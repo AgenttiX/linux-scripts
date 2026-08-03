@@ -227,6 +227,10 @@ update() {
     echo "Updating LM Studio runtimes"
     lms runtime update --all
   fi
+  if command -v rustup; then
+    echo "Updating Rust"
+    rustup update
+  fi
 
   # zsh completions using zsh-manpage-completion-generator
   # Based on:
