@@ -172,6 +172,14 @@ BLEACHBIT_THUNDERBIRD: tp.List[str] = [
 ]
 
 
+def apptainer() -> None:
+    if shutil.which("apptainer") is None:
+        print_info("Apptainer not found")
+        return
+    print_info("Cleaning Apptainer cache")
+    run(["apptainer", "cache", "clean"])
+
+
 def apt() -> None:
     """This does not print output properly while the process is being run,
     which makes it impossible to answer prompts.
@@ -413,9 +421,15 @@ def main():
     print()
     security()
     print()
+    apptainer()
+    print()
     docker(args.deep or args.docker)
     print()
-    bleachbit(deep=args.deep, firefox=(args.deep or args.firefox), thunderbird=(args.deep or args.thunderbird))
+    bleachbit(
+        deep=args.deep,
+        firefox=args.deep or args.firefox,
+        thunderbird=args.deep or args.thunderbird
+    )
     print()
     remove_custom_files()
     print()
