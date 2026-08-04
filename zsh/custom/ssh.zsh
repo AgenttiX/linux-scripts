@@ -2,6 +2,9 @@
 
 assh() {
   # AutoSSH wrapper that also refreshes the CSC SSH certificate
+  # -----
+  # If you get mysterious errors when using the CSC certificate helper tool,
+  # please try downloading the key once manually from MyCSC first.
   local SSH_SETTINGS="$(ssh -G $1)"
   local SSH_HOSTNAME="$(awk '$1 == "hostname" { print $2 }' <<< "$SSH_SETTINGS")"
   if [[ $SSH_HOSTNAME == "roihu"*"csc.fi" ]]; then
@@ -25,6 +28,8 @@ assh() {
       echo "https://github.com/CSCfi/certificate-helper-tool"
     fi
   fi
+  # If you don't have autossh installed, please install it with e.g. "apt install autossh",
+  # or replace "autossh" on the line below with "ssh".
   autossh "$@"
 }
 
