@@ -3,8 +3,13 @@
 assh() {
   # AutoSSH wrapper that also refreshes the CSC SSH certificate
   # -----
+  # Depending on the type of your SSH key,
+  # either the CSC certificate helper tool will activate the certificate automatically,
+  # or you may have to configure the "CertificateFile" option in your SSH config.
+  # -----
   # If you get mysterious errors when using the CSC certificate helper tool,
   # please try downloading the key once manually from MyCSC first.
+
   local SSH_SETTINGS="$(ssh -G $1)"
   local SSH_HOSTNAME="$(awk '$1 == "hostname" { print $2 }' <<< "$SSH_SETTINGS")"
   if [[ $SSH_HOSTNAME == "roihu"*"csc.fi" ]]; then
