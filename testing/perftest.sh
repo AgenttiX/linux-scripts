@@ -34,18 +34,9 @@ if ! command -v phoronix-test-suite &> /dev/null; then
 fi
 phoronix-test-suite openbenchmarking-refresh
 
+# -----
 # Tests
-
-if command -v speedtest &> /dev/null; then
-  speedtest |& tee "${DIR}/speedtest.txt"
-else
-  echo "Speedtest was not found."
-fi
-
-if command -v gocryptfs &> /dev/null; then
-  echo "Running gocryptfs benchmark."
-  gocryptfs -speed |& tee "${DIR}/gocryptfs.txt"
-fi
+# -----
 
 # These are managed by PTS
 # 7z b -mmt1 |& tee "${DIR}/7z_single_thread.txt"
@@ -58,6 +49,46 @@ fi
 if command -v cryptsetup &> /dev/null; then
   echo "Running cryptsetup benchmark."
   cryptsetup benchmark |& tee "${DIR}/cryptsetup.txt"
+fi
+
+if command -v gocryptfs &> /dev/null; then
+  echo "Running gocryptfs benchmark."
+  gocryptfs -speed |& tee "${DIR}/gocryptfs.txt"
+fi
+
+if command -v mbw &> /dev/null; then
+  echo "Running mbw RAM speed benchmark."
+  mbw 2048 |& tee "${DIR}/mbw.txt"
+fi
+
+if command -v speedtest &> /dev/null; then
+  speedtest |& tee "${DIR}/speedtest.txt"
+else
+  echo "Speedtest was not found."
+fi
+
+if command -v sysbench &> /dev/null; then
+  # https://unix.stackexchange.com/a/597660
+  sysbench memory \
+    --threads="$(nproc --all)" \
+    --memory-access-mode=rnd \
+    --memory-block-size=8K \
+    --memory-hugetlb=off \
+    --memory-oper=read \
+    --memory-scope=global \
+    --memory-total-size=500G \
+    run |& tee "${DIR}/sysbench-memory.txt"
+  sysbench memory \
+    --threads="$(nproc --all)" \
+    --memory-access-mode=rnd \
+    --memory-block-size=8 \
+    --memory-hugetlb=off \
+    --memory-oper=read \
+    --memory-scope=local \
+    --memory-total-size=100G \
+    run |& tee "${DIR}/sysbench-memory-worst.txt"
+else
+  echo "Sysbench was not found."
 fi
 
 # TODO: Passmark
