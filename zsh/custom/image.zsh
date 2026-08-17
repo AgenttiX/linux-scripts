@@ -1,5 +1,14 @@
 #!/usr/bin/env zsh
 
+convert2png() {
+  # inkscape --without-gui --file="${1}" --export-type=png --export-filename="${1%????}.png"
+  pdftoppm -png "${1}" "${1%????}"
+}
+
+convert2svg() {
+  inkscape --without-gui --file="${1}" --export-plain-svg --export-filename="${1%????}.svg"
+}
+
 resize_image() {
   if [ $# -ne 2 ]; then
       echo "Usage: resize_image input_image output_image"
