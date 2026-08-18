@@ -186,14 +186,14 @@ update() {
 
   # Git repositories
   local PWD_BEFORE_UPDATE="${PWD}"
+  if [ -d "${HOME}/Git/agx-ai" ]; then
+    echo "Updating agx-ai"
+    cd "${HOME}/Git/agx-ai"
+    git pull
+  fi
   if [ -d "${HOME}/Git/linux-scripts" ]; then
     echo "Updating linux-scripts"
     cd "${HOME}/Git/linux-scripts"
-    git pull
-  fi
-  if [ -d "${HOME}/Git/windows-scripts" ]; then
-    echo "Updating windows-scripts"
-    cd "${HOME}/Git/windows-scripts"
     git pull
   fi
   if [ -d "${HOME}/Git/private-scripts" ]; then
@@ -204,6 +204,11 @@ update() {
   if [ -d "${HOME}/Git/vxl-scripts" ]; then
     echo "Updating vxl-scripts"
     cd "${HOME}/Git/vxl-scripts"
+    git pull
+  fi
+  if [ -d "${HOME}/Git/windows-scripts" ]; then
+    echo "Updating windows-scripts"
+    cd "${HOME}/Git/windows-scripts"
     git pull
   fi
   cd "${PWD_BEFORE_UPDATE}"
