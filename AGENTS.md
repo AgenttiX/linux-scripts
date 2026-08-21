@@ -10,3 +10,4 @@ The scripts are grouped in folders based on the software or topic they are relat
 
 ## General instructions
 - Prefer solutions that are highly secure
+- For scripts that can be feasibly tested, create unit tests in `./tests`.
