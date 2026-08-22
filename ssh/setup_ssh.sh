@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 . "${SCRIPT_DIR}/setup_common.sh"
@@ -55,6 +55,21 @@ fi
 
 echo "Creating the controlmasters directory."
 mkdir -p "${SSH_DIR}/controlmasters"
+
+# echo "Configuring SSH_ASKPASS for systemctl services such as ssh-agent."
+# mkdir -p "${HOME}/.config/environment.d"
+# ln -s "${SCRIPT_DIR}/10-ssh-askpass.conf" "${HOME}/.config/environment.d/10-ssh-askpass.conf"
+
+if systemctl --user list-unit-files "gcr-ssh-agent.service" &>/dev/null; then
+  echo "Disabling gcr SSH agent, as it does not support FIDO2 keys with \"-O verify-required\"."
+  # This issue would lead to errors such as:
+  # sign_and_send_pubkey: signing failed for ED25519-SK "/home/USER/.ssh/id_ed25519_sk" from agent: agent refused operation
+  # USER@HOST: Permission denied (publickey).
+  # https://wiki.archlinux.org/title/SSH_keys#agent_refused_operation
+  # https://bugzilla.mindrot.org/show_bug.cgi?id=3572
+  systemctl --user disable --now gcr-ssh-agent.service gcr-ssh-agent.socket
+  systemctl --user mask gcr-ssh-agent.service gcr-ssh-agent.socket
+fi
 
 # echo "Fixing locales for Mosh."
 # https://github.com/mobile-shell/mosh/issues/102#issuecomment-5111502
