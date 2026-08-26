@@ -13,7 +13,7 @@ apt-rdepends-installed() {
 
 cld() {
   # Claude remote control with automatic virtualenv activation
-  if [ -f "./venv/bin/activate" ];
+  if [ -f "./venv/bin/activate" ]; then
     . ./venv/bin/activate
   fi
   claude rc
