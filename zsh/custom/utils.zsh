@@ -11,6 +11,17 @@ apt-rdepends-installed() {
 	apt-cache rdepends "$@" | grep "  " | xargs apt list --installed
 }
 
+per-user-usage() {
+  # Print the total CPU and RAM usage of the processes of each user.
+  # Useful on shared servers with multiple users running processes over SSH.
+  {
+    printf "%-20s %8s %8s\n" "USER" "%CPU" "%MEM"
+    ps -eo user:20,%cpu,%mem --no-headers \
+      | awk '{ cpu[$1] += $2; mem[$1] += $3 } END { for (user in cpu) printf "%-20s %8.1f %8.1f\n", user, cpu[user], mem[user] }' \
+      | sort -k2 -rn
+  }
+}
+
 cld() {
   # Claude remote control with automatic virtualenv activation
   if [ -f "./venv/bin/activate" ]; then
