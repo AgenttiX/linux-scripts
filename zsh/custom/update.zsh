@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 update() {
-  if (command -v apt &> /dev/null); then
+  if command -v apt &> /dev/null; then
     echo "Updating apt packages"
     sudo apt update
     # Remove unused packages before upgrading to prevent unnecessary upgrades
@@ -9,16 +9,19 @@ update() {
     sudo apt dist-upgrade
     sudo apt autoremove
   fi
-  if (command -v snap &> /dev/null); then
+  if command -v snap &> /dev/null; then
     echo "Updating Snap packages"
     sudo snap refresh
   fi
-  if (command -v flatpak &> /dev/null); then
+  if command -v flatpak &> /dev/null; then
     echo "Updating Flatpak packages"
     # Remove unused packages before updating to prevent unnecessary updates
     flatpak uninstall --unused
     flatpak update
     flatpak uninstall --unused
+  fi
+  if command -v asdf &> /dev/null; then
+    asdf plugin update --all
   fi
 
   # Git repositories

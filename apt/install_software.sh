@@ -55,8 +55,16 @@ PYTHON_PACKAGES=(
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
 )
 UTILS_PACKAGES=(
-  "autojump" "autossh" "bleachbit" "cifs-utils" "curl" "dislocker" "fastfetch" "git-delta"
-  "gocryptfs" "gpg" "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone" "ssh-tools"
+  "autojump" "autossh" "bleachbit" "cifs-utils"
+  "curl"  # Required by asdf-nodejs
+  "dirmngr"  # Required by asdf-nodejs
+  "dislocker"
+  "fastfetch"
+  "gawk"  # Required by asdf-nodejs
+  "git-delta"
+  "gocryptfs"
+  "gpg"  # Required by asdf-nodejs
+  "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone" "ssh-tools"
   "texlive-full" "traceroute" "wget" "wireguard" "xindy"
   # The yt-dlp apt package may not be up to date. In this case, use pip to install the latest version.
   "yt-dlp"
@@ -158,6 +166,10 @@ APT_PACKAGES=(
 )
 echo "Installing apt packages."
 apt install "${APT_PACKAGES[@]}"
+
+if command -v asdf &>/dev/null; then
+  asdf plugin add actionlint
+fi
 
 if [ "${IS_DESKTOP}" = true ]; then
   echo "Installing Snap packages."

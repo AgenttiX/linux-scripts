@@ -247,6 +247,17 @@ fi
 echo "Running the reporting commands that do not require sudo access."
 echo "You should no longer be asked for your sudo password."
 
+# Non-root info with custom handling
+if command -v asdf &> /dev/null; then
+  echo "Reporting asdf info and plugins"
+  {
+    asdf info
+    asdf list
+  } &> "${DIR}/asdf.txt"
+else
+  echo "The command \"asdf\" was not found."
+fi
+
 # Non-root info with cat
 cat "/proc/acpi/wakeup" > "${DIR}/wakeup.txt"
 cat "/proc/cpuinfo" > "${DIR}/cpuinfo.txt"

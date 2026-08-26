@@ -355,6 +355,9 @@ bindkey -M isearch " " magic-space
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# asdf
+export PATH="${ASDF_DATA_DIR:-${HOME}/.asdf}/shims:${PATH}"
+
 # Print stderr with red. For more see
 # https://github.com/sickill/stderred
 STDERRED_PATH="${GIT_DIR}/stderred/lib64/libstderred.so"
