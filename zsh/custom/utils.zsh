@@ -11,6 +11,14 @@ apt-rdepends-installed() {
 	apt-cache rdepends "$@" | grep "  " | xargs apt list --installed
 }
 
+cld() {
+  # Claude remote control with automatic virtualenv activation
+  if [ -f "./venv/bin/activate" ];
+    . ./venv/bin/activate
+  fi
+  claude rc
+}
+
 clear-history() {
   "${HOME}/Git/linux-scripts/security/clear_history.sh"
 }
