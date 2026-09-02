@@ -68,10 +68,11 @@ update() {
     echo "Upgrading Kilo Code"
     kilo upgrade
   fi
-  if command -v lms; then
-    echo "Updating LM Studio runtimes"
-    lms runtime update --all
-  fi
+  # LM Studio does not automatically delete old runtime versions, so this is not enabled.
+  # if command -v lms; then
+  #   echo "Updating LM Studio runtimes"
+  #   lms runtime update --all
+  # fi
   if command -v rustup; then
     echo "Updating Rust"
     rustup update
