@@ -118,6 +118,11 @@ autosshfs() {
   #   "${SSHFS_PATH}" "${REMOTE}" "$@"
   # fi
 
+  # The default `-o idmap=none` may result in the git warning `fatal: detected dubious ownership`.
+  # This can be fixed with `-o idmap=user`.
+  # However, it's probably better in the long term to use
+  # `git config --global --add safe.directory PATH_TO_REPOSITORY` instead to fix this.
+
   # -o compression=no \
   "${SSHFS_PATH}" \
     -o dir_cache=yes \
