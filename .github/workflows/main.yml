@@ -23,7 +23,9 @@ jobs:
           pip-${{ runner.os }}-
           pip-
     - name: Install apt requirements
-      run: sudo apt-get install gcc libssl-dev python3-dev swig
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc libssl-dev python3-dev swig
     - name: Install requirements
       run: |
         pip --cache-dir=.pip install --upgrade pip
@@ -55,14 +57,15 @@ jobs:
             pip-${{ runner.os }}-
             pip-
       - name: Install apt requirements
-        run: sudo apt-get install gcc libssl-dev python3-dev swig
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc libssl-dev python3-dev swig
       - name: Install requirements
         run: |
           pip --cache-dir=.pip install --upgrade pip
-          pip --cache-dir=.pip install pylint
-          pip --cache-dir=.pip install -r requirements.txt
+          pip --cache-dir=.pip install pylint -r requirements.txt
       - name: Run Pylint
-        run: pylint startup tests f3.py kernel_remover.py maintenance.py modem.py misc_misc_utils.py 2>&1 | tee pylint.txt
+        run: pylint startup tests ./*.py 2>&1 | tee pylint.txt
         working-directory: ${{ github.workspace }}
       - name: Upload results
         uses: actions/upload-artifact@v7
@@ -72,7 +75,8 @@ jobs:
             ${{ github.workspace }}/pylint.txt
           if-no-files-found: error
   sast:
-    runs-on: ubuntu-slim
+    # The SAST scanner action is based on Docker, and therefore does not work on ubuntu-slim.
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v7
