@@ -56,23 +56,18 @@ jobs:
           restore-keys: |
             pip-${{ runner.os }}-
             pip-
-      - name: Install apt requirements
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc libssl-dev python3-dev swig
       - name: Install requirements
         run: |
           pip --cache-dir=.pip install --upgrade pip
-          pip --cache-dir=.pip install pylint -r requirements.txt
-      - name: Run Pylint
-        run: pylint startup tests ./*.py 2>&1 | tee pylint.txt
-        working-directory: ${{ github.workspace }}
+          pip --cache-dir=.pip install -r requirements.txt
+      - name: Lint with ruff
+        uses: astral-sh/ruff-action@v4.1.0
+        args: check --exit-zero
       - name: Upload results
         uses: actions/upload-artifact@v7
         with:
           name: Lint
-          path: |
-            ${{ github.workspace }}/pylint.txt
+          path: ruff.txt
           if-no-files-found: error
   sast:
     # The SAST scanner action is based on Docker, and therefore does not work on ubuntu-slim.
@@ -114,27 +109,21 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y bleachbit chkrootkit fwupd rkhunter modemmanager
         pip --cache-dir=.pip install --upgrade pip
-        pip --cache-dir=.pip install coverage
         pip --cache-dir=.pip install -r requirements.txt
-    - name: Run tests with coverage
-      run: coverage run
-      working-directory: ${{ github.workspace }}
-    - name: Create coverage reports
+    - name: Run tests
       run: |
-        coverage report | tee coverage.txt
-        coverage html
-        coverage xml
-        coverage json
-      working-directory: ${{ github.workspace }}
+        set -o pipefail
+        pytest | tee test-output.txt
     - name: Upload results
       uses: actions/upload-artifact@v7
       with:
         name: Coverage
         path: |
-          ${{ github.workspace }}/coverage.txt
-          ${{ github.workspace }}/coverage.xml
-          ${{ github.workspace }}/coverage.json
-          ${{ github.workspace }}/htmlcov
+         .test_durations
+          coverage.xml
+          coverage.json
+          htmlcov
+          test-output.txt
         if-no-files-found: error
     - name: Upload results to Codecov
       uses: codecov/codecov-action@v7
