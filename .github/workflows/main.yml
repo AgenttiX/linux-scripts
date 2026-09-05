@@ -47,7 +47,7 @@ jobs:
       - name: Print Python version
         run: python -V
       - name: Checkout
-        uses: actions/setup-python@v7
+        uses: actions/checkout@v7
       - name: Load pip cache
         uses: actions/cache@v6
         with:
@@ -60,9 +60,8 @@ jobs:
         run: |
           pip --cache-dir=.pip install --upgrade pip
           pip --cache-dir=.pip install -r requirements.txt
-      - name: Lint with ruff
-        uses: astral-sh/ruff-action@v4.1.0
-        args: check --exit-zero
+      - name: Run Ruff
+        run: ruff check --output-format=full 2>&1 | tee ruff.txt
       - name: Upload results
         uses: actions/upload-artifact@v7
         with:
@@ -70,7 +69,7 @@ jobs:
           path: ruff.txt
           if-no-files-found: error
   sast:
-    # The SAST scanner action is based on Docker, and therefore does not work on ubuntu-slim.
+    # The SAST scanner action is based on Docker and therefore does not work on ubuntu-slim.
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -119,7 +118,6 @@ jobs:
       with:
         name: Coverage
         path: |
-         .test_durations
           coverage.xml
           coverage.json
           htmlcov
