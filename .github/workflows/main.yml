@@ -47,7 +47,7 @@ jobs:
       - name: Print Python version
         run: python -V
       - name: Checkout
-        uses: actions/setup-python@v7
+        uses: actions/checkout@v7
       - name: Load pip cache
         uses: actions/cache@v6
         with:
@@ -56,26 +56,20 @@ jobs:
           restore-keys: |
             pip-${{ runner.os }}-
             pip-
-      - name: Install apt requirements
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc libssl-dev python3-dev swig
       - name: Install requirements
         run: |
           pip --cache-dir=.pip install --upgrade pip
-          pip --cache-dir=.pip install pylint -r requirements.txt
-      - name: Run Pylint
-        run: pylint startup tests ./*.py 2>&1 | tee pylint.txt
-        working-directory: ${{ github.workspace }}
+          pip --cache-dir=.pip install -r requirements.txt
+      - name: Run Ruff
+        run: ruff check --output-format=full 2>&1 | tee ruff.txt
       - name: Upload results
         uses: actions/upload-artifact@v7
         with:
           name: Lint
-          path: |
-            ${{ github.workspace }}/pylint.txt
+          path: ruff.txt
           if-no-files-found: error
   sast:
-    # The SAST scanner action is based on Docker, and therefore does not work on ubuntu-slim.
+    # The SAST scanner action is based on Docker and therefore does not work on ubuntu-slim.
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -112,29 +106,22 @@ jobs:
     - name: Install requirements
       run: |
         sudo apt-get update
-        sudo apt-get install -y bleachbit chkrootkit fwupd rkhunter modemmanager
+        sudo apt-get install -y bleachbit chkrootkit fwupd rkhunter modemmanager zsh
         pip --cache-dir=.pip install --upgrade pip
-        pip --cache-dir=.pip install coverage
         pip --cache-dir=.pip install -r requirements.txt
-    - name: Run tests with coverage
-      run: coverage run
-      working-directory: ${{ github.workspace }}
-    - name: Create coverage reports
+    - name: Run tests
       run: |
-        coverage report | tee coverage.txt
-        coverage html
-        coverage xml
-        coverage json
-      working-directory: ${{ github.workspace }}
+        set -o pipefail
+        pytest | tee test-output.txt
     - name: Upload results
       uses: actions/upload-artifact@v7
       with:
         name: Coverage
         path: |
-          ${{ github.workspace }}/coverage.txt
-          ${{ github.workspace }}/coverage.xml
-          ${{ github.workspace }}/coverage.json
-          ${{ github.workspace }}/htmlcov
+          coverage.xml
+          coverage.json
+          htmlcov
+          test-output.txt
         if-no-files-found: error
     - name: Upload results to Codecov
       uses: codecov/codecov-action@v7
