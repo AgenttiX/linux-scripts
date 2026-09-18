@@ -55,7 +55,11 @@ PYTHON_PACKAGES=(
   "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
 )
 UTILS_PACKAGES=(
-  "autojump" "autossh" "bleachbit" "cifs-utils"
+  "autojump"
+  "autossh"
+  "bleachbit"
+  "bubblewrap"  # Required by Claude Code sandbox
+  "cifs-utils"
   "curl"  # Required by asdf-nodejs
   "dirmngr"  # Required by asdf-nodejs
   "dislocker"
@@ -64,7 +68,9 @@ UTILS_PACKAGES=(
   "git-delta"
   "gocryptfs"
   "gpg"  # Required by asdf-nodejs
-  "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone" "ssh-tools"
+  "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone"
+  "socat"  # Required by Claude Code sandbox
+  "ssh-tools"
   "texlive-full" "traceroute" "wget" "wireguard" "xindy"
   # The yt-dlp apt package may not be up to date. In this case, use pip to install the latest version.
   "yt-dlp"
@@ -210,6 +216,21 @@ if [ "${IS_DESKTOP}" = true ]; then
   else
     echo "asdf was not found. Skipping ProtonGE installation."
   fi
+fi
+
+if [ "$(sysctl --binary kernel.apparmor_restrict_unprivileged_userns)" != "0" ]; then
+  echo "Fixing bubblewrap permissions for Claude Code."
+  # https://code.claude.com/docs/en/sandboxing#ubuntu-24-04-and-later-allow-bubblewrap-to-create-user-namespaces
+  tee /etc/apparmor.d/bwrap > /dev/null <<'EOF'
+abi <abi/4.0>,
+include <tunables/global>
+
+profile bwrap /usr/bin/bwrap flags=(unconfined) {
+  userns,
+  include if exists <local/bwrap>
+}
+EOF
+  systemctl reload apparmor
 fi
 
 echo "Software installed."
