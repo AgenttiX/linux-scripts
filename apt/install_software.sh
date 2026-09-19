@@ -218,6 +218,11 @@ if [ "${IS_DESKTOP}" = true ]; then
   fi
 fi
 
+if ! command -v uv &> /dev/null; then
+  echo "Installing the Python uv package manager."
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
 if [ "$(sysctl --binary kernel.apparmor_restrict_unprivileged_userns)" != "0" ]; then
   echo "Fixing bubblewrap permissions for Claude Code."
   # https://code.claude.com/docs/en/sandboxing#ubuntu-24-04-and-later-allow-bubblewrap-to-create-user-namespaces
