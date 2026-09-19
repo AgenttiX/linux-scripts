@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # TODO: Think whether to use hyphens or underscores in the names.
-# Hyphens are probably better, since they're easire to write.
+# Hyphens are probably better, since they're easier to write.
 # https://unix.stackexchange.com/a/168222/
 
 apt-rdepends-installed() {
@@ -11,19 +11,12 @@ apt-rdepends-installed() {
 	apt-cache rdepends "$@" | grep "  " | xargs apt list --installed
 }
 
-per-user-usage() {
-  # Print the total CPU and RAM usage of the processes of each user.
-  # Useful on shared servers with multiple users running processes over SSH.
-  {
-    printf "%-20s %8s %8s\n" "USER" "%CPU" "%MEM"
-    ps -eo user:20,%cpu,%mem --no-headers \
-      | awk '{ cpu[$1] += $2; mem[$1] += $3 } END { for (user in cpu) printf "%-20s %8.1f %8.1f\n", user, cpu[user], mem[user] }' \
-      | sort -k2 -rn
-  }
-}
-
 cld() {
-  # Claude remote control with automatic virtualenv activation
+  # Claude Code remote control with automatic virtualenv activation
+  # https://stackoverflow.com/a/2180367
+  if [ -d "./.git" ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    git pull
+  fi
   if [ -f "./venv/bin/activate" ]; then
     . ./venv/bin/activate
   fi
@@ -159,6 +152,17 @@ kill-pycharm() {
 #   # https://forums.developer.nvidia.com/t/nvidia-smi-uses-all-of-ram-and-swap/295639/3
 #   valgrind nvidia-smi "$@" 2> /dev/null
 # }
+
+per-user-usage() {
+  # Print the total CPU and RAM usage of the processes of each user.
+  # Useful on shared servers with multiple users running processes over SSH.
+  {
+    printf "%-20s %8s %8s\n" "USER" "%CPU" "%MEM"
+    ps -eo user:20,%cpu,%mem --no-headers \
+      | awk '{ cpu[$1] += $2; mem[$1] += $3 } END { for (user in cpu) printf "%-20s %8.1f %8.1f\n", user, cpu[user], mem[user] }' \
+      | sort -k2 -rn
+  }
+}
 
 # Chats
 start-chats() {
