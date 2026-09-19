@@ -65,6 +65,7 @@ UTILS_PACKAGES=(
   "dislocker"
   "fastfetch"
   "gawk"  # Required by asdf-nodejs
+  "gh"  # GitHub CLI
   "git-delta"
   "gocryptfs"
   "gpg"  # Required by asdf-nodejs
