@@ -17,7 +17,13 @@ cld() {
   if [ -d "./.git" ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     git pull
   fi
-  if [ -f "./venv/bin/activate" ]; then
+  # uv projects: sync the environment (creates ./.venv if missing) before activating it
+  if [ -f "./uv.lock" ] && command -v uv > /dev/null 2>&1; then
+    uv sync
+  fi
+  if [ -f "./.venv/bin/activate" ]; then
+    . ./.venv/bin/activate
+  elif [ -f "./venv/bin/activate" ]; then
     . ./venv/bin/activate
   fi
   claude rc
