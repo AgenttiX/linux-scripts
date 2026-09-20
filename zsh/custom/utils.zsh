@@ -18,9 +18,10 @@ cld() {
     git pull
   fi
   # uv projects: sync the environment (creates ./.venv if missing) before activating it
-  if [ -f "./uv.lock" ] && command -v uv > /dev/null 2>&1; then
-    uv sync
-  fi
+  # if [ -f "./uv.lock" ] && command -v uv > /dev/null 2>&1; then
+  #   # This would remove the optional dependencies (--extra)
+  #   uv sync
+  # fi
   if [ -f "./.venv/bin/activate" ]; then
     . ./.venv/bin/activate
   elif [ -f "./venv/bin/activate" ]; then
