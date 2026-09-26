@@ -1,10 +1,24 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 if [ "${EUID}" -ne 0 ]; then
   echo "This script should be run as root."
   exit 1
 fi
+
+VERSION="2604"
+for i in "$@"; do
+  case $i in
+    -v=*|--version=*)
+      VERSION="${i#*=}"
+      shift # past argument-value
+      ;;
+    -*|--*)
+      echo "Unknown option $i"
+      exit 1
+      ;;
+  esac
+done
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -12,7 +26,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu
 CUDA_KEYRING="cuda-keyring_1.1-1_all.deb"
 CUDA_KEYRING_PATH="${SCRIPT_DIR}/${CUDA_KEYRING}"
-wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/${CUDA_KEYRING}" -O "${CUDA_KEYRING_PATH}"
+wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${VERSION}/x86_64/${CUDA_KEYRING}" -O "${CUDA_KEYRING_PATH}"
 apt install curl "${CUDA_KEYRING_PATH}"
 
 # Nvidia Container Toolkit

@@ -34,17 +34,17 @@ if [ "${1}" = "--fix" ]; then
   apt autoremove
 fi
 
-. "${SCRIPT_DIR}/setup_nvidia_repos.sh"
-
 # https://www.reddit.com/r/linux_gaming/comments/1dnccoq/ubuntu_2404_wayland_on_nvidia_troubleshoot_guide/
 # https://askubuntu.com/questions/1514352/ubuntu-24-04-with-nvidia-driver-libegl-warning-egl-failed-to-create-dri2-scre
 if lshw -C display | grep "GeForce MX150"; then
   echo "Old MX150 GPU detected. Installing driver version 580."
   echo "If you get a black screen after installing, add \"modprobe.blacklist=nvidia_drm\" to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub"
+  . "${SCRIPT_DIR}/setup_nvidia_repos.sh" --version=2404
   # The driver pinning has to be installed before other packages so that the pinning is effective.
   apt install nvidia-driver-pinning-580
   apt install --upgrade cuda-13-0 cuda-drivers-580 nvidia-container-toolkit
 else
+  . "${SCRIPT_DIR}/setup_nvidia_repos.sh"
   apt install --upgrade cuda nvidia-container-toolkit  # libnvidia-egl-wayland1
 fi
 apt autoremove
