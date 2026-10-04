@@ -27,7 +27,17 @@ cld() {
   elif [ -f "./venv/bin/activate" ]; then
     . ./venv/bin/activate
   fi
-  claude rc
+  # The GitHub plugin of Claude Code reads its token from this variable.
+  # If it is not already set, pass the gh CLI token only to Claude Code instead of exporting it to the shell.
+  local gh_token=""
+  if [ -z "${GITHUB_PERSONAL_ACCESS_TOKEN}" ] && command -v gh > /dev/null 2>&1; then
+    gh_token="$(gh auth token 2> /dev/null)"
+  fi
+  if [ -n "${gh_token}" ]; then
+    GITHUB_PERSONAL_ACCESS_TOKEN="${gh_token}" claude rc
+  else
+    claude rc
+  fi
 }
 
 clear-history() {
