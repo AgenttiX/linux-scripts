@@ -19,6 +19,11 @@ ARCH="$(dpkg --print-architecture)"
 CHASSIS="$(hostnamectl chassis)"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 REPO_DIR="$(dirname "${SCRIPT_DIR}")"
+. /etc/os-release
+
+download_deb() {
+  curl --fail --silent --show-error --location "$1" --output "$2"
+}
 
 download_key() {
   # Download a GPG key
@@ -28,7 +33,7 @@ download_key() {
 
 mkdir -p /etc/apt/keyrings
 apt update
-apt install apt-transport-https ca-certificates curl gpg-agent ubuntu-dbgsym-keyring
+apt install apt-transport-https ca-certificates curl gpg-agent software-properties-common ubuntu-dbgsym-keyring
 
 # -----
 # Ubuntu repos
@@ -38,7 +43,7 @@ apt install apt-transport-https ca-certificates curl gpg-agent ubuntu-dbgsym-key
 # https://documentation.ubuntu.com/server/explanation/debugging/debug-symbol-packages/
 echo "Types: deb
 URIs: http://ddebs.ubuntu.com/
-Suites: $(lsb_release -cs) $(lsb_release -cs)-updates $(lsb_release -cs)-proposed
+Suites: ${VERSION_CODENAME} ${VERSION_CODENAME}-updates ${VERSION_CODENAME}-proposed
 Components: main restricted universe multiverse
 Signed-By: /usr/share/keyrings/ubuntu-dbgsym-keyring.gpg" > /etc/apt/sources.list.d/ddebs.sources
 
@@ -84,6 +89,9 @@ URIs: https://apt.repos.intel.com/oneapi
 Suites: all
 Components: main
 Signed-By: /usr/share/keyrings/oneapi-archive-keyring.gpg" > /etc/apt/sources.list.d/oneAPI.sources
+
+# Microsoft
+download_deb "https://packages.microsoft.com/config/ubuntu/${VERSION_ID}/packages-microsoft-prod.deb" "${SCRIPT_DIR}/packages-microsoft-prod.deb"
 
 # Nvidia CUDA
 . "${REPO_DIR}/drivers/setup_nvidia_repos.sh"
@@ -143,15 +151,16 @@ Architectures: ${ARCH}" > /etc/apt/sources.list.d/signal-xenial.sources
   # add-apt-repository ppa:dotnet/backports
   # add-apt-repository ppa:linuxuprising/java
   # add-apt-repository ppa:obsproject/obs-studio
-  add-apt-repository ppa:phoerious/keepassxc
+  add-apt-repository -y ppa:phoerious/keepassxc
   # add-apt-repository ppa:thopiekar/openrgb
   if [ "$(hostnamectl chassis)" = "laptop" ]; then
-    add-apt-repository ppa:touchegg/stable
+    add-apt-repository -y ppa:touchegg/stable
   fi
 fi
 
 if [ "${CHASSIS}" = "laptop" ]; then
-  add-apt-repository ppa:linrunner/tlp
+  add-apt-repository -y ppa:linrunner/tlp
 fi
 
-apt-get update
+apt update
+apt install "${SCRIPT_DIR}/packages-microsoft-prod.deb"

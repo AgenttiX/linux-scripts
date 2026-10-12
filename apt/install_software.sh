@@ -70,6 +70,7 @@ UTILS_PACKAGES=(
   "gocryptfs"
   "gpg"  # Required by asdf-nodejs
   "gpg-agent" "links" "mtr-tiny" "nmap" "optipng" "pandoc" "pdftk" "rclone"
+  "powershell"  # From the Microsoft repository
   "socat"  # Required by Claude Code sandbox
   "ssh-tools"
   "texlive-full" "traceroute" "wget" "wireguard" "xindy"
