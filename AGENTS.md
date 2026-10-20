@@ -25,3 +25,21 @@ The scripts are grouped in folders based on the software or topic they are relat
 ## Docstring conventions
 - Use the Sphinx docstring format.
 - Use `:param:`, `:return:` and `:raises:`, where appropriate.
+
+## Related repositories
+If the repositories below are not available locally when you need them,
+`git clone` them in the same parent directory as this repository using SSH.
+You may edit the local copies as needed, if no other agent sessions are currently working on them,
+and if they don't have large uncommitted changes.
+
+- [Personal website](https://github.com/AgenttiX/agenttix.github.io): `../agenttix.github.io`
+  - The website is available at [agx.fi](https://agx.fi/) and published automatically from its GitHub repository.
+  - When editing this or other repositories, check that the information on the website is consistent with the edits.
+    If not, update the website accordingly. Don't push your edits in the website repository unless asked.
+- [agx-ai](https://github.com/AgenttiX/agx-ai): `../agx-ai`, personal AI server and client configs
+- [openwrt-scripts](https://github.com/AgenttiX/openwrt-scripts): `../openwrt-scripts`, scripts for OpenWRT-based systems
+- [private-scripts](https://github.com/AgenttiX/private-scripts): `../private-scripts`
+  - Personal SSH and Git configuration etc. Not public.
+  - All scripts that contain personal hostnames other non-public information go in `../private-scripts`.
+- [windows-scripts](https://github.com/AgenttiX/windows-scripts): `../windows-scripts`
+  - The Windows equivalent of this `linux-scripts` repository.
