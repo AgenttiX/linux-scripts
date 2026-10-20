@@ -52,7 +52,9 @@ FUN_PACKAGES=(
   "cmatrix" "cowsay" "fortune-mod"
 )
 PYTHON_PACKAGES=(
-  "python3-dev" "python3-setuptools" "python3-venv" "python3-wheel"
+  "python3-dev" "python3-wheel"
+  # I have switched to using uv instead of pip, so these are no longer needed.
+  # "python3-setuptools" "python3-venv"
 )
 UTILS_PACKAGES=(
   "autojump"
@@ -221,10 +223,11 @@ if [ "${IS_DESKTOP}" = true ]; then
   fi
 fi
 
-if ! command -v uv &> /dev/null; then
-  echo "Installing the Python uv package manager."
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-fi
+# This script is run as root, so this would install uv for root instead of the user.
+# if ! command -v uv &> /dev/null; then
+#   echo "Installing the Python uv package manager."
+#   curl -LsSf https://astral.sh/uv/install.sh | sh
+# fi
 
 if [ "$(sysctl --binary kernel.apparmor_restrict_unprivileged_userns)" != "0" ]; then
   echo "Fixing bubblewrap permissions for Claude Code."

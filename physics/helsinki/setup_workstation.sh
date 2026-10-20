@@ -18,9 +18,12 @@ REPO_DIR="${HOME}/Git/linux-scripts"
 if ! [ -d "${REPO_DIR}" ]; then
   if [ -f "${HOME}/.ssh/id_rsa" ]; then
     git clone "git@github.com:AgenttiX/linux-scripts.git"
-    python3 -m venv "${REPO_DIR}/venv"
-    source "${REPO_DIR}/venv/bin/activate"
-    pip3 install -r "${REPO_DIR}/requirements.txt"
+    if ! command -v uv &> /dev/null; then
+      echo "Installing the Python uv package manager."
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      export PATH="${HOME}/.local/bin:${PATH}"
+    fi
+    uv sync --project "${REPO_DIR}"
   else
     echo "SSH key does not exist. Cannot clone linux-scripts repo."
     exit 1
@@ -73,6 +76,6 @@ fi
 
 # Wacom tablet
 # The script fail if a tablet is not connected, so it's the last.
-source "${REPO_DIR}/venv/bin/activate"
+source "${REPO_DIR}/.venv/bin/activate"
 echo "Configuring Wacom tablet."
 "${REPO_DIR}/wacom/wacom.py"

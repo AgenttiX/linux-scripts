@@ -1,0 +1,41 @@
+[project]
+name = "linux-scripts"
+version = "0.1.0"
+description = "A collection of GNU/Linux scripts"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.14"
+dependencies = [
+    # Python-ADB may require the following to work:
+    # sudo apt install gcc libssl-dev python3-dev python3-m2crypto python3-openssl python3-rsa swig
+    # This does not work on Ubuntu 22.04
+    # "adb>=1.3.0",
+    # "chkcrontab>=1.7",
+    "exif>=1.6.0",
+    # gplaycli >= 3.29
+    # This does not work on Ubuntu 22.04
+    # https://github.com/rehmatworks/gplaydl/issues/30
+    # "gplaydl>=1.3.5",
+    # TODO: Try this instead.
+    # https://github.com/89z/googleplay
+    # For Wacom script
+    # Despite the warning from FOSSA, python-xlib is licensed with LGPLv2+
+    # https://github.com/python-xlib/python-xlib
+    # https://pypi.org/project/python-xlib/
+    "python-xlib>=0.33",
+    # "qmk>=1.0.0",
+    "requests>=2.32.3",
+    "slack-cleaner2>=3.2.7",  # For LibreNMS log spam cleaner
+    # "tasmotizer>=1.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.6",
+]
+
+[tool.uv]
+# This repository is a collection of scripts, not an installable package.
+package = false

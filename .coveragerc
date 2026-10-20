@@ -2,6 +2,7 @@
 branch = True
 command_line = -m unittest tests
 omit =
+    */.venv/*
     */venv/*
     (builtin)
 source = .

@@ -18,5 +18,6 @@ mkdir -p "${LOG_DIR}"
 pkexec do-release-upgrade --frontend=DistUpgradeViewKDE |& tee "${LOG_DIR}/kubuntu_release_upgrade_$(date +%F_%H-%M-%S).txt"
 
 # If Python has been updated, you can find and remove old virtualenvs with
-# ls ${HOME}/Git/**/venv
-# rm -r ${HOME}/Git/**/venv
+# ls -d ${HOME}/Git/**/venv ${HOME}/Git/**/.venv
+# rm -r ${HOME}/Git/**/venv ${HOME}/Git/**/.venv
+# Projects that use uv will recreate their .venv automatically with "uv sync" or "uv run".

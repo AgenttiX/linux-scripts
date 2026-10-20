@@ -59,5 +59,10 @@ These can be symlinked to `~/` where needed.
 - `modem.py`: Script for configuring the integrated WWAN modem of ThinkPad laptops
 
 
+## Python environment
+The Python dependencies are managed with [uv](https://docs.astral.sh/uv/).
+Run `uv sync` to create the virtual environment in `.venv/`,
+and `uv run pytest` to run the unit tests.
+
 ## Licensing
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B5825%2Fgit%40github.com%3AAgenttiX%2Flinux-scripts.git.svg?type=large)](https://app.fossa.com/projects/custom%2B5825%2Fgit%40github.com%3AAgenttiX%2Flinux-scripts.git?ref=badge_large)

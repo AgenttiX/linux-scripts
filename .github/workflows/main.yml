@@ -6,30 +6,13 @@ jobs:
   fossa:
     runs-on: ubuntu-slim
     steps:
-    - name: Setup Python
-      uses: actions/setup-python@v7
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    - name: Print Python version
-      run: python -V
     - name: Checkout
       uses: actions/checkout@v7
-    - name: Load pip cache
-      uses: actions/cache@v6
-      with:
-        path: .pip
-        key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          pip-${{ runner.os }}-
-          pip-
-    - name: Install apt requirements
-      run: |
-        sudo apt-get update
-        sudo apt-get install gcc libssl-dev python3-dev swig
-    - name: Install requirements
-      run: |
-        pip --cache-dir=.pip install --upgrade pip
-        pip --cache-dir=.pip install -r requirements.txt
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v10
+    - name: Export requirements for FOSSA
+      # FOSSA analyzes the dependencies from requirements.txt, which is generated from uv.lock.
+      run: uv export --locked --format requirements.txt --no-hashes --output-file requirements.txt
     - name: Install FOSSA
       run: |
         curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash
@@ -40,28 +23,19 @@ jobs:
   lint:
     runs-on: ubuntu-slim
     steps:
-      - name: Setup Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: Print Python version
-        run: python -V
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Load pip cache
-        uses: actions/cache@v6
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v10
         with:
-          path: .pip
-          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            pip-${{ runner.os }}-
-            pip-
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
       - name: Install requirements
-        run: |
-          pip --cache-dir=.pip install --upgrade pip
-          pip --cache-dir=.pip install -r requirements.txt
+        run: uv sync --locked
+      - name: Print Python version
+        run: uv run --locked python -V
       - name: Run Ruff
-        run: ruff check --output-format=full 2>&1 | tee ruff.txt
+        run: uv run --locked ruff check --output-format=full 2>&1 | tee ruff.txt
       - name: Upload results
         uses: actions/upload-artifact@v7
         with:
@@ -85,34 +59,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Setup Python
-      uses: actions/setup-python@v7
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    - name: Print Python version
-      run: python -V
     - name: Checkout
       uses: actions/checkout@v7
-    - name: Load pip cache
-      uses: actions/cache@v6
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v10
       with:
-        path: .pip
-        key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          pip-${{ runner.os }}-
-          pip-
+        python-version: ${{ env.PYTHON_VERSION }}
+        enable-cache: true
     - name: Install apt requirements
-      run: sudo apt-get install gcc libssl-dev python3-dev swig
-    - name: Install requirements
       run: |
         sudo apt-get update
         sudo apt-get install -y bleachbit chkrootkit fwupd rkhunter modemmanager zsh
-        pip --cache-dir=.pip install --upgrade pip
-        pip --cache-dir=.pip install -r requirements.txt
+    - name: Install requirements
+      run: uv sync --locked
+    - name: Print Python version
+      run: uv run --locked python -V
     - name: Run tests
       run: |
         set -o pipefail
-        pytest | tee test-output.txt
+        uv run --locked pytest | tee test-output.txt
     - name: Upload results
       uses: actions/upload-artifact@v7
       with:
