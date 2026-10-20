@@ -43,7 +43,7 @@ BASE_PACKAGES=(
   "htop" "mosh" "openssh-server" "rsync" "tmux" "ufw"
 )
 DEV_PACKAGES=(
-  "build-essential" "cloc" "cmake" "gcc-multilib" "g++-multilib" "gfortran"
+  "build-essential" "cloc" "cmake" "gcc-multilib" "g++-multilib" "gfortran" "shellcheck"
 )
 DOCKER_PACKAGES=(
   "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin"
@@ -177,6 +177,7 @@ apt install "${APT_PACKAGES[@]}"
 
 if command -v asdf &>/dev/null; then
   asdf plugin add actionlint
+  asdf install actionlint latest
 fi
 
 if [ "${IS_DESKTOP}" = true ]; then
