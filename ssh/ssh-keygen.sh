@@ -14,9 +14,11 @@ set -eu
 # https://docs.csc.fi/computing/connecting/ssh-keys/#adding-public-key-in-mycsc
 
 # When running, don't accidentally overwrite your existing keys!
-ssh-keygen -t rsa -b 4096
+# ssh-keygen -t rsa -b 4096
+# Ed25519 is faster and at least as secure as 4096-bit RSA.
+ssh-keygen -t ed25519
 
-DEFAULT_KEY="${HOME}/.ssh/id_rsa.pub"
+DEFAULT_KEY="${HOME}/.ssh/id_ed25519.pub"
 if [ -f "${DEFAULT_KEY}" ]; then
   echo "Default public key: ${DEFAULT_KEY}"
   cat "${DEFAULT_KEY}"

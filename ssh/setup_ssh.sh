@@ -7,10 +7,13 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 echo "Configuring SSH."
 
 echo "Testing whether you have sudo access."
-if sudo -l &>/dev/null; then
-  echo "You seem to have sudo access. Installing optional packages."
-  sudo apt update
-  sudo apt install autossh curl mosh openssh-client ssh-askpass tar
+if sudo -l &> /dev/null; then
+  echo "You seem to have sudo access."
+  if command -v apt &> /dev/null; then
+    echo "Installing optional packages."
+    sudo apt update
+    sudo apt install autossh curl mosh openssh-client ssh-askpass tar
+  fi
   # SSH Guardian Agent
   CPU_ARCH=$(uname -m)
   if [ "${CPU_ARCH}" = "x86_64" ]; then
@@ -60,7 +63,7 @@ mkdir -p "${SSH_DIR}/controlmasters"
 # mkdir -p "${HOME}/.config/environment.d"
 # ln -s "${SCRIPT_DIR}/10-ssh-askpass.conf" "${HOME}/.config/environment.d/10-ssh-askpass.conf"
 
-if systemctl --user list-unit-files "gcr-ssh-agent.service" &>/dev/null; then
+if systemctl --user list-unit-files "gcr-ssh-agent.service" &> /dev/null; then
   echo "Disabling gcr SSH agent, as it does not support FIDO2 keys with \"-O verify-required\"."
   # This issue would lead to errors such as:
   # sign_and_send_pubkey: signing failed for ED25519-SK "/home/USER/.ssh/id_ed25519_sk" from agent: agent refused operation

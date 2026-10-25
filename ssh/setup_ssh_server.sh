@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 if [ "${EUID}" -ne 0 ]; then
    echo "This script should be run as root."
    exit 1
 fi
 
-echo "Installing SSH server."
-apt update
-apt install openssh-server
+if command -v apt &> /dev/null; then
+  echo "Installing SSH server."
+  apt update
+  apt install openssh-server
+fi
 
 echo "Disabling password login."
 sed -i "s@#PasswordAuthentication yes@PasswordAuthentication no@g" "/etc/ssh/sshd_config"
 systemctl restart ssh
 
-if command -v &> /dev/null; then
+if command -v ufw &> /dev/null; then
   echo "Creating UFW firewall rule and enabling UFW."
   ufw allow ssh comment "SSH"
   ufw enable
