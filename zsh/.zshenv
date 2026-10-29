@@ -23,3 +23,9 @@ fi
 if [ -f "${HOME}/.ssh-agent-info" ]; then
   eval "$(<"${HOME}/.ssh-agent-info")" > /dev/null
 fi
+
+# (added by local-ai-demo) put nvm's default node version first in PATH
+# in every zsh shell (incl. non-interactive); keeps working across nvm switches
+# export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+# nvm use --silent default >/dev/null 2>&1 || true

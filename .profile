@@ -40,3 +40,8 @@ fi
 
 export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+
+# (added by local-ai-demo) same nvm default-PATH fix for login bash shells
+# export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+# nvm use --silent default >/dev/null 2>&1 || true

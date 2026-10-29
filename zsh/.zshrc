@@ -478,6 +478,9 @@ if [ -d "${HOME}/.lmstudio" ]; then
     export PATH="${PATH}:${HOME}/.lmstudio/bin"
 fi
 
+# OpenCode
+export OPENCODE_ENABLE_EXA=1
+export OPENCODE_ENABLE_PARALLEL=1
 
 # -----
 # Additional repositories
