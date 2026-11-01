@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "When referring to this repository, please cite it as below."
+authors:
+- family-names: "Mäki"
+  given-names: "Mika"
+  orcid: "https://orcid.org/0000-0001-8162-7101"
+title: "Linux scripts"
+url: "https://github.com/AgenttiX/linux-scripts"
