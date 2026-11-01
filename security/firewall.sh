@@ -11,6 +11,11 @@ fi
 
 ufw allow ssh comment "SSH"
 
+if command -v steam &> /dev/null; then
+  # SteamVR's vrlink driver receives the Steam Frame's VR stream on this port.
+  ufw allow 10400/udp comment "SteamVR Link (Steam Frame)"
+fi
+
 if command -v syncthing &> /dev/null; then
   ufw allow 22000/tcp comment "Syncthing"
   ufw allow 21027/udp comment "Syncthing Discovery"

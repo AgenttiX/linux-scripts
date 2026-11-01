@@ -85,11 +85,19 @@ UTILS_PACKAGES=(
 if [ "${IS_DESKTOP}" = true ]; then
   DESKTOP_PACKAGES=(
     "clamtk" "claude-desktop" "eduvpn-client" "filelight" "filezilla" "gimp" "haruna" "inkscape"
-    "keepassxc" "krdc" "ktorrent" "libenchant-2-voikko"
+    "keepassxc" "krdc" "ktorrent"
+    "libdrm-dev"  # Required for compiling steam_drm_filter.c
+    "libenchant-2-voikko"
     "libreoffice" "libreoffice-help-en-us" "libreoffice-help-fi" "libreoffice-voikko"
     "mumble" "network-manager-openvpn" "remmina" "signal-desktop" "steam"
     "synaptic" "texmaker" "tikzit" "tmispell-voikko" "vlc"
   )
+  # Steam Frame streaming with the 32-bit Steam client.
+  # The 64-bit Steam client (STEAM_FORCE_CLIENT=steamrt64) runs in the Steam Runtime container,
+  # which bundles its own PipeWire libraries, so no host packages are needed for it.
+  # if [ "${ARCH}" = "amd64" ]; then
+  #   DESKTOP_PACKAGES+=("libpipewire-0.3-0t64:i386" "libpipewire-0.3-modules:i386" "libspa-0.2-modules:i386")
+  # fi
   if [ "${XDG_CURRENT_DESKTOP}" = "KDE" ]; then
     DESKTOP_PACKAGES+=("kde-config-flatpak" "remmina-plugin-kwallet")
   fi

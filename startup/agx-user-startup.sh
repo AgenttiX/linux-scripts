@@ -91,5 +91,10 @@ if [ "$(hostname)" = "agx-z2e-kubuntu" ]; then
   echo "Starting Discord."
   flatpak run com.discordapp.Discord --start-minimized &
   echo "Starting Steam."
-  steam -nochatui -nofriendsui -silent &
+  # -pipewire enables desktop capture on Wayland for Remote Play and Steam Frame / Steam Link.
+  # Without it, the streamed desktop is black.
+  # start_steam.sh hides the Radeon VII from Steam so that the capture uses the GPU running the desktop.
+  # STEAM_FORCE_CLIENT=steamrt64 selects the 64-bit Steam client, whose desktop capture uses
+  # SIMD-optimized color conversion. The 32-bit client's conversion is too slow for 3440x1440 at 60 FPS.
+  STEAM_FORCE_CLIENT=steamrt64 "${REPO_DIR}/games/steam/start_steam.sh" -nochatui -nofriendsui -pipewire -silent &
 fi
