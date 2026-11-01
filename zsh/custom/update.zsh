@@ -77,6 +77,10 @@ update() {
     echo "Updating Rust"
     rustup update
   fi
+  if command -v zotero-mcp; then
+    echo "Updating Zotero MCP"
+    zotero-mcp update
+  fi
 
   # zsh completions using zsh-manpage-completion-generator
   # Based on:
@@ -99,7 +103,7 @@ update() {
 
     # You can disable the completions for specific commands by deleting the files here.
     # rm "${FISH_COMPLETION_DIR}/_git*"
-  else
-      # echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
+  # else
+  #   echo "Please install fish for zsh-manpage-completion-generator" > /dev/stderr
   fi
 }
