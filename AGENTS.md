@@ -14,6 +14,9 @@ The scripts are grouped in folders based on the software or topic they are relat
 - See `README.md` for the repository structure.
 - When asked to create a zsh command or function, place it in an appropriate file in `zsh/custom/`.
 - Prefer to write complex scripts in Python instead of bash/zsh.
+  If the user asks you to create a bash/zsh script that turns out to be longer than a few lines, consider writing it in Python instead.
+- This repository is public. Do not commit sensitive information in this repository.
+- You may commit directly on the `master` branch. Don't push unless the user explicitly asks you to.
 
 ## Code style
 - Use Python 3.12+ type hints in Python scripts where possible.
