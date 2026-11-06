@@ -27,7 +27,8 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `physics`: Scripts for installing and configuring various software for physics research
 - `proxmox`: Proxmox hypervisor configs
 - `samba`: Scripts for configuring a Samba Active Directory domain member
-- `ssh`: SSH configs. `ssh/config.d/` is symlinked to `~/.ssh/config.d/`.
+- `ssh`: SSH configs. `ssh/config.d/` is symlinked to `~/.ssh/config.d/`,
+  and `ssh/openssh10.conf` to `~/.ssh/openssh10.conf` on systems with OpenSSH 10.0 or newer.
 - `startup`: startup scripts. ` agx_startup.py` is run as root by `agx-startup.service`,
   and `agx-user-startup.sh` is run by `agx-user-startup.desktop` as the current user.
 - `testing`: Performance and reliability testing scripts

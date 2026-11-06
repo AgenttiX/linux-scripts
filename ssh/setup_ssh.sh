@@ -56,6 +56,15 @@ else
   ln -s "${SCRIPT_DIR}/config.d" "${SSH_CONFIG_D_DIR}"
 fi
 
+SSH_MAJOR_VERSION="$(ssh -V 2>&1 | sed -E 's/^OpenSSH_([0-9]+).*/\1/')"
+if [ "${SSH_MAJOR_VERSION}" -ge 10 ] 2> /dev/null; then
+  echo "Creating symlink to the configuration for OpenSSH 10.0 or newer."
+  ln -sfn "${SCRIPT_DIR}/openssh10.conf" "${SSH_DIR}/openssh10.conf"
+elif [ -L "${SSH_DIR}/openssh10.conf" ]; then
+  echo "Removing symlink to the configuration for OpenSSH 10.0 or newer, since this version does not support it."
+  rm "${SSH_DIR}/openssh10.conf"
+fi
+
 echo "Creating the controlmasters directory."
 mkdir -p "${SSH_DIR}/controlmasters"
 
