@@ -26,6 +26,7 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `pgp`: PGP configs
 - `physics`: Scripts for installing and configuring various software for physics research
 - `proxmox`: Proxmox hypervisor configs
+- `pycharm`: PyCharm configs
 - `samba`: Scripts for configuring a Samba Active Directory domain member
 - `ssh`: SSH configs. `ssh/config.d/` is symlinked to `~/.ssh/config.d/`,
   and `ssh/openssh10.conf` to `~/.ssh/openssh10.conf` on systems with OpenSSH 10.0 or newer.
