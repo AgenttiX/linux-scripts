@@ -40,6 +40,11 @@ cld() {
   fi
 }
 
+clear-allure() {
+  # Allure directories can collect millions of files over time, which slows down IDE indexing. This command clears them.
+  rm -r "${HOME}"/[Gg]it/**/test-results/allure
+}
+
 clear-history() {
   "${HOME}/Git/linux-scripts/security/clear_history.sh"
 }
