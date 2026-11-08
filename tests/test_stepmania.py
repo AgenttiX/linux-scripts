@@ -1,4 +1,4 @@
-"""Test StepMania installer"""
+"""Test StepMania installer."""
 
 import os
 import pathlib
@@ -37,7 +37,13 @@ def _has_network() -> bool:
 
 
 class StepManiaInstallerTestCase(unittest.TestCase):
-    def setUp(self):
+    """Tests for the StepMania library installer."""
+
+    bin_dir: pathlib.Path
+    game_dir: pathlib.Path
+
+    def setUp(self) -> None:
+        """Create fake sudo and StepMania executables."""
         self._tmp = tempfile.TemporaryDirectory()
         tmp_path = pathlib.Path(self._tmp.name)
         self.bin_dir = tmp_path / "bin"
@@ -47,7 +53,8 @@ class StepManiaInstallerTestCase(unittest.TestCase):
         self.game_dir.mkdir()
         self._write_executable(self.game_dir / "stepmania", FAKE_STEPMANIA)
 
-    def tearDown(self):
+    def tearDown(self) -> None:
+        """Remove the temporary files."""
         self._tmp.cleanup()
 
     @staticmethod
@@ -55,7 +62,7 @@ class StepManiaInstallerTestCase(unittest.TestCase):
         path.write_text(content)
         path.chmod(0o755)
 
-    def _run_installer(self, game_dir: pathlib.Path) -> subprocess.CompletedProcess:
+    def _run_installer(self, game_dir: pathlib.Path) -> subprocess.CompletedProcess[str]:
         env = os.environ.copy()
         env["PATH"] = f"{self.bin_dir}:{env['PATH']}"
         return subprocess.run(
@@ -66,34 +73,37 @@ class StepManiaInstallerTestCase(unittest.TestCase):
             text=True,
         )
 
-    def test_missing_executable(self):
+    def test_missing_executable(self) -> None:
+        """Check that a missing StepMania executable is an error."""
         result = self._run_installer(self.game_dir / "nonexistent")
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("StepMania executable was not found", result.stdout)
+        assert result.returncode != 0
+        assert "StepMania executable was not found" in result.stdout
 
-    def test_checksum_mismatch(self):
+    def test_checksum_mismatch(self) -> None:
+        """Check that a tampered download is rejected and nothing is installed."""
         self._write_executable(self.bin_dir / "curl", FAKE_CURL)
         result = self._run_installer(self.game_dir)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertFalse((self.game_dir / "lib" / "libpcre.so.3").exists())
-        self.assertFalse((self.game_dir / "stepmania.sh").exists())
+        assert result.returncode != 0
+        assert not (self.game_dir / "lib" / "libpcre.so.3").exists()
+        assert not (self.game_dir / "stepmania.sh").exists()
 
     @unittest.skipUnless(_has_network(), "No network connection to archive.ubuntu.com")
-    def test_install(self):
+    def test_install(self) -> None:
+        """Check that the libraries and the launcher are installed and the installer can be rerun."""
         result = self._run_installer(self.game_dir)
-        self.assertEqual(result.returncode, 0, result.stderr)
+        assert result.returncode == 0, result.stderr
 
         pcre = self.game_dir / "lib" / "libpcre.so.3"
-        self.assertTrue(pcre.is_file())
-        self.assertFalse(pcre.is_symlink())
-        self.assertEqual(pcre.read_bytes()[:4], b"\x7fELF")
+        assert pcre.is_file()
+        assert not pcre.is_symlink()
+        assert pcre.read_bytes()[:4] == b"\x7fELF"
         libva = self.game_dir / "lib" / "libva.so.1"
-        self.assertTrue(libva.is_symlink())
-        self.assertEqual(os.readlink(libva), "/lib/x86_64-linux-gnu/libva.so.2")
+        assert libva.is_symlink()
+        assert os.readlink(libva) == "/lib/x86_64-linux-gnu/libva.so.2"
 
         # Running the installer again should succeed.
         result = self._run_installer(self.game_dir)
-        self.assertEqual(result.returncode, 0, result.stderr)
+        assert result.returncode == 0, result.stderr
 
         launcher = self.game_dir / "stepmania.sh"
         env = os.environ.copy()
@@ -106,8 +116,4 @@ class StepManiaInstallerTestCase(unittest.TestCase):
             env=env,
             text=True,
         ).stdout.splitlines()
-        self.assertEqual(output, [
-            f"LD_LIBRARY_PATH={self.game_dir}/lib:/existing",
-            f"PWD={self.game_dir}",
-            "ARGS=--foo bar",
-        ])
+        assert output == [f"LD_LIBRARY_PATH={self.game_dir}/lib:/existing", f"PWD={self.game_dir}", "ARGS=--foo bar"]

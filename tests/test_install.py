@@ -1,6 +1,8 @@
 """Tests for the scripts in ./install."""
 
 import dataclasses
+import http.client
+import io
 import pathlib
 import subprocess
 import sys
@@ -8,12 +10,16 @@ import tempfile
 import textwrap
 import unittest
 from unittest import mock
+import urllib.error
+import urllib.request
+
+import pytest
 
 from install import apt_packages, apt_sources, asdf, dpkg, flatpak, install, install_sudo
 from install import utils as install_utils
 from tests.utils import REPO_PATH
 
-HEADLESS_VM = install_utils.SystemInfo(
+HEADLESS_VM: install_utils.SystemInfo = install_utils.SystemInfo(
     arch="amd64",
     chassis="vm",
     desktop_env="",
@@ -22,45 +28,54 @@ HEADLESS_VM = install_utils.SystemInfo(
     is_physical=False,
     os_release={"NAME": "Ubuntu", "VERSION_CODENAME": "resolute", "VERSION_ID": "26.04"},
 )
-KDE_LAPTOP = dataclasses.replace(
+KDE_LAPTOP: install_utils.SystemInfo = dataclasses.replace(
     HEADLESS_VM, chassis="laptop", desktop_env="KDE", has_intel_cpu=True, is_physical=True,
 )
 
 
 class AptPackagesTestCase(unittest.TestCase):
-    def test_headless_vm(self):
-        packages = apt_packages.get_packages(HEADLESS_VM, installed={"kwin-wayland"})
-        self.assertIn("git", packages)
-        self.assertNotIn("vlc", packages)
-        self.assertNotIn("tlp", packages)
-        self.assertNotIn("lm-sensors", packages)
-        self.assertNotIn("intel-microcode", packages)
-        self.assertFalse(any(package.endswith("-dbgsym") for package in packages))
+    """Tests for selecting the apt packages to install."""
 
-    def test_kde_laptop(self):
+    def test_headless_vm(self) -> None:
+        """Check that a headless VM gets base packages without desktop, laptop or debug packages."""
+        packages = apt_packages.get_packages(HEADLESS_VM, installed={"kwin-wayland"})
+        assert "git" in packages
+        assert "vlc" not in packages
+        assert "tlp" not in packages
+        assert "lm-sensors" not in packages
+        assert "intel-microcode" not in packages
+        assert not any(package.endswith("-dbgsym") for package in packages)
+
+    def test_kde_laptop(self) -> None:
+        """Check that a KDE laptop gets its packages, only installed debug symbols and no duplicates."""
         packages = apt_packages.get_packages(KDE_LAPTOP, installed={"kwin-wayland"})
         for package in ("vlc", "kde-config-flatpak", "tlp", "touchegg", "obs-studio", "intel-microcode"):
-            self.assertIn(package, packages)
-        self.assertIn("kwin-wayland-dbgsym", packages)
-        self.assertNotIn("kscreen-dbgsym", packages)
-        self.assertNotIn("boinc-client-nvidia-cuda", packages)
-        self.assertEqual(len(packages), len(set(packages)), "Duplicate packages")
+            assert package in packages
+        assert "kwin-wayland-dbgsym" in packages
+        assert "kscreen-dbgsym" not in packages
+        assert "boinc-client-nvidia-cuda" not in packages
+        assert len(packages) == len(set(packages)), "Duplicate packages"
 
-    def test_nvidia(self):
+    def test_nvidia(self) -> None:
+        """Check that an Nvidia GPU adds the CUDA BOINC client."""
         info = dataclasses.replace(HEADLESS_VM, has_nvidia_gpu=True)
-        self.assertIn("boinc-client-nvidia-cuda", apt_packages.get_packages(info, installed=set()))
+        assert "boinc-client-nvidia-cuda" in apt_packages.get_packages(info, installed=set())
 
-    def test_external_debs(self):
-        self.assertEqual(apt_packages.get_external_debs(HEADLESS_VM, installed=set()), [])
+    def test_external_debs(self) -> None:
+        """Check that external .deb packages are desktop-only, amd64-only and use HTTPS."""
+        assert apt_packages.get_external_debs(HEADLESS_VM, installed=set()) == []
         debs = apt_packages.get_external_debs(KDE_LAPTOP, installed={"zoom"})
-        self.assertEqual([package for package, _ in debs], ["google-chrome-stable"])
-        self.assertTrue(all(url.startswith("https://") for _, url in debs))
+        assert [package for package, _ in debs] == ["google-chrome-stable"]
+        assert all(url.startswith("https://") for _, url in debs)
         arm = dataclasses.replace(KDE_LAPTOP, arch="arm64")
-        self.assertEqual(apt_packages.get_external_debs(arm, installed=set()), [])
+        assert apt_packages.get_external_debs(arm, installed=set()) == []
 
 
 class AptSourcesTestCase(unittest.TestCase):
-    def test_render(self):
+    """Tests for the apt source definitions."""
+
+    def test_render(self) -> None:
+        """Check that a source is rendered in the deb822 format to the correct path."""
         source = apt_sources.AptSource(
             name="test",
             uris="https://example.com/apt",
@@ -69,66 +84,76 @@ class AptSourcesTestCase(unittest.TestCase):
             signed_by=pathlib.Path("/etc/apt/keyrings/test.gpg"),
             architectures="amd64",
         )
-        self.assertEqual(
-            source.render(),
+        assert source.render() == (
             "Types: deb\n"
             "URIs: https://example.com/apt\n"
             "Suites: stable\n"
             "Components: main\n"
             "Signed-By: /etc/apt/keyrings/test.gpg\n"
-            "Architectures: amd64\n",
+            "Architectures: amd64\n"
         )
-        self.assertEqual(source.path, pathlib.Path("/etc/apt/sources.list.d/test.sources"))
+        assert source.path == pathlib.Path("/etc/apt/sources.list.d/test.sources")
 
-    def test_sources(self):
+    def test_sources(self) -> None:
+        """Check that desktops get a strict superset of the headless sources."""
         headless = {source.name for source in apt_sources.get_sources(HEADLESS_VM)}
         desktop = {source.name for source in apt_sources.get_sources(KDE_LAPTOP)}
-        self.assertIn("docker", headless)
-        self.assertNotIn("signal-xenial", headless)
-        self.assertTrue(headless < desktop)
-        self.assertIn("signal-xenial", desktop)
+        assert "docker" in headless
+        assert "signal-xenial" not in headless
+        assert headless < desktop
+        assert "signal-xenial" in desktop
 
-    def test_sources_secure(self):
+    def test_sources_secure(self) -> None:
+        """Check that all sources have an absolute keyring path and HTTPS key URLs."""
         for source in apt_sources.get_sources(KDE_LAPTOP):
-            self.assertTrue(source.signed_by.is_absolute())
+            assert source.signed_by.is_absolute()
             if source.key_url is not None:
-                self.assertTrue(source.key_url.startswith("https://"), source.key_url)
+                assert source.key_url.startswith("https://"), source.key_url
 
-    def test_ppas(self):
-        self.assertEqual(apt_sources.get_ppas(HEADLESS_VM), [])
-        self.assertIn("ppa:linrunner/tlp", apt_sources.get_ppas(KDE_LAPTOP))
-        self.assertIn("ppa:touchegg/stable", apt_sources.get_ppas(KDE_LAPTOP))
+    def test_ppas(self) -> None:
+        """Check that PPAs are added only on desktops."""
+        assert apt_sources.get_ppas(HEADLESS_VM) == []
+        assert "ppa:linrunner/tlp" in apt_sources.get_ppas(KDE_LAPTOP)
+        assert "ppa:touchegg/stable" in apt_sources.get_ppas(KDE_LAPTOP)
 
 
 class AsdfTestCase(unittest.TestCase):
-    def test_plugins(self):
-        self.assertEqual(asdf.get_plugins(HEADLESS_VM), ["actionlint"])
-        self.assertIn("protonge", asdf.get_plugins(KDE_LAPTOP))
+    """Tests for selecting the asdf plugins."""
+
+    def test_plugins(self) -> None:
+        """Check that headless systems get only the basic plugins and desktops get more."""
+        assert asdf.get_plugins(HEADLESS_VM) == ["actionlint"]
+        assert "protonge" in asdf.get_plugins(KDE_LAPTOP)
 
 
 class DpkgTestCase(unittest.TestCase):
-    def test_installed_packages(self):
+    """Tests for the dpkg helpers."""
+
+    def test_installed_packages(self) -> None:
+        """Check that only fully installed packages are parsed from a dpkg status file."""
         status = textwrap.dedent("""\
             Package: foo
             Status: install ok installed
             Description: Foo
              Status: install ok installed
-            
+
             Package: bar
             Status: deinstall ok config-files
-            
+
             Package: baz
             Architecture: i386
             Status: install ok installed
             """)
-        self.assertEqual(dpkg.get_installed_packages(status), {"foo", "baz"})
+        assert dpkg.get_installed_packages(status) == {"foo", "baz"}
 
-    def test_installed_packages_system(self):
+    def test_installed_packages_system(self) -> None:
+        """Check that the installed packages of the running system include dpkg."""
         if not dpkg.STATUS_PATH.exists():
             self.skipTest("dpkg is not installed")
-        self.assertIn("dpkg", dpkg.get_installed_packages())
+        assert "dpkg" in dpkg.get_installed_packages()
 
-    def test_enable_i386(self):
+    def test_enable_i386(self) -> None:
+        """Check that the i386 architecture is added only on amd64 when it is missing."""
         with (
             mock.patch.object(dpkg, "get_foreign_architectures", return_value=[]),
             mock.patch.object(dpkg, "add_architecture") as add_architecture,
@@ -146,24 +171,31 @@ class DpkgTestCase(unittest.TestCase):
 
 
 class FlatpakTestCase(unittest.TestCase):
-    def test_headless(self):
-        self.assertEqual(flatpak.get_packages(HEADLESS_VM), [])
+    """Tests for selecting the Flatpak packages."""
 
-    def test_desktop(self):
+    def test_headless(self) -> None:
+        """Check that headless systems get no Flatpak packages."""
+        assert flatpak.get_packages(HEADLESS_VM) == []
+
+    def test_desktop(self) -> None:
+        """Check that desktops get the desktop Flatpak packages."""
         packages = flatpak.get_packages(KDE_LAPTOP)
-        self.assertIn("org.zotero.Zotero", packages)
-        self.assertIn("com.slack.Slack", packages)
-        self.assertIn("org.telegram.desktop", packages)
+        assert "org.zotero.Zotero" in packages
+        assert "com.slack.Slack" in packages
+        assert "org.telegram.desktop" in packages
 
-    def test_steamos(self):
+    def test_steamos(self) -> None:
+        """Check that SteamOS gets its own package selection."""
         info = dataclasses.replace(KDE_LAPTOP, os_release={"NAME": "SteamOS"})
         packages = flatpak.get_packages(info)
-        self.assertIn("org.keepassxc.KeePassXC", packages)
-        self.assertIn("org.zotero.Zotero", packages)
-        self.assertNotIn("com.slack.Slack", packages)
+        assert "org.keepassxc.KeePassXC" in packages
+        assert "org.zotero.Zotero" in packages
+        assert "com.slack.Slack" not in packages
 
 
 class InstallTestCase(unittest.TestCase):
+    """Tests for the unprivileged install script."""
+
     def _main(self, *args: str) -> mock.MagicMock:
         with (
             mock.patch.object(sys, "argv", ["install.py", "--desktop-env=KDE", *args]),
@@ -176,22 +208,28 @@ class InstallTestCase(unittest.TestCase):
             install.main()
         return run
 
-    def test_sources_not_passed_by_default(self):
+    def test_sources_not_passed_by_default(self) -> None:
+        """Check that the sudo script is run without "--sources" by default."""
         command = self._main().call_args.args[0]
-        self.assertEqual(command[:2], ["sudo", install.SYSTEM_PYTHON])
-        self.assertIn("--desktop-env=KDE", command)
-        self.assertNotIn("--sources", command)
+        assert command[:2] == ["sudo", install.SYSTEM_PYTHON]
+        assert "--desktop-env=KDE" in command
+        assert "--sources" not in command
 
-    def test_sources_passed(self):
-        self.assertIn("--sources", self._main("--sources").call_args.args[0])
+    def test_sources_passed(self) -> None:
+        """Check that "--sources" is passed on to the sudo script."""
+        assert "--sources" in self._main("--sources").call_args.args[0]
 
-    def test_sources_with_skip_sudo(self):
-        with self.assertRaises(SystemExit), mock.patch("sys.stderr"):
+    def test_sources_with_skip_sudo(self) -> None:
+        """Check that "--sources" cannot be combined with "--skip-sudo"."""
+        with pytest.raises(SystemExit), mock.patch("sys.stderr"):
             self._main("--sources", "--skip-sudo")
 
 
 class InstallMainTestCase(unittest.TestCase):
-    def test_arguments_are_passed(self):
+    """Tests for running the install package as a program."""
+
+    def test_arguments_are_passed(self) -> None:
+        """Check that both "python -m install" and the directory pass their arguments on."""
         # This combination fails in argument parsing, so nothing gets installed.
         for command in (["-m", "install"], [str(REPO_PATH / "install")]):
             with self.subTest(command=command):
@@ -199,11 +237,13 @@ class InstallMainTestCase(unittest.TestCase):
                     [sys.executable, *command, "--skip-sudo", "--sources"],
                     capture_output=True, check=False, cwd=REPO_PATH, text=True,
                 )
-                self.assertEqual(result.returncode, 2)
-                self.assertIn("cannot be used with --skip-sudo", result.stderr)
+                assert result.returncode == 2
+                assert "cannot be used with --skip-sudo" in result.stderr
 
 
 class InstallSudoTestCase(unittest.TestCase):
+    """Tests for the privileged install script."""
+
     def _main(self, *args: str) -> mock.MagicMock:
         with (
             mock.patch.object(sys, "argv", ["install_sudo.py", "--desktop-env=", *args]),
@@ -219,13 +259,16 @@ class InstallSudoTestCase(unittest.TestCase):
         install_packages.assert_called_once()
         return setup_sources
 
-    def test_sources_skipped_by_default(self):
+    def test_sources_skipped_by_default(self) -> None:
+        """Check that the apt sources are not configured by default."""
         self._main().assert_not_called()
 
-    def test_sources(self):
+    def test_sources(self) -> None:
+        """Check that "--sources" configures the apt sources."""
         self._main("--sources").assert_called_once()
 
-    def test_bwrap_not_needed(self):
+    def test_bwrap_not_needed(self) -> None:
+        """Check that no AppArmor profile is installed when user namespaces are not restricted."""
         with tempfile.TemporaryDirectory() as temp_dir:
             sysctl = pathlib.Path(temp_dir) / "sysctl"
             sysctl.write_text("0\n")
@@ -236,7 +279,8 @@ class InstallSudoTestCase(unittest.TestCase):
                 install_sudo.fix_bwrap_apparmor()
             run.assert_not_called()
 
-    def test_bwrap_fix(self):
+    def test_bwrap_fix(self) -> None:
+        """Check that the bwrap AppArmor profile is written once with the correct mode."""
         with tempfile.TemporaryDirectory() as temp_dir:
             sysctl = pathlib.Path(temp_dir) / "sysctl"
             sysctl.write_text("1\n")
@@ -247,8 +291,8 @@ class InstallSudoTestCase(unittest.TestCase):
                 mock.patch.object(install_utils, "run") as run,
             ):
                 install_sudo.fix_bwrap_apparmor()
-                self.assertEqual(profile.read_text(), install_sudo.BWRAP_APPARMOR_PROFILE)
-                self.assertEqual(profile.stat().st_mode & 0o777, 0o644)
+                assert profile.read_text() == install_sudo.BWRAP_APPARMOR_PROFILE
+                assert profile.stat().st_mode & 511 == 420
                 run.assert_called_once_with(["systemctl", "reload", "apparmor"])
                 # The profile is not rewritten if it's already up to date.
                 install_sudo.fix_bwrap_apparmor()
@@ -256,49 +300,59 @@ class InstallSudoTestCase(unittest.TestCase):
 
 
 class InstallUtilsTestCase(unittest.TestCase):
-    def test_detect_chassis(self):
-        self.assertEqual(install_utils.detect_chassis("", "10\n", is_physical=True), "laptop")
-        self.assertEqual(install_utils.detect_chassis("", "3\n", is_physical=True), "desktop")
-        self.assertEqual(install_utils.detect_chassis("", "", is_physical=True), "")
-        self.assertEqual(install_utils.detect_chassis("", "10\n", is_physical=False), "vm")
-        self.assertEqual(install_utils.detect_chassis('CHASSIS="server"\n', "10\n", is_physical=True), "server")
+    """Tests for the shared install utilities."""
 
-    def test_parse_os_release(self):
+    def test_detect_chassis(self) -> None:
+        """Check the chassis detection from machine-info and DMI data."""
+        assert install_utils.detect_chassis("", "10\n", is_physical=True) == "laptop"
+        assert install_utils.detect_chassis("", "3\n", is_physical=True) == "desktop"
+        assert install_utils.detect_chassis("", "", is_physical=True) == ""
+        assert install_utils.detect_chassis("", "10\n", is_physical=False) == "vm"
+        assert install_utils.detect_chassis('CHASSIS="server"\n', "10\n", is_physical=True) == "server"
+
+    def test_parse_os_release(self) -> None:
+        """Check that os-release is parsed with comments, quotes and blank lines."""
         text = '# Comment\nNAME="Ubuntu"\nVERSION_ID="26.04"\nVERSION_CODENAME=resolute\nID_LIKE=\'debian\'\n\n'
-        self.assertEqual(
-            install_utils.parse_os_release(text),
-            {"NAME": "Ubuntu", "VERSION_ID": "26.04", "VERSION_CODENAME": "resolute", "ID_LIKE": "debian"},
-        )
+        assert install_utils.parse_os_release(text) == {
+            "NAME": "Ubuntu", "VERSION_ID": "26.04", "VERSION_CODENAME": "resolute", "ID_LIKE": "debian",
+        }
 
-    def test_download_requires_https(self):
-        with self.assertRaises(ValueError):
+    def test_download_requires_https(self) -> None:
+        """Check that downloads over plain HTTP are refused."""
+        with pytest.raises(ValueError, match="insecure connection"):
             install_utils.download("http://example.com/key.gpg")
 
-    def test_insecure_redirect(self):
+    def test_insecure_redirect(self) -> None:
+        """Check that redirects to HTTP are refused and redirects to HTTPS are followed."""
         handler = install_utils._HTTPSOnlyRedirectHandler()
-        request = install_utils.urllib.request.Request("https://example.com/key.gpg")
-        with self.assertRaises(install_utils.urllib.error.HTTPError):
-            handler.redirect_request(request, None, 302, "Found", {}, "http://example.com/key.gpg")
-        redirected = handler.redirect_request(request, None, 302, "Found", {}, "https://example.org/key.gpg")
-        self.assertEqual(redirected.full_url, "https://example.org/key.gpg")
+        request = urllib.request.Request("https://example.com/key.gpg")
+        headers = http.client.HTTPMessage()
+        with pytest.raises(urllib.error.HTTPError):
+            handler.redirect_request(request, io.BytesIO(), 302, "Found", headers, "http://example.com/key.gpg")
+        redirected = handler.redirect_request(request, io.BytesIO(), 302, "Found", headers, "https://example.org/key.gpg")
+        assert redirected is not None
+        assert redirected.full_url == "https://example.org/key.gpg"
 
-    def test_write_file(self):
+    def test_write_file(self) -> None:
+        """Check that files are written atomically with the given mode and without leftovers."""
         with tempfile.TemporaryDirectory() as temp_dir:
             path = pathlib.Path(temp_dir) / "sub" / "file"
             install_utils.write_file(path, "test", mode=0o600)
-            self.assertEqual(path.read_text(), "test")
-            self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+            assert path.read_text() == "test"
+            assert path.stat().st_mode & 511 == 384
             install_utils.write_file(path, b"new")
-            self.assertEqual(path.read_bytes(), b"new")
-            self.assertEqual(list(path.parent.iterdir()), [path])
+            assert path.read_bytes() == b"new"
+            assert list(path.parent.iterdir()) == [path]
 
-    def test_system_info_desktop(self):
-        self.assertFalse(HEADLESS_VM.is_desktop)
-        self.assertFalse(HEADLESS_VM.is_laptop)
-        self.assertTrue(KDE_LAPTOP.is_desktop)
-        self.assertTrue(KDE_LAPTOP.is_laptop)
+    def test_system_info_desktop(self) -> None:
+        """Check the desktop and laptop properties of the system info."""
+        assert not HEADLESS_VM.is_desktop
+        assert not HEADLESS_VM.is_laptop
+        assert KDE_LAPTOP.is_desktop
+        assert KDE_LAPTOP.is_laptop
 
-    def test_system_info_detect(self):
+    def test_system_info_detect(self) -> None:
+        """Check that the system info of the running system can be detected."""
         info = install_utils.SystemInfo.detect(desktop_env="")
-        self.assertFalse(info.is_desktop)
-        self.assertTrue(info.arch)
+        assert not info.is_desktop
+        assert info.arch

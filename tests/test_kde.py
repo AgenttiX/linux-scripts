@@ -1,4 +1,4 @@
-"""Test KDE scripts"""
+"""Test KDE scripts."""
 
 import configparser
 import os
@@ -17,8 +17,10 @@ FIX_WOBBLY_WINDOWS = REPO_PATH / "kde" / "fix-wobbly-windows.sh"
     "kwriteconfig is not installed",
 )
 class FixWobblyWindowsTestCase(unittest.TestCase):
+    """Tests for disabling the wobbly windows effect."""
+
     @staticmethod
-    def _run(kwinrc: pathlib.Path) -> subprocess.CompletedProcess:
+    def _run(kwinrc: pathlib.Path) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             ["sh", str(FIX_WOBBLY_WINDOWS)],
             capture_output=True,
@@ -33,35 +35,38 @@ class FixWobblyWindowsTestCase(unittest.TestCase):
         parser.read(kwinrc)
         return parser
 
-    def test_writes_explicit_false(self):
+    def test_writes_explicit_false(self) -> None:
+        """Check that the effect is explicitly disabled in a new kwinrc."""
         with tempfile.TemporaryDirectory() as temp_dir:
             kwinrc = pathlib.Path(temp_dir) / "kwinrc"
             self._run(kwinrc)
-            self.assertEqual(self._read(kwinrc)["Plugins"]["wobblywindowsenabled"], "false")
+            assert self._read(kwinrc)["Plugins"]["wobblywindowsenabled"] == "false"
 
-    def test_replaces_revert_to_default_marker(self):
+    def test_replaces_revert_to_default_marker(self) -> None:
         """The KCM writes a revert-to-default marker, which the distro default then overrides."""
         with tempfile.TemporaryDirectory() as temp_dir:
             kwinrc = pathlib.Path(temp_dir) / "kwinrc"
             kwinrc.write_text("[Plugins]\nwobblywindowsEnabled[$d]\n")
             self._run(kwinrc)
             contents = kwinrc.read_text()
-            self.assertNotIn("[$d]", contents)
-            self.assertEqual(self._read(kwinrc)["Plugins"]["wobblywindowsenabled"], "false")
+            assert "[$d]" not in contents
+            assert self._read(kwinrc)["Plugins"]["wobblywindowsenabled"] == "false"
 
-    def test_is_idempotent(self):
+    def test_is_idempotent(self) -> None:
+        """Check that running the script twice gives the same kwinrc."""
         with tempfile.TemporaryDirectory() as temp_dir:
             kwinrc = pathlib.Path(temp_dir) / "kwinrc"
             self._run(kwinrc)
             first = kwinrc.read_text()
             self._run(kwinrc)
-            self.assertEqual(kwinrc.read_text(), first)
+            assert kwinrc.read_text() == first
 
-    def test_preserves_other_settings(self):
+    def test_preserves_other_settings(self) -> None:
+        """Check that other plugin settings are kept."""
         with tempfile.TemporaryDirectory() as temp_dir:
             kwinrc = pathlib.Path(temp_dir) / "kwinrc"
             kwinrc.write_text("[Plugins]\nblurEnabled=true\n")
             self._run(kwinrc)
             plugins = self._read(kwinrc)["Plugins"]
-            self.assertEqual(plugins["blurenabled"], "true")
-            self.assertEqual(plugins["wobblywindowsenabled"], "false")
+            assert plugins["blurenabled"] == "true"
+            assert plugins["wobblywindowsenabled"] == "false"

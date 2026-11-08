@@ -26,6 +26,8 @@ DEFAULT_TIMEOUT = 300
 
 @dataclasses.dataclass(frozen=True, slots=True)
 class PullResult:
+    """Result of pulling a single repository."""
+
     repo: pathlib.Path
     returncode: int
     output: str
@@ -70,6 +72,11 @@ def pull(repo: pathlib.Path, timeout: float = DEFAULT_TIMEOUT) -> PullResult:
 
 
 def print_result(result: PullResult, color: bool) -> None:
+    """Print the output of a pull as a single block.
+
+    :param result: result of the pull
+    :param color: whether to use ANSI colors
+    """
     bold, red, reset = ("\033[1m", "\033[31m", "\033[0m") if color else ("", "", "")
     status = "" if result.returncode == 0 else f" {red}(failed with code {result.returncode}){reset}"
     print(f"{bold}{result.repo}{reset}{status}")
@@ -94,7 +101,12 @@ def pull_all(
     return results
 
 
-def main(argv: tp.Optional[tp.Sequence[str]] = None) -> int:
+def main(argv: tp.Sequence[str] | None = None) -> int:
+    """Pull all repositories in the given roots.
+
+    :param argv: command-line arguments, or None to use sys.argv
+    :return: exit code
+    """
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         "-j", "--jobs", type=int, default=DEFAULT_JOBS,

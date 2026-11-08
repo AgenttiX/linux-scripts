@@ -8,9 +8,9 @@ import pathlib
 
 from install import utils
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
-STATUS_PATH = pathlib.Path("/var/lib/dpkg/status")
+STATUS_PATH: pathlib.Path = pathlib.Path("/var/lib/dpkg/status")
 
 
 def add_architecture(arch: str) -> None:

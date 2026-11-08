@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-"""
-Script for removing old kernel versions
-to free up space on the boot partition.
+"""Remove old kernel versions to free up space on the boot partition.
 
 This is necessary on some old encrypted Ubuntu installations,
 which have a too small boot partition by default.
@@ -11,8 +9,12 @@ which have a too small boot partition by default.
 import os
 import subprocess
 
+# The number of columns before the package version in the "dpkg --list" output
+MIN_DPKG_COLUMNS = 5
 
-def main():
+
+def main() -> None:
+    """List the installed kernels and purge the ones selected by the user."""
     running = os.uname().release
 
     process = subprocess.run(["dpkg", "--list", "linux-image-*"], stdout=subprocess.PIPE, check=True)
@@ -24,7 +26,7 @@ def main():
     for line in lines:
         columns = line.split()
 
-        if len(columns) > 5:
+        if len(columns) > MIN_DPKG_COLUMNS:
             version = columns[1][12:]
 
             if version != "generic" and version[:5] != "extra":
@@ -69,7 +71,7 @@ def main():
     continue_str = input()  # nosec
     if continue_str == "y":
         print("Removing old kernels")
-        subprocess.run(["apt-get", "purge"] + purge_these, check=True)
+        subprocess.run(["apt-get", "purge", *purge_these], check=True)
         print("Old kernels removed. Updating.")
         subprocess.run(["apt-get", "update"], check=True)
         subprocess.run(["apt-get", "dist-upgrade"], check=True)

@@ -1,4 +1,4 @@
-"""Test the Steam DRM device filter"""
+"""Test the Steam DRM device filter."""
 
 import os
 import pathlib
@@ -51,7 +51,7 @@ int main(void) {
 
 
 def _parse(output: str) -> dict[str, tuple[int, int, list[str]]]:
-    result = {}
+    result: dict[str, tuple[int, int, list[str]]] = {}
     for line in output.splitlines():
         label, count, count_only, *vendors = line.split()
         result[label] = (int(count), int(count_only), vendors)
@@ -61,7 +61,15 @@ def _parse(output: str) -> dict[str, tuple[int, int, list[str]]]:
 @unittest.skipUnless(shutil.which("gcc"), "gcc is not installed")
 @unittest.skipUnless(pathlib.Path("/usr/include/xf86drm.h").exists(), "libdrm headers are not installed")
 class SteamDrmFilterTestCase(unittest.TestCase):
-    def setUp(self):
+    """Tests for hiding GPUs from Steam with the DRM device filter library."""
+
+    lib: pathlib.Path
+    probe: pathlib.Path
+    tmp: tempfile.TemporaryDirectory[str]
+    tmp_path: pathlib.Path
+
+    def setUp(self) -> None:
+        """Compile the filter library and the probe program."""
         self.tmp = tempfile.TemporaryDirectory()
         self.tmp_path = pathlib.Path(self.tmp.name)
         self.lib = self.tmp_path / "libagx-drm-filter.so"
@@ -78,10 +86,16 @@ class SteamDrmFilterTestCase(unittest.TestCase):
             check=True,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
+        """Remove the compiled files."""
         self.tmp.cleanup()
 
     def run_probe(self, hide_vendors: str | None) -> dict[str, tuple[int, int, list[str]]]:
+        """Run the probe with the filter preloaded.
+
+        :param hide_vendors: value for AGX_DRM_HIDE_VENDORS, or None to leave it unset
+        :return: the device count, the count-only result and the PCI vendor IDs for each lookup method
+        """
         env = os.environ.copy()
         env["LD_PRELOAD"] = str(self.lib)
         env.pop("AGX_DRM_HIDE_VENDORS", None)
@@ -90,15 +104,18 @@ class SteamDrmFilterTestCase(unittest.TestCase):
         res = subprocess.run([str(self.probe)], env=env, capture_output=True, text=True, check=True)
         return _parse(res.stdout)
 
-    def test_no_filter(self):
+    def test_no_filter(self) -> None:
+        """Check that without a filter both lookup methods see all devices."""
         result = self.run_probe(None)
-        self.assertEqual(result["direct"], result["dlopen"])
-        self.assertEqual(result["direct"][0], result["direct"][1])
+        assert result["direct"] == result["dlopen"]
+        assert result["direct"][0] == result["direct"][1]
 
-    def test_hide_unknown_vendor(self):
-        self.assertEqual(self.run_probe("0xffff"), self.run_probe(None))
+    def test_hide_unknown_vendor(self) -> None:
+        """Check that hiding a vendor without devices changes nothing."""
+        assert self.run_probe("0xffff") == self.run_probe(None)
 
-    def test_hide_vendors(self):
+    def test_hide_vendors(self) -> None:
+        """Check that the devices of a hidden vendor are removed from both lookup methods."""
         unfiltered = self.run_probe(None)["direct"]
         vendors = unfiltered[2]
         if not vendors:
@@ -109,17 +126,18 @@ class SteamDrmFilterTestCase(unittest.TestCase):
         for label in ("direct", "dlopen"):
             with self.subTest(label=label):
                 count, count_only, result_vendors = result[label]
-                self.assertEqual(result_vendors, expected)
-                self.assertEqual(count, len(expected))
-                self.assertEqual(count_only, len(expected))
+                assert result_vendors == expected
+                assert count == len(expected)
+                assert count_only == len(expected)
 
-    def test_hide_all_vendors(self):
+    def test_hide_all_vendors(self) -> None:
+        """Check that hiding every vendor leaves no devices."""
         vendors = self.run_probe(None)["direct"][2]
         if not vendors:
             self.skipTest("No PCI DRM devices available")
         result = self.run_probe(",".join(f"0x{vendor}" for vendor in set(vendors)))
-        self.assertEqual(result["direct"][:2], (0, 0))
-        self.assertEqual(result["dlopen"][:2], (0, 0))
+        assert result["direct"][:2] == (0, 0)
+        assert result["dlopen"][:2] == (0, 0)
 
 
 if __name__ == "__main__":

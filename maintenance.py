@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-"""
-Routine maintenance script for GNU/Linux-based systems
-"""
+"""Routine maintenance script for GNU/Linux-based systems."""
 
 import argparse
 import glob
@@ -11,13 +9,12 @@ import os
 import shutil
 import subprocess as sp
 import time
-import typing as tp
 
 import misc_utils as utils
 from misc_utils import print_info, run
 
-SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
-LOG_PATH = os.path.join(SCRIPT_PATH, "logs")
+SCRIPT_PATH: str = os.path.dirname(os.path.abspath(__file__))
+LOG_PATH: str = os.path.join(SCRIPT_PATH, "logs")
 os.makedirs(LOG_PATH, exist_ok=True)
 logging.basicConfig(
     handlers=[
@@ -26,11 +23,13 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s %(levelname)-8s %(message)s"
 )
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 APT_WAIT_TIME: int = 1
+#: APT return code when the APT lock is held by another process
+APT_RET_LOCKED: int = 100
 
-BLEACHBIT_FEATURES: tp.List[str] = [
+BLEACHBIT_FEATURES: list[str] = [
     "adobe_reader.*",
     "amsn.*",
     "amule.*",
@@ -139,28 +138,34 @@ BLEACHBIT_FEATURES: tp.List[str] = [
     "yum.*"
 ]
 
-BLEACHBIT_ROOT: tp.List[str] = [
+BLEACHBIT_ROOT: list[str] = [
     "apt.*",
 ]
 
-BLEACHBIT_DEEP: tp.List[str] = [
+BLEACHBIT_DEEP: list[str] = [
     "deepscan.backup",
     "deepscan.ds_store",
     "deepscan.thumbs_db",
     "deepscan.tmp"
 ]
 
-BLEACHBIT_FIREFOX: tp.List[str] = [
+BLEACHBIT_FIREFOX: list[str] = [
     "firefox.*"
 ]
 
-BLEACHBIT_THUNDERBIRD: tp.List[str] = [
+#: freshclam return codes when freshclam is already running
+FRESHCLAM_RET_RUNNING: tuple[int, ...] = (2, 62)
+#: fwupdmgr return code when no updates are available
+FWUPDMGR_RET_NO_UPDATES: int = 2
+
+BLEACHBIT_THUNDERBIRD: list[str] = [
     "thunderbird.cache",
     "thunderbird.index",
 ]
 
 
 def apptainer() -> None:
+    """Clean the Apptainer cache."""
     if shutil.which("apptainer") is None:
         print_info("Apptainer not found")
         return
@@ -169,8 +174,12 @@ def apptainer() -> None:
 
 
 def apt() -> None:
-    """This does not print output properly while the process is being run,
+    """Upgrade APT packages.
+
+    This does not print output properly while the process is being run,
     which makes it impossible to answer prompts.
+
+    :raises ValueError: if APT returns an unknown return code
     """
     print_info("Running apt")
     run(["apt-get", "update"], sudo=True)
@@ -179,7 +188,7 @@ def apt() -> None:
         apt_ret = run(["apt-get", "dist-upgrade", "-y"], check=False, sudo=True)
         if apt_ret == 0:
             break
-        if apt_ret != 100:
+        if apt_ret != APT_RET_LOCKED:
             error_text = f"Got unknown APT return code: {apt_ret}"
             logger.error(error_text)
             raise ValueError(error_text)
@@ -192,11 +201,17 @@ def apt() -> None:
 
 
 def bleachbit(deep: bool = False, firefox: bool = False, thunderbird: bool = False) -> None:
+    """Clean the system with BleachBit.
+
+    :param deep: whether to run the slow deep scan
+    :param firefox: whether to clean all Firefox data
+    :param thunderbird: whether to clean the Thunderbird cache and index
+    """
     if not os.path.exists("/usr/bin/bleachbit"):
         print_info("Bleachbit not found")
         return
     print_info("Running Bleachbit")
-    args = ["bleachbit", "--clean"] + BLEACHBIT_FEATURES
+    args = ["bleachbit", "--clean", *BLEACHBIT_FEATURES]
     if deep:
         print_info("Using deep scan. This will take a while.")
         args += BLEACHBIT_DEEP
@@ -215,6 +230,10 @@ def bleachbit(deep: bool = False, firefox: bool = False, thunderbird: bool = Fal
 
 
 def docker(all_unused_images: bool = False) -> None:
+    """Prune unused Docker data.
+
+    :param all_unused_images: whether to remove all unused images and not just dangling ones
+    """
     if not os.path.exists("/usr/bin/docker"):
         print_info("Docker not found")
         return
@@ -226,6 +245,7 @@ def docker(all_unused_images: bool = False) -> None:
 
 
 def flatpak() -> None:
+    """Update Flatpak apps and remove unused ones."""
     if os.path.exists("/usr/bin/flatpak"):
         print_info("Removing unused Flatpak apps (so that unnecessary apps are not updated)")
         run(["flatpak", "remove", "--unused"])
@@ -241,21 +261,26 @@ def flatpak() -> None:
 
 
 def fwupdmgr() -> None:
+    """Check for firmware updates."""
     if not os.path.exists("/usr/bin/fwupdmgr"):
         print_info("fwupdmgr is not installed")
         return
     print_info("Checking for firmware updates")
     ret = run(["fwupdmgr", "refresh"], check=False)
-    # Return code 2 = no updates available
-    if ret > 0 and ret != 2:
+    if ret > 0 and ret != FWUPDMGR_RET_NO_UPDATES:
         print_info(f"Got return code {ret}. Is this an error?")
 
     ret = run(["fwupdmgr", "get-updates"], check=False)
-    if ret > 0 and ret != 2:
+    if ret > 0 and ret != FWUPDMGR_RET_NO_UPDATES:
         print_info(f"Got return code {ret}. Is this an error?")
 
 
 def get_zerofree_status(args: argparse.Namespace) -> bool:
+    """Determine whether free disk space should be zeroed, asking the user if necessary.
+
+    :param args: command-line arguments
+    :return: whether to zero free disk space
+    """
     if utils.is_virtual():
         if args.zerofree:
             print("Virtual machine detected. Enabling zeroing of free space as requested.")
@@ -271,7 +296,8 @@ def get_zerofree_status(args: argparse.Namespace) -> bool:
 
 
 def mdadm() -> None:
-    """mdadm scrubbing
+    """Run mdadm scrubbing.
+
     https://wiki.archlinux.org/title/RAID#Scrubbing
     """
     if os.path.exists("/sbin/mdadm"):
@@ -279,7 +305,7 @@ def mdadm() -> None:
             "Starting mdadm scrubbing. "
             "You can monitor the progress with \"cat /proc/mdstat\". "
             "Rebooting will restart the scrubbing from the beginning.")
-        endpoints = glob.glob(f"/sys/block/md*/md/sync_action")
+        endpoints = glob.glob("/sys/block/md*/md/sync_action")
         for path in endpoints:
             with open(path, "w") as endpoint:
                 endpoint.write("check")
@@ -288,6 +314,7 @@ def mdadm() -> None:
 
 
 def remove_custom_files() -> None:
+    """Remove custom files from the home directory."""
     print("Removing custom files")
     home = os.path.join("/home", utils.get_user())
     home_files = [
@@ -301,15 +328,19 @@ def remove_custom_files() -> None:
     for file in home_files:
         full_path = os.path.join(home, file)
         if os.path.exists(full_path):
-            print("Removing \"{full_path}\"")
+            print(f"Removing \"{full_path}\"")
             os.remove(full_path)
 
 
 def security() -> None:
+    """Run security scanners.
+
+    :raises ValueError: if freshclam returns an unknown return code
+    """
     if os.path.exists("/usr/bin/freshclam"):
         print_info("Running freshclam")
         freshclam_ret = run(["freshclam", "-d"], check=False, sudo=True)
-        if freshclam_ret in [2, 62]:
+        if freshclam_ret in FRESHCLAM_RET_RUNNING:
             print_info("Freshclam is already running")
         elif freshclam_ret != 0:
             raise ValueError(f"Got unknown freshclam return code: {freshclam_ret}")
@@ -329,6 +360,7 @@ def security() -> None:
 
 
 def snap() -> None:
+    """Update snaps."""
     if os.path.exists("/usr/bin/snap"):
         print_info("Updating snaps")
         run(["snap", "refresh"], sudo=True)
@@ -337,6 +369,7 @@ def snap() -> None:
 
 
 def trim() -> None:
+    """Trim all mounted file systems."""
     if os.path.exists("/sbin/fstrim"):
         print_info("Running fstrim")
         run(["fstrim", "-a", "-v"], sudo=True)
@@ -346,7 +379,10 @@ def trim() -> None:
 
 
 def virtualbox_host() -> None:
-    """This does not work, as it does not capture output."""
+    """Run the VirtualBox host maintenance script.
+
+    This does not work, as it does not capture output.
+    """
     if os.path.exists("/usr/bin/virtualbox"):
         print_info("Running VirtualBox maintenance script.")
         run([os.path.join(SCRIPT_PATH, "virtualbox", "vbox_host_maintenance.sh")])
@@ -355,6 +391,7 @@ def virtualbox_host() -> None:
 
 
 def zerofree() -> None:
+    """Zero free disk space on the root partition."""
     print_info("Zeroing free disk space on /")
     # The directory /var/tmp is used instead of /tmp, as the latter may be on a ramdisk or a separate partition.
     run(["dd", "if=/dev/zero", "of=/var/tmp/bigemptyfile", "bs=4096k", "status=progress"], sudo=True)
@@ -364,6 +401,7 @@ def zerofree() -> None:
 
 
 def zgen() -> None:
+    """Run zgen."""
     if shutil.which("zgen") is not None:
         print_info("Running zgen")
         run(["zgen"])
@@ -371,7 +409,12 @@ def zgen() -> None:
         print_info("zgen not found.")
 
 
-def main():
+def main() -> None:
+    """Run the maintenance script.
+
+    :raises ValueError: if both reboot and shutdown are selected
+    :raises NotImplementedError: if VirtualBox maintenance is selected
+    """
     parser = argparse.ArgumentParser(description="Maintenance script")
     parser.add_argument("--bleachbit-only", help="Run only Bleachbit", action="store_true")
     parser.add_argument("--deep", help="Deep-clean all", action="store_true")

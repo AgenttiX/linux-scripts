@@ -1,4 +1,4 @@
-"""Edit the file extensions of images"""
+"""Edit the file extensions of images."""
 
 import os.path
 import shutil
@@ -6,7 +6,11 @@ import shutil
 import img_utils
 
 
-def rename_extension(source: str):
+def rename_extension(source: str) -> None:
+    """Convert the file extensions of images to uppercase.
+
+    :param source: source folder, which is searched recursively
+    """
     files = img_utils.find_files_recursive(source, "*.jpg") + img_utils.find_files_recursive(source, "*.rw2")
     for path in files:
         filename, extension = os.path.splitext(path)

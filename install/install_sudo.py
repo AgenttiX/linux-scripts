@@ -19,9 +19,9 @@ from install import (
     utils,
 )
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
-APPARMOR_USERNS_SYSCTL = pathlib.Path("/proc/sys/kernel/apparmor_restrict_unprivileged_userns")
+APPARMOR_USERNS_SYSCTL: pathlib.Path = pathlib.Path("/proc/sys/kernel/apparmor_restrict_unprivileged_userns")
 BWRAP_APPARMOR_PROFILE = """abi <abi/4.0>,
 include <tunables/global>
 
@@ -30,7 +30,7 @@ profile bwrap /usr/bin/bwrap flags=(unconfined) {
   include if exists <local/bwrap>
 }
 """
-BWRAP_APPARMOR_PROFILE_PATH = pathlib.Path("/etc/apparmor.d/bwrap")
+BWRAP_APPARMOR_PROFILE_PATH: pathlib.Path = pathlib.Path("/etc/apparmor.d/bwrap")
 SNAP_PACKAGES = (
     ("pycharm-professional", True),
     # Telegram snap does not work on Kubuntu 25.04

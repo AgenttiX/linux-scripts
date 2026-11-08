@@ -11,7 +11,7 @@ import re
 import sys
 import tempfile
 
-CONFIG_DIR_PATTERN = re.compile(r"PyCharm(\d+)\.(\d+)")
+CONFIG_DIR_PATTERN: re.Pattern[str] = re.compile(r"PyCharm(\d+)\.(\d+)")
 MAX_HEAP_MIB = 16384
 # The indexing workers run in the same thread pool as the remote development protocol of the IDE.
 # If they all get stuck, then the remote sessions hang in "Connecting" even though the SSH connection is fine.

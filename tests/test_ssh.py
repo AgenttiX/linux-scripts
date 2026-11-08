@@ -47,7 +47,14 @@ exit "${STUB_AGENT_STATUS:-1}"
 
 @unittest.skipIf(shutil.which("zsh") is None, "Zsh is not installed")
 class SSHRefreshMasterTestCase(unittest.TestCase):
-    def setUp(self):
+    """Tests for refreshing stale SSH master connections."""
+
+    bin_dir: pathlib.Path
+    log_path: pathlib.Path
+    temp_dir: tempfile.TemporaryDirectory[str]
+
+    def setUp(self) -> None:
+        """Create the ssh stub and its log file."""
         self.temp_dir = tempfile.TemporaryDirectory()
         temp_path = pathlib.Path(self.temp_dir.name)
 
@@ -82,56 +89,56 @@ class SSHRefreshMasterTestCase(unittest.TestCase):
             env=env,
             text=True,
         )
-        self.assertEqual("", process.stderr)
+        assert process.stderr == ""
         return self.log_path.read_text()
 
-    def test_no_master_connection(self):
+    def test_no_master_connection(self) -> None:
         """Without a master connection there is nothing to probe or to close."""
         commands = self.refresh(STUB_CHECK_STATUS="1")
-        self.assertIn("-O check", commands)
-        self.assertNotIn("-O stop", commands)
+        assert "-O check" in commands
+        assert "-O stop" not in commands
 
-    def test_healthy_master_connection(self):
+    def test_healthy_master_connection(self) -> None:
         """A responding master connection with a working agent must be kept."""
         commands = self.refresh(STUB_AGENT_STATUS="0")
-        self.assertNotIn("-O stop", commands)
+        assert "-O stop" not in commands
 
-    def test_healthy_master_connection_without_keys(self):
+    def test_healthy_master_connection_without_keys(self) -> None:
         """An agent that is reachable but has no keys loaded exits with 1, which is not a failure."""
         commands = self.refresh(STUB_AGENT_STATUS="1")
-        self.assertNotIn("-O stop", commands)
+        assert "-O stop" not in commands
 
-    def test_master_connection_without_ssh_add(self):
+    def test_master_connection_without_ssh_add(self) -> None:
         """Servers that don't have "ssh-add" installed exit with 127, which is not a failure either."""
         commands = self.refresh(STUB_AGENT_STATUS="127")
-        self.assertNotIn("-O stop", commands)
+        assert "-O stop" not in commands
 
-    def test_unresponsive_master_connection(self):
+    def test_unresponsive_master_connection(self) -> None:
         """This is the case after the client computer has been suspended."""
         commands = self.refresh(STUB_PROBE_STATUS="255")
-        self.assertIn("-O stop", commands)
+        assert "-O stop" in commands
 
-    def test_broken_agent_forwarding(self):
+    def test_broken_agent_forwarding(self) -> None:
         """A forwarded agent socket that can't be reached makes "ssh-add -l" exit with 2."""
         commands = self.refresh(STUB_AGENT_STATUS="2")
-        self.assertIn("-O stop", commands)
+        assert "-O stop" in commands
 
-    def test_broken_agent_forwarding_without_forward_agent(self):
+    def test_broken_agent_forwarding_without_forward_agent(self) -> None:
         """Without agent forwarding there is no forwarded agent to check.
 
         The master connection must therefore not be closed because of a missing agent.
         """
         commands = self.refresh(STUB_AGENT_STATUS="2", STUB_FORWARD_AGENT="no")
-        self.assertNotIn("-O stop", commands)
+        assert "-O stop" not in commands
 
-    def test_probe_does_not_reserve_an_x11_display(self):
+    def test_probe_does_not_reserve_an_x11_display(self) -> None:
         """The probe must not take the display number that the actual session should get.
 
         It must not run the tmux RemoteCommand either.
         """
         commands = self.refresh()
-        self.assertIn("-o ForwardX11=no", commands)
-        self.assertIn("-o RemoteCommand=none", commands)
+        assert "-o ForwardX11=no" in commands
+        assert "-o RemoteCommand=none" in commands
 
 
 if __name__ == "__main__":

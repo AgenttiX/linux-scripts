@@ -42,32 +42,33 @@ dependencies = [
     # Python-ADB may require the following to work:
     # sudo apt install gcc libssl-dev python3-dev python3-m2crypto python3-openssl python3-rsa swig
     # This does not work on Ubuntu 22.04
-    # "adb>=1.3.0",
-    # "chkcrontab>=1.7",
-    "exif>=1.6.0",
+    # "adb >= 1.3.0",
+    # "chkcrontab >= 1.7",
+    "exif >= 1.6.0",
     # gplaycli >= 3.29
     # This does not work on Ubuntu 22.04
     # https://github.com/rehmatworks/gplaydl/issues/30
-    # "gplaydl>=1.3.5",
+    # "gplaydl >= 1.3.5",
     # TODO: Try this instead.
     # https://github.com/89z/googleplay
     # For Wacom script
     # Despite the warning from FOSSA, python-xlib is licensed with LGPLv2+
     # https://github.com/python-xlib/python-xlib
     # https://pypi.org/project/python-xlib/
-    "python-xlib>=0.33",
-    # "qmk>=1.0.0",
-    "requests>=2.32.3",
-    "slack-cleaner2>=3.2.7",  # For LibreNMS log spam cleaner
-    # "tasmotizer>=1.2.1",
+    "python-xlib >= 0.33",
+    # "qmk >= 1.0.0",
+    "requests >= 2.32.3",
+    "slack-cleaner2 >= 3.2.7",  # For LibreNMS log spam cleaner
+    # "tasmotizer >= 1.2.1",
 ]
 requires-python = ">=3.14"
 
 [dependency-groups]
 dev = [
-    "pytest>=9.1.1",
-    "pytest-cov>=7.1.0",
-    "ruff>=0.16.6",
+    "pyrefly >= 1.4.1",
+    "pytest >= 9.1.1",
+    "pytest-cov >= 7.1.0",
+    "ruff >= 0.16.6",
 ]
 
 [project.urls]
@@ -83,6 +84,10 @@ show_missing = true
 
 [tool.coverage.run]
 branch = true
+
+[tool.pyrefly]
+# Some scripts import modules from their own directory.
+search-path = [".", "android", "images"]
 
 [tool.pytest.ini_options]
 addopts = [
@@ -123,6 +128,10 @@ select = [
     "UP",    # pyupgrade
     "W"      # pycodestyle warnings
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests compare against literal values.
+"tests/**" = ["PLR2004"]
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true

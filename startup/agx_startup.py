@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-"""
-Startup configuration for my devices.
+"""Startup configuration for my devices.
+
 To adapt this script for your needs, replace the device ids with ones extracted from your systems.
 You can use the command "powertop" to find the device ids and other power control commands.
 
@@ -13,36 +13,38 @@ import enum
 import glob
 import os
 import subprocess
-import time
-import typing as tp
-
 
 # Code required for configuration
 
-class ALPM_LevelOptions(enum.Enum):
-    MAX_PERFORMANCE = "max_powerformance"
+class ALPMLevelOptions(enum.Enum):
+    """SATA Aggressive Link Power Management (ALPM) policies."""
+
+    MAX_PERFORMANCE = "max_performance"
     MEDIUM_POWER = "medium_power"
     MED_POWER_WITH_DIPM = "med_power_with_dipm"
     MIN_POWER = "min_power"     # Warning: possible data loss
 
 
+# The flag column of /proc/acpi/wakeup is the third column.
+ACPI_WAKEUP_MIN_COLUMNS = 3
+
 # Configuration
 
-ALPM_LEVELS: tp.Dict[str, ALPM_LevelOptions] = {
-    "0B4Ch": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
-    "334729G": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
-    "H12SSL-i": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
-    "X58A-UD7": ALPM_LevelOptions.MED_POWER_WITH_DIPM,
-    "ROG ZENITH II EXTREME": ALPM_LevelOptions.MED_POWER_WITH_DIPM
+ALPM_LEVELS: dict[str, ALPMLevelOptions] = {
+    "0B4Ch": ALPMLevelOptions.MED_POWER_WITH_DIPM,
+    "334729G": ALPMLevelOptions.MED_POWER_WITH_DIPM,
+    "H12SSL-i": ALPMLevelOptions.MED_POWER_WITH_DIPM,
+    "X58A-UD7": ALPMLevelOptions.MED_POWER_WITH_DIPM,
+    "ROG ZENITH II EXTREME": ALPMLevelOptions.MED_POWER_WITH_DIPM
 }
 
-CUSTOM_COMMANDS: tp.Dict[str, tp.List[tp.List[str]]] = {
+CUSTOM_COMMANDS: dict[str, list[list[str]]] = {
     "0B4Ch": [
         ["ethtool", "-s", "enp1s0", "wol", "d"]
     ]
 }
 
-CUSTOM_WRITES: tp.Dict[str, tp.Dict[str, str]] = {
+CUSTOM_WRITES: dict[str, dict[str, str]] = {
     "0B4Ch": {
         "/sys/module/snd_hda_intel/parameters/power_save": "1"
     },
@@ -62,7 +64,7 @@ DEFAULT_HDPARM_PARAMS = {
 DEFAULT_HDPARM_PARAMS_WITHOUT_APM = {
     "-S": 241
 }
-HDPARM_PARAMS: tp.Dict[str, tp.Dict[str, tp.Dict[str, int]]] = {
+HDPARM_PARAMS: dict[str, dict[str, dict[str, int]]] = {
     "0B4Ch": {
         "ata-TOSHIBA_THNSNF128GCSS_Z2IS10NMT8KY": DEFAULT_HDPARM_PARAMS,
         "ata-ST4000DM000-1F2168_S301LPS3": DEFAULT_HDPARM_PARAMS,
@@ -84,7 +86,7 @@ HDPARM_PARAMS: tp.Dict[str, tp.Dict[str, tp.Dict[str, int]]] = {
     }
 }
 
-POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
+POWER_CONTROL_DEVICES: dict[str, list[str]] = {
     # ThinkPad T480
     "20L5CTO1WW": [
         # PCIe
@@ -399,7 +401,7 @@ POWER_CONTROL_DEVICES: tp.Dict[str, tp.List[str]] = {
 }
 
 # These wakeup sources are not in /proc/acpi/wakeup and therefore have to be specified manually
-WAKEUP_SOURCES: tp.Dict[str, tp.List[str]] = {
+WAKEUP_SOURCES: dict[str, list[str]] = {
     # ThinkPad T480
     "20L5CTO1WW": [
         "/sys/bus/usb/devices/6-2.1.2",
@@ -417,11 +419,20 @@ WAKEUP_SOURCES: tp.Dict[str, tp.List[str]] = {
 # Support functions
 
 def board_name() -> str:
+    """Get the motherboard name.
+
+    :return: board name
+    """
     with open("/sys/class/dmi/id/board_name") as name_file:
         return name_file.read().rstrip("\n")
 
 
 def write_to_virtual_file(path: str, data: str) -> None:
+    """Write data to a virtual file such as those in /sys, printing a message on failure.
+
+    :param path: path to the file
+    :param data: data to write
+    """
     try:
         with open(path, "w") as file:
             print(data, file=file)
@@ -434,6 +445,7 @@ def write_to_virtual_file(path: str, data: str) -> None:
 # Features
 
 def alpm() -> None:
+    """Configure the SATA link power management policy for the current board."""
     board = board_name()
 
     if board not in ALPM_LEVELS:
@@ -449,6 +461,7 @@ def alpm() -> None:
 
 
 def custom_writes() -> None:
+    """Perform the custom file writes configured for the current board."""
     board = board_name()
 
     if board not in CUSTOM_WRITES:
@@ -459,6 +472,7 @@ def custom_writes() -> None:
 
 
 def custom_commands() -> None:
+    """Run the custom commands configured for the current board."""
     board = board_name()
 
     if board not in CUSTOM_COMMANDS:
@@ -469,6 +483,12 @@ def custom_commands() -> None:
 
 
 def disable_wakeup(device: str, info: bool = True) -> bool:
+    """Disable wakeup for a device.
+
+    :param device: sysfs path of the device
+    :param info: whether to print a message if the device or its wakeup control is not found
+    :return: whether wakeup was disabled
+    """
     if not os.path.exists(device):
         if info:
             print(f"Device \"{device}\" not found")
@@ -482,7 +502,11 @@ def disable_wakeup(device: str, info: bool = True) -> bool:
     return True
 
 
-def disable_wakeups(sources: tp.Dict[str, tp.List[str]] = WAKEUP_SOURCES) -> None:
+def disable_wakeups(sources: dict[str, list[str]] = WAKEUP_SOURCES) -> None:
+    """Disable the enabled ACPI wakeup sources and the wakeups of the configured devices.
+
+    :param sources: sysfs paths of the devices for which to disable wakeup, by board name
+    """
     wakeup_file_path = "/proc/acpi/wakeup"
 
     # Read the file and close it as quickly as possible
@@ -494,11 +518,11 @@ def disable_wakeups(sources: tp.Dict[str, tp.List[str]] = WAKEUP_SOURCES) -> Non
     auto_sources = [line.strip().split() for line in line_iter]
 
     for source in auto_sources:
-        if len(source) >= 3 and source[2] == "*enabled":
+        if len(source) >= ACPI_WAKEUP_MIN_COLUMNS and source[2] == "*enabled":
             write_to_virtual_file(wakeup_file_path, source[0])
 
     board = board_name()
-    if board not in sources.keys():
+    if board not in sources:
         print("Board has not been configured for manual disabling of wakeups.")
         return
 
@@ -506,10 +530,12 @@ def disable_wakeups(sources: tp.Dict[str, tp.List[str]] = WAKEUP_SOURCES) -> Non
         disable_wakeup(device)
 
 
-def fix_boinc() ->  tp.Optional[subprocess.CompletedProcess]:
-    """Fix BOINC suspension on computer use
+def fix_boinc() -> subprocess.CompletedProcess[bytes] | None:
+    """Fix BOINC suspension on computer use.
 
-    Failure only breaks this feature, so it's OK to set check=False
+    Failure only breaks this feature, so it's OK to set check=False.
+
+    :return: the completed xhost process, or None if xhost was not found
     """
     if not os.path.exists("/usr/bin/xhost"):
         print("xhost was not found, cannot fix BOINC suspension")
@@ -522,6 +548,7 @@ def fix_boinc() ->  tp.Optional[subprocess.CompletedProcess]:
 
 
 def hdparm() -> None:
+    """Apply the hdparm parameters configured for the drives of the current board."""
     board = board_name()
 
     if board not in HDPARM_PARAMS:
@@ -546,6 +573,11 @@ def hdparm() -> None:
 
 
 def device_power_control(device: str) -> bool:
+    """Enable runtime power management for a device.
+
+    :param device: sysfs path of the device
+    :return: whether power management was enabled
+    """
     if not os.path.exists(device):
         print("Device", device, "not found")
         return False
@@ -558,15 +590,20 @@ def device_power_control(device: str) -> bool:
 
 
 def power_control(
-        devices: tp.Dict[str, tp.List[str]] = POWER_CONTROL_DEVICES,
+        devices: dict[str, list[str]] = POWER_CONTROL_DEVICES,
         disable_wakeups: bool = True) -> None:
+    """Enable runtime power management for the configured devices of the current board.
+
+    :param devices: sysfs paths of the devices, by board name
+    :param disable_wakeups: whether to also disable wakeup for the devices
+    """
     board = board_name()
 
     # if board == "ROG ZENITH II EXTREME":
     #     print("Power control has been manually disabled for this board for debugging.")
     #     return
 
-    if board not in devices.keys():
+    if board not in devices:
         print("Computer has not been configured for power control:", board)
         return
 

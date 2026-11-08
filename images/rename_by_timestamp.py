@@ -1,14 +1,21 @@
-"""Rename images by their timestamp"""
+"""Rename images by their timestamp."""
 
 import os.path
 import shutil
 
 import exif
-
 import img_utils
 
 
-def rename_by_time(source: str, target: str):
+def rename_by_time(source: str, target: str) -> None:
+    """Copy images to another folder and name them by their timestamp.
+
+    Images without a timestamp are skipped.
+
+    :param source: source folder, which is searched recursively
+    :param target: target folder
+    :raises FileExistsError: if there are too many images with the same timestamp
+    """
     files = img_utils.find_files_recursive(source, "*.jpg") + img_utils.find_files_recursive(source, "*.rw2")
     count = len(files)
 

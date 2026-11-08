@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Ethereum mining script
+Ethereum mining script.
 
 TODO: this script has problems with redirecting the ethminer output, such as:
 UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe2 in position 110: invalid continuation byte
@@ -14,13 +14,13 @@ import os.path
 import sys
 
 # Add linux-scripts folder to PATH
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_DIR = os.path.dirname(SCRIPT_DIR)
-LOG_DIR = os.path.join(REPO_DIR, "logs")
+SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
+REPO_DIR: str = os.path.dirname(SCRIPT_DIR)
+LOG_DIR: str = os.path.join(REPO_DIR, "logs")
 sys.path.append(REPO_DIR)
-import misc_utils as utils
+import misc_utils as utils  # noqa: E402
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)-8s %(module)-16s %(message)s",
@@ -31,7 +31,8 @@ logging.basicConfig(
 )
 
 
-def main():
+def main() -> None:
+    """Start ethminer with the pool configured in ethminer.txt."""
     config = configparser.ConfigParser()
     config.read(os.path.join(SCRIPT_DIR, "ethminer.txt"))
     eth = config["Ethminer"]

@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-"""
-Flash memory testing script, based on f3
-"""
+"""Flash memory testing script, based on f3."""
 
 import argparse
 import logging
@@ -11,8 +9,8 @@ import time
 
 import misc_utils as utils
 
-logger = logging.getLogger(__name__)
-log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+logger: logging.Logger = logging.getLogger(__name__)
+log_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
 if not os.path.exists(log_path):
     os.mkdir(log_path)
 
@@ -25,7 +23,8 @@ logging.basicConfig(
 )
 
 
-def main():
+def main() -> None:
+    """Write and verify test data on the given mount point with f3."""
     parser = argparse.ArgumentParser(description="F3 script")
     parser.add_argument("path", type=str, help="Mount point path")
     args = parser.parse_args()

@@ -1,6 +1,4 @@
-"""
-A script for cleaning LibreNMS spam from Slack channel history
-"""
+"""A script for cleaning LibreNMS spam from Slack channel history."""
 
 import os.path
 
@@ -9,14 +7,29 @@ from slack_cleaner2.model import SlackChannel, SlackUser
 
 
 class Slack(SlackCleaner):
+    """Slack cleaner with helpers for finding channels and users."""
+
     def get_channel(self, name: str) -> SlackChannel:
-        return next((ch for ch in self.conversations if ch.name == name))
+        """Get a channel by its name.
+
+        :param name: name of the channel
+        :return: the channel
+        :raises StopIteration: if the channel is not found
+        """
+        return next(ch for ch in self.conversations if ch.name == name)
 
     def get_user(self, key: str) -> SlackUser:
-        return next((user for user in self.users if key in (user.id, user.name)))
+        """Get a user by its ID or name.
+
+        :param key: ID or name of the user
+        :return: the user
+        :raises StopIteration: if the user is not found
+        """
+        return next(user for user in self.users if key in (user.id, user.name))
 
 
-def main():
+def main() -> None:
+    """Delete LibreNMS alert messages from the it-alerts channel."""
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     with open(os.path.join(repo_root, "keys", "slack-cleaner.txt")) as file:
         key = file.readline()

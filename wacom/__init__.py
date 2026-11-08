@@ -1,1 +1,1 @@
-from .wacom import *
+"""Configuration scripts for Wacom drawing tablets."""

@@ -13,16 +13,16 @@ import tempfile
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from install import utils
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
-APT_KEYRINGS_DIR = pathlib.Path("/etc/apt/keyrings")
-APT_SOURCES_DIR = pathlib.Path("/etc/apt/sources.list.d")
+APT_KEYRINGS_DIR: pathlib.Path = pathlib.Path("/etc/apt/keyrings")
+APT_SOURCES_DIR: pathlib.Path = pathlib.Path("/etc/apt/sources.list.d")
 PREREQUISITES = (
     "apt-transport-https", "ca-certificates",
     "software-properties-common",  # Provides add-apt-repository
     "ubuntu-dbgsym-keyring",
 )
-SHARE_KEYRINGS_DIR = pathlib.Path("/usr/share/keyrings")
+SHARE_KEYRINGS_DIR: pathlib.Path = pathlib.Path("/usr/share/keyrings")
 
 
 @dataclass(frozen=True, slots=True)

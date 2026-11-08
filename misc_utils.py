@@ -1,28 +1,34 @@
 """
-Utility methods for scripts
+Utility methods for scripts.
 
 This file cannot be named utils.py due to naming conflicts with installed packages.
 """
 
 import getpass
-import typing as tp
 import logging
 import os
 import pwd
 import subprocess as sp
+import typing as tp
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 class MountInfo:
-    def __init__(self, path: str):
+    """Information about the filesystem mount that contains a given path."""
+
+    def __init__(self, path: str) -> None:
+        """Get the mount information with findmnt.
+
+        :param path: path within the mount
+        """
         line = run(["findmnt", "--target", path], get_output=True, print_output=False)[1][1]
         data = line.split()
-        self.mountpoint = data[0]
-        self.partition = data[1]
-        self.partition_type = data[2]
+        self.mountpoint: str = data[0]
+        self.partition: str = data[1]
+        self.partition_type: str = data[2]
         options = data[3].split(",")
-        self.options = {}
+        self.options: dict[str, str | bool] = {}
         for opt in options:
             if "=" in opt:
                 split = opt.split("=")
@@ -31,35 +37,49 @@ class MountInfo:
                 self.options[opt] = True
 
     @property
-    def device(self):
+    def device(self) -> str:
+        """Name of the parent block device of the mounted partition."""
         return run(["lsblk", "-no", "pkname", self.partition], get_output=True, print_output=False)[1][0]
 
 
 class DiskInfo:
-    def __init__(self, device: str):
-        if device.startswith("/dev/"):
-            self.device = device[5:]
-        self.device = device
+    """Information about a block device."""
+
+    def __init__(self, device: str) -> None:
+        """Create a disk info object.
+
+        :param device: device name with or without the "/dev/" prefix
+        """
+        self.device: str = device.removeprefix("/dev/")
 
     @property
-    def model(self):
+    def model(self) -> str:
+        """Model name of the device."""
         with open(f"/sys/block/{self.device}/device/model") as file:
             return file.read().rstrip()
 
     @property
-    def vendor(self):
+    def vendor(self) -> str:
+        """Vendor name of the device."""
         with open(f"/sys/block/{self.device}/device/vendor") as file:
             return file.read().rstrip()
 
-    def lsblk(self):
+    def lsblk(self) -> None:
+        """Print the device information with lsblk."""
         run(["lsblk", f"/dev/{self.device}"])
 
-    def print(self):
+    def print(self) -> None:
+        """Print the vendor and model of the device."""
         text = f"Vendor: {self.vendor}, model: {self.model}"
         print_info(text)
 
 
-def alert_if_root(fail: bool = False):
+def alert_if_root(fail: bool = False) -> None:
+    """Warn if the script is run as root.
+
+    :param fail: whether to raise an error instead of only warning
+    :raises RuntimeError: if run as root and fail is True
+    """
     if os.geteuid() == 0:
         text = "Warning! This script should not be run as root for security reasons!"
         if fail:
@@ -69,7 +89,12 @@ def alert_if_root(fail: bool = False):
         logger.warning(text)
 
 
-def alert_if_not_root(fail: bool = True):
+def alert_if_not_root(fail: bool = True) -> None:
+    """Warn if the script is not run as root.
+
+    :param fail: whether to raise an error instead of only warning
+    :raises PermissionError: if not run as root and fail is True
+    """
     if os.geteuid() != 0:
         text = "This script should be run as root."
         if fail:
@@ -81,7 +106,9 @@ def alert_if_not_root(fail: bool = True):
 
 def get_user() -> str:
     """Get the name of the user that executed this process, even if sudo was used.
-    Based on https://unix.stackexchange.com/a/626389/"""
+
+    Based on https://unix.stackexchange.com/a/626389/
+    """
     try:
         return os.getlogin()
     except OSError:
@@ -104,64 +131,93 @@ def get_user() -> str:
     return user
 
 
-def is_virtual():
-    with open("/proc/cpuinfo", "r") as file:
+def is_virtual() -> bool:
+    """Check whether the system is a virtual machine."""
+    with open("/proc/cpuinfo") as file:
         return "hypervisor" in file.read()
 
 
-def print_info(text: str):
+def print_info(text: str) -> None:
+    """Print the text and log it at the info level."""
     print(text)
     logger.info(text)
 
 
+@tp.overload
 def run(
-        command: tp.List[str],
+        command: list[str],
+        *,
+        check: bool = True,
+        get_output: tp.Literal[False] = False,
+        print_output: bool = True,
+        stderr: bool = True,
+        sudo: bool = False) -> int: ...
+
+
+@tp.overload
+def run(
+        command: list[str],
+        *,
+        check: bool = True,
+        get_output: tp.Literal[True],
+        print_output: bool = True,
+        stderr: bool = True,
+        sudo: bool = False) -> tuple[int, list[str]]: ...
+
+
+def run(  # noqa: PLR0913
+        command: list[str],
+        *,
         check: bool = True,
         get_output: bool = False,
         print_output: bool = True,
         stderr: bool = True,
-        sudo: bool = False) -> tp.Union[int, tp.Tuple[int, tp.List[str]]]:
-    """
-    Run an external command as a subprocess
+        sudo: bool = False) -> int | tuple[int, list[str]]:
+    """Run an external command as a subprocess.
+
     :param command: command and its arguments
     :param check: whether to check the return code and raise an error accordingly
     :param get_output: whether to extract output to Python
     :param print_output: print command output to console
     :param stderr: whether to capture stderr output as well
     :param sudo: run the command as sudo if not already root
-    :return: return code of the command
+    :return: return code of the command, and the output lines if get_output is True
+    :raises CalledProcessError: if check is True and the command fails
     """
     logger.info("Running %s", command)
-    kwargs = {}
-    if stderr:
-        kwargs["stderr"] = sp.PIPE
     if sudo and os.geteuid() != 0:
-        command = ["sudo"] + command
+        command = ["sudo", *command]
     # Setting bufsize=1 would result in
     # RuntimeWarning: line buffering (buffering=1) isn't supported in binary mode, the default buffer size will be used
-    process = sp.Popen(command, stdout=sp.PIPE, **kwargs)
-    output = []
-    stderr_line = ""
+    process = sp.Popen(command, stdout=sp.PIPE, stderr=sp.PIPE if stderr else None)
+    if process.stdout is None:
+        raise RuntimeError("Failed to capture the output of the process.")
+    output: list[str] = []
+
+    def handle_line(line: str, is_stderr: bool) -> None:
+        if not line:
+            return
+        if is_stderr:
+            logger.error(line)
+        else:
+            logger.info(line)
+        if get_output:
+            output.append(line)
+        if print_output:
+            print(line)
+
     while True:
         stdout_line = process.stdout.readline().decode("utf-8").rstrip("\r|\n")
-        if stderr:
+        stderr_line = ""
+        if process.stderr is not None:
             stderr_line = process.stderr.readline().decode("utf-8").rstrip("\r|\n")
         if not stdout_line and not stderr_line and process.poll() is not None:
             break
-        if stdout_line:
-            logger.info(stdout_line)
-            if get_output:
-                output.append(stdout_line)
-            if print_output:
-                print(stdout_line)
-        if stderr and stderr_line:
-            logger.error(stderr_line)
-            if get_output:
-                output.append(stderr_line)
-            if print_output:
-                print(stderr_line)
+        handle_line(stdout_line, is_stderr=False)
+        handle_line(stderr_line, is_stderr=True)
     process.stdout.close()
-    process.stderr.close()
+    if process.stderr is not None:
+        process.stderr.close()
     return_code = process.wait()
     if check and return_code:
         raise sp.CalledProcessError(return_code, command)
@@ -171,10 +227,19 @@ def run(
 
 
 def yes_or_no() -> bool:
-    return "y" == choice(["y", "n"])
+    """Ask the user a yes/no question.
+
+    :return: whether the user answered yes
+    """
+    return choice(["y", "n"]) == "y"
 
 
-def choice(choices: tp.List[str]) -> str:
+def choice(choices: list[str]) -> str:
+    """Ask the user to select one of the given choices.
+
+    :param choices: the allowed answers in lower case
+    :return: the selected choice
+    """
     while True:
         reply = str(input(f"({'/'.join(choices)})")).lower().strip()
         if reply in choices:

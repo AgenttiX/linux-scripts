@@ -1,4 +1,4 @@
-"""Script for quickly installing Android apps over ADB"""
+"""Script for quickly installing Android apps over ADB."""
 
 # from adb import adb_commands
 # from gplaydl import gplaydl
@@ -44,7 +44,8 @@ UTILITY_APPS = [
 ]
 MAGISK_VERSION = "25.2"
 DIRECT_APPS = {
-    f"https://github.com/topjohnwu/Magisk/releases/download/v{MAGISK_VERSION}/Magisk-v{MAGISK_VERSION}.apk": f"Magisk-v{MAGISK_VERSION}.apk",
+    f"https://github.com/topjohnwu/Magisk/releases/download/v{MAGISK_VERSION}/Magisk-v{MAGISK_VERSION}.apk":
+        f"Magisk-v{MAGISK_VERSION}.apk",
     "https://f-droid.org/F-Droid.apk": "F-Droid.apk",
     # YouTube Vanced has been discontinued
     # https://vancedapp.com/
@@ -76,7 +77,8 @@ TESTING_APPS = [
 #     # https://stackoverflow.com/questions/14432706/adb-command-to-open-settings-and-change-them
 
 
-def main():
+def main() -> None:
+    """Download the apps."""
     tools.download_multi(DIRECT_APPS)
     app_types = [
         BACKUP_APPS,

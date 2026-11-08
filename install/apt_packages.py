@@ -12,7 +12,7 @@ import tempfile
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from install import dpkg, utils
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 BASE_PACKAGES = (
     # Servers should have git-gui too for X11 forwarding.

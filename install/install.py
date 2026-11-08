@@ -23,7 +23,7 @@ from install import (
     utils,
 )
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 #: The root part is run with the system Python instead of e.g. a virtual environment of the user.
 SYSTEM_PYTHON = "/usr/bin/python3"

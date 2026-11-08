@@ -1,4 +1,4 @@
-"""Test zsh utilities"""
+"""Test zsh utilities."""
 
 import pathlib
 import subprocess
@@ -6,9 +6,12 @@ import unittest
 
 from tests.utils import UTILS_ZSH
 
+
 class ZshCustomUtilsTestCase(unittest.TestCase):
+    """Tests for the Zsh utility functions."""
+
     @staticmethod
-    def _run_function(name: str) -> subprocess.CompletedProcess:
+    def _run_function(name: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             ["zsh", "-c", f"source {UTILS_ZSH} && {name}"],
             capture_output=True,
@@ -16,10 +19,11 @@ class ZshCustomUtilsTestCase(unittest.TestCase):
             text=True,
         )
 
-    def test_per_user_usage(self):
+    def test_per_user_usage(self) -> None:
+        """Check that the per-user resource usage has a header and the current user."""
         result = self._run_function("per-user-usage")
         lines = result.stdout.splitlines()
-        self.assertGreaterEqual(len(lines), 1)
-        self.assertEqual(lines[0].split(), ["USER", "%CPU", "%MEM"])
+        assert len(lines) >= 1
+        assert lines[0].split() == ["USER", "%CPU", "%MEM"]
         # The current user should always have at least one running process.
-        self.assertIn(pathlib.Path.home().name, result.stdout)
+        assert pathlib.Path.home().name in result.stdout

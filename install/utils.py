@@ -22,7 +22,7 @@ import urllib.request
 
 from pgp import pgp
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
 REPO_DIR = SCRIPT_DIR.parent
@@ -46,11 +46,11 @@ CHASSIS_TYPES = {
     30: "tablet",
     31: "convertible", 32: "convertible",
 }
-CPUINFO_PATH = pathlib.Path("/proc/cpuinfo")
-DMI_CHASSIS_TYPE_PATH = pathlib.Path("/sys/class/dmi/id/chassis_type")
+CPUINFO_PATH: pathlib.Path = pathlib.Path("/proc/cpuinfo")
+DMI_CHASSIS_TYPE_PATH: pathlib.Path = pathlib.Path("/sys/class/dmi/id/chassis_type")
 DOWNLOAD_TIMEOUT = 60
-MACHINE_INFO_PATH = pathlib.Path("/etc/machine-info")
-OS_RELEASE_PATH = pathlib.Path("/etc/os-release")
+MACHINE_INFO_PATH: pathlib.Path = pathlib.Path("/etc/machine-info")
+OS_RELEASE_PATH: pathlib.Path = pathlib.Path("/etc/os-release")
 USER_AGENT = "linux-scripts-installer"
 
 
@@ -252,7 +252,11 @@ def require_root() -> None:
         raise SystemExit("This script should be run as root.")
 
 
-def run(command: Sequence[str | os.PathLike], capture: bool = False, check: bool = True, **kwargs) -> str:
+def run(
+        command: Sequence[str | os.PathLike[str]],
+        capture: bool = False,
+        check: bool = True,
+        **kwargs: typing.Any) -> str:
     """Run a command.
 
     :param command: command and its arguments

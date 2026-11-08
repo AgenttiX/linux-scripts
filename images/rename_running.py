@@ -1,4 +1,4 @@
-"""Rename images with a running numbero"""
+"""Rename images with a running number."""
 
 import os.path
 import shutil
@@ -6,7 +6,14 @@ import shutil
 import img_utils
 
 
-def rename_running_number(source: str, target: str, prefix: str, start: int):
+def rename_running_number(source: str, target: str, prefix: str, start: int) -> None:
+    """Copy JPEG images and their RW2 counterparts to another folder with running numbers as names.
+
+    :param source: source folder, which is searched recursively
+    :param target: target folder
+    :param prefix: prefix of the new file names
+    :param start: first running number
+    """
     files = sorted(img_utils.find_files_recursive(source, "*.jpg"))
     count = len(files)
     for i, path in enumerate(files):

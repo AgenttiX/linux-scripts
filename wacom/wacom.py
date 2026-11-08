@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-"""
-Configuration script for drawing tablets.
+"""Configuration script for drawing tablets.
+
 This script is based on X11 utilities and will unfortunately not yet work on Wayland.
 To run this script automatically when plugging in the tablet, please run "install_wacom.sh".
 
@@ -18,6 +18,7 @@ https://wiki.archlinux.org/index.php/Wacom_tablet
 
 """
 
+from collections.abc import Iterable
 import enum
 import logging
 from logging.handlers import RotatingFileHandler
@@ -26,23 +27,22 @@ import os.path
 import shlex
 import sys
 import time
-import typing as tp
 
 from Xlib import display
 from Xlib.ext import randr
 from Xlib.protocol.rq import DictWrapper
 
 # Add linux-scripts folder to PATH
-REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(REPO_DIR)
 
-import misc_utils as utils
+import misc_utils as utils  # noqa: E402
 
 XSETWACOM: str = "/usr/bin/xsetwacom"
 
-LOG_DIR = os.path.join(REPO_DIR, "logs")
+LOG_DIR: str = os.path.join(REPO_DIR, "logs")
 os.makedirs(LOG_DIR, exist_ok=True)
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s %(levelname)-8s %(module)-16s %(message)s",
@@ -58,7 +58,9 @@ logging.basicConfig(
 
 
 @enum.unique
-class Rotation(str, enum.Enum):
+class Rotation(enum.StrEnum):
+    """Tablet rotation options of xsetwacom."""
+
     NONE = "none"
     HALF = "half"
     CW = "cw"
@@ -66,7 +68,9 @@ class Rotation(str, enum.Enum):
 
 
 @enum.unique
-class DevType(str, enum.Enum):
+class DevType(enum.StrEnum):
+    """Device types reported by xsetwacom."""
+
     CURSOR = "CURSOR"
     ERASER = "ERASER"
     PAD = "PAD"
@@ -74,15 +78,22 @@ class DevType(str, enum.Enum):
 
 
 class Device:
-    """An individual xsetwacom device such as the stylus or pad"""
+    """An individual xsetwacom device such as the stylus or pad."""
+
     def __init__(
             self,
             name: str,
             dev_id: int,
-            dev_type: DevType):
-        self.name = name
-        self.dev_id = dev_id
-        self.dev_type = dev_type
+            dev_type: DevType) -> None:
+        """Create a device object.
+
+        :param name: xsetwacom device name
+        :param dev_id: xsetwacom device ID
+        :param dev_type: device type
+        """
+        self.name: str = name
+        self.dev_id: int = dev_id
+        self.dev_type: DevType = dev_type
         if name.startswith("Wacom Co.,Ltd. Intuos BT M"):
             logger.warning(
                 f"Found device \"{name}\" in Android mode. Only a part of the tablet surface will be usable. "
@@ -91,7 +102,13 @@ class Device:
             )
 
     @classmethod
-    def create_by_names(cls, names: tp.List[str]) -> "Device":
+    def create_by_names(cls, names: list[str]) -> Device:
+        """Find the first connected device that matches one of the given names.
+
+        :param names: device names in the order of preference
+        :return: the first matching device
+        :raises IndexError: if none of the devices is found
+        """
         devices = cls.get_devices()
         for name in names:
             found = next((dev for dev in devices if dev.name == name), None)
@@ -100,19 +117,32 @@ class Device:
         raise IndexError(f"Device not found with the names: {names}")
 
     @staticmethod
-    def get_devices() -> tp.List["Device"]:
-        ret_code, lst = utils.run([XSETWACOM, "--list", "devices"], get_output=True, print_output=False)
+    def get_devices() -> list[Device]:
+        """Get the devices listed by xsetwacom.
+
+        :return: list of devices
+        """
+        _ret_code, lst = utils.run([XSETWACOM, "--list", "devices"], get_output=True, print_output=False)
         props = [[elem.strip() for elem in line.split("\t")] for line in lst]
         return [Device(
             name=line[0],
-            dev_id=line[1],
+            # The ID column is of the form "id: 9".
+            dev_id=int(line[1].split(":")[1]),
             dev_type=DevType(line[2].split(":")[1].strip())
         ) for line in props]
 
-    def set_value(self, *args):
+    def set_value(self, *args: object) -> None:
+        """Set a setting of the device.
+
+        :param args: setting name and values, which will be converted to strings
+        """
         utils.run([XSETWACOM, "set", self.name] + [str(arg) for arg in args])
 
-    def get_all_settings(self) -> tp.List[tp.List[str]]:
+    def get_all_settings(self) -> list[list[str]]:
+        """Get all settings of the device.
+
+        :return: list of settings, each consisting of the setting name and its values
+        """
         return [
             shlex.split(line)[3:] for line in
             utils.run(
@@ -121,61 +151,110 @@ class Device:
             if not line.endswith("does not exist on device.")
         ]
 
-    def print_all_settings(self):
+    def print_all_settings(self) -> None:
+        """Print all settings of the device."""
         settings = self.get_all_settings()
         for setting in settings:
             values = " ".join([f"\"{value}\"" for value in setting[1:]])
             print(f"{setting[0]}: {values}")
 
-    def rotate(self, rotation: Rotation):
+    def rotate(self, rotation: Rotation) -> None:
+        """Set the rotation of the device.
+
+        :param rotation: rotation
+        """
         self.set_value("Rotate", rotation.value)
 
-    def set_button(self, button: int, command: str):
+    def set_button(self, button: int, command: str) -> None:
+        """Map a button to a command.
+
+        :param button: button number
+        :param command: xsetwacom button command
+        """
         self.set_value("Button", str(button), command)
 
-    def set_output_monitor(self, name: str):
+    def set_output_monitor(self, name: str) -> None:
+        """Map the device to a monitor.
+
+        :param name: monitor (output) name
+        """
         self.set_value("MapToOutput", name)
 
-    def set_output(self, width: int, height: int, x: int = 0, y: int = 0):
+    def set_output(self, width: int, height: int, x: int = 0, y: int = 0) -> None:
+        """Map the device to an area of the screen.
+
+        :param width: area width in pixels
+        :param height: area height in pixels
+        :param x: horizontal offset in pixels
+        :param y: vertical offset in pixels
+        """
         self.set_value("MapToOutput", f"{width}x{height}+{x}+{y}")
 
-    def set_raw_sample(self, status: bool):
-        """By default the input is averaged over several data points.
+    def set_raw_sample(self, status: bool) -> None:
+        """Enable or disable raw sampling.
+
+        By default the input is averaged over several data points.
         Enabling raw sampling decreases the latency.
+
+        :param status: whether to enable raw sampling
         """
         self.set_value("RawSample", int(status))
 
-    def set_suppress(self, status: bool):
-        """By default the pen has to be moved at least two pixels to be registered.
+    def set_suppress(self, status: bool) -> None:
+        """Enable or disable movement suppression.
+
+        By default the pen has to be moved at least two pixels to be registered.
         By disabling suppression even single points will be registered.
+
+        :param status: whether to enable suppression
         """
         self.set_value("Suppress", int(status))
 
-    def set_threshold(self, threshold: int):
+    def set_threshold(self, threshold: int) -> None:
+        """Set the pressure threshold for a click.
+
+        :param threshold: pressure threshold
+        """
         self.set_value("Threshold", threshold)
 
 
-def find_mode(mode_id: int, modes: DictWrapper) -> tp.Optional[tp.Tuple[int, int]]:
-    """Adapted from
+def find_mode(mode_id: int, modes: Iterable[DictWrapper]) -> tuple[int, int] | None:
+    """Find the resolution of an XRandR mode.
+
+    Adapted from
     https://stackoverflow.com/a/64502961/
+
+    :param mode_id: XRandR mode ID
+    :param modes: XRandR mode infos
+    :return: width and height of the mode, or None if not found
     """
     for mode in modes:
         if mode_id == mode.id:
             return mode.width, mode.height
+    return None
 
 
-def get_devices():
+def get_devices() -> list[str]:
+    """Get the xsetwacom device list.
+
+    :return: output lines of xsetwacom
+    """
     return utils.run([XSETWACOM, "--list"], get_output=True, print_output=False)[1]
 
 
-def get_display_info(name: str = ":0") -> tp.Dict[str, tp.Tuple[int, int]]:
-    """Adapted from
+def get_display_info(name: str = ":0") -> dict[str, tuple[int, int]]:
+    """Get the names and resolutions of the active monitors.
+
+    Adapted from
     https://stackoverflow.com/a/64502961/
+
+    :param name: X11 display name
+    :return: dictionary of monitor names and their resolutions
     """
     d = display.Display(name)
     # screen_count = d.screen_count()
     default_screen = d.get_default_screen()
-    monitors = {}
+    monitors: dict[str, tuple[int, int]] = {}
     info = d.screen(default_screen)
     window = info.root
 
@@ -204,7 +283,11 @@ def set_x11_environment_variables() -> None:
     logger.debug("XAUTHORITY=%s", os.environ["XAUTHORITY"])
 
 
-def script(use_big: bool = True):
+def script(use_big: bool = True) -> None:
+    """Configure the tablet.
+
+    :param use_big: whether to map the tablet to the ultrawide monitor if it's connected
+    """
     logger.info("Running Wacom script")
     utils.alert_if_root(fail=True)
     set_x11_environment_variables()
@@ -253,7 +336,7 @@ def script(use_big: bool = True):
             area_x = int(tablet_aspect_ratio * 1440)
             logger.info(f"Tablet area: ({area_x}, {area_y})")
             # If the left-most monitor is connected
-            if any([name in monitor_names for name in ["DisplayPort-2", "DP-2", "HDMI-1"]]):
+            if any(name in monitor_names for name in ["DisplayPort-2", "DP-2", "HDMI-1"]):
                 stylus.set_output(area_x, area_y, 1920, 0)
             else:
                 stylus.set_output(area_x, area_y, 0, 0)
@@ -266,10 +349,10 @@ def script(use_big: bool = True):
     # HDMI-2 = HDMI
     # DP-1 = Thunderbolt (USB-c with the Thunderbolt logo)
     # DP-2 = USB-c with the charging logo
-    elif "eDP-1" in monitors.keys():
+    elif "eDP-1" in monitors:
         area_x, area_y = monitors["eDP-1"]
         # If there is a secondary monitor
-        for port in monitors.keys():
+        for port in monitors:
             if port != "eDP-1":
                 logger.info("External monitor detected at %s. Using internal display.", port)
                 # TODO: configure this so that it recognizes the arrangement of the displays
@@ -284,7 +367,8 @@ def script(use_big: bool = True):
     logger.info("Wacom script ready.")
 
 
-def main():
+def main() -> None:
+    """Run the script and log any exceptions."""
     try:
         script(use_big=True)
     except Exception as e:
