@@ -75,11 +75,10 @@ games/stepmania/StepMania-*
 geant4.*
 honeygain/honeygain.env
 id_rsa*
-keys
+keys/
 LHAPDF*
 logs
 lshw.html
-modem-pin.txt
 neovim/plugin/packer_compiled.lua
 obs-studio/basic/profiles/**/service.json
 obs-studio/basic/scenes/*.json.v*

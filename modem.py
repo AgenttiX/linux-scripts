@@ -22,7 +22,7 @@ import time
 
 # The bearer listing of mmcli has a header row, a separator row and the bearer row.
 MIN_BEARER_ROWS = 3
-PIN_PATH: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modem-pin.txt")
+PIN_PATH: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keys", "modem-pin.txt")
 
 
 def read_pin(path: str) -> str:

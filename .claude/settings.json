@@ -7,6 +7,9 @@
       "../openwrt-scripts",
       "../private-scripts",
       "../windows-scripts"
+    ],
+    "deny": [
+      "Read(/keys/**)"
     ]
   },
   "enabledPlugins": {
