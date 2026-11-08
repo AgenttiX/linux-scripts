@@ -230,6 +230,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "types-python-xlib" },
 ]
 
 [package.metadata]
@@ -246,6 +247,7 @@ dev = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "ruff", specifier = ">=0.16.6" },
+    { name = "types-python-xlib", specifier = ">=0.33.0.20261101" },
 ]
 
 [[package]]
@@ -428,6 +430,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/24/74/a4b30685bc76846b70baa9edaa45ba577ce5a28fc9e474b51524bb2aa932/slack_sdk-3.45.0.tar.gz", hash = "sha256:1ab794452f238b59db0d8a4d346263d65190288add53ec67a05751d8e7402486", size = 259739, upload-time = "2026-10-01T22:24:56.998Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/af/58/d54e4564946a9a3276f3de2905d18b66977977d4ba0fd7d11164df3c73cb/slack_sdk-3.45.0-py2.py3-none-any.whl", hash = "sha256:6356d4486d1a3ad156462c5544ab1b9c076ff426a250495c08f51b7ad71eb8fb", size = 322681, upload-time = "2026-10-01T22:24:55.133Z" },
+]
+
+[[package]]
+name = "types-python-xlib"
+version = "0.33.0.20261101"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e0/5f/cc2153601231fc806311ba80954419ccabaf2233da69dff7c612cc2d8df3/types_python_xlib-0.33.0.20261101.tar.gz", hash = "sha256:78984c316f71c4315263988620eacb3eb1b316bd59a8f12818a46aba602c5766", size = 55419, upload-time = "2026-11-01T08:17:31.57Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e2/19/f6dc26abc24274317dcf3b8e0564b3b785a8d0467554efd25bb7a55fb577/types_python_xlib-0.33.0.20261101-py3-none-any.whl", hash = "sha256:ab7e759d74649311625aff075b20ed95ca7cf8ed83ad8c964177150cbd69006f", size = 67680, upload-time = "2026-11-01T08:17:30.687Z" },
 ]
 
 [[package]]

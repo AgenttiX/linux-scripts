@@ -241,7 +241,7 @@ def choice(choices: list[str]) -> str:
     :return: the selected choice
     """
     while True:
-        reply = str(input(f"({'/'.join(choices)})")).lower().strip()
+        reply = input(f"({'/'.join(choices)})").lower().strip()
         if reply in choices:
             return reply
         print("Invalid answer. Did you make a typo?")
