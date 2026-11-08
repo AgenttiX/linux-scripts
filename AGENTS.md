@@ -5,8 +5,23 @@ This linux-scripts repository contains various scripts
 for automating tasks and configuring software on Linux.
 The scripts are grouped in folders based on the software or topic they are related to.
 
+## Commands
+- Install dependencies: `uv sync`
+- Upgrade locked dependency versions: `uv lock --upgrade`
+- Run tests: `uv run pytest`
+- Python lint: `uv run ruff check`
+- Type checking: `uv run pyrefly check`
+- Type coverage checking: `uv run pyrefly coverage check`
+- Bash lint: `shellcheck <filename.sh>`
+
 ## Environment
-- Platform: Kubuntu 26.04
+- Platforms:
+  - Kubuntu 26.04 desktops and laptops: for most scripts
+  - Ubuntu 26.04 servers: for headless scripts
+  - Steam Frame (VR headset): where relevant and feasible
+    (ARM64, SteamOS, based on Arch Linux, KDE Plasma, read-only root partition, package installation primarily with Flatpak)
+- Keep backwards compatibility with Ubuntu 24.04 where feasible.
+- Python version: 3.12+
 
 ## General instructions
 - Prefer solutions that are highly secure.
@@ -20,10 +35,12 @@ The scripts are grouped in folders based on the software or topic they are relat
 
 ## Code style
 - Use Python 3.12+ type hints in Python scripts where possible.
+- Prefer modern coding practices. You may use `__future__` imports.
 - Prefer to organize modules alphabetically (ignoring the leading underscores)
   with constants first, then classes, and then functions.
   However, the exceptions are that `logger` should be right after the imports, and that `main` should be the last function in a module.
   You may deviate from these if required for e.g. type hints.
+- Use `frozen=True, slots=True` for dataclasses where feasible.
 
 ## Docstring conventions
 - Use the Sphinx docstring format.
