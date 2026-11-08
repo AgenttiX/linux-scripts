@@ -65,6 +65,7 @@ requires-python = ">=3.14"
 
 [dependency-groups]
 dev = [
+    "prek >= 0.5.10",
     "pyrefly >= 1.4.1",
     "pytest >= 9.1.1",
     "pytest-cov >= 7.1.0",

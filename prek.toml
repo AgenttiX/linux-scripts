@@ -1,0 +1,76 @@
+# Git hooks, managed with prek (https://github.com/j178/prek).
+# Install the hooks with "uv run prek install".
+
+# Hooks with the same priority run in parallel, and lower priorities run first.
+# The fixers modify files, so they run one at a time before the other hooks.
+# The other hooks only read files, so they can safely run in parallel with each other.
+#:schema https://www.schemastore.org/prek.json
+
+[[repos]]
+repo = "builtin"
+
+[[repos.hooks]]
+id = "trailing-whitespace"
+priority = 0
+
+[[repos.hooks]]
+id = "end-of-file-fixer"
+priority = 1
+
+[[repos.hooks]]
+id = "mixed-line-ending"
+priority = 2
+
+[[repos.hooks]]
+id = "check-added-large-files"
+priority = 10
+
+[[repos.hooks]]
+id = "check-executables-have-shebangs"
+priority = 10
+
+[[repos.hooks]]
+id = "check-json"
+priority = 10
+
+[[repos.hooks]]
+id = "check-shebang-scripts-are-executable"
+priority = 10
+
+[[repos.hooks]]
+id = "check-toml"
+priority = 10
+
+[[repos.hooks]]
+id = "check-yaml"
+priority = 10
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "pyrefly-check"
+name = "pyrefly check"
+entry = "uv run pyrefly check"
+language = "system"
+pass_filenames = false
+always_run = true
+priority = 10
+
+[[repos.hooks]]
+id = "pyrefly-coverage-check"
+name = "pyrefly coverage check"
+entry = "uv run pyrefly coverage check"
+language = "system"
+pass_filenames = false
+always_run = true
+priority = 10
+
+[[repos.hooks]]
+id = "ruff-check"
+name = "ruff check"
+entry = "uv run ruff check"
+language = "system"
+pass_filenames = false
+always_run = true
+priority = 10
