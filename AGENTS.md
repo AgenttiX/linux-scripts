@@ -41,6 +41,12 @@ The scripts are grouped in folders based on the software or topic they are relat
   However, the exceptions are that `logger` should be right after the imports, and that `main` should be the last function in a module.
   You may deviate from these if required for e.g. type hints.
 - Use `frozen=True, slots=True` for dataclasses where feasible.
+- When refactoring code or converting it in Python,
+  replace subprocess calls with calls to Python standard library where it's feasible without significant additional code.
+  If there is a widely used Python package with the required functionality,
+  ask the user whether to add it to the dependencies in `pyproject.toml`.
+- Avoid code duplication. When implementing new functionality, check whether relevant code already exists in this repository.
+  If yes, generalize the existing code as needed. You may move it in the most suitable location (e.g. `utils/`).
 
 ## Docstring conventions
 - Use the Sphinx docstring format.
