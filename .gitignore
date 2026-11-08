@@ -1,9 +1,10 @@
 # Python & PyCharm files
+__pycache__
 .coverage
 .directory
 .idea
-__pycache__
 .venv
+coverage.xml
 venv
 
 # Zsh themes
