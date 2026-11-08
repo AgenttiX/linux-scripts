@@ -14,7 +14,7 @@ import time
 import unittest
 import uuid
 
-from tests.utils import UTILS_ZSH
+from tests.utils import KILL_ZSH
 
 
 @unittest.skipIf(shutil.which("zsh") is None, "Zsh is not installed")
@@ -62,7 +62,7 @@ class KillUserProcessesTestCase(unittest.TestCase):
         """
         script = textwrap.dedent(
             f"""\
-            source {UTILS_ZSH}
+            source {KILL_ZSH}
             kill-user-processes {" ".join(args)}
             """
         )

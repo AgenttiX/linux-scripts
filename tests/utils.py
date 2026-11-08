@@ -5,6 +5,7 @@ import pathlib
 import types
 
 REPO_PATH = pathlib.Path(__file__).resolve().parent.parent
+KILL_ZSH = REPO_PATH / "zsh" / "custom" / "kill.zsh"
 UTILS_ZSH = REPO_PATH / "zsh" / "custom" / "utils.zsh"
 
 
