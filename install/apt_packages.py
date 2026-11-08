@@ -85,7 +85,8 @@ UTILS_PACKAGES = (
     "gocryptfs",
     "gpg",  # Required by asdf-nodejs
     "gpg-agent", "links", "mtr-tiny", "nmap", "optipng", "pandoc", "pdftk", "rclone",
-    "powershell",  # From the Microsoft repository
+    # From the Microsoft repository. However, it seems to have been removed from there, and is available as a snap only.
+    # "powershell",
     "socat",  # Required by Claude Code sandbox
     "ssh-tools",
     "texlive-full", "traceroute", "wget", "wireguard", "xindy",
