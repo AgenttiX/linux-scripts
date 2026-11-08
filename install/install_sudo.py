@@ -72,13 +72,15 @@ def main() -> None:
     """Install the software that requires root privileges."""
     parser = argparse.ArgumentParser(description=__doc__)
     utils.add_common_args(parser)
+    parser.add_argument("--sources", action="store_true", help="Configure the apt repositories first")
     args = parser.parse_args()
     utils.setup_logging()
     utils.require_root()
 
     info = utils.SystemInfo.detect(args.desktop_env)
     if utils.command_exists("apt"):
-        apt_sources.setup_sources(info, assume_yes=args.yes)
+        if args.sources:
+            apt_sources.setup_sources(info, assume_yes=args.yes)
         apt_packages.install_packages(info, assume_yes=args.yes)
     install_snaps(info)
     fix_bwrap_apparmor()

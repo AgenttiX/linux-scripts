@@ -2,12 +2,13 @@
 
 import dataclasses
 import pathlib
+import sys
 import tempfile
 import textwrap
 import unittest
 from unittest import mock
 
-from install import apt_packages, apt_sources, asdf, dpkg, flatpak, install_sudo
+from install import apt_packages, apt_sources, asdf, dpkg, flatpak, install, install_sudo
 from install import utils as install_utils
 
 HEADLESS_VM = install_utils.SystemInfo(
@@ -160,7 +161,55 @@ class FlatpakTestCase(unittest.TestCase):
         self.assertNotIn("com.slack.Slack", packages)
 
 
+class InstallTestCase(unittest.TestCase):
+    def _main(self, *args: str) -> mock.MagicMock:
+        with (
+            mock.patch.object(sys, "argv", ["install.py", "--desktop-env=KDE", *args]),
+            mock.patch.object(install_utils, "require_not_root"),
+            mock.patch.object(install_utils, "setup_logging"),
+            mock.patch.object(install_utils, "run") as run,
+            mock.patch.object(flatpak, "install_packages"),
+            mock.patch.object(asdf, "install_plugins"),
+        ):
+            install.main()
+        return run
+
+    def test_sources_not_passed_by_default(self):
+        command = self._main().call_args.args[0]
+        self.assertEqual(command[:2], ["sudo", install.SYSTEM_PYTHON])
+        self.assertIn("--desktop-env=KDE", command)
+        self.assertNotIn("--sources", command)
+
+    def test_sources_passed(self):
+        self.assertIn("--sources", self._main("--sources").call_args.args[0])
+
+    def test_sources_with_skip_sudo(self):
+        with self.assertRaises(SystemExit), mock.patch("sys.stderr"):
+            self._main("--sources", "--skip-sudo")
+
+
 class InstallSudoTestCase(unittest.TestCase):
+    def _main(self, *args: str) -> mock.MagicMock:
+        with (
+            mock.patch.object(sys, "argv", ["install_sudo.py", "--desktop-env=", *args]),
+            mock.patch.object(install_utils, "require_root"),
+            mock.patch.object(install_utils, "setup_logging"),
+            mock.patch.object(install_utils, "command_exists", return_value=True),
+            mock.patch.object(apt_sources, "setup_sources") as setup_sources,
+            mock.patch.object(apt_packages, "install_packages") as install_packages,
+            mock.patch.object(install_sudo, "install_snaps"),
+            mock.patch.object(install_sudo, "fix_bwrap_apparmor"),
+        ):
+            install_sudo.main()
+        install_packages.assert_called_once()
+        return setup_sources
+
+    def test_sources_skipped_by_default(self):
+        self._main().assert_not_called()
+
+    def test_sources(self):
+        self._main("--sources").assert_called_once()
+
     def test_bwrap_not_needed(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             sysctl = pathlib.Path(temp_dir) / "sysctl"
