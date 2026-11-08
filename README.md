@@ -22,6 +22,10 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `kde`: KDE Plasma configs
 - `librenms`: LibreNMS configs
 - `luks-tpm`: Scripts for unlocking LUKS encrypted volumes with TPM
+- `maintenance`: General system maintenance: updates, cleaning, security scans, TRIM etc.
+  Run `./maintenance/__main__.py` (or `python3 -m maintenance`) as a normal user.
+  It runs `./maintenance/sudo.py` with sudo for the steps that require root privileges.
+  Run with `--help` to see the options, e.g. `--deep` for deep cleaning.
 - `neovim`: Neovim configs
 - `obs-studio`: OBS Studio configs
 - `opentabletdriver`: Graphics tablet driver configs
@@ -38,6 +42,7 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `tests`: Unit tests for the scripts in this repository
 - `tmux`: tmux terminal multiplexer configs
 - `usbip`: USB/IP configs for passing USB devices over IP
+- `utils`: Shared Python utilities for the scripts, e.g. `utils/misc_utils.py`
 - `virtualbox`: VirtualBox maintenance scripts
 - `vscodium`: VSCodium configs for e.g. SSH remoting
 - `wacom`: Custom script for configuring Wacom tablets.
@@ -49,7 +54,7 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
   and `zsh/custom/`, which contains custom zsh commands.
 
 ## Configs
-These can be symlinked to `~/` where needed. 
+These can be symlinked to `~/` where needed.
 - `.bashrc`: Bash configuration that switches to zsh.
   For environments where it's not possible to change the login shell with `chsh`.
 - `.gdbinit`: GDB (GNU Debugger) config
@@ -59,7 +64,6 @@ These can be symlinked to `~/` where needed.
 ### Scripts
 - `kernel_remover.py`: Remove old kernel versions
 - `kubuntu_release_upgrade.sh`: Kubuntu release upgrade script, with proper logging
-- `maintenance.sh`: General system maintenance script. (Calls `maintennace_sudo.sh`, which calls `maintenance.py`.)
 - `modem.py`: Script for configuring the integrated WWAN modem of ThinkPad laptops
 
 

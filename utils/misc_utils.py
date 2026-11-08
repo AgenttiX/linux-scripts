@@ -1,14 +1,18 @@
-"""
-Utility methods for scripts.
+"""Utility methods for scripts.
 
-This file cannot be named utils.py due to naming conflicts with installed packages.
+Import this as ``from utils import misc_utils``.
+Scripts outside the repository root have to add the repository directory to the beginning of ``sys.path`` first,
+so that this package is not shadowed by other packages named ``utils``.
+Only the Python standard library is used, as this is also run with the system Python as root.
 """
 
+from collections.abc import Sequence
 import getpass
 import logging
 import os
 import pwd
 import subprocess as sp
+import threading
 import typing as tp
 
 logger: logging.Logger = logging.getLogger(__name__)
@@ -193,36 +197,58 @@ def run(  # noqa: PLR0913
     if process.stdout is None:
         raise RuntimeError("Failed to capture the output of the process.")
     output: list[str] = []
+    lock = threading.Lock()
 
-    def handle_line(line: str, is_stderr: bool) -> None:
-        if not line:
-            return
-        if is_stderr:
-            logger.error(line)
-        else:
-            logger.info(line)
-        if get_output:
-            output.append(line)
-        if print_output:
-            print(line)
+    def handle_stream(stream: tp.IO[bytes], is_stderr: bool) -> None:
+        with stream:
+            for raw_line in stream:
+                line = raw_line.decode("utf-8", errors="replace").rstrip("\r\n")
+                if not line:
+                    continue
+                with lock:
+                    if is_stderr:
+                        logger.error(line)
+                    else:
+                        logger.info(line)
+                    if get_output:
+                        output.append(line)
+                    if print_output:
+                        print(line)
 
-    while True:
-        stdout_line = process.stdout.readline().decode("utf-8").rstrip("\r|\n")
-        stderr_line = ""
-        if process.stderr is not None:
-            stderr_line = process.stderr.readline().decode("utf-8").rstrip("\r|\n")
-        if not stdout_line and not stderr_line and process.poll() is not None:
-            break
-        handle_line(stdout_line, is_stderr=False)
-        handle_line(stderr_line, is_stderr=True)
-    process.stdout.close()
+    # The streams have to be read concurrently.
+    # Otherwise the process could block on writing to a full pipe, while this process waits for the other pipe.
+    stderr_thread: threading.Thread | None = None
     if process.stderr is not None:
-        process.stderr.close()
+        stderr_thread = threading.Thread(target=handle_stream, args=(process.stderr, True), daemon=True)
+        stderr_thread.start()
+    handle_stream(process.stdout, is_stderr=False)
+    if stderr_thread is not None:
+        stderr_thread.join()
     return_code = process.wait()
     if check and return_code:
         raise sp.CalledProcessError(return_code, command)
     if get_output:
         return return_code, output
+    return return_code
+
+
+def run_interactive(command: Sequence[str], check: bool = True, sudo: bool = False) -> int:
+    """Run a command so that it uses the terminal directly.
+
+    The output is not logged, but the command can prompt the user, and its output is shown without delays.
+
+    :param command: command and its arguments
+    :param check: whether to check the return code and raise an error accordingly
+    :param sudo: run the command as sudo if not already root
+    :return: return code of the command
+    :raises CalledProcessError: if check is True and the command fails
+    """
+    command = list(command)
+    if sudo and os.geteuid() != 0:
+        command = ["sudo", *command]
+    logger.info("Running interactively %s", command)
+    return_code = sp.run(command, check=check).returncode
+    logger.info("Return code: %s", return_code)
     return return_code
 
 

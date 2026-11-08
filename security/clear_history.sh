@@ -8,7 +8,7 @@ REPO_DIR="$(dirname "${SCRIPT_DIR}")"
 # Handled by BleachBit
 # history -c
 
-python3 "${REPO_DIR}/maintenance.py" --bleachbit-only
+python3 "${REPO_DIR}/maintenance/__main__.py" --bleachbit-only
 
 # https://askubuntu.com/a/155777/
 # https://www.tecmint.com/clear-ram-memory-cache-buffer-and-swap-space-on-linux/

@@ -34,9 +34,9 @@ from Xlib.protocol.rq import DictWrapper
 
 # Add linux-scripts folder to PATH
 REPO_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(REPO_DIR)
+sys.path.insert(0, REPO_DIR)
 
-import misc_utils as utils  # noqa: E402
+from utils import misc_utils as utils  # noqa: E402
 
 XSETWACOM: str = "/usr/bin/xsetwacom"
 

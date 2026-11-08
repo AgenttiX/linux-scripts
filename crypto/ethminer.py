@@ -17,8 +17,8 @@ import sys
 SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR: str = os.path.dirname(SCRIPT_DIR)
 LOG_DIR: str = os.path.join(REPO_DIR, "logs")
-sys.path.append(REPO_DIR)
-import misc_utils as utils  # noqa: E402
+sys.path.insert(0, REPO_DIR)
+from utils import misc_utils as utils  # noqa: E402
 
 logger: logging.Logger = logging.getLogger(__name__)
 logging.basicConfig(

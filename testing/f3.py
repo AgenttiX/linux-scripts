@@ -5,9 +5,12 @@
 import argparse
 import logging
 import os.path
+import sys
 import time
 
-import misc_utils as utils
+# Add linux-scripts folder to PATH
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils import misc_utils as utils
 
 logger: logging.Logger = logging.getLogger(__name__)
 log_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
