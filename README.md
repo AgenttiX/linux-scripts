@@ -8,7 +8,6 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 
 ## Repository structure
 - `android`: Scripts for working with Android devices. Firmware flashing, backup, app installation etc.
-- `apt`: Software installation for Ubuntu-based systems. Includes also Flatpak and Snap.
 - `backup`: Backup scripts
 - `crypto`: Cryptocurrency mining
 - `drivers`: Scripts for installing drivers
@@ -16,6 +15,8 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `git`: Git configs and scripts, e.g. `pull.py` for pulling all repositories in `~/Git`
 - `i3`: i3 window manager configs
 - `images`: Scripts for converting images
+- `install`: Software installation for Ubuntu-based systems. Includes also Flatpak, Snap and asdf.
+  Run `./install/install.py` as a normal user. It runs `./install/install_sudo.py` with sudo.
 - `iperf`: Scripts for measuring network performance
 - `kde`: KDE Plasma configs
 - `librenms`: LibreNMS configs
@@ -23,7 +24,7 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `neovim`: Neovim configs
 - `obs-studio`: OBS Studio configs
 - `opentabletdriver`: Graphics tablet driver configs
-- `pgp`: PGP configs
+- `pgp`: PGP configs and utilities, e.g. converting ASCII-armored keys to the binary format
 - `physics`: Scripts for installing and configuring various software for physics research
 - `proxmox`: Proxmox hypervisor configs
 - `pycharm`: PyCharm configs

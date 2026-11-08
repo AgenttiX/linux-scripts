@@ -24,7 +24,7 @@ DEFAULT_JOBS = 8
 DEFAULT_TIMEOUT = 300
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True, slots=True)
 class PullResult:
     repo: pathlib.Path
     returncode: int
