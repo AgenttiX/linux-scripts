@@ -2,6 +2,7 @@
 
 import dataclasses
 import pathlib
+import subprocess
 import sys
 import tempfile
 import textwrap
@@ -10,6 +11,7 @@ from unittest import mock
 
 from install import apt_packages, apt_sources, asdf, dpkg, flatpak, install, install_sudo
 from install import utils as install_utils
+from tests.utils import REPO_PATH
 
 HEADLESS_VM = install_utils.SystemInfo(
     arch="amd64",
@@ -186,6 +188,19 @@ class InstallTestCase(unittest.TestCase):
     def test_sources_with_skip_sudo(self):
         with self.assertRaises(SystemExit), mock.patch("sys.stderr"):
             self._main("--sources", "--skip-sudo")
+
+
+class InstallMainTestCase(unittest.TestCase):
+    def test_arguments_are_passed(self):
+        # This combination fails in argument parsing, so nothing gets installed.
+        for command in (["-m", "install"], [str(REPO_PATH / "install")]):
+            with self.subTest(command=command):
+                result = subprocess.run(
+                    [sys.executable, *command, "--skip-sudo", "--sources"],
+                    capture_output=True, check=False, cwd=REPO_PATH, text=True,
+                )
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("cannot be used with --skip-sudo", result.stderr)
 
 
 class InstallSudoTestCase(unittest.TestCase):

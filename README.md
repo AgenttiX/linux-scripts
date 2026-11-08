@@ -16,7 +16,7 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `i3`: i3 window manager configs
 - `images`: Scripts for converting images
 - `install`: Software installation for Ubuntu-based systems. Includes also Flatpak, Snap and asdf.
-  Run `./install/install.py` as a normal user. It runs `./install/install_sudo.py` with sudo.
+  Run `./install/install.py` (or `python3 -m install`) as a normal user. It runs `./install/install_sudo.py` with sudo.
   Add `--sources` to configure the apt repositories as well, e.g. on the first run.
 - `iperf`: Scripts for measuring network performance
 - `kde`: KDE Plasma configs
