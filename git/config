@@ -13,8 +13,9 @@
     # excludesfile = ~/.config/git/ignore
     # fsmonitor = true
     pager = delta
-    # This ensures that Git on Windows uses its bundled SSH instead of Microsoft OpenSSH.
-    sshCommand = /usr/bin/ssh
+    # This can be set to use a custom SSH binary.
+    # Git for Windows already uses its bundled SSH by default.
+    # sshCommand = ssh
     # untrackedcache = true
 [diff]
     colorMoved = default
