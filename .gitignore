@@ -73,6 +73,8 @@ games/rpcs3/sounds
 games/rpcs3/uuid
 games/stepmania/StepMania-*
 geant4.*
+# Private Git config, linked or copied here by git/configure.py
+git/config_private
 honeygain/honeygain.env
 id_rsa*
 keys/

@@ -13,6 +13,8 @@
     # excludesfile = ~/.config/git/ignore
     # fsmonitor = true
     pager = delta
+    # This ensures that Git on Windows uses its bundled SSH instead of Microsoft OpenSSH.
+    sshCommand = /usr/bin/ssh
     # untrackedcache = true
 [diff]
     colorMoved = default
