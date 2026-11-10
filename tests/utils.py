@@ -2,6 +2,7 @@
 
 import importlib.util
 import pathlib
+import sys
 import types
 
 REPO_PATH = pathlib.Path(__file__).resolve().parent.parent
@@ -22,5 +23,7 @@ def load_module(name: str, path: pathlib.Path) -> types.ModuleType:
         msg = f"Could not load {path}"
         raise ImportError(msg)
     module = importlib.util.module_from_spec(spec)
+    # Dataclasses with postponed annotations require the module to be in sys.modules.
+    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module

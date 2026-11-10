@@ -38,7 +38,9 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
   and `ssh/openssh10.conf` to `~/.ssh/openssh10.conf` on systems with OpenSSH 10.0 or newer.
 - `startup`: startup scripts. ` agx_startup.py` is run as root by `agx-startup.service`,
   and `agx-user-startup.sh` is run by `agx-user-startup.desktop` as the current user.
-- `testing`: Performance and reliability testing scripts
+- `testing`: Performance and reliability testing scripts,
+  e.g. `sysinfo.py`, which prints the hardware and OS details for a performance testing report
+  (`--json` for JSON output, run with sudo for the RAM details that are not available without root access)
 - `tests`: Unit tests for the scripts in this repository
 - `tmux`: tmux terminal multiplexer configs
 - `usbip`: USB/IP configs for passing USB devices over IP
