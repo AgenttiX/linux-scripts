@@ -8,6 +8,7 @@ The IDE has to be restarted for the changes to take effect.
 import os
 import pathlib
 import re
+import socket
 import sys
 import tempfile
 
@@ -18,6 +19,12 @@ MAX_HEAP_MIB = 16384
 # This has happened on a 64-core server with TeXiFy-IDEA, where each worker gets blocked when running a command.
 # Therefore, keep at least half of the CPU cores free of indexing, since the size of the pool is based on them.
 MAX_INDEXER_THREADS = 16
+# Hosts where the Vulkan renderer of the JetBrains Runtime is disabled.
+# On agx-z2e-kubuntu, vLLM leaves only a few hundred MB of VRAM free on the GPU that renders the desktop.
+# The renderer can then fail to allocate the window image when the window is resized,
+# which crashes the IDE with "Vulkan assertion failed: image" in VKSurfaceData.c.
+# Setting the option here overrides the default of the PyCharm snap, as the user vmoptions are applied last.
+VULKAN_DISABLED_HOSTS: frozenset[str] = frozenset({"agx-z2e-kubuntu"})
 
 
 def heap_size_mib(mem_bytes: int) -> int:
@@ -30,6 +37,17 @@ def heap_size_mib(mem_bytes: int) -> int:
     while heap_mib * 1024 ** 2 * 2 > mem_bytes:
         heap_mib //= 2
     return heap_mib
+
+
+def host_options(hostname: str) -> list[tuple[str, str]]:
+    """Get the options that are specific to the host.
+
+    :param hostname: hostname of the computer
+    :return: option prefixes and values, see :func:`set_option`
+    """
+    if hostname in VULKAN_DISABLED_HOSTS:
+        return [("-Dsun.java2d.vulkan=", "false")]
+    return []
 
 
 def indexer_threads(cpu_count: int) -> int:
@@ -118,13 +136,17 @@ def main() -> int:
     old_content = vmoptions.read_text(encoding="utf-8")
     lines = set_option(old_content.splitlines(), "-Xmx", f"{heap_mib}m")
     lines = set_option(lines, "-Dcaches.indexerThreadsCount=", str(threads))
+    summary = [f"-Xmx{heap_mib}m", f"{threads} indexing threads"]
+    for prefix, value in host_options(socket.gethostname()):
+        lines = set_option(lines, prefix, value)
+        summary.append(f"{prefix}{value}")
     new_content = "\n".join(lines) + "\n"
 
     if new_content == old_content:
-        print(f"{vmoptions} is already up to date: -Xmx{heap_mib}m, {threads} indexing threads.")
+        print(f"{vmoptions} is already up to date: {', '.join(summary)}.")
     else:
         write_atomically(vmoptions, new_content)
-        print(f"Updated {vmoptions}: -Xmx{heap_mib}m, {threads} indexing threads. Restart PyCharm to apply.")
+        print(f"Updated {vmoptions}: {', '.join(summary)}. Restart PyCharm to apply.")
     return 0
 
 

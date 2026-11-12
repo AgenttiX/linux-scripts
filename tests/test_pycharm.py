@@ -3,6 +3,7 @@
 import os
 import pathlib
 import re
+import socket
 import stat
 import subprocess
 import sys
@@ -34,6 +35,14 @@ class ConfigurePycharmFunctionsTestCase(unittest.TestCase):
         ):
             with self.subTest(mem_bytes=mem_bytes):
                 assert configure_pycharm.heap_size_mib(mem_bytes) == expected
+
+    def test_host_options(self) -> None:
+        """Check that the Vulkan renderer is disabled only on the listed hosts."""
+        assert configure_pycharm.host_options("agx-z2e-kubuntu") == [("-Dsun.java2d.vulkan=", "false")]
+        assert configure_pycharm.host_options("other-host") == []
+        # The prefix must not also match e.g. -Dsun.java2d.vulkan.foo options.
+        lines = configure_pycharm.set_option(["-Dsun.java2d.vulkan=true"], "-Dsun.java2d.vulkan=", "false")
+        assert lines == ["-Dsun.java2d.vulkan=false"]
 
     def test_indexer_threads(self) -> None:
         """Check that the indexer gets half of the CPUs, at least one and capped."""
@@ -108,7 +117,9 @@ class ConfigurePycharmScriptTestCase(unittest.TestCase):
         lines = vmoptions.read_text().splitlines()
         assert lines[1] == "-Dide.managed.by.toolbox="
         assert lines[3] == "-Dlast.line=1"
-        assert len(lines) == 4
+        # The host-specific options depend on the computer running the tests.
+        host_options = configure_pycharm.host_options(socket.gethostname())
+        assert lines[4:] == [f"{prefix}{value}" for prefix, value in host_options]
         assert re.search(r"^-Xmx\d+m$", lines[0])
         heap_mib = int(lines[0][4:-1])
         assert heap_mib & heap_mib - 1 == 0
