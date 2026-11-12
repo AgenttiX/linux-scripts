@@ -40,7 +40,7 @@ DESKTOP_PACKAGES = (
     "synaptic", "texmaker", "tikzit", "tmispell-voikko", "vlc",
 )
 DEV_PACKAGES = (
-    "build-essential", "cloc", "cmake", "gcc-multilib", "g++-multilib", "gfortran", "shellcheck",
+    "build-essential", "clangd", "cloc", "cmake", "gcc-multilib", "g++-multilib", "gfortran", "shellcheck",
 )
 DOCKER_PACKAGES = (
     "docker-ce", "docker-ce-cli", "containerd.io", "docker-buildx-plugin", "docker-compose-plugin",

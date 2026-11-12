@@ -32,6 +32,7 @@ profile bwrap /usr/bin/bwrap flags=(unconfined) {
 """
 BWRAP_APPARMOR_PROFILE_PATH: pathlib.Path = pathlib.Path("/etc/apparmor.d/bwrap")
 SNAP_PACKAGES = (
+    # ("lua-language-server", True),
     ("pycharm-professional", True),
     # Telegram snap does not work on Kubuntu 25.04
     # https://github.com/telegramdesktop/tdesktop/issues/29437#issuecomment-3131627645
