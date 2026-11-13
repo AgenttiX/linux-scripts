@@ -11,6 +11,10 @@ For my Linux instructions, please see my website at [agx.fi](https://agx.fi/).
 - `backup`: Backup scripts
 - `crypto`: Cryptocurrency mining
 - `drivers`: Scripts for installing drivers
+- `frame`: Scripts for the Steam Frame VR headset.
+  `set_regdomain.py` sets the Wi-Fi regulatory domain for the Steam Frame wireless adapter both for this boot and persistently,
+  as otherwise its 6 GHz channels are disabled, and it may not find the hidden network of the headset.
+  Run with `--status` to only print the regulatory domains and the channel availability of the Wi-Fi adapters.
 - `games`: Scripts for installing and configuring games and emulators
 - `git`: Git configs and scripts, e.g. `pull.py` for pulling all repositories in `~/Git`
 - `i3`: i3 window manager configs
