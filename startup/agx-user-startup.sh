@@ -53,21 +53,44 @@ fi
 #  "${ACTIVITYWATCH}" &
 #fi
 
+# Electron and Qt apps register their tray icons only once at startup.
+# If the system tray (StatusNotifierWatcher) is not yet available,
+# the tray icon will be missing, and e.g. Mattermost may open a window instead.
+# Therefore, wait for the tray before starting the apps that should start in the tray.
+wait_for_system_tray() {
+  local timeout=60
+  if ! command -v busctl >/dev/null 2>&1; then
+    echo "busctl not found. Cannot check whether the system tray is available."
+    return 1
+  fi
+  for ((i = 0; i < timeout; i++)); do
+    if busctl --user status org.kde.StatusNotifierWatcher >/dev/null 2>&1; then
+      echo "System tray is available."
+      return 0
+    fi
+    sleep 1
+  done
+  echo "System tray did not become available in ${timeout} s. Starting the apps anyway."
+  return 1
+}
+wait_for_system_tray
+
 if command -v flatpak >/dev/null 2>&1; then
-  FLATPAKS="$(flatpak list)"
-  if [[ $FLATPAKS =~ "com.mattermost.Desktop" ]]; then
+  FLATPAKS="$(flatpak list --app --columns=application)"
+  has_flatpak() { grep -qxF "$1" <<< "${FLATPAKS}"; }
+  if has_flatpak "com.mattermost.Desktop"; then
     echo "Starting Mattermost."
     flatpak run com.mattermost.Desktop --hidden &
   fi
-  if [[ $FLATPAKS =~ "com.slack.Slack" ]]; then
+  if has_flatpak "com.slack.Slack"; then
     echo "Starting Slack."
     flatpak run com.slack.Slack --startup &
   fi
-  if [[ $FLATPAKS =~ "org.telegram.desktop" ]]; then
+  if has_flatpak "org.telegram.desktop"; then
     echo "Starting Telegram."
     flatpak run org.telegram.desktop -startintray &
   fi
-  if [[ $FLATPAKS =~ "com.github.IsmaelMartinez.teams_for_linux" ]]; then
+  if has_flatpak "com.github.IsmaelMartinez.teams_for_linux"; then
     echo "Starting Teams."
     flatpak run com.github.IsmaelMartinez.teams_for_linux &
   fi
