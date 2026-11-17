@@ -390,6 +390,11 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # Hold shift to use the mouse regularly for e.g. selecting text.
 set -g mouse on
 
+# pass hyperlinks (OSC 8) through to the terminal, e.g. Konsole, which reports itself as xterm-256color
+# Konsole also needs "Open files/links by direct click" and "Allow escape sequences for links" in its profile settings (Mouse, Miscellaneous).
+# This takes effect for clients that attach after the configuration has been reloaded.
+set -as terminal-features ",xterm*:hyperlinks"
+
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
 #set -g status-keys vi
