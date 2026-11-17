@@ -13,6 +13,8 @@
     # excludesfile = ~/.config/git/ignore
     # fsmonitor = true
     pager = delta
+    # Local CRLF files should be committed as LF into the repository.
+	autocrlf = input
     # This can be set to use a custom SSH binary.
     # Git for Windows already uses its bundled SSH by default.
     # sshCommand = ssh
@@ -27,8 +29,10 @@
 [pager]
     diff = delta
     # diff = diff-so-fancy | less -RFX #--tabs=8
-# [pull]
-#     rebase = true
+[pull]
+    # Only fast-forward on pull by default (no rebase or merge commit)
+    ff = only
+    # rebase = true
 
 
 # -----
