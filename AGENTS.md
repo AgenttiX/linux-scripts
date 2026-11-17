@@ -26,7 +26,6 @@ The scripts are grouped in folders based on the software or topic they are relat
 ## General instructions
 - Prefer solutions that are highly secure.
 - For scripts that can be feasibly tested, create unit tests in `./tests`.
-- See `README.md` for the repository structure.
 - When asked to create a zsh command or function, place it in an appropriate file in `zsh/custom/`.
 - Prefer to write complex scripts in Python instead of bash/zsh.
   If the user asks you to create a bash/zsh script that turns out to be longer than a few lines, consider writing it in Python instead.
@@ -51,6 +50,11 @@ The scripts are grouped in folders based on the software or topic they are relat
 ## Docstring conventions
 - Use the Sphinx docstring format.
 - Use `:param:`, `:return:` and `:raises:`, where appropriate.
+
+## Repository structure
+See `README.md` for the repository structure.
+Here is some additional information on the directories:
+- `startup/`: If you need to run programs or scripts at computer startup, include them in these scripts.
 
 ## Related repositories
 If the repositories below are not available locally when you need them,
