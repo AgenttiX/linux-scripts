@@ -40,7 +40,9 @@ DESKTOP_PACKAGES = (
     "synaptic", "texmaker", "tikzit", "tmispell-voikko", "vlc",
 )
 DEV_PACKAGES = (
-    "build-essential", "clangd", "cloc", "cmake", "gcc-multilib", "g++-multilib", "gfortran", "shellcheck",
+    "build-essential", "clangd", "cloc", "cmake", "gcc-multilib", "g++-multilib", "gfortran",
+    "golang-go",  # Required for installing actionlint for GitHub Actions
+    "shellcheck",
 )
 DOCKER_PACKAGES = (
     "docker-ce", "docker-ce-cli", "containerd.io", "docker-buildx-plugin", "docker-compose-plugin",

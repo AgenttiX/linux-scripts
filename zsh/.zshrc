@@ -393,6 +393,11 @@ else
     # echo "Gem was not found. Please install Ruby."
 fi
 
+# Go
+if command -v adb &> /dev/null; then
+    export PATH="${PATH}:$(go env GOPATH)/bin"
+fi
+
 # Powerline
 # https://github.com/powerline/powerline
 # If using Powerline, the zsh theme should be disabled
