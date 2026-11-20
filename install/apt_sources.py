@@ -152,6 +152,17 @@ def get_sources(info: utils.SystemInfo) -> list[AptSource]:
     ]
     if info.is_desktop:
         sources += [
+            # Android CLI
+            # Only amd64 packages are available.
+            AptSource(
+                name="android-cli",
+                uris="https://dl.google.com/android/cli/latest/debian/",
+                suites="stable",
+                components="main",
+                signed_by=APT_KEYRINGS_DIR / "google.gpg",
+                key_url="https://dl.google.com/linux/linux_signing_key.pub",
+                architectures="amd64",
+            ),
             # eduVPN
             AptSource(
                 name="eduvpn-v4",
