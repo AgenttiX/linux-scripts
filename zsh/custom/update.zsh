@@ -73,6 +73,9 @@ update() {
   #   echo "Updating LM Studio runtimes"
   #   lms runtime update --all
   # fi
+  if command -v opencode; then
+    opencode plugin update
+  fi
   if command -v rustup; then
     echo "Updating Rust"
     rustup update
