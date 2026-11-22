@@ -158,7 +158,7 @@ alias modem="sudo ${HOME}/Git/linux-scripts/modem.py"
 #   alias nvim="flatpak run io.neovim.nvim"
 # fi
 
-alias owui2pdf="${HOME}/Git/agx-ai/open-webui/export/owui2pdf.py"
+alias owui2pdf="uv run --project ${HOME}/Git/agx-ai -m agx_ai.owui2pdf"
 
 # A joke for typoing the command "apt".
 # The "; :" discards any additional arguments.
